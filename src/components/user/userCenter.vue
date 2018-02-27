@@ -62,10 +62,11 @@
     }
 
     .title {
-        min-width: 1180px;
+        /* min-width: 1180px; */
+        width: 1170px;
+        margin: 0 auto;
         height: 89px;
         line-height: 89px;
-        margin-left: 215px;
         font-size: 35px;
         color: #FFFFFF;
         letter-spacing: 0;

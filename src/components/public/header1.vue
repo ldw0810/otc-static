@@ -2,7 +2,9 @@
     <div class="header" ref="header">
       <div class="header-inner">
         <div class='header-logo'>
-          <img class='header-logo-asset' src="../../static/images/LOGO.png">
+          <router-link to = '/'>
+          <img class='header-logo-asset'  src="../../static/images/LOGO.png">
+          </router-link>
         </div>
         <nav class="header-nav">
           <ul class='header-navbar'>
@@ -326,8 +328,8 @@ $height: 76px;
   width: 100%;
   background-color: #fff;
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.08);
-  padding-left: 50px;
-  padding-right: 50px;
+  // padding-left: 50px;
+  // padding-right: 50px;
   &-inner {
     width: 1170px;
     margin: 0 auto;
