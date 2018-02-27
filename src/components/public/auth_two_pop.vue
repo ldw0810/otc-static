@@ -1,0 +1,312 @@
+<template>
+    <div>
+        <logoDiv></logoDiv>
+        <div class="content">
+            <div v-if="validate_phone && validate_google">
+                <div class="titleDiv" :class="{'titleFocus':+validateIndex === 0}">
+                    <span v-text="$t('user.auth_phone')" @click="changeValidate(0)"></span>
+                </div>
+                <div class="titleDiv" :class="{'titleFocus':+validateIndex === 1}">
+                    <span v-text="$t('user.auth_google')" @click="changeValidate(1)"></span>
+                </div>
+            </div>
+            <div class="title" v-else-if="validate_phone" v-text="$t('user.auth_phone')"></div>
+            <div class="title" v-else-if="validate_google" v-text="$t('user.auth_google')"></div>
+            <div v-if="+validateIndex === 0">
+                <div class="tip" v-text="tipText"></div>
+                <Form class="form" ref="phoneForm" :model="phoneForm" :rules="phoneRules">
+                    <FormItem prop="pinCode" class="formItem">
+                        <i-input class="inputPinCodePhone" type="text" v-model="phoneForm.pinCode"
+                                 :placeholder="$t('user.pinCode_required')" @on-enter="phoneSubmit">
+                            <span slot="prepend">
+                                <img src="../../static/images/icon/IdentifyingCode-CCCCCC.svg">
+                            </span>
+                        </i-input>
+                    </FormItem>
+                    <!--防止自动提交表单-->
+                    <input type="text" style="display:none" />
+                    <FormItem class="formItem submit">
+                        <span>
+                            <i-button class="submitButton" type="primary" @click="phoneSubmit">
+                                {{$t('public.confirm')}}
+                            </i-button>
+                        </span>
+                        <span>
+                            <i-button class="cancelButton" @click="cancel">
+                            {{$t('public.cancel')}}
+                        </i-button>
+                        </span>
+                    </FormItem>
+                </Form>
+                <sendCodeButton ref="sendCodeButton" class="pinCodeDiv" @sendCode="sendPinCode"></sendCodeButton>
+            </div>
+            <div v-else-if="+validateIndex === 1">
+                <div class="tip" v-text="$t('user.auth_google_code_required')"></div>
+                <Form class="form" ref="googleForm" :model="googleForm" :rules="googleRules">
+                    <FormItem prop="pinCode" class="formItem">
+                        <i-input class="inputPinCode" type="text" v-model="googleForm.pinCode"
+                                 :placeholder="$t('user.pinCode_required')" @on-enter="googleSubmit">
+                            <span slot="prepend">
+                                <img src="../../static/images/icon/IdentifyingCode-CCCCCC.svg">
+                            </span>
+                        </i-input>
+                    </FormItem>
+                    <!--防止自动提交表单-->
+                    <input type="text" style="display:none" />
+                    <FormItem class="formItem g-comfirm-group submit">
+                        <i-button class="submitButton" type="primary" @click="googleSubmit">
+                            {{$t('public.confirm')}}
+                        </i-button>
+                        <i-button class="cancelButton" @click="cancel">
+                            {{$t('public.cancel')}}
+                        </i-button>
+                    </FormItem>
+                </Form>
+            </div>
+        </div>
+        <div style="clear: both"></div>
+    </div>
+</template>
+
+<script type="es6">
+    import logoDiv from "../public/logo.vue"
+    import sendCodeButton from "../public/sendCode.vue"
+
+    export default {
+        props: {
+            need_auth: true
+        },
+        data() {
+            return {
+                phoneForm: {
+                    pinCode: ''
+                },
+                googleForm: {
+                    pinCode: ''
+                },
+                validateIndex: 0,
+                phoneRules: {
+                    pinCode: [
+                        {
+                            required: true,
+                            message: this.$t("user.auth_phone_code_required")
+                        }
+                    ],
+                },
+                googleRules: {
+                    pinCode: [
+                        {
+                            required: true,
+                            message: this.$t("user.auth_google_code_required")
+                        }
+                    ],
+                },
+            };
+        },
+        computed: {
+            validate_phone() {
+                return this.$store.state.userInfo.mobile;
+            },
+            validate_google() {
+                return this.$store.state.userInfo.app_two_factor;
+            },
+            tipText() {
+                return this.$t('user.auth_phone_code_will_send').format(this.$store.state.loginInfo.mobile || "");
+            },
+            loginInfo() {
+                return this.$store.state.loginInfo;
+            }
+        },
+        methods: {
+            changeValidate(index) {
+                this.validateIndex = index;
+            },
+            phoneSubmit() {
+                this.$refs["phoneForm"].validate((valid) => {
+                    if (valid) {
+                        if (this.need_auth === false) {
+                            this.$emit("close", {
+                                op: "sms",
+                                code: this.phoneForm.pinCode,
+                            });
+                        } else {
+                            this.$store.dispatch("ajax_verify_code", {
+                                op: "sms",
+                                code: this.phoneForm.pinCode,
+                            }).then(res => {
+                                if (res.data && +res.data.error === 0) {
+                                    this.$emit("close", {
+                                        op: "sms",
+                                        code: this.phoneForm.pinCode,
+                                    });
+                                } else {
+                                    this.$Message.error(this.$t("user.auth_phone_fail"));
+                                    this.$refs.sendCodeButton.refresh();
+                                }
+                            }).catch(err => {
+                                this.$Message.error(this.$t("user.auth_phone_fail"));
+                                this.$refs.sendCodeButton.refresh();
+                            });
+                        }
+
+                    } else {
+                        this.$Message.error(this.$t("user.auth_phone_notValid"));
+                    }
+                });
+            },
+            googleSubmit() {
+                this.$refs["googleForm"].validate((valid) => {
+                    if (valid) {
+                        if (this.need_auth === false) {
+                            this.$emit("close", {
+                                op: "app",
+                                code: this.googleForm.pinCode,
+                            });
+                        } else {
+                            this.$store.dispatch("ajax_verify_code", {
+                                op: "app",
+                                code: this.googleForm.pinCode,
+                            }).then(res => {
+                                if (res.data && +res.data.error === 0) {
+                                    this.$emit("close", {
+                                        op: "app",
+                                        code: this.googleForm.pinCode,
+                                    });
+                                } else {
+                                    this.$Message.error(this.$t("user.auth_google_fail"));
+                                }
+                            }).catch(err => {
+                                this.$Message.error(this.$t("user.auth_google_fail"));
+                            });
+                        }
+                    } else {
+                        this.$Message.error(this.$t("user.auth_google_notValid"));
+                    }
+                });
+            },
+            cancel() {
+                this.$emit("close", 0);
+            },
+            sendPinCode() {
+                this.$store.dispatch("ajax_refresh", {
+                    refresh: 1
+                });
+            },
+            sendGoogleCode() {
+                this.$store.dispatch("ajax_google_auth", {
+                    refresh: 1
+                });
+            }
+        },
+        created: function () {
+            if (!this.validate_phone && this.validate_google) {
+                this.validateIndex = 1;
+            }
+        },
+        components: {
+            logoDiv,
+            sendCodeButton
+        }
+    }
+</script>
+<style scoped>
+    .content {
+        padding:40px 94px 54px;
+        position: relative;
+        margin: 0 auto 5px auto;
+        width: 480px;
+        background: #FFFFFF;
+        border-bottom-left-radius: 2px;
+        border-bottom-right-radius: 2px;
+        font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;
+    }
+
+    .content div {
+        word-wrap: break-word;
+    }
+
+    .titleDiv {
+        width: 240px;
+        height: 50px;
+        float: left;
+        font-size: 16px;
+        color: #666666;
+        text-align: center;
+        margin-bottom: 71px;
+    }
+
+    .titleDiv span {
+        display: inline-block;
+        cursor: pointer;
+        padding-top: 15px;
+    }
+
+    .titleDiv span:hover {
+        background-image: -webkit-gradient(linear, left top, right bottom, color-stop(0, #0BBFD5), color-stop(1, #6DD7B2));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .titleDiv span:hover:after {
+        display: block;
+        content: '';
+        left: 3px;
+        right: 3px;
+        height: 2px;
+        background-image: linear-gradient(-134deg, #0BBFD5 0%, #6DD7B2 100%);
+    }
+
+    .titleFocus {
+        background: #F4F6F9;
+    }
+
+    .title {
+        /* margin-left: 94px; */
+        font-size: 24px;
+        color: #666666;
+    }
+
+    .tip {
+        /* margin-left: 94px; */
+        padding-top: 10px;
+        font-size: 14px;
+        color: #666666;
+    }
+
+    .form {
+        margin-top: 20px;
+    }
+
+    .formItem {
+        /* margin-left: 94px; */
+    }
+
+    .inputPinCode {
+        width: 292px;
+    }
+
+    .inputPinCodePhone {
+        width: 192px;
+    }
+
+    .pinCodeDiv {
+        position: relative;
+        left: 295px;
+        top: -145px;
+        font-size: 14px;
+        color: #66BBBF;
+        cursor: pointer;
+    }
+
+    .submit {
+        margin-top: 50px;
+    }
+
+    .submitButton {
+        width: 172px;
+    }
+
+    .cancelButton {
+        width: 110px;
+    }
+</style>

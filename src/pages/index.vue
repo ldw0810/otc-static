@@ -1,0 +1,114 @@
+<template>
+    <div class='container'>
+        <div class="mainLayer">
+            <headerBar id="header" class='g-shadow'></headerBar>
+            <transition name="fade" mode="out-in">
+                <router-view id="page"></router-view>
+            </transition>
+            <footerBar id="footer" :class="{'fixed': isFooter}"></footerBar>
+        </div>
+        <div class="popLayer" @touchmove.prevent v-if="layer_index == 2"></div>
+    </div>
+</template>
+<script>
+    import headerBar from "../components/public/header.vue"
+    import footerBar from "../components/public/footer.vue"
+
+    export default {
+        name: 'index',
+        data() {
+            return {
+                isFooter: false
+            };
+        },
+        mounted() {
+            this.$Message.config({
+                duration: 3
+            });
+            if (this.$route.query) {
+                if (this.$route.query.error) {
+                    if (+this.$route.query.error === 10001) {
+                        this.$Message.info({
+                            content: this.$t('public.activation_link_notValid'),
+                            onClose: this.$goRouter("/"),
+                        });
+                    }
+                } else if (this.$route.query.success) {
+                    if (+this.$route.query.success === 10000) {
+                        this.$Message.info({
+                            content: this.$t('public.email_activation_success'),
+                            onClose: this.$goRouter("/"),
+                        });
+                    }
+                } else if (this.$route.query.withdraw_token) {
+                    if (this.$route.query.withdraw_token) {
+                        this.$store.dispatch("ajax_withdraw_confirm", {
+                            code: this.$route.query.withdraw_token
+                        }).then(res => {
+                            if (res.data && res.data.error == 0) {
+                                this.$Message.info(this.$t("asset.asset_withdraw_confirm_success"))
+                                this.$goRouter("/")
+                            } else {
+                                this.$Message.error(this.$t("asset.asset_withdraw_confirm_fail"));
+                                this.$goRouter("/")
+                            }
+                        }).catch(err => {
+                            this.$Message.error(this.$t("asset.asset_withdraw_confirm_fail"));
+                            this.$goRouter("/")
+                        });
+                    }
+                } else if (this.$route.query.invitationCode) {
+//                    window.localStorage.setItem("invitationCode", this.$route.query.invitationCode);
+                }
+            }
+
+        },
+        computed: {
+            layer_index() {
+                return this.$store.state.layer_index;
+            },
+
+        },
+        methods: {
+            changeClientHeight() {
+//                this.isFooter = document.body.clientHeight > document.documentElement.clientHeight;
+            }
+        },
+        components: {
+            headerBar,
+            footerBar
+        }
+    }
+</script>
+<style>
+    .container,.mainLayer {
+        min-height: 100vh;
+    }
+    .popLayer {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 99;
+    }
+    .mainLayer {
+        display: flex;
+        flex-direction: column;
+        background-color: #fafbfd;
+    }
+    #header{
+        height: 76px;
+        z-index: 2;
+    }
+    #footer {
+        height: 60px;
+        z-index: 2;
+    }
+    #page {
+        /* z-index: 0; */
+        flex: 1;
+        /* padding-bottom: 30px; */
+    }
+</style>

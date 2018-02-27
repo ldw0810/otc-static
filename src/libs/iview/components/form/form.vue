@@ -1,0 +1,141 @@
+<template>
+    <form :class="classes" :autocomplete="autocomplete" @monitorEvent='monitorEvent'><slot></slot></form>
+</template>
+<script>
+// https://github.com/ElemeFE/element/blob/dev/packages/form/src/form.vue
+import { oneOf } from "../../utils/assist";
+
+const prefixCls = "ivu-form";
+
+export default {
+  name: "iForm",
+  props: {
+    model: {
+      type: Object
+    },
+    rules: {
+      type: Object
+    },
+    labelWidth: {
+      type: Number
+    },
+    labelPosition: {
+      validator(value) {
+        return oneOf(value, ["left", "right", "top"]);
+      },
+      default: "right"
+    },
+    inline: {
+      type: Boolean,
+      default: false
+    },
+    showMessage: {
+      type: Boolean,
+      default: true
+    },
+    autocomplete: {
+      validator(value) {
+        return oneOf(value, ["on", "off"]);
+      },
+      default: "off"
+    }
+  },
+  data() {
+    return {
+      fields: []
+    };
+  },
+  computed: {
+    classes() {
+      return [
+        `${prefixCls}`,
+        `${prefixCls}-label-${this.labelPosition}`,
+        {
+          [`${prefixCls}-inline`]: this.inline
+        }
+      ];
+    }
+  },
+  methods: {
+    validateStatus() {
+      let result = false;
+      this.fields.map(item => {
+        const rules = item.getRules();
+        if (!rules || rules.length === 0) {
+          item.validateState = 'success'
+        }
+        return item
+      });
+      if (
+        this.fields.some(
+          item =>
+            item.validateState === "validating" || item.validateState === ""
+        )
+      ) {
+        result = true;
+      } else {
+        result = this.fields.some(item => item.validateState === "error");
+      }
+
+      return !result;
+    },
+    monitorEvent() {
+      this.$emit("checkValidate", this.validateStatus());
+    },
+    resetFields() {
+      this.fields.forEach(field => {
+        field.resetField();
+      });
+    },
+    validate(callback) {
+      return new Promise(resolve => {
+        let valid = true;
+        let count = 0;
+        this.fields.forEach(field => {
+          field.validate("", errors => {
+            if (errors) {
+              valid = false;
+            }
+            if (++count === this.fields.length) {
+              // all finish
+              resolve(valid);
+              if (typeof callback === "function") {
+                callback(valid);
+              }
+            }
+          });
+        });
+      });
+    },
+    validateField(prop, cb) {
+      const field = this.fields.filter(field => field.prop === prop)[0];
+      if (!field) {
+        throw new Error(
+          "[iView warn]: must call validateField with valid prop string!"
+        );
+      }
+
+      field.validate("", cb);
+    }
+  },
+  watch: {
+    rules() {
+      this.validate();
+    }
+  },
+  created() {
+    this.$on("on-form-item-change", field => {
+      this.$emit("checkValidate", this.validateStatus());
+    });
+    this.$on("on-form-item-add", field => {
+      if (field) this.fields.push(field);
+      this.$emit("checkValidate", this.validateStatus());
+      return false;
+    });
+    this.$on("on-form-item-remove", field => {
+      if (field.prop) this.fields.splice(this.fields.indexOf(field), 1);
+      return false;
+    });
+  }
+};
+</script>
