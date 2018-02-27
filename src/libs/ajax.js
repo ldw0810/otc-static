@@ -8,11 +8,8 @@ import languageData from '../locale'
  * Responsible for all HTTP requests.
  */
 
-const ajaxUrl = env === 'development' ? '/' :
-    env === 'production' ? 'https://apialpha.otcmaker.com' : 'https://apialpha.otcmaker.com';
-
 axios.defaults.timeout = 10000;
-axios.defaults.baseURL = ajaxUrl;
+axios.defaults.baseURL = env === 'development' ? '/' : "https://apialpha.otcmaker.com";
 
 function languageSelectIndex() {
     let index = 0;
