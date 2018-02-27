@@ -203,6 +203,9 @@ router.beforeEach((to, from, next) => {
 router.afterEach(() => {
     LoadingBar.finish();
     window.scrollTo(0, 0);
+    if (window.gtag) {
+        gtag('event', to.fullPath, {});
+    }
 });
 
 export default router;
