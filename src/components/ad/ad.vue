@@ -243,23 +243,14 @@
                 </FormItem>
             </Form>
         </div>
-        <Modal v-model="pop_email" class-name="m-ivu-modal" width='480' :mask-closable="true"
-               :closable="false">
-            <auth_email_send ref="auth_email_send" @close="pop_email = false" />
-            <div slot="footer"></div>
-        </Modal>
     </div>
 </template>
 <script type="es6">
-    import auth_email_send from '@/components/user/userCenter/auth_email_send_pop';
     import ValidateMixin from '@/components/mixins/validate-mixin'
     import config from '@/config/config'
 
     export default {
         mixins: [ValidateMixin('form', 'form')],
-        components:{
-            auth_email_send
-        },
         data() {
             const validateNumberCheck = (rule, value, callback) => {
                 if (!+value || +value <= 0) {
@@ -420,8 +411,7 @@
                 tradePrice: 0,
                 moneyList: [],
                 ad: {},
-                timer: 0,
-                pop_email: false
+                timer: 0
             }
         },
         computed: {
@@ -585,8 +575,7 @@
             },
             submit() {
                 if(!this.userInfo.activated) {
-                    this.pop_email = true;
-                    this.$refs.auth_email_send.sendEmail();
+                    this.$store.commit("showAuthEmail_setter", 1);
                 } else if (!this.balanceFlag) {
                     this.$Message.error(this.$t("ad.ad_credit_low"));
                 } else {
@@ -706,8 +695,7 @@
                     this.$store.commit("header_index_setter", "3" + index);
                 }
                 if(!this.userInfo.activated) {
-                    this.pop_email = true;
-                    this.$refs.auth_email_send.sendEmail();
+                    this.$store.commit("showAuthEmail_setter", 1);
                 }
             }
         },

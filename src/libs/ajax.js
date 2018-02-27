@@ -46,7 +46,7 @@ axios.interceptors.response.use(
             const index = languageSelectIndex();
             if (error.response.data) {
                 if (+error.response.data.error === 999999) {
-                    Message.error("登录超时");
+                    Message.error(languageData[index].data.request["" + error.response.data.error]);
                     store.commit("delToken");
                     store.commit("delUserInfo");
                     router.push("/user/login");

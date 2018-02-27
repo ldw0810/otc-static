@@ -383,11 +383,6 @@
                         <auth_two @close="doAuthClose" :need_auth="false"/>
                         <div slot="footer"></div>
                     </Modal>
-                    <Modal v-model="pop_email" class-name="m-ivu-modal" width='480' :mask-closable="true"
-                           :closable="false">
-                        <auth_email_send ref="auth_email_send" @close="pop_email = false"/>
-                        <div slot="footer"></div>
-                    </Modal>
                 </div>
             </transition>
         </div>
@@ -395,7 +390,6 @@
 </template>
 
 <script type="es6">
-    import auth_email_send from '@/components/user/userCenter/auth_email_send_pop';
     import validateMixin from "@/components/mixins/validate-mixin";
     import emptyList from "@/components/public/empty-list";
     import qart from "../public/vue-qart.vue";
@@ -765,8 +759,7 @@
                 });
             },
             showAuthEmail(){
-                this.pop_email = true;
-                this.$refs.auth_email_send.sendEmail();
+                this.$store.commit("showAuthEmail_setter", 1);
             },
             copySuccess() {
                 this.$Message.success(this.$t("public.invite_copy_success"));
@@ -786,8 +779,7 @@
             logoDiv,
             auth_two,
             withdraw_confirm_pop,
-            emptyList,
-            auth_email_send
+            emptyList
         }
     };
 </script>

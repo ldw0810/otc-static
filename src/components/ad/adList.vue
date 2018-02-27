@@ -80,22 +80,15 @@
                           @on-change="changePage"></Page>
             </Tab>
         </div>
-        <Modal v-model="pop_email" class-name="m-ivu-modal" width='480' :mask-closable="true"
-               :closable="false">
-            <auth_email_send ref="auth_email_send" @close="pop_email = false" />
-            <div slot="footer"></div>
-        </Modal>
     </div>
 </template>
 <script type="es6">
-    import auth_email_send from '@/components/user/userCenter/auth_email_send_pop';
     import Avator from "@/components/public/avator";
     import Tab from '@/components/public/tab';
     import emptyList from "@/components/public/empty-list";
 
     export default {
         components: {
-            auth_email_send,
             Avator,
             emptyList,
             Tab
@@ -110,8 +103,7 @@
                     per_page: 20,
                     total_count: 0,
                     total_pages: 1
-                },
-                pop_email: false
+                }
             };
         },
         watch: {
@@ -189,8 +181,7 @@
                 if (!this.$store.state.loginFlag) {
                     this.$goRouter("/user/login");
                 } else if (!this.$store.state.userInfo.activated) {
-                    this.pop_email = true;
-                    this.$refs.auth_email_send.sendEmail();
+                    this.$store.commit("showAuthEmail_setter", 1);
                 } else {
                     this.$goRouter("/detail", {
                         adType: this.adType,
