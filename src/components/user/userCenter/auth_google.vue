@@ -14,7 +14,12 @@
             <div class="step_2">
                 <div class="img1">2</div>
                 <div class="text" v-text="$t('user.add_auth_google_scan')"></div>
-                <qart class="qrCode" :config="qrCodeConfig"></qart>
+                <!-- <qart class="qrCode" :config="qrCodeConfig"></qart> -->
+                <qrcode-vue
+                    class="qrCode"
+                    :value='qrCodeConfig.value'
+                    :size = 'qrCodeConfig.size'
+                  ></qrcode-vue>
             </div>
             <div class="border"></div>
             <div class="step_3">
@@ -43,7 +48,7 @@
 <script type="text/ecmascript-6">
 import auth_google_pop from "./auth_google_pop.vue";
 import BreadCrumb from "./breadcrumb";
-import qart from "../../public/vue-qart.vue";
+import QrcodeVue from 'qrcode.vue';
 
 export default {
   data() {
@@ -103,7 +108,7 @@ export default {
   },
   components: {
     auth_google_pop,
-		qart,
+		QrcodeVue,
 		BreadCrumb
   }
 };

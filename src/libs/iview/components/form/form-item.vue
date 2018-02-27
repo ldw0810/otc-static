@@ -156,6 +156,21 @@
 
                 return rules.filter(rule => !rule.trigger || rule.trigger.indexOf(trigger) !== -1);
             },
+            checkValidateStatus(callback) {
+                const rules = this.getRules();
+                if (!rules || rules.length === 0) {
+                    callback();
+                    return true;
+                }
+                let descriptor = {};
+                descriptor[this.prop] = rules;
+                const validator = new AsyncValidator(descriptor);
+                let model = {};
+                model[this.prop] = this.fieldValue;
+                 validator.validate(model, { firstFields: true }, errors => {
+                    callback(errors)
+                });
+            },
             validate(trigger, callback = function () {}) {
                 const rules = this.getFilteredRule(trigger);
                 if (!rules || rules.length === 0) {

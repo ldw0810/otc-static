@@ -58,29 +58,19 @@ export default {
   },
   methods: {
     validateStatus() {
-      let result = false;
-      this.fields.map(item => {
-        const rules = item.getRules();
-        if (!rules || rules.length === 0) {
-          item.validateState = 'success'
-        }
-        return item
+      let valid = true;
+      this.fields.forEach(field => {
+        field.checkValidateStatus(errors => {
+          if (errors) {
+            valid = false;
+          }
+        });
       });
-      if (
-        this.fields.some(
-          item =>
-            item.validateState === "validating" || item.validateState === ""
-        )
-      ) {
-        result = true;
-      } else {
-        result = this.fields.some(item => item.validateState === "error");
-      }
-
-      return !result;
+      return valid;
     },
     monitorEvent() {
-      this.$emit("checkValidate", this.validateStatus());
+      const result = this.validateStatus()
+      this.$emit("checkValidate", result);
     },
     resetFields() {
       this.fields.forEach(field => {
@@ -124,12 +114,13 @@ export default {
     }
   },
   created() {
+    this.monitorEvent()
     this.$on("on-form-item-change", field => {
-      this.$emit("checkValidate", this.validateStatus());
+      this.monitorEvent()
     });
     this.$on("on-form-item-add", field => {
       if (field) this.fields.push(field);
-      this.$emit("checkValidate", this.validateStatus());
+      this.monitorEvent()
       return false;
     });
     this.$on("on-form-item-remove", field => {

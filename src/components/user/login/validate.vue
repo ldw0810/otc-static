@@ -232,8 +232,6 @@
         },
         created: function () {
             if (this.validate_phone) {
-                //console.log('switch validate sms')
-                //this.sendPinCode();
             } else if (this.validate_google) {
                 this.validateIndex = 1;
             } else {

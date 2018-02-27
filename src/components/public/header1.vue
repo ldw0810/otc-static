@@ -8,13 +8,15 @@
           <li class='header-navbar-item' v-for='(item, index) in menus' :key='index'>
             <Dropdown>
               <div class='header-navbar-item-wrapper'>
-                <a class='header-navbar-item-link' href="javascript:void(0)">
+                <a class='header-navbar-item-link' href="javascript:void(0)" @click='goMenu(item)'>
                     {{item.title}}
                 </a>
                 <Icon class='header-navbar-item-icon header-navbar-item-icon-append ' type="arrow-down-b" v-if='item.children.length'></Icon>
               </div>
               <DropdownMenu class='header-navbar-dropdown' slot="list" v-if='item.children.length'>
-                  <DropdownItem v-for='(childItem, i) in item.children' :key='i'>{{childItem.title}}</DropdownItem>
+                  <DropdownItem v-for='(childItem, i) in item.children' :key='i'>
+                    <a  @click='goMenu(childItem)'>{{childItem.title}}</a>
+                  </DropdownItem>
               </DropdownMenu>
           </Dropdown>
           </li>
@@ -31,7 +33,9 @@
                 <Icon class='header-navbar-item-icon header-navbar-item-icon-append' type="arrow-down-b" v-if='item.children.length'></Icon>
               </div>
               <DropdownMenu class='header-navbar-dropdown' slot="list" v-if='item.children.length'>
-                  <DropdownItem v-for='(childItem, i) in item.children' :key='i'>{{childItem.title}}</DropdownItem>
+                  <DropdownItem v-for='(childItem, i) in item.children' :key='i'>
+                    <a @click='goMenu(childItem)'>{{childItem.title}}</a>
+                  </DropdownItem>
               </DropdownMenu>
           </Dropdown>
           </li>
@@ -41,7 +45,7 @@
         <ul class='header-navbar'>
           <template v-for='(item, index) in user'>
             <li class='header-navbar-item' :key = 'index' v-if='index === 0'>
-              <div class='header-navbar-item-wrapper'>
+              <div class='header-navbar-item-wrapper' @click='goMenu(item)'>
                   <i class='header-navbar-item-icon header-navbar-item-icon-prepend icon-document'></i>
                   <a class='header-navbar-item-link' href="javascript:void(0)">
                     {{item.title}}
@@ -51,7 +55,7 @@
             </li>
             <li class='header-navbar-item' :key = 'index'  v-if='index === 1'>
               <Poptip trigger="hover" placement="bottom-end" width="378" @click="goMenu(81)">
-                <div class='header-navbar-item-wrapper'>
+                <div class='header-navbar-item-wrapper' @click='goMenu(item)'>
                   <i class='header-navbar-item-icon header-navbar-item-icon-prepend icon-dollar'></i>
                   <a class='header-navbar-item-link' href="javascript:void(0)">
                     {{$t("public.asset")}}
@@ -60,7 +64,8 @@
                 </div>
                 <div class='assets' slot='content'>
                   <div class="assets-inner">
-                    <div class='assets-item'>
+                    <template v-for='(childItem, i) in item.children'>
+                    <div class='assets-item' v-if='i === 0' :key='i'>
                       <header class='assets.header'>{{$t("public.type")}}</header>
                       <article class='assets-content'>
                         <ul>
@@ -70,10 +75,10 @@
                         </ul>
                       </article>
                       <aside class='assets-footer'>
-                        <i-button class='assets-btn' @click="goMenu('82')">{{$t("public.recharge")}}</i-button>
+                        <i-button class='assets-btn' @click="goMenu(childItem)">{{$t("public.recharge")}}</i-button>
                       </aside>
                     </div>
-                    <div class='assets-item'>
+                    <div class='assets-item' v-if='i === 1' :key='i'>
                       <header class='assets.header'>{{$t("public.balance")}}</header>
                       <article class='assets-content'>
                         <ul>
@@ -83,10 +88,10 @@
                         </ul>
                       </article>
                       <aside class='assets-footer'>
-                        <i-button class='assets-btn' @click="goMenu('83')">{{$t("public.withdraw")}}</i-button>
+                        <i-button class='assets-btn' @click="goMenu(childItem)">{{$t("public.withdraw")}}</i-button>
                       </aside>
                     </div>
-                    <div class='assets-item'>
+                    <div class='assets-item' v-if='i === 2' :key='i'>
                       <header class='assets.header'>{{$t("public.locked")}}</header>
                       <article class='assets-content'>
                         <ul>
@@ -96,23 +101,26 @@
                         </ul>
                       </article>
                       <aside class='assets-footer'>
-                        <i-button class='assets-btn' type='primary' @click="goMenu('84')">{{$t("public.assetInfo")}}</i-button>
+                        <i-button class='assets-btn' type='primary' @click="goMenu(childItem)">{{$t("public.assetInfo")}}</i-button>
                       </aside>
                     </div>
+                    </template>                    
                   </div>
                 </div>
               </Poptip>            
             </li>
             <li class='header-navbar-item' :key = 'index'  v-if='index === 2'>
                 <Dropdown>
-                  <div class='header-navbar-item-wrapper'>
+                  <div class='header-navbar-item-wrapper' @click='goMenu(item)'>
                   <a class='header-navbar-item-link' href="javascript:void(0)">
                       {{userInfo.nickname || 'Aaron'}}
                   </a>
                   <Icon class='header-navbar-item-icon header-navbar-item-icon-append' type="arrow-down-b"></Icon>
                   </div>
                   <DropdownMenu class='header-navbar-dropdown' slot="list">
-                      <DropdownItem v-for='(childItem, i) in item.children' :key='i'>{{childItem.title}}</DropdownItem>
+                      <DropdownItem v-for='(childItem, i) in item.children' :key='i'>
+                        <a @click='goMenu(childItem)'>{{childItem.title}}</a>
+                      </DropdownItem>
                   </DropdownMenu>
               </Dropdown>
             </li>   
@@ -122,6 +130,8 @@
     </div>
 </template>
 <script>
+import isFunction from "lodash/isFunction";
+
 export default {
   name: "headerBar",
   data() {
@@ -140,8 +150,8 @@ export default {
           children: []
         },
         {
-          title: '|',
-          url: '',
+          title: "|",
+          url: "",
           children: []
         },
         {
@@ -159,36 +169,58 @@ export default {
         },
         {
           title: this.$t("public.asset"),
-          url: '',
-          children: [],
-        },
-        {
-          title: '',
-          url: '',
+          url: "/asset",
           children: [
             {
-              title: this.$t('public.userCenter'),
-              url: '/user/userCenter',
-              children: [],
+              title: this.$t("public.type"),
+              url: "/asset",
+              query: {
+                type: 0
+              }
             },
             {
-              title: this.$t('public.myAd'),
-              url: '/myAd',
-              children: [],
+              title: this.$t("public.balance"),
+              url: "/asset",
+              query: {
+                type: 1
+              }
             },
             {
-              title: this.$t('public.logout'),
-              url: '',
+              title: this.$t("public.locked"),
+              url: "/asset",
+              query: {
+                type: 1
+              }
+            },
+          ]
+        },
+        {
+          title: "",
+          url: "/user/userCenter",
+          children: [
+            {
+              title: this.$t("public.userCenter"),
+              url: "/user/userCenter",
+              children: []
+            },
+            {
+              title: this.$t("public.myAd"),
+              url: "/myAd",
+              children: []
+            },
+            {
+              title: this.$t("public.logout"),
+              url: "",
               action: () => {
                 this.$store.commit("loginFlag_setter", 0);
                 this.$store.commit("delToken");
                 this.$goRefresh();
               },
-              children: [],
+              children: []
             }
           ]
         }
-      ],
+      ]
     };
   },
   computed: {
@@ -203,6 +235,15 @@ export default {
     },
     header_index() {
       return this.$store.state.header_index + "";
+    }
+  },
+  methods: {
+    goMenu(item) {
+      if (item.action && isFunction(item.action)) {
+        item.action();
+      } else {
+        this.$router.push({ path: item.url, query: item.query });
+      }
     }
   },
   created() {
@@ -242,7 +283,7 @@ export default {
         title: this.$t("public.invite"),
         url: "/invite",
         children: []
-      },
+      }
     ];
   }
 };
@@ -257,11 +298,11 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-@import '~style/variables';
-$height : 76px;
+@import "~style/variables";
+$height: 76px;
 .header {
   background-color: #fff;
-  box-shadow: 0 2px 6px 0 rgba(0,0,0,0.08);
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.08);
   width: 100%;
   height: $height;
   margin: 0 auto;
@@ -309,7 +350,8 @@ $height : 76px;
         margin-right: 0;
       }
       &:hover {
-        .header-navbar-item-link, .header-navbar-item-icon {
+        .header-navbar-item-link,
+        .header-navbar-item-icon {
           color: $color-primary;
         }
       }
@@ -319,7 +361,7 @@ $height : 76px;
           color: currentColor;
           position: relative;
           &:after {
-            content: '';
+            content: "";
             position: absolute;
             left: 50%;
             bottom: 10px;
@@ -334,8 +376,8 @@ $height : 76px;
         }
       }
       // .ivu-icon {
-        
-        // margin-left: 4px;
+
+      // margin-left: 4px;
       // }
       &-link {
         height: $height;
@@ -359,19 +401,27 @@ $height : 76px;
       width: 90px;
       text-align: center;
       .ivu-dropdown-item {
+        a {
+          display: flex;
+          width: 100%;
+          height: 100%;
+          justify-content: center;
+          align-items: center;
+          color: currentColor;
+        }
         position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
         height: 48px;
         font-size: 14px !important;
-        &:last-of-type{
+        &:last-of-type {
           &::after {
             display: none;
           }
         }
         &:after {
-          content: '';
+          content: "";
           position: absolute;
           bottom: 0;
           left: 5px;
@@ -388,7 +438,7 @@ $height : 76px;
 .dotted {
   width: 8px;
   height: 8px;
-  background-color: #ED1C24;
+  background-color: #ed1c24;
   border-radius: 50%;
 }
 .assets {
@@ -407,7 +457,7 @@ $height : 76px;
   }
   &-header {
     padding: 10px 0;
-    border-bottom: 1px solid #eee; 
+    border-bottom: 1px solid #eee;
   }
   &-content {
     padding-bottom: 10px;
