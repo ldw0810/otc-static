@@ -15,7 +15,8 @@ fs.open("./src/config/env.js", "w", function(err, fd) {
 
 const webpackConfig = merge(webpackBaseConfig, {
   output: {
-    publicPath: "/dist/",
+      path: path.join(__dirname, "../public/dist"),
+      publicPath: "/dist/",
     filename: "[name].[chunkhash:8].js",
     chunkFilename: "[name].[chunkhash:8].chunk.js"
   },
