@@ -50,7 +50,9 @@ axios.interceptors.response.use(
                     store.commit("delToken");
                     store.commit("delUserInfo");
                     router.push("/user/login");
-                } else if ([100017, 100038].contains(+error.response.data.error)) {
+                } else if(+error.response.data.error === 100031){
+                    store.commit("showAuthEmail_setter", 1);
+                }else if ([100017, 100038].contains(+error.response.data.error)) {
                 } else {
                     Message.error(languageData[index].data.request["" + error.response.data.error]);
                 }

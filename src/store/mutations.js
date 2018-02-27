@@ -96,5 +96,8 @@ export default {
             id: "",
         };
         state.loginFlag = false;
+    },
+    showAuthEmail_setter(state, value) {
+        state.showAuthEmail = value;
     }
 }

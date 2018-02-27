@@ -53,5 +53,6 @@ export default {
     // moneyList: ["CNY", "USD"],
     paymentList: ["alipay", "bank"],
     userToken: "",  //登录后header必携带
-    loginFlag: 0,   //是否登录
+    loginFlag: 0,   //是否登录,
+    showAuthEmail: false
 }
