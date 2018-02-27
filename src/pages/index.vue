@@ -16,7 +16,7 @@
     </div>
 </template>
 <script>
-    import headerBar from "../components/public/header.vue"
+    import headerBar from "../components/public/header1.vue"
     import footerBar from "../components/public/footer.vue"
     import auth_email_send from '@/components/user/userCenter/auth_email_send_pop';
 

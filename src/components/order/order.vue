@@ -739,7 +739,7 @@
                 margin-bottom: 20px;
             }
             .order-buttons {
-                min-width: 166px;
+                width: 100%;
                 margin-bottom: 20px;
                 &:last-child{
                     margin-bottom: 0;
