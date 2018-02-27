@@ -46,11 +46,6 @@
                 <!--<span v-text="userInfo.omt.amount"></span>-->
             </div>
         </div>
-        <Modal v-model="pop_email" class-name="m-ivu-modal" width='480' :mask-closable="true"
-               :closable="false">
-            <auth_email_send ref="auth_email_send" @close="pop_email = false" />
-            <div slot="footer"></div>
-        </Modal>
         <Modal v-model="pop_phone" class-name="m-ivu-modal" width='480' :mask-closable="true" :closable="false">
             <auth_phone_pop @cancel='pop_phone = false' />
             <div slot="footer"></div>
@@ -60,7 +55,6 @@
 </template>
 
 <script>
-    import auth_email_send from "./auth_email_send_pop.vue";
     import auth_phone_pop from "./auth_phone_pop.vue";
     import BreadCrumb from "./breadcrumb";
 
@@ -69,8 +63,7 @@
             return {
                 breadcrumbText: this.$t("user.info"),
                 user: {},
-                pop_email: false,
-                pop_phone: false,
+                pop_phone: false
             };
         },
         computed: {
@@ -112,12 +105,10 @@
         },
         methods: {
             reSendEmail() {
-                this.pop_email = true;
-                this.$refs.auth_email_send.sendEmail();
+                this.$store.commit("showAuthEmail_setter", 1);
             }
         },
         components: {
-            auth_email_send,
             auth_phone_pop,
             BreadCrumb
         }

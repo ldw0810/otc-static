@@ -112,7 +112,11 @@
                     }
                 } else if (+contentIndex === 2) {
                     if (+settingIndex === 1) {
-                        this.pop_phone = true
+                        if(this.$store.state.userInfo.activated) {
+                            this.pop_phone = true;
+                        } else {
+                            this.$store.commit("showAuthEmail_setter", 1);
+                        }
                     } else if (+settingIndex === 2) {
                         if (this.auth_flag_google) {
                             this.pop_google = true
