@@ -25,7 +25,7 @@ function languageSelectIndex() {
 // http request 拦截器
 axios.interceptors.request.use(
   config => {
-    config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    // config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
     if (store.state.userToken) {
       config.headers.Authorization = `${store.state.userToken}`;
     }
