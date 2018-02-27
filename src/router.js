@@ -200,9 +200,15 @@ router.beforeEach((to, from, next) => {
         }
     }
 });
-router.afterEach(() => {
+router.afterEach((to, from) => {
     LoadingBar.finish();
     window.scrollTo(0, 0);
+    if (window.gtag) {
+        gtag('event', to.fullPath, {
+            from: from.fullPath,
+            to: to.fullPath
+        });
+    }
 });
 
 export default router;
