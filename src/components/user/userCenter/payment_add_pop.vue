@@ -252,7 +252,6 @@
                     .dispatch("ajax_add_receiving", requestData)
                     .then(res => {
                         if (res.data && +res.data.error === 0) {
-                            console.log(res.data);
                             this.$Message.success(this.$t("user.receivables_add_success"));
                             this.$store.commit("collection_refresh_setter", 1);
                         } else {

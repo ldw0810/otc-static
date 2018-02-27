@@ -167,7 +167,6 @@
                 const validator = new AsyncValidator(descriptor);
                 let model = {};
                 model[this.prop] = this.fieldValue;
-                console.log(model, this.prop)
                  validator.validate(model, { firstFields: true }, errors => {
                     callback(errors)
                 });

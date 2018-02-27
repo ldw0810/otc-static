@@ -99,7 +99,6 @@ export default {
     },
     validateField(prop, cb) {
       const field = this.fields.filter(field => field.prop === prop)[0];
-      console.log('field', field)
       if (!field) {
         throw new Error(
           "[iView warn]: must call validateField with valid prop string!"

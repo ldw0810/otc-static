@@ -47,7 +47,6 @@ export default {
   watch: {
     defaultIndex: {
       handler(newVal, val) {
-        console.log(newVal, val);
         this.currentIndex = newVal;
       },
       deep: true
@@ -55,7 +54,6 @@ export default {
   },
   created() {
     this.currentIndex = this.defaultIndex;
-    console.log("创建", this.defaultIndex);
   }
 };
 </script>

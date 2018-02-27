@@ -6,7 +6,6 @@ export const isEachArray = arr => {
 }
 
 export const isEachString = arr => {
-  console.log(arr)
   return isArray(arr) && arr.every(item => isString(item));
 }
 

@@ -106,7 +106,11 @@
                                     </div>
                                 </div>
                                 <div class='content-recharge-right'>
-                                    <qart class="qrCode" :config="qrCodeConfig"></qart>
+                                    <!-- <qart class="qrCode" :config="qrCodeConfig"></qart> -->
+                                     <qrcode-vue 
+                                      :value='qrCodeConfig.value'
+                                      :size = 'qrCodeConfig.size'
+                                    ></qrcode-vue>
                                 </div>
                             </div>
                             <div class='content-withdraw' v-else-if="+assetIndex === 1">
@@ -395,402 +399,429 @@
 </template>
 
 <script type="es6">
-    import auth_email_send from '@/components/user/userCenter/auth_email_send_pop';
-    import validateMixin from "@/components/mixins/validate-mixin";
-    import emptyList from "@/components/public/empty-list";
-    import qart from "../public/vue-qart.vue";
-    import logoDiv from "../public/logo.vue";
-    import auth_two from "../public/auth_two_pop.vue";
-    import withdraw_confirm_pop from "./withdraw_confirm_pop.vue";
-    // import ethereum_address from "ethereum-address"
-    export default {
-        name: "",
-        mixins: [validateMixin(["form", "addForm"])],
-        data() {
-            const validateNumberCheck = (rule, value, callback) => {
-                if (!+value || +value <= 0) {
-                    callback(new Error(this.$t("public.input_number_required")));
-                } else if (+value > +this.account["balance"]) {
-                    callback(new Error(this.$t("public.balance_insufficient")));
-                } else if (this.currency === "eth" && +value < 0.01) {
-                    callback(
-                        new Error(this.$t("asset.asset_withdraw_eth_number_required"))
-                    );
-                } else if (this.currency === "dai" && +value < 100) {
-                    callback(
-                        new Error(this.$t("asset.asset_withdraw_dai_number_required"))
-                    );
-                } else {
-                    callback();
-                }
-            };
-            const validateEthAddress = (rule, value, callback) => {
-                let reg = /^(0x)?[0-9a-f]{40}$/i;
-                if (!reg.test(value)) {
-                    callback(new Error(this.$t("asset.asset_withdraw_address_invalid")));
-                } else {
-                    callback();
-                }
-            };
-
-            return {
-                addressPop: false,
-                loading: true,
-                imageType: [
-                    require("../../static/images/CoinLogo-DAI.png"),
-                    require("../../static/images/CoinLogo-ETH .png"),
-                    require("../../static/images/CoinLogo-CAT.png")
-                ],
-                form: {
-                    address: "",
-                    number: 0,
-                    id: ""
-                },
-                addForm: {
-                    label: "",
-                    address: ""
-                },
-                rules: {
-                    address: [
-                        {
-                            required: true,
-                            message: this.$t("asset.asset_withdraw_address_info")
-                        }
-                    ],
-                    number: [
-                        {
-                            required: true,
-                            message: this.$t("asset.asset_withdraw_number_info")
-                        },
-                        {
-                            validator: validateNumberCheck
-                        }
-                    ]
-                },
-                addRules: {
-                    label: [
-                        {
-                            required: true,
-                            message: this.$t("asset.asset_withdraw_label_required")
-                        }
-                    ],
-                    address: [
-                        {
-                            required: true,
-                            message: this.$t("asset.asset_withdraw_address_required")
-                        },
-                        {
-                            validator: validateEthAddress
-                        }
-                    ]
-                },
-                deposit: {
-                    account: [],
-                    deposit_channels: {},
-                    deposits_history: [],
-                    page: 1,
-                    per_page: 20,
-                    total_count: 0,
-                    total_pages: 1
-                },
-                withdraw: {
-                    default_source_id: "",
-                    fund_sources: [],
-                    withdraw_channels: {},
-                    withdraws: [],
-                    page: 1,
-                    per_page: 20,
-                    total_count: 0,
-                    total_pages: 1
-                },
-                withdraw_confirm: false,
-                withdraw_email: false,
-                auth_two_flag: false,
-                pop_email: false
-            };
-        },
-        computed: {
-            assetIndex() {
-                return +(this.$route.query.type || 0);
-            },
-            withdraw_token() {
-                return this.$route.query.withdraw_token;
-            },
-            currencyList() {
-                return this.$store.state.currencyList;
-            },
-            currency() {
-                return this.$route.query.currency || this.$store.state.currencyList[0];
-            },
-            account() {
-                let index = 0;
-                for (let i in this.userInfo.valid_account) {
-                    if (this.userInfo.valid_account[i] && this.userInfo.valid_account[i].currency === this.currency) {
-                        index = i;
-                        break;
-                    }
-                }
-                return this.userInfo.valid_account[index];
-            },
-            userInfo() {
-                return this.$store.state.userInfo;
-            },
-            qrCodeConfig() {
-                return {
-                    value: this.deposit.account.length
-                        ? this.deposit.account[0].deposit_address
-                        : "",
-                    imagePath: require("../../static/images/home/QC-Code-BG.png"),
-                    filter: "canvas",
-                    size: 150
-                };
-            },
-            default_source_id() {
-                return this.withdraw.default_source_id;
-            }
-        },
-        watch: {
-            $route: function (val) {
-                this.init();
-            }
-        },
-        methods: {
-            onOpenUrl(url) {
-                window.open(url);
-            },
-            getAddress() {
-                this.$store.dispatch("ajax_gen_address", {
-                    currency: this.currency
-                }).then(res => {
-                    if (res.data && +res.data.error === 0) {
-                        this.showInfo();
-                    } else {
-                        this.$Message.error(this.$t("asset.asset_address_request_fail"));
-                    }
-                }).catch(err => {
-                    this.$Message.error(this.$t("asset.asset_address_request_fail"));
-                });
-            },
-            showInfo(index) {
-                if (this.assetIndex === 0) {
-                    this.$store.dispatch("ajax_get_deposit", {
-                        currency: this.currency,
-                        limit: this.deposit.per_page,
-                        page: index ? +index : this.deposit.page
-                    }).then(res => {
-                        if (res.data && +res.data.error === 0) {
-                            this.deposit = res.data;
-                        } else {
-                            this.$Message.error(this.$t("asset.asset_recharge_request_fail"));
-                        }
-                    }).catch(err => {
-                        this.$Message.error(this.$t("asset.asset_recharge_request_fail"));
-                    });
-                } else if (+this.assetIndex === 1) {
-                    this.$store.dispatch("ajax_get_withdraw", {
-                        currency: this.currency,
-                        limit: this.withdraw.per_page,
-                        page: index ? index : this.withdraw.page
-                    }).then(res => {
-                        if (res.data && +res.data.error === 0) {
-                            this.withdraw = res.data;
-                            for (let i in this.withdraw.fund_sources) {
-                                if (
-                                    this.withdraw.fund_sources[i].id === this.default_source_id
-                                ) {
-                                    this.form.address = this.withdraw.fund_sources[i].uid;
-                                    this.get_address_id(this.withdraw.fund_sources[i].uid);
-                                }
-                            }
-                        } else {
-                            this.$Message.error(this.$t("asset.asset_withdraw_request_fail"));
-                        }
-                    }).catch(err => {
-                        this.$Message.error(this.$t("asset.asset_withdraw_request_fail"));
-                    });
-                }
-            },
-            changeSider(index) {
-                this.$goRouter(this.$route.name, {
-                    currency: this.currencyList[+index]
-                });
-            },
-            changeOperation(index) {
-                this.$goRouter(this.$route.name, {
-                    currency: this.currency,
-                    type: index
-                });
-            },
-            submit() {
-                this.$refs["form"].validate(valid => {
-                    if (valid) {
-                        this.withdraw_confirm = true;
-                    } else {
-                        this.$Message.error(this.$t("asset.asset_withdraw_form_notValid"));
-                    }
-                });
-            },
-            doWithdraw(authJson) {
-                let fund_index = 0;
-                for (let i in this.withdraw.fund_sources) {
-                    if (this.withdraw.fund_sources[i].id === this.form.address) {
-                        fund_index = i;
-                    }
-                }
-                let requestData = {
-                    fund_source_id: this.form.id,
-                    member_id: this.withdraw.fund_sources[fund_index].member_id,
-                    currency: this.currency,
-                    sum: +this.form.number
-                };
-                if (authJson) {
-                    requestData = Object.assign(authJson, requestData);
-                }
-                this.$store.dispatch("ajax_withdraw", requestData).then(res => {
-                    if (res.data && +res.data.error === 0) {
-                        this.withdraw_email = true;
-                        //                        this.$Message.success(this.$t("asset.asset_withdraw_success"));
-                        this.$refs["form"].resetFields();
-                        this.showInfo();
-                    } else {
-                        this.$Message.error(this.$t("asset.asset_withdraw_fail"));
-                        this.showInfo();
-                    }
-                }).catch(err => {
-                    if (err.sms || err.app) {
-                        this.$store.commit("loginInfo_setter", {
-                            mobile: err.mobile
-                        });
-                        this.auth_two_flag = true;
-                    } else {
-                        this.$Message.error(this.$t("asset.asset_withdraw_fail"));
-                        this.showInfo();
-                    }
-                });
-            },
-            address_add() {
-                this.$refs["addForm"].validate(valid => {
-                    if (valid) {
-                        this.$store.dispatch("ajax_add_fund_sources", {
-                            uid: this.addForm.address,
-                            extra: this.addForm.label,
-                            currency: this.currency
-                        }).then(res => {
-                            if (res.data && +res.data.error === 0) {
-                                this.$Message.success(
-                                    this.$t("asset.asset_withdraw_address_add_success")
-                                );
-                                this.showInfo();
-                                this.$refs["addForm"].resetFields();
-                            } else {
-                                this.$Message.error(
-                                    this.$t("asset.asset_withdraw_address_add_fail")
-                                );
-                            }
-                        }).catch(err => {
-                            this.$Message.error(
-                                this.$t("asset.asset_withdraw_address_add_fail")
-                            );
-                        });
-                    } else {
-                        this.$Message.error(this.$t("asset.asset_withdraw_address_notValid"));
-                    }
-                });
-            },
-            setDefaultAddress(id) {
-                this.$store.dispatch("ajax_set_default_fund_sources", {
-                    id: id
-                }).then(res => {
-                    if (res.data && +res.data.error === 0) {
-                        this.showInfo();
-                        this.$Message.success(
-                            this.$t("asset.asset_withdraw_address_set_default_success")
-                        );
-                    } else {
-                        this.$Message.error(
-                            this.$t("asset.asset_withdraw_address_set_default_fail")
-                        );
-                    }
-                }).catch(err => {
-                    this.$Message.error(
-                        this.$t("asset.asset_withdraw_address_set_default_fail")
-                    );
-                });
-            },
-            address_del(id) {
-                this.$store.dispatch("ajax_del_fund_sources", {
-                    id: id
-                }).then(res => {
-                    if (res.data && +res.data.error === 0) {
-                        this.showInfo();
-                        this.$Message.success(
-                            this.$t("asset.asset_withdraw_address_del_success")
-                        );
-                    } else {
-                        this.$Message.error(
-                            this.$t("asset.asset_withdraw_address_del_fail")
-                        );
-                    }
-                }).catch(err => {
-                    this.$Message.error(this.$t("asset.asset_withdraw_address_del_fail"));
-                });
-            },
-            doWithdrawPop(val) {
-                if (val) {
-                    this.auth_two_flag = true;
-                }
-                this.withdraw_confirm = false;
-            },
-            doAuthClose(val) {
-                if (val) {
-                    this.doWithdraw(val);
-                }
-                this.auth_two_flag = false;
-            },
-            get_address_id(val) {
-                for (let i in this.withdraw.fund_sources) {
-                    if (this.withdraw.fund_sources[i].uid === val) {
-                        this.form.id = this.withdraw.fund_sources[i].id;
-                        return false;
-                    }
-                }
-            },
-            sendEmail() {
-                this.$store.dispatch("ajax_resend_confirm", {
-                    id: this.withdraw.withdraw_channels.id
-                }).then(res => {
-                    this.$Message.success(this.$t("asset.asset_withdraw_email_success"));
-                }).catch(err => {
-                    this.$Message.error(this.$t("public.fail"));
-                });
-            },
-            showAuthEmail(){
-                this.pop_email = true;
-                this.$refs.auth_email_send.sendEmail();
-            },
-            copySuccess() {
-                this.$Message.success(this.$t("public.invite_copy_success"));
-            },
-            init() {
-                this.$store.commit("header_index_setter", "8");
-                if(this.userInfo.activated) {
-                    this.showInfo();
-                }
-            }
-        },
-        mounted() {
-            this.init();
-        },
-        components: {
-            qart,
-            logoDiv,
-            auth_two,
-            withdraw_confirm_pop,
-            emptyList,
-            auth_email_send
-        }
+import auth_email_send from "@/components/user/userCenter/auth_email_send_pop";
+import validateMixin from "@/components/mixins/validate-mixin";
+import emptyList from "@/components/public/empty-list";
+import QrcodeVue from "qrcode.vue";
+import logoDiv from "../public/logo.vue";
+import auth_two from "../public/auth_two_pop.vue";
+import withdraw_confirm_pop from "./withdraw_confirm_pop.vue";
+// import ethereum_address from "ethereum-address"
+export default {
+  name: "",
+  mixins: [validateMixin(["form", "addForm"])],
+  data() {
+    const validateNumberCheck = (rule, value, callback) => {
+      if (!+value || +value <= 0) {
+        callback(new Error(this.$t("public.input_number_required")));
+      } else if (+value > +this.account["balance"]) {
+        callback(new Error(this.$t("public.balance_insufficient")));
+      } else if (this.currency === "eth" && +value < 0.01) {
+        callback(
+          new Error(this.$t("asset.asset_withdraw_eth_number_required"))
+        );
+      } else if (this.currency === "dai" && +value < 100) {
+        callback(
+          new Error(this.$t("asset.asset_withdraw_dai_number_required"))
+        );
+      } else {
+        callback();
+      }
     };
+    const validateEthAddress = (rule, value, callback) => {
+      let reg = /^(0x)?[0-9a-f]{40}$/i;
+      if (!reg.test(value)) {
+        callback(new Error(this.$t("asset.asset_withdraw_address_invalid")));
+      } else {
+        callback();
+      }
+    };
+
+    return {
+      addressPop: false,
+      loading: true,
+      imageType: [
+        require("../../static/images/CoinLogo-DAI.png"),
+        require("../../static/images/CoinLogo-ETH .png"),
+        require("../../static/images/CoinLogo-CAT.png")
+      ],
+      form: {
+        address: "",
+        number: 0,
+        id: ""
+      },
+      addForm: {
+        label: "",
+        address: ""
+      },
+      rules: {
+        address: [
+          {
+            required: true,
+            message: this.$t("asset.asset_withdraw_address_info")
+          }
+        ],
+        number: [
+          {
+            required: true,
+            message: this.$t("asset.asset_withdraw_number_info")
+          },
+          {
+            validator: validateNumberCheck
+          }
+        ]
+      },
+      addRules: {
+        label: [
+          {
+            required: true,
+            message: this.$t("asset.asset_withdraw_label_required")
+          }
+        ],
+        address: [
+          {
+            required: true,
+            message: this.$t("asset.asset_withdraw_address_required")
+          },
+          {
+            validator: validateEthAddress
+          }
+        ]
+      },
+      deposit: {
+        account: [],
+        deposit_channels: {},
+        deposits_history: [],
+        page: 1,
+        per_page: 20,
+        total_count: 0,
+        total_pages: 1
+      },
+      withdraw: {
+        default_source_id: "",
+        fund_sources: [],
+        withdraw_channels: {},
+        withdraws: [],
+        page: 1,
+        per_page: 20,
+        total_count: 0,
+        total_pages: 1
+      },
+      withdraw_confirm: false,
+      withdraw_email: false,
+      auth_two_flag: false,
+      pop_email: false
+    };
+  },
+  computed: {
+    assetIndex() {
+      return +(this.$route.query.type || 0);
+    },
+    withdraw_token() {
+      return this.$route.query.withdraw_token;
+    },
+    currencyList() {
+      return this.$store.state.currencyList;
+    },
+    currency() {
+      return this.$route.query.currency || this.$store.state.currencyList[0];
+    },
+    account() {
+      let index = 0;
+      for (let i in this.userInfo.valid_account) {
+        if (
+          this.userInfo.valid_account[i] &&
+          this.userInfo.valid_account[i].currency === this.currency
+        ) {
+          index = i;
+          break;
+        }
+      }
+      return this.userInfo.valid_account[index];
+    },
+    userInfo() {
+      return this.$store.state.userInfo;
+    },
+    qrCodeConfig() {
+      return {
+        value: this.deposit.account.length
+          ? this.deposit.account[0].deposit_address
+          : "",
+        imagePath: require("../../static/images/home/QC-Code-BG.png"),
+        filter: "canvas",
+        size: 150
+      };
+    },
+    default_source_id() {
+      return this.withdraw.default_source_id;
+    }
+  },
+  watch: {
+    $route: function(val) {
+      this.init();
+    }
+  },
+  methods: {
+    onOpenUrl(url) {
+      window.open(url);
+    },
+    getAddress() {
+      this.$store
+        .dispatch("ajax_gen_address", {
+          currency: this.currency
+        })
+        .then(res => {
+          if (res.data && +res.data.error === 0) {
+            this.showInfo();
+          } else {
+            this.$Message.error(this.$t("asset.asset_address_request_fail"));
+          }
+        })
+        .catch(err => {
+          this.$Message.error(this.$t("asset.asset_address_request_fail"));
+        });
+    },
+    showInfo(index) {
+      if (this.assetIndex === 0) {
+        this.$store
+          .dispatch("ajax_get_deposit", {
+            currency: this.currency,
+            limit: this.deposit.per_page,
+            page: index ? +index : this.deposit.page
+          })
+          .then(res => {
+            if (res.data && +res.data.error === 0) {
+              this.deposit = res.data;
+            } else {
+              this.$Message.error(this.$t("asset.asset_recharge_request_fail"));
+            }
+          })
+          .catch(err => {
+            this.$Message.error(this.$t("asset.asset_recharge_request_fail"));
+          });
+      } else if (+this.assetIndex === 1) {
+        this.$store
+          .dispatch("ajax_get_withdraw", {
+            currency: this.currency,
+            limit: this.withdraw.per_page,
+            page: index ? index : this.withdraw.page
+          })
+          .then(res => {
+            if (res.data && +res.data.error === 0) {
+              this.withdraw = res.data;
+              for (let i in this.withdraw.fund_sources) {
+                if (
+                  this.withdraw.fund_sources[i].id === this.default_source_id
+                ) {
+                  this.form.address = this.withdraw.fund_sources[i].uid;
+                  this.get_address_id(this.withdraw.fund_sources[i].uid);
+                }
+              }
+            } else {
+              this.$Message.error(this.$t("asset.asset_withdraw_request_fail"));
+            }
+          })
+          .catch(err => {
+            this.$Message.error(this.$t("asset.asset_withdraw_request_fail"));
+          });
+      }
+    },
+    changeSider(index) {
+      this.$goRouter(this.$route.name, {
+        currency: this.currencyList[+index]
+      });
+    },
+    changeOperation(index) {
+      this.$goRouter(this.$route.name, {
+        currency: this.currency,
+        type: index
+      });
+    },
+    submit() {
+      this.$refs["form"].validate(valid => {
+        if (valid) {
+          this.withdraw_confirm = true;
+        } else {
+          this.$Message.error(this.$t("asset.asset_withdraw_form_notValid"));
+        }
+      });
+    },
+    doWithdraw(authJson) {
+      let fund_index = 0;
+      for (let i in this.withdraw.fund_sources) {
+        if (this.withdraw.fund_sources[i].id === this.form.address) {
+          fund_index = i;
+        }
+      }
+      let requestData = {
+        fund_source_id: this.form.id,
+        member_id: this.withdraw.fund_sources[fund_index].member_id,
+        currency: this.currency,
+        sum: +this.form.number
+      };
+      if (authJson) {
+        requestData = Object.assign(authJson, requestData);
+      }
+      this.$store
+        .dispatch("ajax_withdraw", requestData)
+        .then(res => {
+          if (res.data && +res.data.error === 0) {
+            this.withdraw_email = true;
+            //                        this.$Message.success(this.$t("asset.asset_withdraw_success"));
+            this.$refs["form"].resetFields();
+            this.showInfo();
+          } else {
+            this.$Message.error(this.$t("asset.asset_withdraw_fail"));
+            this.showInfo();
+          }
+        })
+        .catch(err => {
+          if (err.sms || err.app) {
+            this.$store.commit("loginInfo_setter", {
+              mobile: err.mobile
+            });
+            this.auth_two_flag = true;
+          } else {
+            this.$Message.error(this.$t("asset.asset_withdraw_fail"));
+            this.showInfo();
+          }
+        });
+    },
+    address_add() {
+      this.$refs["addForm"].validate(valid => {
+        if (valid) {
+          this.$store
+            .dispatch("ajax_add_fund_sources", {
+              uid: this.addForm.address,
+              extra: this.addForm.label,
+              currency: this.currency
+            })
+            .then(res => {
+              if (res.data && +res.data.error === 0) {
+                this.$Message.success(
+                  this.$t("asset.asset_withdraw_address_add_success")
+                );
+                this.showInfo();
+                this.$refs["addForm"].resetFields();
+              } else {
+                this.$Message.error(
+                  this.$t("asset.asset_withdraw_address_add_fail")
+                );
+              }
+            })
+            .catch(err => {
+              this.$Message.error(
+                this.$t("asset.asset_withdraw_address_add_fail")
+              );
+            });
+        } else {
+          this.$Message.error(this.$t("asset.asset_withdraw_address_notValid"));
+        }
+      });
+    },
+    setDefaultAddress(id) {
+      this.$store
+        .dispatch("ajax_set_default_fund_sources", {
+          id: id
+        })
+        .then(res => {
+          if (res.data && +res.data.error === 0) {
+            this.showInfo();
+            this.$Message.success(
+              this.$t("asset.asset_withdraw_address_set_default_success")
+            );
+          } else {
+            this.$Message.error(
+              this.$t("asset.asset_withdraw_address_set_default_fail")
+            );
+          }
+        })
+        .catch(err => {
+          this.$Message.error(
+            this.$t("asset.asset_withdraw_address_set_default_fail")
+          );
+        });
+    },
+    address_del(id) {
+      this.$store
+        .dispatch("ajax_del_fund_sources", {
+          id: id
+        })
+        .then(res => {
+          if (res.data && +res.data.error === 0) {
+            this.showInfo();
+            this.$Message.success(
+              this.$t("asset.asset_withdraw_address_del_success")
+            );
+          } else {
+            this.$Message.error(
+              this.$t("asset.asset_withdraw_address_del_fail")
+            );
+          }
+        })
+        .catch(err => {
+          this.$Message.error(this.$t("asset.asset_withdraw_address_del_fail"));
+        });
+    },
+    doWithdrawPop(val) {
+      if (val) {
+        this.auth_two_flag = true;
+      }
+      this.withdraw_confirm = false;
+    },
+    doAuthClose(val) {
+      if (val) {
+        this.doWithdraw(val);
+      }
+      this.auth_two_flag = false;
+    },
+    get_address_id(val) {
+      for (let i in this.withdraw.fund_sources) {
+        if (this.withdraw.fund_sources[i].uid === val) {
+          this.form.id = this.withdraw.fund_sources[i].id;
+          return false;
+        }
+      }
+    },
+    sendEmail() {
+      this.$store
+        .dispatch("ajax_resend_confirm", {
+          id: this.withdraw.withdraw_channels.id
+        })
+        .then(res => {
+          this.$Message.success(this.$t("asset.asset_withdraw_email_success"));
+        })
+        .catch(err => {
+          this.$Message.error(this.$t("public.fail"));
+        });
+    },
+    showAuthEmail() {
+      this.pop_email = true;
+      this.$refs.auth_email_send.sendEmail();
+    },
+    copySuccess() {
+      this.$Message.success(this.$t("public.invite_copy_success"));
+    },
+    init() {
+      this.$store.commit("header_index_setter", "8");
+      if (this.userInfo.activated) {
+        this.showInfo();
+      }
+    }
+  },
+  mounted() {
+    this.init();
+  },
+  components: {
+    QrcodeVue,
+    logoDiv,
+    auth_two,
+    withdraw_confirm_pop,
+    emptyList,
+    auth_email_send
+  }
+};
 </script>
 <style lang='scss' scoped>
-    @import "assets";
+@import "assets";
 </style>
