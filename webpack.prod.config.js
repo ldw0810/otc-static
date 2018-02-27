@@ -15,7 +15,6 @@ fs.open("./src/config/env.js", "w", function(err, fd) {
 
 const webpackConfig = merge(webpackBaseConfig, {
   output: {
-    path: path.join(__dirname, "../public/dist"),
     publicPath: "/dist/",
     filename: "[name].[chunkhash:8].js",
     chunkFilename: "[name].[chunkhash:8].chunk.js"
@@ -58,7 +57,7 @@ const webpackConfig = merge(webpackBaseConfig, {
       parallel: true // 多线程压缩
     }),
     new HtmlWebpackPlugin({
-      filename: "../../app/views/welcome/new.html",
+      filename: '../index_prod.html',
       template: "./src/template/index.ejs",
       inject: false
     })
