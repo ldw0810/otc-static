@@ -1,5 +1,6 @@
 <template>
     <div class="footerBar" :class="{'login': footer_is_login}">
+        <div class='footer-inner'>
         <div class="copyright" v-text="$t('public.copyright')"></div>
         <div class="footerMenuBar">
             <div class="footerMenuDiv" :class="{'footerMenu': footerItem.url}" v-for="(footerItem, index) in footerList"
@@ -27,6 +28,8 @@
             </div>
         </div>
         <div style="clear: both"></div>
+        </div>
+
     </div>
 </template>
 <script type="es6">
@@ -122,11 +125,9 @@
         background: #2b2b30;
         color: #999999;
     }
-
-    .footerBar div {
-        font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC,
-        Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei,
-        sans-serif;
+    .footer-inner {
+        width: 1170px;
+        margin: 0 auto;
     }
 
     .login {
@@ -135,7 +136,6 @@
     }
 
     .copyright {
-        margin-left: 50px;
         height: 60px;
         line-height: 60px;
         font-size: 14px;
@@ -196,16 +196,18 @@
         font-size: 14px;
         min-width: 35px;
         text-align: center;
-        padding: 0 40px 25px 0;
+        padding: 0 0 25px 0;
         display: inline-block;
         position: relative;
     }
 
     .language div {
         float: left;
+    }
+    .language div:first-of-type {
         padding-right: 5px;
     }
-
+    
     .languageText,
     .languagePullDown {
         cursor: pointer;
