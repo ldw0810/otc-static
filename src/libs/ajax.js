@@ -9,7 +9,7 @@ import languageData from '../locale'
  */
 
 const ajaxUrl = env === 'development' ? '/' :
-    env === 'production' ? '/' : 'https://otcmaker.itering.com';
+    env === 'production' ? 'https://apialpha.otcmaker.com' : 'https://otcmaker.itering.com';
 
 axios.defaults.timeout = 10000;
 axios.defaults.baseURL = ajaxUrl;
