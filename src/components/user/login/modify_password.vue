@@ -83,7 +83,7 @@
                 this.$store.dispatch("ajax_verified_token", {
                     token: this.token
                 }).then(res => {
-                    if (!res.data || res.data.error != 0) {
+                    if (!res.data || +res.data.error !== 0) {
                         this.$Message.error(this.$t("user.email_token_invalid"));
                         this.$goRouter("/user/login");
                     }
