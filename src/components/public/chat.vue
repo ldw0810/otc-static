@@ -5,21 +5,21 @@
             <ScrollLoader :minHeight="minHeight" class="container-main" :style="{maxHeight: maxHeight-50 + 'px'}">
                 <div class="message" id="message">
                     <ul>
-                        <li v-for="(chat, index) in msgList" :key="index" :class="{'an-move-right': chat.type == 0,
-                         'an-move-left': chat.type == 1, 'an-move-center': chat.type == 9}">
+                        <li v-for="(chat, index) in msgList" :key="index" :class="{'an-move-right': +chat.type === 0,
+                         'an-move-left': +chat.type === 1, 'an-move-center': +chat.type === 9}">
                             <p class="time">
                                 <span v-text="new Date(chat.time).format('yyyy/MM/dd hh:mm:ss')"></span>
                             </p>
-                            <p class="time system" v-if="chat.type==9">
+                            <p class="time system" v-if="+chat.type === 9">
                                 <span v-html="chat.data"></span>
                             </p>
-                            <div :class="'main' + (chat.type== 0 ? ' self': '')" v-else>
+                            <div :class="'main' + (+chat.type === 0 ? ' self': '')" v-else>
                                 <!--<img class="avatar" width="45" height="45" :src="chat.type == 0 ? owner.avatar : contact.avatar">-->
                                 <img class="avatar" width="45" height="45" src="../../static/images/DefaultHead.jpg">
                                 <!-- 文本 -->
                                 <div class="text" v-html="chat.data"></div>
                                 <!-- 图片 -->
-                                <div class="text" v-if="chat.type==3">
+                                <div class="text" v-if="+chat.type === 3">
                                     <img :src="chat.data" class="image" :alt="$t('order.order_chat_img')">
                                 </div>
                                 <!--&lt;!&ndash; 其他 &ndash;&gt;-->
@@ -34,10 +34,8 @@
         <div id="publish" class='publish'>
             <div class="oper"></div>
             <div class='publish-action'>
-                <div class='publish-action-input'>
-                    <i-input v-model="inputText" type="textarea" @on-enter="sendInfo" :rows="3"
-                             :autosize="{maxRows: 4}" :readonly="chatFlag"></i-input>
-                </div>
+                <div class='publish-action-input' contenteditable="true" @keyup.13="changeLine" v-html="inputText"
+                     @input="inputText = $event.target.innerText" tabindex="0"></div>
                 <div class="publish-action-button">
                     <i-button long type="primary" @click="sendInfo" :disabled="chatFlag">{{$t("public.send")}}
                     </i-button>
@@ -104,97 +102,121 @@
                 msgList: this.chatList.reverse()
             };
         },
-        watch:{
+        watch: {
             "msg": function (val) {
-                if(val.trim()) {
+                if (val.trim()) {
                     this.sendMsg(val.trim());
                 }
             }
         },
         methods: {
-            connectSocket() {
-                this.socket = new WebSocket(
-                    config.env === "development" ? config.webSocketUrl1 : config.webSocketUrl
-                );
-                try {
-                    this.socket.onopen = msg => {
-                        this.socket.send(
-                            JSON.stringify({
-                                key: "auth",
-                                Authorization: window.localStorage.getItem("userToken")
-                            })
-                        );
-                    };
-
-                    this.socket.onmessage = msg => {
-                        if (typeof msg.data === "string") {
-                            this.showMessage(JSON.parse(msg.data || "{}"));
+            // connectSocket() {
+            //     this.socket = new WebSocket(
+            //         config.env === "development" ? config.webSocketUrl1 : config.webSocketUrl
+            //     );
+            //     try {
+            //         this.socket.onopen = msg => {
+            //             this.socket.send(
+            //                 JSON.stringify({
+            //                     key: "auth",
+            //                     Authorization: window.localStorage.getItem("userToken")
+            //                 })
+            //             );
+            //         };
+            //
+            //         this.socket.onmessage = msg => {
+            //             if (typeof msg.data === "string") {
+            //                 this.showMessage(JSON.parse(msg.data || "{}"));
+            //             } else {
+            //                 console.log(msg);
+            //             }
+            //         };
+            //     } catch (ex) {
+            //         log(ex);
+            //     }
+            // },
+            // showMessage(msg) {
+            //     if (msg && msg.chat) {
+            //         if (+msg.chat.from === 0) {
+            //             this.$emit("refresh", 1);
+            //             this.$set(this.msgList, this.msgList.length, {
+            //                 type: 9,
+            //                 data: msg.chat.msg,
+            //                 time: new Date().format("yyyy/MM/dd hh:mm:ss")
+            //             });
+            //         } else {
+            //             this.$set(this.msgList, this.msgList.length, {
+            //                 type: msg.chat.to === this.contact.id ? 0 : 1,
+            //                 data: msg.chat.msg,
+            //                 time: new Date().format("yyyy/MM/dd hh:mm:ss")
+            //             });
+            //         }
+            //         this.$nextTick(() => {
+            //             let messageDiv = document.getElementById("message");
+            //             messageDiv.scrollTop = messageDiv.scrollHeight;
+            //         });
+            //     }
+            // },
+            // sendInfo() {
+            //     if (this.inputText.trim()) {
+            //         this.socket &&
+            //         this.socket.send(
+            //             JSON.stringify({
+            //                 key: "send",
+            //                 Authorization: window.localStorage.getItem("userToken"),
+            //                 msg: this.inputText.trim(),
+            //                 to: this.contact.id, //to member id
+            //                 order: this.orderId //订单id
+            //             })
+            //         );
+            //         this.inputText = "";
+            //     } else {
+            //         return false;
+            //     }
+            // },
+            // sendMsg(msg) {
+            //     if (msg) {
+            //         this.socket && this.socket.send(
+            //             JSON.stringify({
+            //                 key: "send",
+            //                 Authorization: window.localStorage.getItem("userToken"),
+            //                 msg: msg,
+            //                 to: this.contact.id, //to member id
+            //                 order: this.orderId //订单id
+            //             })
+            //         );
+            //     }
+            // },
+            // closeSocket() {
+            //     try {
+            //         this.socket.close();
+            //         this.socket = null;
+            //     } catch (err) {
+            //         console.log(err);
+            //     }
+            // },
+            sendInfo(){
+                if (this.inputText.trim()) {
+                    this.$store.dispatch("ajax_send_msg", {
+                        order_id: this.orderId,
+                        to: this.contact.id,
+                        msg: this.inputText.trim()
+                    }).then(res => {
+                        if(res.data && +res.data.error === 0) {
+                            this.getMsg();
                         } else {
-                            console.log(msg);
+                            return false;
                         }
-                    };
-                } catch (ex) {
-                    log(ex);
+                    })
+                } else {
+                    return false;
                 }
             },
-            showMessage(msg) {
-                if (msg && msg.chat) {
-                    if (+msg.chat.from === 0) {
-                        this.$emit("refresh", 1);
-                        this.$set(this.msgList, this.msgList.length, {
-                            type: 9,
-                            data: msg.chat.msg,
-                            time: new Date().format("yyyy/MM/dd hh:mm:ss")
-                        });
-                    } else {
-                        this.$set(this.msgList, this.msgList.length, {
-                            type: msg.chat.to === this.contact.id ? 0 : 1,
-                            data: msg.chat.msg,
-                            time: new Date().format("yyyy/MM/dd hh:mm:ss")
-                        });
-                    }
-                    this.$nextTick(() => {
-                        let messageDiv = document.getElementById("message");
-                        messageDiv.scrollTop = messageDiv.scrollHeight;
-                    });
-                }
+            getMsg(){
+
             },
-            sendInfo() {
-                if(this.inputText.trim()) {
-                    this.socket &&
-                    this.socket.send(
-                        JSON.stringify({
-                            key: "send",
-                            Authorization: window.localStorage.getItem("userToken"),
-                            msg: this.inputText.trim(),
-                            to: this.contact.id, //to member id
-                            order: this.orderId //订单id
-                        })
-                    );
-                    this.inputText = "";
-                }
-            },
-            sendMsg(msg){
-                if(msg) {
-                    this.socket &&
-                    this.socket.send(
-                        JSON.stringify({
-                            key: "send",
-                            Authorization: window.localStorage.getItem("userToken"),
-                            msg: msg,
-                            to: this.contact.id, //to member id
-                            order: this.orderId //订单id
-                        })
-                    );
-                }
-            },
-            closeSocket() {
-                try {
-                    this.socket.close();
-                    this.socket = null;
-                } catch (err) {
-                    console.log(err);
-                }
+            changeLine() {
+                this.inputText += '<br />';
             },
             initData() {
                 this.msg && (this.msgList[this.msgList.length] = this.msg);
@@ -204,121 +226,7 @@
                 });
             },
             toEmotion(text, isNoGif) {
-                const list = [
-                    "微笑",
-                    "撇嘴",
-                    "色",
-                    "发呆",
-                    "得意",
-                    "流泪",
-                    "害羞",
-                    "闭嘴",
-                    "睡",
-                    "大哭",
-                    "尴尬",
-                    "发怒",
-                    "调皮",
-                    "呲牙",
-                    "惊讶",
-                    "难过",
-                    "酷",
-                    "冷汗",
-                    "抓狂",
-                    "吐",
-                    "偷笑",
-                    "愉快",
-                    "白眼",
-                    "傲慢",
-                    "饥饿",
-                    "困",
-                    "惊恐",
-                    "流汗",
-                    "憨笑",
-                    "大兵",
-                    "奋斗",
-                    "咒骂",
-                    "疑问",
-                    "嘘",
-                    "晕",
-                    "折磨",
-                    "衰",
-                    "骷髅",
-                    "敲打",
-                    "再见",
-                    "擦汗",
-                    "抠鼻",
-                    "鼓掌",
-                    "糗大了",
-                    "坏笑",
-                    "左哼哼",
-                    "右哼哼",
-                    "哈欠",
-                    "鄙视",
-                    "委屈",
-                    "快哭了",
-                    "阴险",
-                    "亲亲",
-                    "吓",
-                    "可怜",
-                    "菜刀",
-                    "西瓜",
-                    "啤酒",
-                    "篮球",
-                    "乒乓",
-                    "咖啡",
-                    "饭",
-                    "猪头",
-                    "玫瑰",
-                    "凋谢",
-                    "示爱",
-                    "爱心",
-                    "心碎",
-                    "蛋糕",
-                    "闪电",
-                    "炸弹",
-                    "刀",
-                    "足球",
-                    "瓢虫",
-                    "便便",
-                    "月亮",
-                    "太阳",
-                    "礼物",
-                    "拥抱",
-                    "强",
-                    "弱",
-                    "握手",
-                    "胜利",
-                    "抱拳",
-                    "勾引",
-                    "拳头",
-                    "差劲",
-                    "爱你",
-                    "NO",
-                    "OK",
-                    "爱情",
-                    "飞吻",
-                    "跳跳",
-                    "发抖",
-                    "怄火",
-                    "转圈",
-                    "磕头",
-                    "回头",
-                    "跳绳",
-                    "挥手",
-                    "激动",
-                    "街舞",
-                    "献吻",
-                    "左太极",
-                    "右太极",
-                    "嘿哈",
-                    "捂脸",
-                    "奸笑",
-                    "机智",
-                    "皱眉",
-                    "耶",
-                    "红包",
-                    "鸡"
-                ];
+                const list = ["微笑", "撇嘴", "色", "发呆", "得意", "流泪", "害羞", "闭嘴", "睡", "大哭", "尴尬", "发怒", "调皮", "呲牙", "惊讶", "难过", "酷", "冷汗", "抓狂", "吐", "偷笑", "愉快", "白眼", "傲慢", "饥饿", "困", "惊恐", "流汗", "憨笑", "大兵", "奋斗", "咒骂", "疑问", "嘘", "晕", "折磨", "衰", "骷髅", "敲打", "再见", "擦汗", "抠鼻", "鼓掌", "糗大了", "坏笑", "左哼哼", "右哼哼", "哈欠", "鄙视", "委屈", "快哭了", "阴险", "亲亲", "吓", "可怜", "菜刀", "西瓜", "啤酒", "篮球", "乒乓", "咖啡", "饭", "猪头", "玫瑰", "凋谢", "示爱", "爱心", "心碎", "蛋糕", "闪电", "炸弹", "刀", "足球", "瓢虫", "便便", "月亮", "太阳", "礼物", "拥抱", "强", "弱", "握手", "胜利", "抱拳", "勾引", "拳头", "差劲", "爱你", "NO", "OK", "爱情", "飞吻", "跳跳", "发抖", "怄火", "转圈", "磕头", "回头", "跳绳", "挥手", "激动", "街舞", "献吻", "左太极", "右太极", "嘿哈", "捂脸", "奸笑", "机智", "皱眉", "耶", "红包", "鸡"];
                 if (!text) {
                     return text;
                 }
@@ -351,8 +259,6 @@
             this.initData();
         },
         mounted() {
-            //            this.minHeight = document.getElementById('window-view-container').offsetHeight;
-            //            this.maxHeight = document.getElementById('window-view-container').offsetHeight;
             this.connectSocket();
         },
         destroyed() {
@@ -369,6 +275,12 @@
             width: 100%;
             &-input {
                 flex: 1;
+                overflow-y: auto;
+                overflow-x: hidden;
+                padding-left: 20px;
+                outline: none;
+                border: 0;
+                font-size: 14px;
             }
             &-button {
                 width: 106px;
@@ -474,7 +386,7 @@
         /*overflow-y: scroll;*/
         min-height: 730px;
         background-color: #fafbfd;
-        box-shadow: inset 0 0 5px 0 rgba(0,0,0,0.10);
+        box-shadow: inset 0 0 5px 0 rgba(0, 0, 0, 0.10);
     }
 
     .message li {
