@@ -59,7 +59,8 @@ export default {
       qrCodeConfig: {
         value: "",
         imagePath: require("../../../static/images/home/QC-Code-BG.png"),
-        filter: "canvas"
+        filter: "canvas",
+        size: 129,
       }
     };
   },
@@ -190,7 +191,7 @@ export default {
 .step_2 .qrCode {
   width: 129px;
   height: 129px;
-  margin: 30px 65px;
+  margin: 60px auto 0;
 }
 
 .step_3 .key {

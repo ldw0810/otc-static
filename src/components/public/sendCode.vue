@@ -68,6 +68,7 @@
         font-size: 14px;
         display: inline-flex;
         align-items: center;
+        white-space: nowrap;
     }
     &-primary {
         color: @primary-color;

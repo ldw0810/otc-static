@@ -505,12 +505,9 @@
                 line-height: 19px;
                 margin-bottom: 15px;
                 &-title {
-                    width: 80px;
+                    width: 92px;
                     flex-shrink: 0;
                     margin-right: 22px;
-                }
-                &-desc {
-
                 }
             }
         }

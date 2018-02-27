@@ -1,132 +1,135 @@
 <template>
     <div class="header" ref="header">
-      <div class='header-logo'>
-        <img class='header-logo-asset' src="../../static/images/LOGO.png">
-      </div>
-      <nav class="header-nav">
-        <ul class='header-navbar'>
-          <li class='header-navbar-item' v-for='(item, index) in menus' :key='index'>
-            <Dropdown>
-              <div class='header-navbar-item-wrapper'>
-                <a class='header-navbar-item-link' href="javascript:void(0)" @click='goMenu(item)'>
-                    {{item.title}}
-                </a>
-                <Icon class='header-navbar-item-icon header-navbar-item-icon-append ' type="arrow-down-b" v-if='item.children.length'></Icon>
-              </div>
-              <DropdownMenu class='header-navbar-dropdown' slot="list" v-if='item.children.length'>
-                  <DropdownItem v-for='(childItem, i) in item.children' :key='i'>
-                    <a  @click='goMenu(childItem)'>{{childItem.title}}</a>
-                  </DropdownItem>
-              </DropdownMenu>
-          </Dropdown>
-          </li>
-        </ul>
-      </nav>
-      <nav class='header-nav header-login' v-if='false'>
-        <ul class='header-navbar'>
-          <li class='header-navbar-item' v-for='(item, index) in logins' :key='index'>
-            <Dropdown>
-              <div class='header-navbar-item-wrapper'>
-                <a class='header-navbar-item-link' href="javascript:void(0)">
-                    {{item.title}}
-                </a>
-                <Icon class='header-navbar-item-icon header-navbar-item-icon-append' type="arrow-down-b" v-if='item.children.length'></Icon>
-              </div>
-              <DropdownMenu class='header-navbar-dropdown' slot="list" v-if='item.children.length'>
-                  <DropdownItem v-for='(childItem, i) in item.children' :key='i'>
-                    <a @click='goMenu(childItem)'>{{childItem.title}}</a>
-                  </DropdownItem>
-              </DropdownMenu>
-          </Dropdown>
-          </li>
-        </ul>
-      </nav>
-      <nav class='header-nav header-user'>
-        <ul class='header-navbar'>
-          <template v-for='(item, index) in user'>
-            <li class='header-navbar-item' :key = 'index' v-if='index === 0'>
-              <div class='header-navbar-item-wrapper' @click='goMenu(item)'>
-                  <i class='header-navbar-item-icon header-navbar-item-icon-prepend icon-document'></i>
-                  <a class='header-navbar-item-link' href="javascript:void(0)">
-                    {{item.title}}
+      <div class="header-inner">
+        <div class='header-logo'>
+          <img class='header-logo-asset' src="../../static/images/LOGO.png">
+        </div>
+        <nav class="header-nav">
+          <ul class='header-navbar'>
+            <li class='header-navbar-item' :class="{'active': Array.isArray(item.index) && item.index.indexOf(+$store.state.header_index) > -1 }" v-for='(item, index) in menus' :key='index'>
+              <Dropdown>
+                <div class='header-navbar-item-wrapper'>
+                  <a class='header-navbar-item-link' href="javascript:void(0)" @click='goMenu(item)'>
+                      {{item.title}}
                   </a>
-                  <span class='header-navbar-item-icon header-navbar-item-icon-append dotted'></span>
-              </div>
+                  <Icon class='header-navbar-item-icon header-navbar-item-icon-append ' type="arrow-down-b" v-if='item.children.length'></Icon>
+                </div>
+                <DropdownMenu class='header-navbar-dropdown' slot="list" v-if='item.children.length'>
+                    <DropdownItem :class="{'active': childItem.index == $store.state.header_index}" v-for='(childItem, i) in item.children' :key='i'>
+                      <a  @click='goMenu(childItem)'>{{childItem.title}}</a>
+                    </DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
             </li>
-            <li class='header-navbar-item' :key = 'index'  v-if='index === 1'>
-              <Poptip trigger="hover" placement="bottom-end" width="378" @click="goMenu(81)">
+          </ul>
+        </nav>
+        <nav class='header-nav header-login' v-if='!loginFlag'>
+          <ul class='header-navbar'>
+            <li class='header-navbar-item' :class="{'active': item.index == $store.state.header_index}" v-for='(item, index) in logins' :key='index'>
+              <Dropdown>
                 <div class='header-navbar-item-wrapper' @click='goMenu(item)'>
-                  <i class='header-navbar-item-icon header-navbar-item-icon-prepend icon-dollar'></i>
                   <a class='header-navbar-item-link' href="javascript:void(0)">
-                    {{$t("public.asset")}}
+                      {{item.title}}
                   </a>
-                  <Icon class='header-navbar-item-icon header-navbar-item-icon-append' type="arrow-down-b"></Icon>
+                  <Icon class='header-navbar-item-icon header-navbar-item-icon-append' type="arrow-down-b" v-if='item.children.length'></Icon>
                 </div>
-                <div class='assets' slot='content'>
-                  <div class="assets-inner">
-                    <template v-for='(childItem, i) in item.children'>
-                    <div class='assets-item' v-if='i === 0' :key='i'>
-                      <header class='assets.header'>{{$t("public.type")}}</header>
-                      <article class='assets-content'>
-                        <ul>
-                          <li class='assets-list-item' v-for="(item, index) in userInfo.valid_account" :key="index">
-                            {{$t("public['" + item.currency + "']")}}
-                          </li>
-                        </ul>
-                      </article>
-                      <aside class='assets-footer'>
-                        <i-button class='assets-btn' @click="goMenu(childItem)">{{$t("public.recharge")}}</i-button>
-                      </aside>
-                    </div>
-                    <div class='assets-item' v-if='i === 1' :key='i'>
-                      <header class='assets.header'>{{$t("public.balance")}}</header>
-                      <article class='assets-content'>
-                        <ul>
-                          <li class='assets-list-item' v-for="(item, index) in userInfo.valid_account" :key="index">
-                            {{item.balance|fix_decimals(8)}}
-                          </li>
-                        </ul>
-                      </article>
-                      <aside class='assets-footer'>
-                        <i-button class='assets-btn' @click="goMenu(childItem)">{{$t("public.withdraw")}}</i-button>
-                      </aside>
-                    </div>
-                    <div class='assets-item' v-if='i === 2' :key='i'>
-                      <header class='assets.header'>{{$t("public.locked")}}</header>
-                      <article class='assets-content'>
-                        <ul>
-                          <li class='assets-list-item' v-for="(item, index) in userInfo.valid_account" :key="index">
-                            {{item.locked|fix_decimals(8)}}
-                          </li>
-                        </ul>
-                      </article>
-                      <aside class='assets-footer'>
-                        <i-button class='assets-btn' type='primary' @click="goMenu(childItem)">{{$t("public.assetInfo")}}</i-button>
-                      </aside>
-                    </div>
-                    </template>                    
-                  </div>
-                </div>
-              </Poptip>            
+                <DropdownMenu class='header-navbar-dropdown' slot="list" v-if='item.children.length'>
+                    <DropdownItem :class="{'active': childItem.index == $store.state.header_index}" v-for='(childItem, i) in item.children' :key='i'>
+                      <a @click='goMenu(childItem)'>{{childItem.title}}</a>
+                    </DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
             </li>
-            <li class='header-navbar-item' :key = 'index'  v-if='index === 2'>
-                <Dropdown>
+          </ul>
+        </nav>
+        <nav class='header-nav header-user' v-if='loginFlag'>
+          <ul class='header-navbar'>
+            <template v-for='(item, index) in user'>
+              <li class='header-navbar-item' :key = 'index' :class="{'active': item.index == $store.state.header_index}" v-if='index === 0'>
+                <div class='header-navbar-item-wrapper' @click='goMenu(item)'>
+                    <i class='header-navbar-item-icon header-navbar-item-icon-prepend icon-document'></i>
+                    <a class='header-navbar-item-link' href="javascript:void(0)">
+                      {{item.title}}
+                    </a>
+                    <span class='header-navbar-item-icon header-navbar-item-icon-append dotted' v-if='userInfo.notice > 0'></span>
+                </div>
+              </li>
+              <li class='header-navbar-item' :key = 'index' :class="{'active': item.index == $store.state.header_index}" v-if='index === 1'>
+                <Poptip trigger="hover" placement="bottom" width="378">
                   <div class='header-navbar-item-wrapper' @click='goMenu(item)'>
-                  <a class='header-navbar-item-link' href="javascript:void(0)">
-                      {{userInfo.nickname || 'Aaron'}}
-                  </a>
-                  <Icon class='header-navbar-item-icon header-navbar-item-icon-append' type="arrow-down-b"></Icon>
+                    <i class='header-navbar-item-icon header-navbar-item-icon-prepend icon-dollar'></i>
+                    <a class='header-navbar-item-link' href="javascript:void(0)">
+                      {{$t("public.asset")}}
+                    </a>
+                    <Icon class='header-navbar-item-icon header-navbar-item-icon-append' type="arrow-down-b"></Icon>
                   </div>
-                  <DropdownMenu class='header-navbar-dropdown' slot="list">
-                      <DropdownItem v-for='(childItem, i) in item.children' :key='i'>
-                        <a @click='goMenu(childItem)'>{{childItem.title}}</a>
-                      </DropdownItem>
-                  </DropdownMenu>
-              </Dropdown>
-            </li>   
-          </template>       
-        </ul>
-      </nav>
+                  <div class='assets' slot='content'>
+                    <div class="assets-inner">
+                      <template v-for='(childItem, i) in item.children'>
+                      <div class='assets-item' v-if='i === 0' :key='i'>
+                        <header class='assets.header'>{{$t("public.type")}}</header>
+                        <article class='assets-content'>
+                          <ul>
+                            <li class='assets-list-item' v-for="(item, index) in userInfo.valid_account" :key="index">
+                              {{$t("public['" + item.currency + "']")}}
+                            </li>
+                          </ul>
+                        </article>
+                        <aside class='assets-footer'>
+                          <i-button class='assets-btn' @click="goMenu(childItem)">{{$t("public.recharge")}}</i-button>
+                        </aside>
+                      </div>
+                      <div class='assets-item' v-if='i === 1' :key='i'>
+                        <header class='assets.header'>{{$t("public.balance")}}</header>
+                        <article class='assets-content'>
+                          <ul>
+                            <li class='assets-list-item' v-for="(item, index) in userInfo.valid_account" :key="index">
+                              {{item.balance|fix_decimals(8)}}
+                            </li>
+                          </ul>
+                        </article>
+                        <aside class='assets-footer'>
+                          <i-button class='assets-btn' @click="goMenu(childItem)">{{$t("public.withdraw")}}</i-button>
+                        </aside>
+                      </div>
+                      <div class='assets-item' v-if='i === 2' :key='i'>
+                        <header class='assets.header'>{{$t("public.locked")}}</header>
+                        <article class='assets-content'>
+                          <ul>
+                            <li class='assets-list-item' v-for="(item, index) in userInfo.valid_account" :key="index">
+                              {{item.locked|fix_decimals(8)}}
+                            </li>
+                          </ul>
+                        </article>
+                        <aside class='assets-footer'>
+                          <i-button class='assets-btn' type='primary' @click="goMenu(childItem)">{{$t("public.assetInfo")}}</i-button>
+                        </aside>
+                      </div>
+                      </template>                    
+                    </div>
+                  </div>
+                </Poptip>            
+              </li>
+              <li class='header-navbar-item' :key = 'index' :class="{'active': Array.isArray(item.index) && item.index.indexOf(+$store.state.header_index) > -1 }" v-if='index === 2'>
+                  <Dropdown>
+                    <div class='header-navbar-item-wrapper' @click='goMenu(item)'>
+                    <a class='header-navbar-item-link' href="javascript:void(0)">
+                        {{userInfo.nickname || 'Aaron'}}
+                    </a>
+                    <Icon class='header-navbar-item-icon header-navbar-item-icon-append' type="arrow-down-b"></Icon>
+                    </div>
+                    <DropdownMenu class='header-navbar-dropdown' slot="list">
+                        <DropdownItem :class="{'active': childItem.index == $store.state.header_index}" v-for='(childItem, i) in item.children' :key='i'>
+                          <a @click='goMenu(childItem)'>{{childItem.title}}</a>
+                        </DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+              </li>   
+            </template>       
+          </ul>
+        </nav>
+      </div>
+
     </div>
 </template>
 <script>
@@ -140,6 +143,7 @@ export default {
         {
           title: this.$t("public.homePage"),
           url: "/",
+          index: 0,
           children: []
         }
       ],
@@ -147,6 +151,7 @@ export default {
         {
           title: this.$t("public.register"),
           url: "/user/register",
+          index: 5,
           children: []
         },
         {
@@ -157,6 +162,7 @@ export default {
         {
           title: this.$t("public.login"),
           url: "/user/login",
+          index: 6,
           children: []
         }
       ],
@@ -164,12 +170,14 @@ export default {
         {
           title: this.$t("public.order"),
           url: "/myOrder",
+          index: 7,
           children: [],
           meta: {}
         },
         {
           title: this.$t("public.asset"),
           url: "/asset",
+          index: 8,
           children: [
             {
               title: this.$t("public.type"),
@@ -189,7 +197,7 @@ export default {
               title: this.$t("public.locked"),
               url: "/asset",
               query: {
-                type: 1
+                type: 0
               }
             },
           ]
@@ -197,15 +205,18 @@ export default {
         {
           title: "",
           url: "/user/userCenter",
+          index: [91, 92],
           children: [
             {
               title: this.$t("public.userCenter"),
               url: "/user/userCenter",
+              index: 91,
               children: []
             },
             {
               title: this.$t("public.myAd"),
               url: "/myAd",
+              index: 92,
               children: []
             },
             {
@@ -248,10 +259,16 @@ export default {
   },
   created() {
     const makeArray = type => {
-      return this.currencyList.map(item => {
+      const arr = {
+        'buy': 11,
+        'sell': 21,
+        'ad': 30,
+      }
+      return this.currencyList.map((item, index) => {
         const obj = {};
         obj.title = this.$t(`public.${item}`);
         obj.url = `/${type}`;
+        obj.index = arr[type] + index;
         obj.query = {
           currency: item
         };
@@ -262,26 +279,31 @@ export default {
       {
         title: this.$t("public.homePage"),
         url: "/",
+        index: [0],
         children: []
       },
       {
         title: this.$t("public.buy"),
         url: "/buy",
+        index: [11, 12],
         children: makeArray("buy")
       },
       {
         title: this.$t("public.sell"),
         url: "/sell",
+        index: [21, 22],
         children: makeArray("sell")
       },
       {
         title: this.$t("public.ad"),
         url: "/ad",
+        index: [30, 31],
         children: makeArray("ad")
       },
       {
         title: this.$t("public.invite"),
         url: "/invite",
+        index: [4],
         children: []
       }
     ];
@@ -301,13 +323,16 @@ export default {
 @import "~style/variables";
 $height: 76px;
 .header {
+  width: 100%;
   background-color: #fff;
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.08);
-  width: 100%;
-  height: $height;
-  margin: 0 auto;
   padding-left: 50px;
   padding-right: 50px;
+  &-inner {
+    width: 1170px;
+    margin: 0 auto;
+    height: $height;
+  }
   &-logo {
     height: $height;
     display: flex;
@@ -336,11 +361,17 @@ $height: 76px;
     height: $height;
     display: flex;
     &-item {
-      cursor: pointer;
       margin-right: 20px;
       margin-left: 20px;
+      .ivu-dropdown-item {
+        padding: 0;
+        &.active {
+          background-color: #e9edf1;
+        }
+      }
       &-wrapper {
         display: flex;
+        cursor: pointer;
         align-items: center;
       }
       &:first-of-type {
@@ -349,16 +380,24 @@ $height: 76px;
       &:last-of-type {
         margin-right: 0;
       }
+      .ivu-icon {
+        transition: transform 0.5s;
+      }
       &:hover {
         .header-navbar-item-link,
         .header-navbar-item-icon {
           color: $color-primary;
         }
+        .ivu-icon {
+          transform: rotate(180deg);
+        }
       }
       &.active {
-        color: $color-primary;
+        .header-navbar-item-link,
+        .header-navbar-item-icon {
+          color: $color-primary;
+        }
         .header-navbar-item-link {
-          color: currentColor;
           position: relative;
           &:after {
             content: "";
@@ -372,13 +411,9 @@ $height: 76px;
           }
         }
         .ivu-dropdown-item {
-          background-color: #e9edf1;
+          
         }
       }
-      // .ivu-icon {
-
-      // margin-left: 4px;
-      // }
       &-link {
         height: $height;
         display: flex;
@@ -448,7 +483,10 @@ $height: 76px;
     display: flex;
   }
   &-item {
-    width: 33%;
+    width: 40%;
+    // &:last-of-type {
+    //   width: 20%
+    // }
   }
   &-list {
     &-item {

@@ -186,6 +186,7 @@ export default {
         margin-bottom: 8px;
       }
       &-content {
+        text-align: center;
         font-size: 14px;
         color: #666666;
       }
