@@ -7,29 +7,15 @@
        overflow: auto; 
        overflow-x: hidden; 
 			 padding: 0;
+			 
 			&::-webkit-scrollbar {
-                background: #fff;
-                width: 2px;
-                margin-left: -2px;
-                box-shadow: none;
+				width: 10px;
+				-webkit-appearance: none;
 			}
-			&::-webkit-scrollbar-track {
-                background:transparent;
-                box-shadow: none;
-                // background: #000;
-			}
-			&::-webkit-scrollbar-track-piece{
-                background: transparent;
-                box-shadow: none;
-					// background:transparent;
-            }
-            &::-webkit-scrollbar-thumb {
-                // background: #000;
-                width: 5px;
-                box-shadow: none;
-            }
-			&::-webkit-resizer  {
-					background: transparent;
+			&::-webkit-scrollbar-thumb {
+				background-color: rgba(0,0,0,.33);
+				border: 2px solid #fff;
+				border-radius: 8px;
 			}
    }
    .loading{ width: 100%; height: 40px; position: relative; overflow: hidden; text-align: center; margin: 5px 0 ; color: #999; font-size: 13px;}

@@ -46,7 +46,11 @@
                         </FormItem>
                         <FormItem class="formItem submit">
                             <div class='g-comfirm-group '>
-                                <i-button class="submitButton" type="primary" :disabled='!validate.alipayForm'
+                                <i-button 
+                                :loading='alipayFormLoading'
+                                class="submitButton" 
+                                type="primary" 
+                                :disabled='!validate.alipayForm'
                                           @click="submit('alipayForm')">
                                     {{$t('public.confirm')}}
                                 </i-button>
@@ -96,7 +100,11 @@
                         </FormItem>
                         <FormItem class="formItem submit">
                             <div class='g-comfirm-group '>
-                                <i-button class="submitButton" type="primary" :disabled='!validate.bankCardForm'
+                                <i-button 
+                                class="submitButton" 
+                                type="primary" 
+                                :loading='bankCardFormLoading'
+                                :disabled='!validate.bankCardForm'
                                           @click="submit('bankCardForm')">
                                     {{$t('public.confirm')}}
                                 </i-button>
@@ -108,20 +116,20 @@
                     </Form>
                 </div>
             </div>
-
         </div>
         <div style="clear: both"></div>
     </div>
 </template>
 <script type="es6">
 import validateMixin from "@/components/mixins/validate-mixin";
+import debounce from "lodash/debounce";
 import logoDiv from "../../public/logo.vue";
 
 export default {
   mixins: [validateMixin(["alipayForm", "bankCardForm"])],
-	props: {
-		popUpStatus: true,
-	},
+  props: {
+    popUpStatus: true
+  },
   data() {
     const that = this;
     const validateReAccount = (rule, value, callback) => {
@@ -173,12 +181,14 @@ export default {
         account: "",
         reAccount: ""
       },
+      alipayFormLoading: false,
       bankCardForm: {
         userName: "",
         bank: "",
         number: "",
         reNumber: ""
       },
+      bankCardFormLoading: false,
       alipayRules: {
         userName: [
           {
@@ -236,12 +246,14 @@ export default {
     submit(index) {
       this.$refs[index].validate(valid => {
         if (valid) {
+          this.alipayFormLoading = true
           if (index === "alipayForm") {
             this.addReceiving({
               name: this.alipayForm.userName,
               account: this.alipayForm.account
             });
           } else if (index === "bankCardForm") {
+            this.bankCardFormLoading = true
             this.addReceiving({
               name: this.bankCardForm.userName,
               account: this.bankCardForm.number,
@@ -259,6 +271,8 @@ export default {
       this.$store
         .dispatch("ajax_add_receiving", requestData)
         .then(res => {
+          this.alipayFormLoading = false
+          this.bankCardFormLoading = false
           if (res.data && +res.data.error === 0) {
             this.$Message.success(this.$t("user.receivables_add_success"));
             this.$emit("refresh");
@@ -268,6 +282,8 @@ export default {
           }
         })
         .catch(err => {
+          this.alipayFormLoading = false
+          this.bankCardFormLoading = false
           this.$Message.error(this.$t("user.receivables_add_fail"));
         });
     },
@@ -285,12 +301,12 @@ export default {
           this.$Message.error(this.$t("user.banks_request_fail"));
         });
     }
-	},
-	watch: {
-		popUpStatus(newval) {
-			!newval && this.restoreForm()
-		}
-	},
+  },
+  watch: {
+    popUpStatus(newval) {
+      !newval && this.restoreForm();
+    }
+  },
   computed: {
     bankList() {
       return this.$store.state.banks;

@@ -1,6 +1,5 @@
 import Vue from "vue";
 import iView from '@/config/iview'
-// import iView from '@/libs/iview';
 import router from "./router";
 import Vuex from "vuex";
 import App from "./app.vue";
