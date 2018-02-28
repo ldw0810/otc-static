@@ -33,7 +33,7 @@
           </RadioGroup>
         </div>
       </div>
-      <Form v-if="+adType === 0" class="form" ref="form_buy" :model="form_buy"
+      <Form v-show="+adType === 0" class="form" ref="form_buy" :model="form_buy"
             @checkValidate='checkValidate' :rules="rules">
         <FormItem prop="payment" class="form-item" v-if="currency === 'dai'">
           <header class='form-item-header'>
@@ -174,7 +174,7 @@
           </Row>
         </FormItem>
       </Form>
-      <Form v-else-if="+adType === 1" class="form" ref="form_sell" :model="form_sell" @checkValidate='checkValidate'
+      <Form v-show="+adType === 1" class="form" ref="form_sell" :model="form_sell" @checkValidate='checkValidate'
             :rules="rules">
         <!--广告类型-->
         <FormItem prop="collection" class="form-item" v-if="currency === 'dai'">
