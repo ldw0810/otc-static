@@ -120,7 +120,7 @@
                     </a>
                     <Icon class='header-navbar-item-icon header-navbar-item-icon-append' type="arrow-down-b"></Icon>
                     </div>
-                    <DropdownMenu class='header-navbar-dropdown' slot="list">
+                    <DropdownMenu class='header-navbar-dropdown header-navbar-dropdown-user' slot="list">
                         <DropdownItem :class="{'active': childItem.index == $store.state.header_index}" v-for='(childItem, i) in item.children' :key='i'>
                           <a @click='goMenu(childItem)'>{{childItem.title}}</a>
                         </DropdownItem>
@@ -437,6 +437,9 @@ $height: 76px;
       min-width: 90px;
       width: 90px;
       text-align: center;
+      &-user {
+        width: 120px;
+      }
       .ivu-dropdown-item {
         a {
           display: flex;
