@@ -57,6 +57,7 @@
     .bg {
         height: 89px;
         width: 100%;
+        min-width: 1200px;
         background-image: url("../../static/images/UserCenter-Banner.jpg");
         background-size: cover;
     }

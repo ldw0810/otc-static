@@ -120,7 +120,7 @@
 </script>
 <style lang='scss' scoped>
     .footerBar {
-        min-width: 1080px;
+        min-width: 1200px;
         width: 100%;
         background: #2b2b30;
         color: #999999;

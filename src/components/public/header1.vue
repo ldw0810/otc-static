@@ -326,6 +326,7 @@ export default {
 $height: 76px;
 .header {
   width: 100%;
+  min-width: 1200px;
   background-color: #fff;
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.08);
   // padding-left: 50px;
