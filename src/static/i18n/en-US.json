@@ -216,7 +216,7 @@
     "authentication_email_beenSend_info": "Please verify your email by clicking verification link",
     "authentication_phone": "Phone number",
     "default": "Default",
-    "default_notValid": "Set as default",
+    "default_notValid": "Set default",
     "receivables": "Transaction account",
     "default_receivables": "Default transaction account",
     "default_receivables_add": "Add default transaction account",
