@@ -403,6 +403,9 @@
   .window {
     min-width: 400px;
     background: #fafbfd;
+    border: 1px solid #EEEEEE;
+    box-shadow: inset 0 0 5px 0 rgba(0,0,0,0.10);
+    border-radius: 2px;
     margin: 0 auto;
     overflow: hidden;
     padding: 0;
@@ -469,12 +472,8 @@
   }
 
   .message {
-    /*height: 100%;*/
     padding: 10px 15px;
-    /*overflow-y: scroll;*/
     min-height: 730px;
-    background-color: #fafbfd;
-    box-shadow: inset 0 0 5px 0 rgba(0, 0, 0, 0.10);
   }
 
   .message li {

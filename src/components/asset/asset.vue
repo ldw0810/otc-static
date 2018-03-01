@@ -90,7 +90,7 @@
                                            v-clipboard:success="copySuccess" class='address-link'>
                                             {{deposit.account[0].deposit_address}}
                                         </a>
-                                        <i-button v-else type="primary" @click="getAddress">
+                                        <i-button v-else type="primary" :loading='addressLoading' @click="getAddress">
                                             {{$t("asset.asset_recharge_address_get")}}
                                         </i-button>
                                     </div>
@@ -346,7 +346,7 @@
                                         </i-col>
                                         <i-col span="4">
                                             <FormItem class="formItem">
-                                                <i-button type="primary" :disabled='!validate.addForm'
+                                                <i-button type="primary" :loading='addressAddLoading' :disabled='!validate.addForm'
                                                           @click="address_add">{{$t("public.add")}}
                                                 </i-button>
                                             </FormItem>
@@ -503,7 +503,9 @@
                 },
                 withdraw_confirm: false,
                 withdraw_email: false,
-                auth_two_flag: false
+                auth_two_flag: false,
+                addressLoading: false,
+                addressAddLoading: false,
             };
         },
         computed: {
@@ -559,11 +561,13 @@
                 window.open(url);
             },
             getAddress() {
+                this.addressLoading = true
                 this.$store
                     .dispatch("ajax_gen_address", {
                         currency: this.currency
                     })
                     .then(res => {
+                        this.addressLoading = false
                         if (res.data && +res.data.error === 0) {
                             this.showInfo();
                         } else {
@@ -571,6 +575,7 @@
                         }
                     })
                     .catch(err => {
+                        this.addressLoading = false
                         this.$Message.error(this.$t("asset.asset_address_request_fail"));
                     });
             },
@@ -683,6 +688,7 @@
             address_add() {
                 this.$refs["addForm"].validate(valid => {
                     if (valid) {
+                        this.addressAddLoading = true
                         this.$store
                             .dispatch("ajax_add_fund_sources", {
                                 uid: this.addForm.address,
@@ -690,6 +696,7 @@
                                 currency: this.currency
                             })
                             .then(res => {
+                                this.addressAddLoading = false
                                 if (res.data && +res.data.error === 0) {
                                     this.$Message.success(
                                         this.$t("asset.asset_withdraw_address_add_success")
@@ -703,6 +710,7 @@
                                 }
                             })
                             .catch(err => {
+                                this.addressAddLoading = false
                                 this.$Message.error(
                                     this.$t("asset.asset_withdraw_address_add_fail")
                                 );

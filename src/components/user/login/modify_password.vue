@@ -21,7 +21,7 @@
                     </i-input>
                 </FormItem>
                 <FormItem class="formItem submit">
-                    <i-button class="submitButton" type="primary" :disabled='!validate' @click="submit">{{$t('public.complete')}}
+                    <i-button class="submitButton" type="primary" :disabled='!validate' :loading='loading' @click="submit">{{$t('public.complete')}}
                     </i-button>
                 </FormItem>
             </Form>
@@ -57,6 +57,7 @@
                 }
             };
             return {
+                loading: false,
                 token: "",
                 form: {
                     password: '',
@@ -98,10 +99,12 @@
             submit() {
                 this.$refs["form"].validate((valid) => {
                     if (valid) {
+                        this.loading = true
                         this.$store.dispatch("ajax_forget_password", {
                             token: this.token,
                             password: this.form.password
                         }).then(res => {
+                            this.loading = false
                             if (res.data && res.data.error == 0) {
                                 this.$Message.success(this.$t("user.password_modify_success"));
                                 this.$goRouter("/user/login");
@@ -112,6 +115,7 @@
                             this.$Message.success(this.$t("user.password_modify_fail"));
                         });
                     } else {
+                        this.loading = false
                         this.$Message.error(this.$t("user.password_modify_notValid"));
                     }
                 });

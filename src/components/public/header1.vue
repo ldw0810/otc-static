@@ -8,8 +8,13 @@
         </div>
         <nav class="header-nav">
           <ul class='header-navbar'>
-            <li class='header-navbar-item' :class="{'active': Array.isArray(item.index) && item.index.indexOf(+$store.state.header_index) > -1 }" v-for='(item, index) in menus' :key='index'>
-              <Dropdown>
+            <li 
+            class='header-navbar-item' 
+            :class="{'active': Array.isArray(item.index) && item.index.indexOf(+$store.state.header_index) > -1 }" 
+            v-for='(item, index) in menus' :key='index'>
+              <Dropdown
+                :ref='"menu-" + index'
+              >
                 <div class='header-navbar-item-wrapper'>
                   <a class='header-navbar-item-link' href="javascript:void(0)" @click='goMenu(item)'>
                       {{item.title}}
@@ -18,7 +23,7 @@
                 </div>
                 <DropdownMenu class='header-navbar-dropdown' slot="list" v-if='item.children.length'>
                     <DropdownItem :class="{'active': childItem.index == $store.state.header_index}" v-for='(childItem, i) in item.children' :key='i'>
-                      <a  @click='goMenu(childItem)'>{{childItem.title}}</a>
+                      <a @click='goMenu(childItem)'>{{childItem.title}}</a>
                     </DropdownItem>
                 </DropdownMenu>
             </Dropdown>
@@ -112,15 +117,20 @@
                   </div>
                 </Poptip>            
               </li>
-              <li class='header-navbar-item' :key = 'index' :class="{'active': Array.isArray(item.index) && item.index.indexOf(+$store.state.header_index) > -1 }" v-if='index === 2'>
-                  <Dropdown>
+              <li 
+                class='header-navbar-item' :key = 'index' 
+                :class="{'active': Array.isArray(item.index) && item.index.indexOf(+$store.state.header_index) > -1 }" 
+                v-if='index === 2'
+                >
+                  <Dropdown
+                  >
                     <div class='header-navbar-item-wrapper' @click='goMenu(item)'>
                     <a class='header-navbar-item-link' href="javascript:void(0)">
                         {{userInfo.nickname || 'Aaron'}}
                     </a>
                     <Icon class='header-navbar-item-icon header-navbar-item-icon-append' type="arrow-down-b"></Icon>
                     </div>
-                    <DropdownMenu class='header-navbar-dropdown' slot="list">
+                    <DropdownMenu class='header-navbar-dropdown header-navbar-dropdown-user' slot="list">
                         <DropdownItem :class="{'active': childItem.index == $store.state.header_index}" v-for='(childItem, i) in item.children' :key='i'>
                           <a @click='goMenu(childItem)'>{{childItem.title}}</a>
                         </DropdownItem>
@@ -201,13 +211,14 @@ export default {
               query: {
                 type: 0
               }
-            },
+            }
           ]
         },
         {
           title: "",
           url: "/user/userCenter",
           index: [91, 92],
+          visible: false,
           children: [
             {
               title: this.$t("public.userCenter"),
@@ -251,21 +262,27 @@ export default {
     }
   },
   methods: {
-    goMenu(item) {
-      if (item.action && isFunction(item.action)) {
-        item.action();
-      } else {
-        this.$router.push({ path: item.url, query: item.query });
-      }
+    hideDropDown(item) {
+      item.visible = typeof item.visible !== "undefined" ? false : undefined;
+    },
+    handleMouseenter(item) {
+      item.visible = true;
+    },
+    handleMouseleave(item) {
+      item.visible = false;
+    },
+    goMenu(item, index) {
+
+      this.$router.push({ path: item.url, query: item.query });
     }
   },
   created() {
     const makeArray = type => {
       const arr = {
-        'buy': 11,
-        'sell': 21,
-        'ad': 30,
-      }
+        buy: 11,
+        sell: 21,
+        ad: 30
+      };
       return this.currencyList.map((item, index) => {
         const obj = {};
         obj.title = this.$t(`public.${item}`);
@@ -282,30 +299,35 @@ export default {
         title: this.$t("public.homePage"),
         url: "/",
         index: [0],
-        children: []
+        children: [],
+        visible: false
       },
       {
         title: this.$t("public.buy"),
         url: "/buy",
         index: [11, 12],
+        visible: false,
         children: makeArray("buy")
       },
       {
         title: this.$t("public.sell"),
         url: "/sell",
         index: [21, 22],
+        visible: false,
         children: makeArray("sell")
       },
       {
         title: this.$t("public.ad"),
         url: "/ad",
         index: [30, 31],
+        visible: false,
         children: makeArray("ad")
       },
       {
         title: this.$t("public.invite"),
         url: "/invite",
         index: [4],
+        visible: false,
         children: []
       }
     ];
@@ -326,10 +348,9 @@ export default {
 $height: 76px;
 .header {
   width: 100%;
+  min-width: 1200px;
   background-color: #fff;
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.08);
-  // padding-left: 50px;
-  // padding-right: 50px;
   &-inner {
     width: 1170px;
     margin: 0 auto;
@@ -365,6 +386,9 @@ $height: 76px;
     &-item {
       margin-right: 20px;
       margin-left: 20px;
+      .ivu-dropdown{
+        position: relative;
+      }
       .ivu-dropdown-item {
         padding: 0;
         &.active {
@@ -413,7 +437,6 @@ $height: 76px;
           }
         }
         .ivu-dropdown-item {
-          
         }
       }
       &-link {
@@ -437,6 +460,9 @@ $height: 76px;
       min-width: 90px;
       width: 90px;
       text-align: center;
+      &-user {
+        width: 120px;
+      }
       .ivu-dropdown-item {
         a {
           display: flex;
