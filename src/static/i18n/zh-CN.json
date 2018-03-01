@@ -524,6 +524,7 @@
     "order_chat_no_info": "未查找到聊天记录",
     "order_chat_loading": "加载中...",
     "order_chat_img": "聊天图片",
+    "order_chat_send_msg_fail": "消息发送失败",
     "order_chat_type_nonsupport": "不支持的消息类型",
     "order_data_request_fail": "订单数据获取失败"
   },
