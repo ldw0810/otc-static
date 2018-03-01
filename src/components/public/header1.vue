@@ -11,22 +11,19 @@
             <li 
             class='header-navbar-item' 
             :class="{'active': Array.isArray(item.index) && item.index.indexOf(+$store.state.header_index) > -1 }" 
-            @mouseenter="handleMouseenter(item)"
-            @mouseleave="handleMouseleave(item)"
             v-for='(item, index) in menus' :key='index'>
-              <Dropdown 
-                trigger="custom" 
-                :visible="item.visible"
+              <Dropdown
+                :ref='"menu-" + index'
               >
                 <div class='header-navbar-item-wrapper'>
-                  <a class='header-navbar-item-link' href="javascript:void(0)" @click='goMenu(item, item)'>
+                  <a class='header-navbar-item-link' href="javascript:void(0)" @click='goMenu(item)'>
                       {{item.title}}
                   </a>
                   <Icon class='header-navbar-item-icon header-navbar-item-icon-append ' type="arrow-down-b" v-if='item.children.length'></Icon>
                 </div>
                 <DropdownMenu class='header-navbar-dropdown' slot="list" v-if='item.children.length'>
                     <DropdownItem :class="{'active': childItem.index == $store.state.header_index}" v-for='(childItem, i) in item.children' :key='i'>
-                      <a @click='goMenu(childItem, item)'>{{childItem.title}}</a>
+                      <a @click='goMenu(childItem)'>{{childItem.title}}</a>
                     </DropdownItem>
                 </DropdownMenu>
             </Dropdown>
@@ -124,14 +121,10 @@
                 class='header-navbar-item' :key = 'index' 
                 :class="{'active': Array.isArray(item.index) && item.index.indexOf(+$store.state.header_index) > -1 }" 
                 v-if='index === 2'
-                @mouseenter="handleMouseenter(item)"
-                @mouseleave="handleMouseleave(item)"
                 >
                   <Dropdown
-                    trigger="custom"
-                    :visible="item.visible"
                   >
-                    <div class='header-navbar-item-wrapper' @click='goMenu(item, item)'>
+                    <div class='header-navbar-item-wrapper' @click='goMenu(item)'>
                     <a class='header-navbar-item-link' href="javascript:void(0)">
                         {{userInfo.nickname || 'Aaron'}}
                     </a>
@@ -139,7 +132,7 @@
                     </div>
                     <DropdownMenu class='header-navbar-dropdown header-navbar-dropdown-user' slot="list">
                         <DropdownItem :class="{'active': childItem.index == $store.state.header_index}" v-for='(childItem, i) in item.children' :key='i'>
-                          <a @click='goMenu(childItem, item)'>{{childItem.title}}</a>
+                          <a @click='goMenu(childItem)'>{{childItem.title}}</a>
                         </DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
@@ -278,15 +271,9 @@ export default {
     handleMouseleave(item) {
       item.visible = false;
     },
-    goMenu(item, parentItem) {
-      if (typeof parentItem !== "undefined") {
-        this.hideDropDown(parentItem);
-      }
-      if (item.action && isFunction(item.action)) {
-        item.action();
-      } else {
-        this.$router.push({ path: item.url, query: item.query });
-      }
+    goMenu(item, index) {
+
+      this.$router.push({ path: item.url, query: item.query });
     }
   },
   created() {
@@ -399,6 +386,9 @@ $height: 76px;
     &-item {
       margin-right: 20px;
       margin-left: 20px;
+      .ivu-dropdown{
+        position: relative;
+      }
       .ivu-dropdown-item {
         padding: 0;
         &.active {

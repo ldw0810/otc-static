@@ -59,7 +59,7 @@
             </CheckboxGroup>
           </FormItem>
           <FormItem class="formItem submit">
-            <i-button class="submitButton" type='primary' :disabled='!validate' @click="submit('form')">
+            <i-button class="submitButton" type='primary' :disabled='!validate' :loading='submitLoading' @click="submit('form')">
               {{$t('public.register')}}
             </i-button>
           </FormItem>

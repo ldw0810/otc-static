@@ -27,7 +27,7 @@
                     <input type="text" style="display:none" />
                     <FormItem class="formItem submit">
                         <span>
-                            <i-button class="submitButton" type="primary" @click="phoneSubmit">
+                            <i-button class="submitButton" type="primary" :loading='phoneLoading' @click="phoneSubmit">
                                 {{$t('public.confirm')}}
                             </i-button>
                         </span>
@@ -54,7 +54,7 @@
                     <!--防止自动提交表单-->
                     <input type="text" style="display:none" />
                     <FormItem class="formItem g-comfirm-group submit">
-                        <i-button class="submitButton" type="primary" @click="googleSubmit">
+                        <i-button class="submitButton" type="primary" :loading='googleLoading' @click="googleSubmit">
                             {{$t('public.confirm')}}
                         </i-button>
                         <i-button class="cancelButton" @click="cancel">
@@ -78,6 +78,8 @@
         },
         data() {
             return {
+                phoneLoading: false,
+                googleLoading: false,
                 phoneForm: {
                     pinCode: ''
                 },
@@ -130,10 +132,12 @@
                                 code: this.phoneForm.pinCode,
                             });
                         } else {
+                            this.phoneLoading = true
                             this.$store.dispatch("ajax_verify_code", {
                                 op: "sms",
                                 code: this.phoneForm.pinCode,
                             }).then(res => {
+                                this.phoneLoading = false
                                 if (res.data && +res.data.error === 0) {
                                     this.$emit("close", {
                                         op: "sms",
@@ -144,6 +148,7 @@
                                     this.$refs.sendCodeButton.refresh();
                                 }
                             }).catch(err => {
+                                this.phoneLoading = false
                                 this.$Message.error(this.$t("user.auth_phone_fail"));
                                 this.$refs.sendCodeButton.refresh();
                             });
@@ -163,10 +168,12 @@
                                 code: this.googleForm.pinCode,
                             });
                         } else {
+                            this.googleLoading = true
                             this.$store.dispatch("ajax_verify_code", {
                                 op: "app",
                                 code: this.googleForm.pinCode,
                             }).then(res => {
+                                this.googleLoading = false
                                 if (res.data && +res.data.error === 0) {
                                     this.$emit("close", {
                                         op: "app",
@@ -176,6 +183,7 @@
                                     this.$Message.error(this.$t("user.auth_google_fail"));
                                 }
                             }).catch(err => {
+                                this.googleLoading = false
                                 this.$Message.error(this.$t("user.auth_google_fail"));
                             });
                         }
