@@ -46,6 +46,7 @@ export default {
     }
   },
   destroyed() {
+    this.$store.commit('showAuthEmail_setter', false)
     // this.$store.commit("layer_index_setter", 1);
   },
   components: {
