@@ -272,8 +272,11 @@ export default {
       item.visible = false;
     },
     goMenu(item, index) {
-
-      this.$router.push({ path: item.url, query: item.query });
+      if (item.action && isFunction(item.action)) {
+        item.action();
+      } else {
+        this.$router.push({ path: item.url, query: item.query });
+      }
     }
   },
   created() {
@@ -386,7 +389,7 @@ $height: 76px;
     &-item {
       margin-right: 20px;
       margin-left: 20px;
-      .ivu-dropdown{
+      .ivu-dropdown {
         position: relative;
       }
       .ivu-dropdown-item {
