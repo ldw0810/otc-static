@@ -40,7 +40,7 @@
     <div id="publish" class='publish'>
       <div class="oper"></div>
       <div class='publish-action'>
-        <div ref="input" :contenteditable="readOnly" class='publish-action-input' v-html="toEmotion(inputText)"
+        <div ref="input" :contenteditable="readOnly" class='g-shadow publish-action-input' v-html="toEmotion(inputText)"
              @keydown="inputKey" @onclick="getRange" @keyup="getRange"
              @focus="inputFocusFlag = true" @blur="inputFocusFlag = false"></div>
         <div class="publish-action-button">
@@ -318,16 +318,18 @@
         flex: 1;
         overflow-y: auto;
         overflow-x: hidden;
-        padding-left: 20px;
         outline: 0;
         border: 0;
         word-break: break-all;
         font-size: 14px;
         width: 690px;
-        height: 65px;
+        min-height:40px;
+        padding: 8px 12px;
         user-select: text;
         white-space: pre-wrap;
         text-align: left;
+        background: #FFFFFF;
+        border: 1px solid #DDDDDD;
         &[contenteditable=true] {
           user-modify: read-write-plaintext-only;
           &:empty:before {
