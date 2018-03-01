@@ -164,11 +164,11 @@
                 </div>
                 <div class='g-comfirm-group'>
                     <i-button class="submit-button" type="primary" :loading='submitPlaceOrderLoading' @click="placeOrder_submit">
-                            {{$t('order.order_buy_confirm')}}
-                        </i-button>
-                        <i-button class="cancel-button" @click="confirmFlag.placeOrder=false">
-                            {{$t('public.cancel')}}
-                        </i-button>
+                        {{adType == 0 ? $t("order.order_buy_confirm") : $t("order.order_sell_confirm")}}
+                    </i-button>
+                    <i-button class="cancel-button" @click="confirmFlag.placeOrder=false">
+                        {{$t('public.cancel')}}
+                    </i-button>
                 </div>                
             </div>
             <div slot="footer"></div>
