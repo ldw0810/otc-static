@@ -6,17 +6,17 @@
        margin: 0 auto; 
        overflow: auto; 
        overflow-x: hidden; 
-			 padding: 0;
-			 
-			&::-webkit-scrollbar {
-				width: 10px;
-				-webkit-appearance: none;
-			}
-			&::-webkit-scrollbar-thumb {
-				background-color: rgba(0,0,0,.33);
-				border: 2px solid #fff;
-				border-radius: 8px;
-			}
+        padding: 0;
+        
+        &::-webkit-scrollbar {
+            width: 10px;
+            -webkit-appearance: none;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: rgba(0,0,0,.33);
+            border: 2px solid #fff;
+            border-radius: 8px;
+        }
    }
    .loading{ width: 100%; height: 40px; position: relative; overflow: hidden; text-align: center; margin: 5px 0 ; color: #999; font-size: 13px;}
    .loading-icon{color: #707070;};
