@@ -1,301 +1,305 @@
 <template>
-    <div>
-        <logoDiv></logoDiv>
-        <div class="container-validate">
-            <!-- <div v-if="validate_phone && validate_google">
-                <div class="titleDiv" :class="{'titleFocus':validateIndex == 1}" @click="changeValidate(0)">
-                    <span v-text="$t('user.auth_phone')"></span>
-                </div>
-                <div class="titleDiv" :class="{'titleFocus':+validateIndex === 0}" @click="changeValidate(1)">
-                    <span v-text="$t('user.auth_google')"></span>
-                </div>
-            </div> -->
-            <div class='g-tabs' v-if="validate_phone && validate_google">
-                <div class="g-tabs-bar" :class="{'g-tabs-bar-active':validateIndex !== 1}" @click="changeValidate(0)">
-                    <span class='g-tabs-bar-text' v-text="$t('user.auth_phone')"></span>
-                </div>
-                <div class="g-tabs-bar" :class="{'g-tabs-bar-active': validateIndex !== 0}" @click="changeValidate(1)">
-                    <span class='g-tabs-bar-text' v-text="$t('user.auth_google')"></span>
-                </div>
-            </div>
-            <div class='content'>
-                <div class="title" v-if="validate_phone && !validate_google" v-text="$t('user.auth_phone')"></div>
-                <div class="title" v-if="validate_google && !validate_phone" v-text="$t('user.auth_google')"></div>
-                <!-- 手机验证 -->
-                <div v-if="+validateIndex === 0">
-                    <div class="tip" v-text="tipText"></div>
-                    <Form class="form" ref="phoneForm" @checkValidate='checkValidate_phoneForm' :model="phoneForm" :rules="phoneRules">
-                        <FormItem prop="pinCode" class="formItem ">
-                            <div class='g-send-group'>
-                                <i-input class="inputPinCodePhone" type="text" v-model="phoneForm.pinCode"
-                                         :placeholder="$t('user.pinCode_required')">
-                            <span slot="prepend">
-                                <img src="../../../static/images/icon/IdentifyingCode-CCCCCC.svg">
-                            </span>
-                                </i-input>
-                                <sendCodeButton ref="sendCodeButton" @sendCode="sendPinCode"></sendCodeButton>
-                            </div>
-                        </FormItem>
-                        <FormItem class="formItem  submit">
-                            <div class='g-comfirm-group'>
-                                <i-button class="submitButton" type="primary" :loading='submitPhoneLoading'
-                                          :disabled='!validate.phoneForm' @click="phoneSubmit">
-                                    {{$t('public.confirm')}}
-                                </i-button>
-                                <i-button class="cancelButton" @click="cancel">
-                                    {{$t('public.cancel')}}
-                                </i-button>
-                            </div>
-                        </FormItem>
-                    </Form>
-
-                </div>
-                <!-- 谷歌验证 -->
-                <div v-else-if="+validateIndex === 1">
-                    <div class="tip" v-text="$t('user.auth_google_code_required')"></div>
-                    <Form class="form" ref="googleForm" @checkValidate='checkValidate_googleForm' :model="googleForm" :rules="googleRules">
-                        <FormItem prop="pinCode" class="formItem">
-                            <i-input class="inputPinCode" type="text" v-model="googleForm.pinCode"
-                                     :placeholder="$t('user.pinCode_required')" @on-enter="googleSubmit">
-                            <span slot="prepend">
-                                <img src="../../../static/images/icon/IdentifyingCode-CCCCCC.svg">
-                            </span>
-                            </i-input>
-                        </FormItem>
-                        <!--防止自动提交表单-->
-                        <input type="text" style="display:none"/>
-                        <FormItem class="formItem submit">
-                            <div class='g-comfirm-group'>
-                                <i-button class="submitButton" type="primary" :loading='submitGoogleLoading'
-                                          :disabled='!validate.googleForm' @click="googleSubmit">
-                                    {{$t('public.confirm')}}
-                                </i-button>
-                                <i-button class="cancelButton" @click="cancel">
-                                    {{$t('public.cancel')}}
-                                </i-button>
-                            </div>
-                        </FormItem>
-                    </Form>
-                </div>
-            </div>
+  <div>
+    <logoDiv></logoDiv>
+    <div class="container-validate">
+      <!-- <div v-if="validate_phone && validate_google">
+          <div class="titleDiv" :class="{'titleFocus':validateIndex == 1}" @click="changeValidate(0)">
+              <span v-text="$t('user.auth_phone')"></span>
+          </div>
+          <div class="titleDiv" :class="{'titleFocus':+validateIndex === 0}" @click="changeValidate(1)">
+              <span v-text="$t('user.auth_google')"></span>
+          </div>
+      </div> -->
+      <div class='g-tabs' v-if="validate_phone && validate_google">
+        <div class="g-tabs-bar" :class="{'g-tabs-bar-active':validateIndex !== 1}" @click="changeValidate(0)">
+          <span class='g-tabs-bar-text' v-text="$t('user.auth_phone')"></span>
         </div>
-        <div style="clear: both"></div>
+        <div class="g-tabs-bar" :class="{'g-tabs-bar-active': validateIndex !== 0}" @click="changeValidate(1)">
+          <span class='g-tabs-bar-text' v-text="$t('user.auth_google')"></span>
+        </div>
+      </div>
+      <div class='content'>
+        <div class="title" v-if="validate_phone && !validate_google" v-text="$t('user.auth_phone')"></div>
+        <div class="title" v-if="validate_google && !validate_phone" v-text="$t('user.auth_google')"></div>
+        <!-- 手机验证 -->
+        <div v-if="+validateIndex === 0">
+          <div class="tip" v-text="tipText"></div>
+          <Form class="form" ref="phoneForm" @checkValidate='checkValidate_phoneForm' :model="phoneForm"
+                :rules="phoneRules">
+            <FormItem prop="pinCode" class="formItem ">
+              <div class='g-send-group'>
+                <i-input class="inputPinCodePhone" type="text" v-model="phoneForm.pinCode"
+                         :placeholder="$t('user.pinCode_required')" @on-enter="phoneSubmit">
+                            <span slot="prepend">
+                                <img src="../../../static/images/icon/IdentifyingCode-CCCCCC.svg">
+                            </span>
+                </i-input>
+                <sendCodeButton ref="sendCodeButton" @sendCode="sendPinCode"></sendCodeButton>
+              </div>
+            </FormItem>
+            <!--防止自动提交表单-->
+            <input type="text" style="display:none"/>
+            <FormItem class="formItem  submit">
+              <div class='g-comfirm-group'>
+                <i-button class="submitButton" type="primary" :loading='submitPhoneLoading'
+                          :disabled='!validate.phoneForm' @click="phoneSubmit">
+                  {{$t('public.confirm')}}
+                </i-button>
+                <i-button class="cancelButton" @click="cancel">
+                  {{$t('public.cancel')}}
+                </i-button>
+              </div>
+            </FormItem>
+          </Form>
+
+        </div>
+        <!-- 谷歌验证 -->
+        <div v-else-if="+validateIndex === 1">
+          <div class="tip" v-text="$t('user.auth_google_code_required')"></div>
+          <Form class="form" ref="googleForm" @checkValidate='checkValidate_googleForm' :model="googleForm"
+                :rules="googleRules">
+            <FormItem prop="pinCode" class="formItem">
+              <i-input class="inputPinCode" type="text" v-model="googleForm.pinCode"
+                       :placeholder="$t('user.pinCode_required')" @on-enter="googleSubmit">
+                            <span slot="prepend">
+                                <img src="../../../static/images/icon/IdentifyingCode-CCCCCC.svg">
+                            </span>
+              </i-input>
+            </FormItem>
+            <!--防止自动提交表单-->
+            <input type="text" style="display:none"/>
+            <FormItem class="formItem submit">
+              <div class='g-comfirm-group'>
+                <i-button class="submitButton" type="primary" :loading='submitGoogleLoading'
+                          :disabled='!validate.googleForm' @click="googleSubmit">
+                  {{$t('public.confirm')}}
+                </i-button>
+                <i-button class="cancelButton" @click="cancel">
+                  {{$t('public.cancel')}}
+                </i-button>
+              </div>
+            </FormItem>
+          </Form>
+        </div>
+      </div>
     </div>
+    <div style="clear: both"></div>
+  </div>
 </template>
 
 <script type="es6">
-    import validateMixin from "@/components/mixins/validate-mixin";
-    import logoDiv from "../../public/logo.vue";
-    import sendCodeButton from "../../public/sendCode.vue";
+  import validateMixin from "@/components/mixins/validate-mixin";
+  import logoDiv from "../../public/logo.vue";
+  import sendCodeButton from "../../public/sendCode.vue";
 
-    export default {
-        mixins: [
-            validateMixin(["phoneForm", "googleForm"])
-        ],
-        data() {
-            return {
-                submitPhoneLoading: false,
-                submitGoogleLoading: false,
-                phoneForm: {
-                    pinCode: ""
-                },
-                googleForm: {
-                    pinCode: ""
-                },
-                validateIndex: 0,
-                phoneRules: {
-                    pinCode: [
-                        {
-                            required: true,
-                            message: this.$t("user.auth_phone_code_required")
-                        }
-                    ]
-                },
-                googleRules: {
-                    pinCode: [
-                        {
-                            required: true,
-                            message: this.$t("user.auth_google_code_required")
-                        }
-                    ]
-                }
-            };
+  export default {
+    mixins: [
+      validateMixin(["phoneForm", "googleForm"])
+    ],
+    data() {
+      return {
+        submitPhoneLoading: false,
+        submitGoogleLoading: false,
+        phoneForm: {
+          pinCode: ""
         },
-        computed: {
-            validate_phone() {
-                return this.$store.state.userInfo.mobile;
-            },
-            validate_google() {
-                return this.$store.state.userInfo.app_two_factor;
-            },
-            tipText() {
-                return this.$t("user.auth_phone_code_will_send").format(
-                    this.$store.state.loginInfo.mobile || ""
-                );
-            },
-            loginInfo() {
-                return this.$store.state.loginInfo;
+        googleForm: {
+          pinCode: ""
+        },
+        validateIndex: 0,
+        phoneRules: {
+          pinCode: [
+            {
+              required: true,
+              message: this.$t("user.auth_phone_code_required")
             }
+          ]
         },
-        methods: {
-            changeValidate(index) {
-                this.validateIndex = index;
-            },
-            phoneSubmit() {
-                this.$refs["phoneForm"].validate(valid => {
-                    if (valid) {
-                        this.submitPhoneLoading = true;
-                        this.$store.dispatch("ajax_login_verify", {
-                            op: "sms",
-                            code: this.phoneForm.pinCode,
-                            login_token: this.loginInfo.login_token
-                        }).then(res => {
-                            this.submitPhoneLoading = false;
-                            if (res.data && +res.data.error === 0) {
-                                this.$store.commit("saveToken", res.data.token);
-                                this.$store.dispatch("ajax_me").then(res_me => {
-                                    if (res_me.data && +res_me.data.error === 0) {
-                                        this.$store.commit("saveUserInfo", res_me.data.member);
-                                        this.$Message.success(this.$t("user.login_success"));
-                                        this.$goRouter("/user/userCenter");
-                                    } else {
-                                        this.$Message.error(this.$t("user.userInfo_response_none"));
-                                    }
-                                }).catch(res => {
-                                    this.$Message.error(this.$t("user.userInfo_response_none"));
-                                });
-                            } else {
-                                this.$Message.error(this.$t("user.auth_phone_fail"));
-                                this.$refs.sendCodeButton.refresh();
-                            }
-                        }).catch(err => {
-                            this.submitPhoneLoading = false;
-                            this.$Message.error(this.$t("user.auth_phone_fail"));
-                            this.$refs.sendCodeButton.refresh();
-                        });
-                    } else {
-                        this.$Message.error(this.$t("user.auth_phone_notValid"));
-                    }
-                });
-            },
-            googleSubmit() {
-                this.$refs["googleForm"].validate(valid => {
-                    if (valid) {
-                        this.submitGoogleLoading = true;
-                        this.$store.dispatch("ajax_login_verify", {
-                            op: "app",
-                            code: this.googleForm.pinCode,
-                            login_token: this.loginInfo.login_token
-                        }).then(res => {
-                            this.submitGoogleLoading = false;
-                            if (res.data && +res.data.error === 0) {
-                                this.$store.commit("saveToken", res.data.token);
-                                this.$store.dispatch("ajax_me").then(res_me => {
-                                    if (res_me.data && +res_me.data.error === 0) {
-                                        this.$store.commit("saveUserInfo", res_me.data.member);
-                                        this.$Message.success(this.$t("user.login_success"));
-                                        this.$goRouter("/user/userCenter");
-                                    } else {
-                                        this.$Message.error(this.$t("user.userInfo_response_none"));
-                                    }
-                                }).catch(res => {
-                                    this.$Message.error(this.$t("user.userInfo_response_none"));
-                                });
-                            } else {
-                                this.$Message.error(this.$t("user.auth_google_fail"));
-                            }
-                        }).catch(err => {
-                            this.submitGoogleLoading = false;
-                            this.$Message.error(this.$t("user.auth_google_fail"));
-                        });
-                    } else {
-                        this.$Message.error(this.$t("user.auth_google_notValid"));
-                    }
-                });
-            },
-            cancel() {
-                this.$goBack();
-            },
-            sendPinCode() {
-                this.$store.dispatch("ajax_login_verify", {
-                    op: "sms",
-                    login_token: this.loginInfo.login_token,
-                    code: "",
-                    refresh: 1
-                });
-            },
-            sendGoogleCode() {
-                this.$store.dispatch("ajax_google_auth", {
-                    refresh: 1
-                });
+        googleRules: {
+          pinCode: [
+            {
+              required: true,
+              message: this.$t("user.auth_google_code_required")
             }
-        },
-        created: function () {
-            if (this.validate_phone) {
-            } else if (this.validate_google) {
-                this.validateIndex = 1;
-            } else {
-                this.$goRouter("/user/login");
-            }
-        },
-        components: {
-            logoDiv,
-            sendCodeButton
+          ]
         }
-    };
+      };
+    },
+    computed: {
+      validate_phone() {
+        return this.$store.state.userInfo.mobile;
+      },
+      validate_google() {
+        return this.$store.state.userInfo.app_two_factor;
+      },
+      tipText() {
+        return this.$t("user.auth_phone_code_will_send").format(
+          this.$store.state.loginInfo.mobile || ""
+        );
+      },
+      loginInfo() {
+        return this.$store.state.loginInfo;
+      }
+    },
+    methods: {
+      changeValidate(index) {
+        this.validateIndex = index;
+      },
+      phoneSubmit() {
+        this.$refs["phoneForm"].validate(valid => {
+          if (valid) {
+            this.submitPhoneLoading = true;
+            this.$store.dispatch("ajax_login_verify", {
+              op: "sms",
+              code: this.phoneForm.pinCode,
+              login_token: this.loginInfo.login_token
+            }).then(res => {
+              this.submitPhoneLoading = false;
+              if (res.data && +res.data.error === 0) {
+                this.$store.commit("saveToken", res.data.token);
+                this.$store.dispatch("ajax_me").then(res_me => {
+                  if (res_me.data && +res_me.data.error === 0) {
+                    this.$store.commit("saveUserInfo", res_me.data.member);
+                    this.$Message.success(this.$t("user.login_success"));
+                    this.$goRouter("/user/userCenter");
+                  } else {
+                    this.$Message.error(this.$t("user.userInfo_response_none"));
+                  }
+                }).catch(res => {
+                  this.$Message.error(this.$t("user.userInfo_response_none"));
+                });
+              } else {
+                this.$Message.error(this.$t("user.auth_phone_fail"));
+                this.$refs.sendCodeButton.refresh();
+              }
+            }).catch(err => {
+              this.submitPhoneLoading = false;
+              this.$Message.error(this.$t("user.auth_phone_fail"));
+              this.$refs.sendCodeButton.refresh();
+            });
+          } else {
+            this.$Message.error(this.$t("user.auth_phone_notValid"));
+          }
+        });
+      },
+      googleSubmit() {
+        this.$refs["googleForm"].validate(valid => {
+          if (valid) {
+            this.submitGoogleLoading = true;
+            this.$store.dispatch("ajax_login_verify", {
+              op: "app",
+              code: this.googleForm.pinCode,
+              login_token: this.loginInfo.login_token
+            }).then(res => {
+              this.submitGoogleLoading = false;
+              if (res.data && +res.data.error === 0) {
+                this.$store.commit("saveToken", res.data.token);
+                this.$store.dispatch("ajax_me").then(res_me => {
+                  if (res_me.data && +res_me.data.error === 0) {
+                    this.$store.commit("saveUserInfo", res_me.data.member);
+                    this.$Message.success(this.$t("user.login_success"));
+                    this.$goRouter("/user/userCenter");
+                  } else {
+                    this.$Message.error(this.$t("user.userInfo_response_none"));
+                  }
+                }).catch(res => {
+                  this.$Message.error(this.$t("user.userInfo_response_none"));
+                });
+              } else {
+                this.$Message.error(this.$t("user.auth_google_fail"));
+              }
+            }).catch(err => {
+              this.submitGoogleLoading = false;
+              this.$Message.error(this.$t("user.auth_google_fail"));
+            });
+          } else {
+            this.$Message.error(this.$t("user.auth_google_notValid"));
+          }
+        });
+      },
+      cancel() {
+        this.$goBack();
+      },
+      sendPinCode() {
+        this.$store.dispatch("ajax_login_verify", {
+          op: "sms",
+          login_token: this.loginInfo.login_token,
+          code: "",
+          refresh: 1
+        });
+      },
+      sendGoogleCode() {
+        this.$store.dispatch("ajax_google_auth", {
+          refresh: 1
+        });
+      }
+    },
+    created: function () {
+      if (this.validate_phone) {
+      } else if (this.validate_google) {
+        this.validateIndex = 1;
+      } else {
+        this.$goRouter("/user/login");
+      }
+    },
+    components: {
+      logoDiv,
+      sendCodeButton
+    }
+  };
 </script>
 <style lang='scss' scoped>
-    .container-validate {
-        position: relative;
-        margin: 0 auto 5px auto;
-        width: 480px;
-        background: #ffffff;
-    }
+  .container-validate {
+    position: relative;
+    margin: 0 auto 5px auto;
+    width: 480px;
+    background: #ffffff;
+  }
 
-    .content {
-        padding: 78px 92px 94px;
-    }
+  .content {
+    padding: 78px 92px 94px;
+  }
 
-    .content div {
-        word-wrap: break-word;
-    }
+  .content div {
+    word-wrap: break-word;
+  }
 
-    .title {
-        font-size: 24px;
-        color: #666666;
-    }
+  .title {
+    font-size: 24px;
+    color: #666666;
+  }
 
-    .tip {
-        padding-top: 10px;
-        font-size: 14px;
-        color: #666666;
-    }
+  .tip {
+    padding-top: 10px;
+    font-size: 14px;
+    color: #666666;
+  }
 
-    .form {
-        margin-top: 20px;
-    }
+  .form {
+    margin-top: 20px;
+  }
 
-    .formItem {
-        // margin-left: 94px;
-    }
+  .formItem {
+    // margin-left: 94px;
+  }
 
-    .inputPinCode {
-        width: 292px;
-    }
+  .inputPinCode {
+    width: 292px;
+  }
 
-    .inputPinCodePhone {
-        width: 192px;
-    }
+  .inputPinCodePhone {
+    width: 192px;
+  }
 
-    .submit {
-        margin-top: 50px;
-    }
+  .submit {
+    margin-top: 50px;
+  }
 
-    .submitButton {
-        width: 172px;
-    }
+  .submitButton {
+    width: 172px;
+  }
 
-    .cancelButton {
-        width: 110px;
-    }
+  .cancelButton {
+    width: 110px;
+  }
 </style>
