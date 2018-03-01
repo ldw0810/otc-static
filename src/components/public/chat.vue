@@ -13,15 +13,12 @@
                 '<br/>' + toEmotion(chat.data)"></span>
               </p>
               <div :class="'main' + (+chat.type === 0 ? ' self': '')" v-else>
-                <p class="time" v-if="timeFlag">
+                <p class="time" v-if="chat.timeFlag">
                   <span v-text="new Date(chat.time).format('yyyy/MM/dd hh:mm:ss')"></span>
                 </p>
                 <!--<img class="avatar" width="45" height="45" :src="chat.type == 0 ? owner.avatar : contact.avatar">-->
                 <div class="avatar">
-                  <Avator
-                    :size='45'
-                    :isStatus = 'false'
-                  />
+                  <Avator :size='45' :isStatus = 'false'/>
                 </div>
                 
                 <!-- <img class="avatar" width="45" height="45" src="../../static/images/DefaultHead.jpg"> -->
@@ -113,10 +110,9 @@
         socket: null,
         inputText: "",
         minHeight: 700,
-        msgList: this.chatList.reverse(),
+        msgList: this.chatList,
         inputFocusFlag: false,
         lastEditRange: null,
-        timeFlag: false,
         chatTime: 0
       };
     },
@@ -128,19 +124,10 @@
       }
     },
     methods: {
-      updateChatTime(time){
-        const tempTime = (time || new Date()).getTime();
-        if(tempTime - this.chatTime > 3 * 60 * 1000) {
-          this.timeFlag = true;
-          this.chatTime = tempTime;
-        } else {
-          this.timeFlag = false;
-        }
-      },
       sendInfo() {
         if (this.inputText.trim()) {
           const inputInfo = this.htmlEncode(this.inputText.trim());
-          const time = new Date();
+          const tempTime = new Date();
           this.$refs.input.innerHTML = "";
           this.inputText = "";
           this.$store.dispatch("ajax_send_msg", {
@@ -149,11 +136,14 @@
             msg: inputInfo
           }).then(res => {
             if (res.data && +res.data.error === 0) {
-              this.updateChatTime(time);
+              let compareTime = this.msgList.length ? this.msgList[this.msgList.length - 1].compareTime : 0;
+              let timeFlag = tempTime.getTime() - compareTime > 3 * 60 * 1000;
               this.$set(this.msgList, this.msgList.length, {
                 type: 0,
                 data: inputInfo,
-                time: time.format("yyyy/MM/dd hh:mm:ss")
+                time: tempTime.format("yyyy/MM/dd hh:mm:ss"),
+                compareTime: timeFlag ? tempTime.getTime() : compareTime,
+                timeFlag: timeFlag
               });
             } else {
               this.$Message.error(this.$t("order.order_chat_send_msg_fail"));
@@ -168,11 +158,14 @@
       getMsg() {
         this.$store.dispatch("ajax_chat", {}).then(res => {
           if (res.data && +res.data.error === 0) {
-            this.updateChatTime();
+            let compareTime = this.msgList.length ? this.msgList[this.msgList.length - 1].compareTime : 0;
+            let timeFlag = +res.data.from === 0 ? false : new Date().getTime() - compareTime > 3 * 60 * 1000;
             this.$set(this.msgList, this.msgList.length, {
               type: +res.data.from === 0 ? 9 : 1,
               data: res.data.msg,
-              time: new Date().format("yyyy/MM/dd hh:mm:ss")
+              time: new Date().format("yyyy/MM/dd hh:mm:ss"),
+              compareTime: timeFlag ? new Date().getTime() : compareTime,
+              timeFlag: timeFlag
             });
             if(res.data.from === 0) {
               this.$emit("refresh", 1);
