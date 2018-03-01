@@ -8,11 +8,11 @@ export default [
         name: "简体中文",
         data: zhCN
     },
-    // {
-    //     language: "zh-HK",
-    //     name: "繁體中文",
-    //     data: zhHK
-    // },
+    {
+        language: "zh-HK",
+        name: "繁體中文",
+        data: zhHK
+    },
     {
         language: "en-US",
         name: "English",
