@@ -83,7 +83,11 @@
                             }).then(res => {
                                 this.submitLoading = false;
                                 if (res.data && +res.data.error === 0) {
+                                    
                                     this.$Message.success(this.$t("user.auth_google_del_success"));
+                                    setTimeout(() => {
+                                        this.$router.go(0)
+                                    }, 500)
                                     // this.$store.commit("layer_index_setter", 1);
                                     this.$goRouter("/user/userCenter/securitySetting");
                                 } else {
@@ -94,11 +98,13 @@
                                 this.$Message.error(this.$t("user.auth_google_del_fail"));
                             });
                         } else {
+                            this.submitLoading = true;
                             this.$store.dispatch("ajax_bind_google", {
                                 otp_secret: this.$store.state.googleKey,
                                 password:this.form.password,
                                 code: this.form.pinCode,
                             }).then(res => {
+                                this.submitLoading = false
                                 if (res.data && +res.data.error === 0) {
                                     this.$Message.success(this.$t("user.auth_google_add_success"));
                                     // this.$store.commit("layer_index_setter", 1);
@@ -107,6 +113,7 @@
                                     this.$Message.error(this.$t("user.auth_google_add_fail"));
                                 }
                             }).catch(err => {
+                                this.submitLoading = false
                                 this.$Message.error(this.$t("user.auth_google_add_fail"));
                             });
                         }
