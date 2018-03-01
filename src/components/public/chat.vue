@@ -13,7 +13,7 @@
                 '<br/>' + toEmotion(chat.data)"></span>
               </p>
               <div :class="'main' + (+chat.type === 0 ? ' self': '')" v-else>
-                <p class="time">
+                <p class="time" v-if="timeFlag">
                   <span v-text="new Date(chat.time).format('yyyy/MM/dd hh:mm:ss')"></span>
                 </p>
                 <!--<img class="avatar" width="45" height="45" :src="chat.type == 0 ? owner.avatar : contact.avatar">-->
@@ -36,21 +36,22 @@
     <div id="publish" class='publish'>
       <div class="oper"></div>
       <div class='publish-action'>
-        <div ref="input" :contenteditable="readOnly" class='publish-action-input' v-html="inputText"
-        @keyup="inputKey" @focus="inputFocus = true" @blur="inputFocus = false"></div>
+        <div ref="input" :contenteditable="readOnly" class='publish-action-input' v-html="toEmotion(inputText)"
+             @keydown="inputKey" @onclick="getRange" @keyup="getRange"
+             @focus="inputFocusFlag = true" @blur="inputFocusFlag = false"></div>
         <div class="publish-action-button">
           <i-button long type="primary" @click="sendInfo" :disabled="chatFlag">{{$t("public.send")}}
           </i-button>
         </div>
       </div>
-      <!--&lt;!&ndash; 表情和发送&ndash;&gt;-->
+      <!--&lt;!&ndash; 和发送&ndash;&gt;-->
       <!--<div class="face_container">-->
-      <!--&lt;!&ndash; 表情Icon，点击触发事件，动态生成表情并显示 &ndash;&gt;-->
+      <!--&lt;!&ndash; Icon，点击触发事件，动态生成并显示 &ndash;&gt;-->
       <!--<span @click=make_face() class="make_face"><i class="icon-emoji"></i></span>-->
       <!--<span class="make_img" @click="add_img()"><i class="icon-Pictuer"></i></span>-->
       <!--<span class="send" @click=send()>发送</span>-->
       <!--<span class="send"><input type="checkbox" name="top" id="top" value="top">本条置顶</span>-->
-      <!--&lt;!&ndash; 表情容器 ，包裹生成的表情，绑定点击表情事件&ndash;&gt;-->
+      <!--&lt;!&ndash; 容器 ，包裹生成的，绑定点击事件&ndash;&gt;-->
       <!--<div id="face" @click=choice_face($event)></div>-->
       <!--</div>-->
     </div>
@@ -104,26 +105,33 @@
         inputText: "",
         minHeight: 700,
         msgList: this.chatList.reverse(),
-        inputFocus: false,
+        inputFocusFlag: false,
+        lastEditRange: null,
+        timeFlag: false,
+        chatTime: 0
       };
     },
     watch: {
-      "msg": function (val) {
-        if (val.trim()) {
-          this.sendMsg(val.trim());
-        }
-      },
-      "inputFocus"(val){
-        if(!val) {
+      "inputFocusFlag"(val) {
+        if (!val) {
           this.inputText = this.$refs.input.innerHTML;
         }
       }
     },
     methods: {
+      updateChatTime(time){
+        const tempTime = (time || new Date()).getTime();
+        if(tempTime - this.chatTime > 3 * 60 * 1000) {
+          this.timeFlag = true;
+          this.chatTime = tempTime;
+        } else {
+          this.timeFlag = false;
+        }
+      },
       sendInfo() {
         if (this.inputText.trim()) {
-          const inputInfo = this.inputText.trim();
-          const time = new Date().format("yyyy/MM/dd hh:mm:ss");
+          const inputInfo = this.htmlEncode(this.inputText.trim());
+          const time = new Date();
           this.$refs.input.innerHTML = "";
           this.inputText = "";
           this.$store.dispatch("ajax_send_msg", {
@@ -132,10 +140,11 @@
             msg: inputInfo
           }).then(res => {
             if (res.data && +res.data.error === 0) {
+              this.updateChatTime(time);
               this.$set(this.msgList, this.msgList.length, {
                 type: 0,
                 data: inputInfo,
-                time: time
+                time: time.format("yyyy/MM/dd hh:mm:ss")
               });
             } else {
               this.$Message.error(this.$t("order.order_chat_send_msg_fail"));
@@ -150,11 +159,15 @@
       getMsg() {
         this.$store.dispatch("ajax_chat", {}).then(res => {
           if (res.data && +res.data.error === 0) {
+            this.updateChatTime();
             this.$set(this.msgList, this.msgList.length, {
               type: +res.data.from === 0 ? 9 : 1,
               data: res.data.msg,
               time: new Date().format("yyyy/MM/dd hh:mm:ss")
             });
+            if(res.data.from === 0) {
+              this.$emit("refresh", 1);
+            }
             this.getMsg();
           } else {
             this.getMsg();
@@ -165,8 +178,9 @@
       },
       inputKey(event) {
         if (+event.keyCode === 13) { //enter
+          event.preventDefault();
           if (event.ctrlKey === true) {  //ctrl + enter
-             this.inputText = this.$refs.input.innerText;
+            // this.showRange(document.createElement("br"));
           } else {
             this.inputText = this.$refs.input.innerText.trim();
             this.sendInfo();
@@ -174,6 +188,83 @@
         } else {
           // this.inputText = event.target.innerHTML;
         }
+      },
+      getRange() {
+        // 获取选定对象
+        let selection = getSelection();
+        // 设置最后光标对象
+        this.lastEditRange = selection.getRangeAt(0);
+      },
+      // showRange(value) {
+      //   // 获取编辑框对象
+      //   let edit = this.$refs.input;
+      //   // 编辑框设置焦点
+      //   edit.focus();
+      //   // 获取选定对象
+      //   let selection = getSelection();
+      //   // 判断是否有最后光标对象存在
+      //   if (this.lastEditRange) {
+      //     // 存在最后光标对象，选定对象清除所有光标并添加最后光标还原之前的状态
+      //     selection.removeAllRanges();
+      //     selection.addRange(this.lastEditRange);
+      //   }
+      //   // 判断选定对象范围是编辑框还是文本节点
+      //   if (selection.anchorNode.nodeName !== '#text') {
+      //     if (edit.childNodes.length > 0) {
+      //       // 如果文本框的子元素大于0，则表示有其他元素，则按照位置插入节点
+      //       for (let i in edit.childNodes) {
+      //         if (i === selection.anchorOffset) {
+      //           edit.insertBefore(value, edit.childNodes[i]);
+      //         }
+      //       }
+      //     } else {
+      //       // 否则直接插入一个元素
+      //       edit.appendChild(value);
+      //     }
+      //     // 创建新的光标对象
+      //     let range = document.createRange();
+      //     // 光标对象的范围界定为新建的节点
+      //     range.selectNodeContents(value);
+      //     // 光标位置定位在节点的最大长度
+      //     range.setStart(value, value.length);
+      //     // 使光标开始和光标结束重叠
+      //     range.collapse(true);
+      //     // 清除选定对象的所有光标对象
+      //     selection.removeAllRanges();
+      //     // 插入新的光标对象
+      //     selection.addRange(range);
+      //   } else {
+      //     // 如果是文本节点则先获取光标对象
+      //     let range = selection.getRangeAt(0);
+      //     // 获取光标对象的范围界定对象，一般就是textNode对象
+      //     let textNode = range.startContainer;
+      //     // 获取光标位置
+      //     let rangeStartOffset = range.startOffset;
+      //     // 文本节点在光标位置处插入新的内容
+      //     textNode.insertData(rangeStartOffset, value);
+      //     // 光标移动到到原来的位置加上新内容的长度
+      //     range.setStart(textNode, rangeStartOffset + value.length);
+      //     // 光标开始和光标结束重叠
+      //     range.collapse(true);
+      //     // 清除选定对象的所有光标对象
+      //     selection.removeAllRanges();
+      //     // 插入新的光标对象
+      //     selection.addRange(range);
+      //   }
+      //   // 无论如何都要记录最后光标对象
+      //   this.lastEditRange = selection.getRangeAt(0);
+      // },
+      //转义
+      htmlEncode(str) {
+        let ele = document.createElement('span');
+        ele.appendChild(document.createTextNode(str));
+        return ele.innerHTML;
+      },
+      //解析
+      htmlDecode(str) {
+        let ele = document.createElement('span');
+        ele.innerHTML = str;
+        return ele.textContent;
       },
       init() {
         this.msg && (this.msgList[this.msgList.length] = this.msg);
@@ -278,7 +369,7 @@
     min-width: 400px;
     background: #fafbfd;
     border: 1px solid #EEEEEE;
-    box-shadow: inset 0 0 5px 0 rgba(0,0,0,0.10);
+    box-shadow: inset 0 0 5px 0 rgba(0, 0, 0, 0.10);
     border-radius: 2px;
     margin: 0 auto;
     overflow: hidden;
