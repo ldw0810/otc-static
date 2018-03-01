@@ -146,10 +146,10 @@
                 timeFlag: timeFlag
               });
             } else {
-              this.$Message.error(this.$t("order.order_chat_send_msg_fail"));
+              // this.$Message.error(this.$t("order.order_chat_send_msg_fail"));
             }
           }).catch(err => {
-            this.$Message.error(this.$t("order.order_chat_send_msg_fail"));
+            // this.$Message.error(this.$t("order.order_chat_send_msg_fail"));
           });
         } else {
           return false;

@@ -203,7 +203,7 @@
     </div>
 
     <Modal v-model="confirmFlag.pay" class-name="m-ivu-modal" width='480' :mask-closable="true" :closable="false">
-      <logoDiv style="margin: 0"></logoDiv>
+      <logoDiv style="margin: 0" />
       <div class="asset-model">
         <h3 class='asset-model-title'>{{$t("order.order_confirm_pay_title")}}</h3>
         <div class='asset-model-content'>
@@ -227,7 +227,7 @@
       <div slot="footer"></div>
     </Modal>
     <Modal v-model="confirmFlag.release" class-name="m-ivu-modal" width='480' :mask-closable="true" :closable="false">
-      <logoDiv style="margin: 0"></logoDiv>
+      <logoDiv style="margin: 0" />
       <div class="asset-model">
         <h3 class='asset-model-title'>{{$t("order.order_confirm_release")}}</h3>
         <div class='asset-model-content'>
@@ -275,7 +275,7 @@
       <div slot="footer"></div>
     </Modal>
     <Modal v-model="confirmFlag.cancel" class-name="m-ivu-modal" width='480' :mask-closable="true" :closable="false">
-      <logoDiv style="margin: 0"></logoDiv>
+      <logoDiv style="margin: 0" />
       <div class="asset-model">
         <h3 class='asset-model-title'>{{$t("order.order_cancel_order_title")}}</h3>
         <div class='asset-model-content'>
@@ -294,7 +294,7 @@
       <div slot="footer"></div>
     </Modal>
     <Modal v-model="confirmFlag.complete" class-name="m-ivu-modal" width='480' :mask-closable="true" :closable="false">
-      <logoDiv style="margin: 0"></logoDiv>
+      <logoDiv style="margin: 0" />
       <div class="asset-model">
         <h3 class='asset-model-title'>{{$t("order.order_complete")}}</h3>
         <div class='asset-model-content'>
