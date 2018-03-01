@@ -3,7 +3,7 @@
          :class="{'avator-online': status, 'avator-offline': !status}"
          :style="{width: size + 'px', height: size + 'px'}"
     >
-        <span class='status'></span>
+        <span class='status' v-if='isStatus'></span>
     </div>
 </template>
 <script>
@@ -13,6 +13,10 @@ export default {
 			type: Number,
 			default: 50,
 		},
+    isStatus: {
+      type: Boolean,
+      default: true,
+    },
     status: {
       type: Boolean,
       default: true

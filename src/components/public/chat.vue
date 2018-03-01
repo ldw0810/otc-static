@@ -17,7 +17,14 @@
                   <span v-text="new Date(chat.time).format('yyyy/MM/dd hh:mm:ss')"></span>
                 </p>
                 <!--<img class="avatar" width="45" height="45" :src="chat.type == 0 ? owner.avatar : contact.avatar">-->
-                <img class="avatar" width="45" height="45" src="../../static/images/DefaultHead.jpg">
+                <div class="avatar">
+                  <Avator
+                    :size='45'
+                    :isStatus = 'false'
+                  />
+                </div>
+                
+                <!-- <img class="avatar" width="45" height="45" src="../../static/images/DefaultHead.jpg"> -->
                 <!-- 文本 -->
                 <div class="text" v-html="toEmotion(chat.data)"></div>
                 <!-- 图片 -->
@@ -59,10 +66,12 @@
 </template>
 <script type="es6">
   import ScrollLoader from "./scrollLoader.vue";
+  import Avator from './avator.vue'
 
   export default {
     components: {
-      ScrollLoader
+      ScrollLoader,
+      Avator,
     },
     props: {
       contact: {
@@ -455,21 +464,7 @@
     text-align: center;
   }
 
-  .message .text {
-    display: inline-block;
-    position: relative;
-    max-width: calc(75%);
-    min-height: 35px;
-    line-height: 2.1;
-    font-size: 15px;
-    padding: 6px 10px;
-    text-align: left;
-    word-break: break-all;
-    background-color: #fff;
-    color: #000;
-    border-radius: 4px;
-    box-shadow: 0px 1px 7px -5px #000;
-  }
+
 
   .message .avatar {
     float: left;
@@ -480,27 +475,58 @@
 
   .message .time > span {
     display: inline-block;
-    padding: 0 5px;
-    font-size: 12px;
-    color: #fff;
-    border-radius: 2px;
-    background-color: #dadada;
+    font-size: 14px;
+    color: #333333;
+    letter-spacing: 0;
+    margin-bottom: 22px;
   }
 
   .message .system > span {
-    padding: 4px 9px;
+    background: #EEEEEE;
+    border-radius: 12px;
+    font-size: 14px;
+    color: #666666;
+    letter-spacing: 0;
+    line-height: 25px;
+    min-width: 529px;
+    height: 75px;
+    padding: 15px 5px;
+    margin-bottom: 20px;
     text-align: center;
   }
 
   .message .text:before {
     content: " ";
     position: absolute;
-    top: 9px;
+    /* top: 9px;
     right: 100%;
     border: 6px solid transparent;
-    border-right-color: #fff;
+    border-right-color: #fff; */
+    /* width: 10px;
+    height: 10px;
+    transform: rotate(90deg); */
+    width: 5px;
+    height: 5px;
+    transform: rotate(135deg);
+    background-color: #fff;
+    left: -2px;
+    box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.1);
+   
   }
 
+  .message .text {
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.10);
+    display: inline-block;
+    position: relative;
+    max-width: calc(75%);
+    min-height: 35px;
+    line-height: 2.1;
+    font-size: 15px;
+    padding: 15px 20px;
+    text-align: left;
+    word-break: break-all;
+    border-radius: 12px;
+  }
   .message .self {
     text-align: right;
   }
@@ -511,14 +537,22 @@
   }
 
   .message .self .text {
-    background-color: #9eea6a;
+    background: #F6FFFF;
+
+    /* background-color: #9eea6a; */
+
   }
 
   .message .self .text:before {
-    right: inherit;
-    left: 100%;
-    border-right-color: transparent;
-    border-left-color: #9eea6a;
+    /* right: inherit; */
+    /* left: 100%;
+    le */
+    left: auto;
+    right: -2px;
+    box-shadow: -2px -2px 5px 0 rgba(0, 0, 0, 0.1);
+    background-color: #F6FFFF;
+    /* border-right-color: transparent; */
+    /* border-left-color: #F6FFFF; */
   }
 
   .message .image {
