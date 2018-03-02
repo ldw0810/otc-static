@@ -178,7 +178,9 @@
       },
       getMsg() {
         this.$store
-          .dispatch("ajax_chat", {})
+          .dispatch("ajax_chat", {
+            order: this.orderId
+          })
           .then(res => {
             if (res.data && +res.data.error === 0) {
               let compareTime = this.msgList.length

@@ -92,13 +92,13 @@
           <section class='info-section info-action'>
             <div v-if="['timeout','over', 'cancel'].contains(order.status)">
               <div class='flex'>
-                <img v-if="order.status == 'over'" class='pay-status-icon'
+                <img v-if="order.status === 'over'" class='pay-status-icon'
                      src="../../static/images/order/Deal-Icon-Finish.png">
                 <img v-else class='pay-status-icon' src="../../static/images/order/Deal-Icon-Close.png">
-                <div v-if="order.status == 'timeout'">
+                <div v-if="order.status === 'timeout'">
                   {{$t('order.order_deal_timeout')}}
                 </div>
-                <div v-else-if="order.status == 'cancel'">
+                <div v-else-if="order.status === 'cancel'">
                   {{$t('order.order_deal_cancel')}}
                 </div>
                 <div v-else>
@@ -106,8 +106,8 @@
                 </div>
               </div>
             </div>
-            <div class='flex' v-else-if="order.status == 'fresh'">
-              <div class='flex' v-if="order.op_type == 'buy'">
+            <div class='flex' v-else-if="order.status === 'fresh'">
+              <div class='flex' v-if="order.op_type === 'buy'">
                 <i-button class="order-buttons submitButton" type="primary" @click="orderOper('pay')">
                   {{$t('order.order_pay_complete')}}
                 </i-button>
@@ -152,8 +152,8 @@
                 </i-button>
               </div>
             </div>
-            <div class='flex' v-else-if="order.status == 'sell_eval'">
-              <div class='flex' v-if="order.op_type == 'buy'">
+            <div class='flex' v-else-if="order.status === 'sell_eval'">
+              <div class='flex' v-if="order.op_type === 'buy'">
                 <RadioGroup class='radio-wrapper' v-model="evaluate">
                   <Radio label="1">
                     <span>{{$t("order.order_pay_evaluate_good")}}</span>
@@ -172,8 +172,8 @@
                 </i-button>
               </div>
             </div>
-            <div class='flex' v-else-if="order.status == 'buy_eval'">
-              <div class='flex' v-if="order.op_type == 'sell'">
+            <div class='flex' v-else-if="order.status === 'buy_eval'">
+              <div class='flex' v-if="order.op_type === 'sell'">
                 <RadioGroup class='radio-wrapper' v-model="evaluate">
                   <Radio label="1">
                     <span>{{$t("order.order_pay_evaluate_good")}}</span>
