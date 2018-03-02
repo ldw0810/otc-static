@@ -126,10 +126,10 @@
                 <div class='detail-model-content'>
                     <Row 
                     >
-                        <i-col class='text-left' span="6">
+                        <i-col class='text-left' span="8">
                             {{adType == 0 ? $t("ad.ad_buy_price") : $t("ad.ad_sell_price")}}:
                         </i-col>
-                        <i-col class='text-left' span="18">
+                        <i-col class='text-left' span="116">
                             {{+ad.current_price}}
                             {{$t("public['" + ad.target_currency + "']")}}
                             &nbsp;/&nbsp;
@@ -137,19 +137,19 @@
                         </i-col>
                     </Row>
                     <Row>
-                        <i-col  class='text-left' span="6">
+                        <i-col  class='text-left' span="8">
                             {{adType == 0 ? $t("ad.ad_buy_money_amount") : $t("ad.ad_sell_money_amount")}}:
                         </i-col>
-                        <i-col  class='text-left' span="18">
+                        <i-col  class='text-left' span="16">
                             {{+form.moneyAmount}}
                             {{$t("public['" + ad.target_currency + "']")}}
                         </i-col>
                     </Row>
                     <Row>
-                        <i-col  class='text-left' span="6">
+                        <i-col  class='text-left' span="8">
                             {{adType == 0 ? $t("order.order_buy_number_title") : $t("order.order_sell_number_title")}}:
                         </i-col>
-                        <i-col  class='text-left' span="18">
+                        <i-col  class='text-left' span="16">
                             {{+form.number}}
                             {{$t("public['" + ad.currency + "']")}}
                         </i-col>
