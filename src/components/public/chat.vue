@@ -178,7 +178,9 @@
       },
       getMsg() {
         this.$store
-          .dispatch("ajax_chat", {})
+          .dispatch("ajax_chat", {
+            order: this.orderId
+          })
           .then(res => {
             this.$nextTick(() => {
               this.$refs.scroll.$el.scrollTop = this.$refs.scroll.$el.scrollHeight;
