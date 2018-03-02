@@ -180,6 +180,9 @@
         this.$store
           .dispatch("ajax_chat", {})
           .then(res => {
+            this.$nextTick(() => {
+              this.$refs.scroll.$el.scrollTop = this.$refs.scroll.$el.scrollHeight;
+            });
             if (res.data && +res.data.error === 0) {
               let compareTime = this.msgList.length
                 ? this.msgList[this.msgList.length - 1].compareTime
