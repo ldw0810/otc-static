@@ -62,7 +62,7 @@
                 </div>
               </li>
               <li class='header-navbar-item' :key = 'index' :class="{'active': item.index == $store.state.header_index}" v-if='index === 1'>
-                <Poptip trigger="click" placement="bottom" >
+                <Poptip trigger="hover" placement="bottom" >
                   <div class='header-navbar-item-wrapper' @click='goMenu(item)'>
                     <i class='header-navbar-item-icon header-navbar-item-icon-prepend icon-dollar'></i>
                     <a class='header-navbar-item-link' href="javascript:void(0)">
