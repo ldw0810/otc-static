@@ -7,7 +7,6 @@
       </transition>
       <footerBar id="footer" :class="{'fixed': isFooter}"/>
     </div>
-    <div class="popLayer" @touchmove.prevent v-if="+layer_index === 2"></div>
     <Modal v-model="pop_email" class-name="m-ivu-modal" width='480' :mask-closable="true"
            :closable="false">
       <auth_email ref="auth_email"/>
@@ -92,13 +91,10 @@
     },
     watch: {
       "showAuthEmail": function (val) {
-        this.pop_email = val;
+        this.pop_email = !!val;
       }
     },
     computed: {
-      layer_index() {
-        return this.$store.state.layer_index;
-      },
       showAuthEmail() {
         return this.$store.state.showAuthEmail;
       }

@@ -26,11 +26,11 @@
     },
     methods: {
       submit() {
-        this.$store.commit('showAuthEmail_setter', false);
+        this.$store.commit('showAuthEmail_setter', 0);
       }
     },
     destroyed() {
-      this.$store.commit('showAuthEmail_setter', false);
+      this.$store.commit('showAuthEmail_setter', 0);
     },
     components: {
       logoDiv

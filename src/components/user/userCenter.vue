@@ -6,10 +6,10 @@
         <div class="contentBg"></div>
         <div class="page">
             <div class="g-tabs-vertical g-shadow sider">
-                <div class="g-tabs-vertical-bar" :class="{'g-tabs-vertical-bar-active': siderIndex == 0}">
+                <div class="g-tabs-vertical-bar" :class="{'g-tabs-vertical-bar-active': +siderIndex === 0}">
                     <div class="siderTextDiv" v-text="$t('user.info')" @click="doSider(0)"></div>
                 </div>
-                <div class="g-tabs-vertical-bar" :class="{'g-tabs-vertical-bar-active': siderIndex == 1}">
+                <div class="g-tabs-vertical-bar" :class="{'g-tabs-vertical-bar-active': +siderIndex === 1}">
                     <div class="siderTextDiv" v-text="$t('user.securitySetting')" @click="doSider(1)"></div>
                 </div>
             </div>
