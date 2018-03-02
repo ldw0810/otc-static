@@ -141,11 +141,17 @@ const routers = [
       {
         path: "/detail",
         name: "/detail",
+        meta: {
+          needEmail: true
+        },
         component: resolve => require(["./components/ad/adDetail.vue"], resolve)
       },
       {
         path: "/order",
         name: "/order",
+        meta: {
+          needEmail: true
+        },
         component: resolve => require(["./components/order/order.vue"], resolve)
       },
       {
@@ -159,6 +165,9 @@ const routers = [
       {
         path: "/ad",
         name: "/ad",
+        meta: {
+          needEmail: true
+        },
         component: resolve => require(["./components/ad/ad.vue"], resolve)
       },
       {
@@ -192,12 +201,15 @@ router.beforeEach((to, from, next) => {
       next({
         path: "/"
       });
-    } else if (to.matched.some(r => r.meta.needEmail)) {
-      next({
-        path: from.fullPath
-      });
-      LoadingBar.finish();
-      store.commit('showAuthEmail_setter', true);
+    } else if (to.matched.some(r => r.meta.needEmail) && !store.state.userInfo.activated) {
+      if (from.name) {
+        LoadingBar.finish();
+        store.commit('showAuthEmail_setter', true);
+      } else {  //地址栏输入的from.name为空
+        next({
+          path: "/user/userCenter",
+        });
+      }
     } else {
       next();
     }
@@ -205,13 +217,12 @@ router.beforeEach((to, from, next) => {
     if (to.matched.some(r => r.meta.noLogin)) {
       next();
     } else {
+      next({
+        path: "/user/login",
+        query: {redirect: to.fullPath}
+      });
       if (from.name === "/user/login") {
         LoadingBar.finish();
-      } else {
-        next({
-          path: "/user/login",
-          query: {redirect: to.fullPath}
-        });
       }
     }
   }

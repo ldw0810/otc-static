@@ -98,6 +98,9 @@ export default {
         state.loginFlag = false;
     },
     showAuthEmail_setter(state, value) {
+        if(value) {
+          state.showAuthEmail = !value;
+        }
         state.showAuthEmail = value;
     }
 }

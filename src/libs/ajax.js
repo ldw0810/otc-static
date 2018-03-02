@@ -42,12 +42,21 @@ axios.interceptors.response.use(
   error => {
     if (error.response) {
       const index = languageSelectIndex();
-      if (error.response.data) {
+      if (+error.response.status === 504) { //服务器超时应退出登陆状态
+        // store.commit("delToken");
+        // store.commit("delUserInfo");
+        // Message.error({
+        //   content: languageData[index].data.request["" + error.response.status],
+        //   // onClose: router.push("/user/login"),
+        // });
+      } else if (error.response.data) {
         if (+error.response.data.error === 999999) {
-          Message.error(languageData[index].data.request["" + error.response.data.error]);
           store.commit("delToken");
           store.commit("delUserInfo");
-          router.push("/user/login");
+          Message.error({
+            content: languageData[index].data.request["" + error.response.data.error],
+            onClose: router.push("/user/login")
+          });
         } else if (+error.response.data.error === 100031) {
           store.commit("showAuthEmail_setter", 1);
         } else if ([100017, 100038].contains(+error.response.data.error)) {

@@ -216,6 +216,8 @@
     "authentication_email_reSend_link": "没有收到？点此重发",
     "authentication_email_beenSend": "已发送电子邮件至",
     "authentication_email_beenSend_info": "请到您的邮箱查看并点击验证链接",
+    "user_email_not_auth": "邮箱尚未验证",
+    "user_email_not_auth_tip": "您尚未验证邮箱，无法进行后续操作，请先验证邮箱或在个人中心重新获取邮箱验证邮件",
     "authentication_phone": "手机号码",
     "default": "默认",
     "default_notValid": "设为默认",
@@ -529,6 +531,7 @@
     "order_data_request_fail": "订单数据获取失败"
   },
   "request": {
+    "504": "服务器超时，请重新登陆",
     "100000": "服务器操作失败",
     "100001": "错误的请求参数",
     "100002": "需要登录",

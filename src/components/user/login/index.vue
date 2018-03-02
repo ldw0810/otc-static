@@ -126,7 +126,7 @@
                     });
                     this.$store.commit("userInfo_mobile_setter", err.sms);
                     this.$store.commit("userInfo_app_two_factor_setter", err.app);
-                    if(this.$route.query.redirect) {
+                    if (this.$route.query.redirect) {
                       this.$goRouter("/user/login/validate", {
                         redirect: this.$route.query.redirect
                       });
