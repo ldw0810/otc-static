@@ -506,7 +506,8 @@ export default {
       word-break: break-all;
       font-size: 14px;
       width: 692px;
-      min-height: 40px;
+      max-height: 120px;
+      overflow-y: auto;
       padding: 8px 12px;
       user-select: text;
       white-space: pre-wrap;

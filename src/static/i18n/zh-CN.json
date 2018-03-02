@@ -1,5 +1,9 @@
 {
   "public": {
+    "not_found": "奇怪，页面好像消失了",
+    "return_home": "返回首页",
+    "server maintenance": "服务器正在维护中，请您稍后访问",
+    "refresh": "刷新试试",
     "homePage": "首页",
     "buy": "购买",
     "sell": "出售",

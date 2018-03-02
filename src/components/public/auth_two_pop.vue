@@ -16,12 +16,15 @@
                 <div class="tip" v-text="tipText"></div>
                 <Form class="form" ref="phoneForm" :model="phoneForm" :rules="phoneRules">
                     <FormItem prop="pinCode" class="formItem">
-                        <i-input class="inputPinCodePhone" type="text" v-model="phoneForm.pinCode"
-                                 :placeholder="$t('user.pinCode_required')" @on-enter="phoneSubmit">
-                            <span slot="prepend">
-                                <img src="../../static/images/icon/IdentifyingCode-CCCCCC.svg">
-                            </span>
-                        </i-input>
+                        <div class='g-send-group'>
+                            <i-input class="inputPinCodePhone" type="text" v-model="phoneForm.pinCode"
+                                    :placeholder="$t('user.pinCode_required')" @on-enter="phoneSubmit">
+                                <span slot="prepend">
+                                    <img src="../../static/images/icon/IdentifyingCode-CCCCCC.svg">
+                                </span>
+                            </i-input>
+                            <sendCodeButton ref="sendCodeButton" @sendCode="sendPinCode"></sendCodeButton>
+                        </div>
                     </FormItem>
                     <!--防止自动提交表单-->
                     <input type="text" style="display:none" />
@@ -38,9 +41,9 @@
                         </span>
                     </FormItem>
                 </Form>
-                <sendCodeButton ref="sendCodeButton" class="pinCodeDiv" @sendCode="sendPinCode"></sendCodeButton>
+                
             </div>
-            <div v-else-if="+validateIndex === 1">
+            <div v-if="+validateIndex === 1">
                 <div class="tip" v-text="$t('user.auth_google_code_required')"></div>
                 <Form class="form" ref="googleForm" :model="googleForm" :rules="googleRules">
                     <FormItem prop="pinCode" class="formItem">
