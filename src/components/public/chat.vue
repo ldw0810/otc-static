@@ -121,7 +121,7 @@
         inputFocusFlag: false,
         lastEditRange: null,
         chatTime: 0,
-        getMsgTimer: ""
+        getMsgTimer: 0
       };
     },
     watch: {

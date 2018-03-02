@@ -271,10 +271,10 @@ export default {
       this.$store
         .dispatch("ajax_add_receiving", requestData)
         .then(res => {
-          this.alipayFormLoading = false
-          this.bankCardFormLoading = false
+          this.alipayFormLoading = false;
+          this.bankCardFormLoading = false;
           if (res.data && +res.data.error === 0) {
-            this.$Message.success(this.$t("user.receivables_add_success"));
+            // this.$Message.success(this.$t("user.receivables_add_success"));
             this.$emit("refresh");
             this.$emit("cancel");
           } else {
@@ -282,8 +282,8 @@ export default {
           }
         })
         .catch(err => {
-          this.alipayFormLoading = false
-          this.bankCardFormLoading = false
+          this.alipayFormLoading = false;
+          this.bankCardFormLoading = false;
           this.$Message.error(this.$t("user.receivables_add_fail"));
         });
     },
