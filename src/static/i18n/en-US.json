@@ -418,7 +418,7 @@
     "order_unfinished": "Processing",
     "order_finished": "Completed",
     "order_trader": "Partner",
-    "order_id": "ID",
+    "order_id": "Order ID",
     "order_type": "Type",
     "order_money_amount": "Amount",
     "order_number": "Quantity",

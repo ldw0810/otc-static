@@ -32,6 +32,13 @@
           <h2 class='info-title'>{{$t("order.order_info")}}</h2>
           <section class='info-section'>
             <Row>
+              <!-- 交易对象 -->
+              <i-col span='8'>
+                {{$t("order.order_trader")}}:
+              </i-col>
+              <i-col span='16'>
+                {{order.member.nickname}}
+              </i-col>
               <!-- 订单编号 -->
               <i-col span='8'>
                 {{$t("order.order_id")}}:

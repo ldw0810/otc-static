@@ -62,7 +62,7 @@
                 </div>
               </li>
               <li class='header-navbar-item' :key = 'index' :class="{'active': item.index == $store.state.header_index}" v-if='index === 1'>
-                <Poptip trigger="hover" placement="bottom" width="378">
+                <Poptip trigger="hover" placement="bottom" width="420">
                   <div class='header-navbar-item-wrapper' @click='goMenu(item)'>
                     <i class='header-navbar-item-icon header-navbar-item-icon-prepend icon-dollar'></i>
                     <a class='header-navbar-item-link' href="javascript:void(0)">
@@ -72,47 +72,55 @@
                   </div>
                   <div class='assets' slot='content'>
                     <div class="assets-inner">
-                      <template v-for='(childItem, i) in item.children'>
-                      <div class='assets-item' v-if='i === 0' :key='i'>
-                        <header class='assets.header'>{{$t("public.type")}}</header>
-                        <article class='assets-content'>
-                          <ul>
-                            <li class='assets-list-item' v-for="(item, index) in userInfo.valid_account" :key="index">
-                              {{$t("public['" + item.currency + "']")}}
-                            </li>
-                          </ul>
-                        </article>
-                        <aside class='assets-footer'>
-                          <i-button class='assets-btn' @click="goMenu(childItem)">{{$t("public.recharge")}}</i-button>
-                        </aside>
+                      <div class='assets-inner-list'>
+                        <template v-for='(childItem, i) in item.children'>      
+                            <div class='assets-item' v-if='i === 0' :key='i'>
+                              <header class='assets.header'>{{$t("public.type")}}</header>
+                              <article class='assets-content'>
+                                <ul>
+                                  <li class='assets-list-item' v-for="(item, index) in userInfo.valid_account" :key="index">
+                                    {{$t("public['" + item.currency + "']")}}
+                                  </li>
+                                </ul>
+                              </article>
+                             
+                            </div>
+                            <div class='assets-item' v-if='i === 1' :key='i'>
+                              <header class='assets.header'>{{$t("public.balance")}}</header>
+                              <article class='assets-content'>
+                                <ul>
+                                  <li class='assets-list-item' v-for="(item, index) in userInfo.valid_account" :key="index">
+                                    {{item.balance|fix_decimals(8)}}
+                                  </li>
+                                </ul>
+                              </article>
+                             
+                            </div>
+                            <div class='assets-item' v-if='i === 2' :key='i'>
+                              <header class='assets.header'>{{$t("public.locked")}}</header>
+                              <article class='assets-content'>
+                                <ul>
+                                  <li class='assets-list-item' v-for="(item, index) in userInfo.valid_account" :key="index">
+                                    {{item.locked|fix_decimals(8)}}
+                                  </li>
+                                </ul>
+                              </article>
+                            </div>
+                        </template>                    
                       </div>
-                      <div class='assets-item' v-if='i === 1' :key='i'>
-                        <header class='assets.header'>{{$t("public.balance")}}</header>
-                        <article class='assets-content'>
-                          <ul>
-                            <li class='assets-list-item' v-for="(item, index) in userInfo.valid_account" :key="index">
-                              {{item.balance|fix_decimals(8)}}
-                            </li>
-                          </ul>
-                        </article>
-                        <aside class='assets-footer'>
-                          <i-button class='assets-btn' @click="goMenu(childItem)">{{$t("public.withdraw")}}</i-button>
-                        </aside>
+                      <div class='assets-inner-footer'>
+                        <template v-for='(childItem, i) in item.children'>      
+                            <aside class='assets-footer' v-if='i === 0' :key='i'>
+                              <i-button class='assets-btn' @click="goMenu(childItem)">{{$t("public.recharge")}}</i-button>
+                            </aside>
+                              <aside class='assets-footer' v-if='i === 1' :key='i'>
+                              <i-button class='assets-btn' @click="goMenu(childItem)">{{$t("public.withdraw")}}</i-button>
+                            </aside>
+                              <aside class='assets-footer' v-if='i === 2' :key='i'>
+                              <i-button class='assets-btn' type='primary' @click="goMenu(childItem)">{{$t("public.assetInfo")}}</i-button>
+                            </aside>
+                        </template>
                       </div>
-                      <div class='assets-item' v-if='i === 2' :key='i'>
-                        <header class='assets.header'>{{$t("public.locked")}}</header>
-                        <article class='assets-content'>
-                          <ul>
-                            <li class='assets-list-item' v-for="(item, index) in userInfo.valid_account" :key="index">
-                              {{item.locked|fix_decimals(8)}}
-                            </li>
-                          </ul>
-                        </article>
-                        <aside class='assets-footer'>
-                          <i-button class='assets-btn' type='primary' @click="goMenu(childItem)">{{$t("public.assetInfo")}}</i-button>
-                        </aside>
-                      </div>
-                      </template>                    
                     </div>
                   </div>
                 </Poptip>            
@@ -512,12 +520,26 @@ $height: 76px;
   font-size: 14px;
   &-inner {
     display: flex;
+    flex-direction: column;
+    &-list {
+      display: flex;
+    }
+    &-footer {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
   }
   &-item {
+    // font-size:12px;
     width: 40%;
-    // &:last-of-type {
-    //   width: 20%
-    // }
+    &:first-of-type {
+      width: 20%;
+    }
+    &:last-of-type {
+      // text-align: right;
+      // width: 0%;
+    }
   }
   &-list {
     &-item {
