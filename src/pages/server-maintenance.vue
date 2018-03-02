@@ -12,7 +12,7 @@
 	export default {
 		name: "server-maintenance",
 		created() {
-			util.title(this.$t("public.not_found"));
+			util.title(this.$t("public.server_maintenance"));
 		}
 	};
 </script>
