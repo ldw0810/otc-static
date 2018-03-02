@@ -161,7 +161,7 @@
                   if (res_me.data && +res_me.data.error === 0) {
                     this.$store.commit("saveUserInfo", res_me.data.member);
                     this.$Message.success(this.$t("user.login_success"));
-                    this.$goRouter("/user/userCenter");
+                    this.$goRouter(this.$route.query.redirect || "/user/userCenter");
                   } else {
                     this.$Message.error(this.$t("user.userInfo_response_none"));
                   }
@@ -198,7 +198,7 @@
                   if (res_me.data && +res_me.data.error === 0) {
                     this.$store.commit("saveUserInfo", res_me.data.member);
                     this.$Message.success(this.$t("user.login_success"));
-                    this.$goRouter("/user/userCenter");
+                    this.$goRouter(this.$route.query.redirect || "/user/userCenter");
                   } else {
                     this.$Message.error(this.$t("user.userInfo_response_none"));
                   }
@@ -239,7 +239,13 @@
       } else if (this.validate_google) {
         this.validateIndex = 1;
       } else {
-        this.$goRouter("/user/login");
+        if(this.$route.query.redirect) {
+          this.$goRouter("/user/login", {
+            redirect: this.$route.query.redirect
+          });
+        } else {
+          this.$goRouter("/user/login");
+        }
       }
     },
     components: {

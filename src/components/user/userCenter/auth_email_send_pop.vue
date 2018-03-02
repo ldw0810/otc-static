@@ -41,12 +41,11 @@ export default {
         });
     },
     submit() {
-      // this.$store.commit("layer_index_setter", 1);
-      this.$emit("close", 1);
+      this.$store.commit('showAuthEmail_setter', 0);
     }
   },
   destroyed() {
-    // this.$store.commit("layer_index_setter", 1);
+    this.$store.commit('showAuthEmail_setter', 0);
   },
   components: {
     logoDiv
