@@ -13,12 +13,12 @@
                             <Row
                                 type="flex"
                             >
-                                <i-col span="4" class='g-list-header-title'>{{$t("order.order_trader")}}</i-col>
+                                <i-col span="3" class='g-list-header-title'>{{$t("order.order_trader")}}</i-col>
                                 <i-col span="3" class='g-list-header-title'>{{$t("order.order_id")}}</i-col>
-                                <i-col span="3" class='g-list-header-title'>{{$t("order.order_type")}}</i-col>
+                                <i-col span="2" class='g-list-header-title'>{{$t("order.order_type")}}</i-col>
                                 <i-col span="3" class='g-list-header-title'>{{$t("order.order_money_amount")}}</i-col>
-                                <i-col span="3" class='g-list-header-title'>{{$t("order.order_number")}}</i-col>
-                                <i-col span="3" class='g-list-header-title'>{{$t("order.order_time")}}</i-col>
+                                <i-col span="4" class='g-list-header-title'>{{$t("order.order_number")}}</i-col>
+                                <i-col span="4" class='g-list-header-title'>{{$t("order.order_time")}}</i-col>
                                 <i-col span="3" class='g-list-header-title'>{{$t("order.order_status")}}</i-col>
                                 <i-col span="2" class='g-list-header-title'>{{$t("public.operation")}}</i-col>
                             </Row>
@@ -31,7 +31,7 @@
                                 :class="{'g-list-content-item-unread': order.notice_order !== 0}"
                             >
                                 <!-- avator -->
-                                <i-col span="4" class='g-list-content-item-col'>
+                                <i-col span="3" class='g-list-content-item-col'>
                                     <div class='avator'>
                                         <Avator
                                             :status='order.member.online'
@@ -42,7 +42,7 @@
                                 <i-col span="3" class='g-list-content-item-col'>
                                     {{order.id}}
                                 </i-col>
-                                <i-col span="3" class='g-list-content-item-col'>
+                                <i-col span="2" class='g-list-content-item-col'>
                                     <div>
                                         {{$t("public['" + order.op_type + "']")}}
                                         {{$t("public['" + order.currency + "']")}}
@@ -54,12 +54,12 @@
                                         {{$t("public['" + order.target_currency + "']")}}
                                     </div>
                                 </i-col>
-                                <i-col span="3" class='g-list-content-item-col'>
+                                <i-col span="4" class='g-list-content-item-col'>
                                     <div>
-                                        {{order.amount | fix_decimals(8)}}
+                                       {{order.amount | fix_decimals(8)}}
                                     </div>
                                 </i-col>
-                                <i-col span="3" class='g-list-content-item-col'>
+                                <i-col span="4" class='g-list-content-item-col'>
                                     <div>
                                         {{new Date(+order.created_at * 1000).format("yyyy/MM/dd hh:mm:ss")}}
                                     </div>

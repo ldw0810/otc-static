@@ -38,7 +38,7 @@ $avatorImage: "../../static/images/DefaultHead.jpg";
   border: 2px solid #fff;
   border-radius: 50%;
   background: url($avatorImage) no-repeat center;
-  background-size: 100%;
+  background-size: cover;
 }
 
 .status {
