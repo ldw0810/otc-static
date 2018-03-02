@@ -1,5 +1,9 @@
 {
   "public": {
+    "not_found": "Strange, pages seem to disappear",
+    "return_home": "Return to home page",
+    "server_maintenance": "Server is down for maintenance, please visit later",
+    "refresh": "Refresh try",
     "homePage": "Home",
     "buy": "Buy",
     "sell": "Sell",

@@ -184,7 +184,7 @@ const routers = [
   },
   {
     path: "*",
-    component: resolve => require(["./pages/notFound.vue"], resolve)
+    component: resolve => require(["./pages/not-found.vue"], resolve)
   }
 ];
 
