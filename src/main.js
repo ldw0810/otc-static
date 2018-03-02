@@ -20,10 +20,17 @@ Vue.use(Filters);
 Vue.use(VueClipboard);
 
 // 自动设置语言
-const navLang = navigator.language;
-const localLang = navLang === "zh-CN" || navLang === "en-US" ? navLang : false;
-const lang = window.localStorage.getItem("language") || localLang || "zh-CN";
-
+const navLang = navigator.language || navigator.userLanguage;
+const langs = ['zh-CN', 'zh-HK', 'en-US']
+const localLang = langs.indexOf(navLang) > -1 ? navLang : 'zh-HK'
+const currentLanguage = window.localStorage.getItem("language")
+let lang
+if (currentLanguage) {
+  lang = currentLanguage
+} else {
+  window.localStorage.setItem('language', localLang)
+  lang = localLang
+}
 Vue.config.lang = lang;
 
 // 多语言配置

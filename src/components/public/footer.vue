@@ -76,7 +76,7 @@ export default {
       for (let i = 0; i < this.languageList.length; i++) {
         if (
           this.languageList[i].language ===
-          (window.localStorage.getItem("language") || "zh-CN")
+          (window.localStorage.getItem("language") || "zh-HK")
         ) {
           index = i;
         }
