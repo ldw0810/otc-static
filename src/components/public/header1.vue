@@ -62,7 +62,7 @@
                 </div>
               </li>
               <li class='header-navbar-item' :key = 'index' :class="{'active': item.index == $store.state.header_index}" v-if='index === 1'>
-                <Poptip trigger="hover" placement="bottom" width="420">
+                <Poptip trigger="hover" placement="bottom" >
                   <div class='header-navbar-item-wrapper' @click='goMenu(item)'>
                     <i class='header-navbar-item-icon header-navbar-item-icon-prepend icon-dollar'></i>
                     <a class='header-navbar-item-link' href="javascript:void(0)">
@@ -517,12 +517,15 @@ $height: 76px;
 }
 .assets {
   padding: 20px;
+  min-width: 300px;
   font-size: 14px;
   &-inner {
     display: flex;
     flex-direction: column;
     &-list {
       display: flex;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #eee;
     }
     &-footer {
       width: 100%;
@@ -531,19 +534,22 @@ $height: 76px;
     }
   }
   &-item {
+    margin-right: 20px;
+
     // font-size:12px;
-    width: 40%;
+    // width: 40%;
     &:first-of-type {
-      width: 20%;
+      // width: 20%;
     }
     &:last-of-type {
+      margin-right: 0;
       // text-align: right;
       // width: 0%;
     }
   }
   &-list {
     &-item {
-      padding-top: 12px;
+      padding-top: 20px;
     }
   }
   &-header {
@@ -551,18 +557,16 @@ $height: 76px;
     border-bottom: 1px solid #eee;
   }
   &-content {
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
   }
   &-footer {
     padding-top: 20px;
-    padding-bottom: 5px;
     text-align: center;
+    
+    
   }
   &-btn {
     width: 80px;
-    padding-left: 0;
-    padding-right: 0;
+    padding: 4px 0;
   }
 }
 </style>
