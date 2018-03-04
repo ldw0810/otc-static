@@ -9,7 +9,7 @@ import languageData from '../locale'
  * Responsible for all HTTP requests.
  */
 
-axios.defaults.timeout = 10000;
+axios.defaults.timeout = 30000;
 axios.defaults.baseURL = env === 'development' ? '/' : "https://apialpha.otcmaker.com";
 
 function languageSelectIndex() {
