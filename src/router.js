@@ -202,12 +202,12 @@ router.beforeEach((to, from, next) => {
         path: "/"
       });
     } else if (to.matched.some(r => r.meta.needEmail) && !store.state.userInfo.activated) {
-      if (from.name) {
+      if (from.name && from.name !== "/user/login") {
         LoadingBar.finish();
         store.commit('showAuthEmail_setter', true);
       } else {  //地址栏输入的from.name为空
         next({
-          path: "/user/userCenter",
+          path: "/user/userCenter"
         });
       }
     } else {

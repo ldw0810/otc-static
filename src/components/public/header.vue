@@ -22,7 +22,7 @@
                   <Icon class='header-navbar-item-icon header-navbar-item-icon-append ' type="arrow-down-b" v-if='item.children.length'></Icon>
                 </div>
                 <DropdownMenu class='header-navbar-dropdown' slot="list" v-if='item.children.length'>
-                    <DropdownItem :class="{'active': childItem.index === $store.state.header_index}" v-for='(childItem, i) in item.children' :key='i'>
+                    <DropdownItem :class="{'active': childItem.index == $store.state.header_index}" v-for='(childItem, i) in item.children' :key='i'>
                       <a @click='goMenu(childItem)'>{{childItem.title}}</a>
                     </DropdownItem>
                 </DropdownMenu>
@@ -32,7 +32,7 @@
         </nav>
         <nav class='header-nav header-login' v-if='!loginFlag'>
           <ul class='header-navbar'>
-            <li class='header-navbar-item' :class="{'active': item.index === $store.state.header_index}" v-for='(item, index) in logins' :key='index'>
+            <li class='header-navbar-item' :class="{'active': item.index == $store.state.header_index}" v-for='(item, index) in logins' :key='index'>
               <Dropdown>
                 <div class='header-navbar-item-wrapper' @click='goMenu(item)'>
                   <a class='header-navbar-item-link' href="javascript:void(0)">
@@ -41,7 +41,7 @@
                   <Icon class='header-navbar-item-icon header-navbar-item-icon-append' type="arrow-down-b" v-if='item.children.length'></Icon>
                 </div>
                 <DropdownMenu class='header-navbar-dropdown' slot="list" v-if='item.children.length'>
-                    <DropdownItem :class="{'active': childItem.index === $store.state.header_index}" v-for='(childItem, i) in item.children' :key='i'>
+                    <DropdownItem :class="{'active': childItem.index == $store.state.header_index}" v-for='(childItem, i) in item.children' :key='i'>
                       <a @click='goMenu(childItem)'>{{childItem.title}}</a>
                     </DropdownItem>
                 </DropdownMenu>
@@ -61,7 +61,7 @@
                     <span class='header-navbar-item-icon header-navbar-item-icon-append dotted' v-if='userInfo.notice > 0'></span>
                 </div>
               </li>
-              <li class='header-navbar-item' :key = 'index' :class="{'active': item.index === $store.state.header_index}" v-if='index === 1'>
+              <li class='header-navbar-item' :key = 'index' :class="{'active': item.index == $store.state.header_index}" v-if='index === 1'>
                 <Poptip trigger="hover" placement="bottom" >
                   <div class='header-navbar-item-wrapper' @click='goMenu(item)'>
                     <i class='header-navbar-item-icon header-navbar-item-icon-prepend icon-dollar'></i>
@@ -130,8 +130,7 @@
                 :class="{'active': Array.isArray(item.index) && item.index.indexOf(+$store.state.header_index) > -1 }" 
                 v-if='index === 2'
                 >
-                  <Dropdown
-                  >
+                  <Dropdown>
                     <div class='header-navbar-item-wrapper' @click='goMenu(item)'>
                     <a class='header-navbar-item-link' href="javascript:void(0)">
                         {{userInfo.nickname || 'Aaron'}}
@@ -139,12 +138,12 @@
                     <Icon class='header-navbar-item-icon header-navbar-item-icon-append' type="arrow-down-b"></Icon>
                     </div>
                     <DropdownMenu class='header-navbar-dropdown header-navbar-dropdown-user' slot="list">
-                        <DropdownItem :class="{'active': +childItem.index === +$store.state.header_index}" v-for='(childItem, i) in item.children' :key='i'>
+                        <DropdownItem :class="{'active': childItem.index == $store.state.header_index}" v-for='(childItem, i) in item.children' :key='i'>
                           <a @click='goMenu(childItem)'>{{childItem.title}}</a>
                         </DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
-              </li>   
+              </li>
             </template>       
           </ul>
         </nav>
