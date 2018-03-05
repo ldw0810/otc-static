@@ -209,30 +209,32 @@
       </p>
     </div>
 
+    <!-- 留言 -->
     <Modal v-model="confirmFlag.pay" class-name="m-ivu-modal" width='480' :mask-closable="true" :closable="false">
       <logoDiv style="margin: 0" />
-      <div class="asset-model">
+      <Form class="asset-model" ref='remarkForm' :model="remarkForm" :rules="remarkFormRules">
         <h3 class='asset-model-title'>{{$t("order.order_confirm_pay_title")}}</h3>
         <div class='asset-model-content'>
           <div class='asset-model-content-desc'>{{$t("order.order_confirm_pay_remark_tip")}}</div>
-          <div>
-            <i-input class="input" type="textarea" :autosize="{minRows: 2}" v-model="confirmForm.remark"
+          <FormItem prop='remark'>
+            <i-input class='remark-input' :autosize="{minRows: 2,maxRows: 5}" type="textarea"  v-model="remarkForm.remark"
                      :placeholder="$t('order.order_confirm_pay_remark')">
             </i-input>
-          </div>
+          </FormItem>
           <div class='warn'>{{$t("order.order_confirm_pay_warn")}}</div>
         </div>
-        <div class='g-comfirm-group buttons-group'>
+        <FormItem class='g-comfirm-group buttons-group'>
           <i-button class="submit-button" type="primary" @click="doOper('pay')">
             {{$t('order.order_confirm_payed')}}
           </i-button>
           <i-button class="cancel-button" @click="confirmFlag.pay = false">
             {{$t('public.cancel')}}
           </i-button>
-        </div>
-      </div>
+        </FormItem>
+      </Form>
       <div slot="footer"></div>
     </Modal>
+    <!-- 释放 -->
     <Modal v-model="confirmFlag.release" class-name="m-ivu-modal" width='480' :mask-closable="true" :closable="false">
       <logoDiv style="margin: 0" />
       <div class="asset-model">
@@ -327,139 +329,156 @@
   </div>
 </template>
 <script type="es6">
-  import logoDiv from "../public/logo.vue";
-  import chat from "../public/chat.vue";
-  import auth_two from "../public/auth_two_pop.vue";
+import config from '@/config/config'
+import logoDiv from "../public/logo.vue";
+import chat from "../public/chat.vue";
+import auth_two from "../public/auth_two_pop.vue";
 
-  export default {
-    data() {
-      return {
-        stepList: [],
-        stepTip: "",
-        order: {},
-        chat: [],
-        confirmFlag: {
-          pay: false,
-          release: false,
-          cancel: false,
-          complete: false
-        },
-        confirmForm: {
-          remark: "",
-          password: ""
-        },
-        confirmRules: {
-          password: [
-            {
-              required: true,
-              message: this.$t("user.password_required")
-            }
-          ]
-        },
-        evaluate: "0",
-        cancelFlag: true,
-        auth_two_flag: false,
-        chatFlag: false,
-        chatMessage: ""
-      };
-    },
-    computed: {
-      id() {
-        return this.$route.query.id;
+export default {
+  data() {
+    return {
+      stepList: [],
+      stepTip: "",
+      order: {},
+      chat: [],
+      confirmFlag: {
+        pay: false,
+        release: false,
+        cancel: false,
+        complete: false
       },
-      userInfo() {
-        return this.$store.state.userInfo;
+      remarkForm: {
+        remark: ""
       },
-      chatList() {
-        let tempList = [];
-        let tempTime = 0;
-        if(this.chat.length) {
-          for (let i = this.chat.length - 1; i >= 0; i--) {
-            let timeFlag = +this.chat[i].from === 0 ? false : +this.chat[i].created_at * 1000 - tempTime > 3 * 60 * 1000;
-            tempTime = timeFlag ? +this.chat[i].created_at * 1000 : tempTime;
-            tempList[this.chat.length - (i + 1)] = {
-              type:
-                +this.chat[i].from === 0
-                  ? 9 : this.chat[i].to === this.order.member.member_id ? 0 : 1,
-              data: this.chat[i].msg,
-              time: +this.chat[i].created_at * 1000,
-              compareTime: tempTime,
-              timeFlag: timeFlag,
-            };
-          }
-        }
-        return tempList;
-      }
-    },
-    methods: {
-      showStep() {
-        this.stepList = [
+      confirmForm: {
+        password: ""
+      },
+      remarkFormRules: {
+        remark: [
           {
-            img: require("../../static/images/order/Deal-IconShoppingCart.png"),
-            title: this.$t("order.order_deal_status_pay"),
-            status: 1
+            required: true,
+            message: this.$t("user.password_required")
           }
-        ];
-        if (["timeout", "cancel"].contains(this.order.status)) {
+        ]
+      },
+      confirmRules: {
+        password: [
+          {
+            required: true,
+            message: this.$t("user.password_required")
+          }
+        ]
+      },
+      evaluate: "0",
+      cancelFlag: true,
+      auth_two_flag: false,
+      chatFlag: false,
+      chatMessage: ""
+    };
+  },
+  computed: {
+    id() {
+      return this.$route.query.id;
+    },
+    userInfo() {
+      return this.$store.state.userInfo;
+    },
+    chatList() {
+      let tempList = [];
+      let tempTime = 0;
+      if (this.chat.length) {
+        for (let i = this.chat.length - 1; i >= 0; i--) {
+          let timeFlag =
+            +this.chat[i].from === 0
+              ? false
+              : +this.chat[i].created_at * 1000 - tempTime > 3 * 60 * 1000;
+          tempTime = timeFlag ? +this.chat[i].created_at * 1000 : tempTime;
+          tempList[this.chat.length - (i + 1)] = {
+            type:
+              +this.chat[i].from === 0
+                ? 9
+                : this.chat[i].to === this.order.member.member_id ? 0 : 1,
+            data: this.chat[i].msg,
+            time: +this.chat[i].created_at * 1000,
+            compareTime: tempTime,
+            timeFlag: timeFlag
+          };
+        }
+      }
+      return tempList;
+    }
+  },
+  methods: {
+    showStep() {
+      this.stepList = [
+        {
+          img: require("../../static/images/order/Deal-IconShoppingCart.png"),
+          title: this.$t("order.order_deal_status_pay"),
+          status: 1
+        }
+      ];
+      if (["timeout", "cancel"].contains(this.order.status)) {
+        this.stepList.push({
+          img: require("../../static/images/order/Deal-IconCancel.png"),
+          title:
+            this.order.status === "timeout"
+              ? this.$t("order.order_deal_timeout")
+              : this.$t("order.order_deal_cancel"),
+          status: 0
+        });
+      } else {
+        if (this.order.status === "fresh") {
           this.stepList.push({
-            img: require("../../static/images/order/Deal-IconCancel.png"),
-            title:
-              this.order.status === "timeout"
-                ? this.$t("order.order_deal_timeout")
-                : this.$t("order.order_deal_cancel"),
+            img: require("../../static/images/order/Deal-IconPay2.png"),
+            title: this.$t("order.order_deal_status_wait_payment"),
             status: 0
           });
         } else {
-          if (this.order.status === "fresh") {
-            this.stepList.push({
-              img: require("../../static/images/order/Deal-IconPay2.png"),
-              title: this.$t("order.order_deal_status_wait_payment"),
-              status: 0
-            });
-          } else {
-            this.stepList.push({
-              img: require("../../static/images/order/Deal-IconPay.png"),
-              title: this.$t("order.order_deal_status_paid"),
-              status: 1
-            });
-          }
-          if (["fresh", "pay"].contains(this.order.status)) {
-            this.stepList.push({
-              img: require("../../static/images/order/Deal-IconDelivery2.png"),
-              title: this.$t("order.order_deal_status_wait_release"),
-              status: 0
-            });
-          } else {
-            this.stepList.push({
-              img: require("../../static/images/order/Deal-IconDelivery.png"),
-              title: this.$t("order.order_deal_status_released"),
-              status: 1
-            });
-          }
-          if (["fresh", "pay", "release"].contains(this.order.status)) {
-            this.stepList.push({
-              img: require("../../static/images/order/Deal-IconEvaluate2.png"),
-              title: this.$t("order.order_deal_status_wait_eval"),
-              status: 0
-            });
-          } else {
-            this.stepList.push({
-              img: require("../../static/images/order/Deal-IconEvaluate.png"),
-              title:
-                this.order.status === "buy_eval"
-                  ? this.$t("order.order_status_buy_eval")
-                  : this.order.status === "sell_eval"
+          this.stepList.push({
+            img: require("../../static/images/order/Deal-IconPay.png"),
+            title: this.$t("order.order_deal_status_paid"),
+            status: 1
+          });
+        }
+        if (["fresh", "pay"].contains(this.order.status)) {
+          this.stepList.push({
+            img: require("../../static/images/order/Deal-IconDelivery2.png"),
+            title: this.$t("order.order_deal_status_wait_release"),
+            status: 0
+          });
+        } else {
+          this.stepList.push({
+            img: require("../../static/images/order/Deal-IconDelivery.png"),
+            title: this.$t("order.order_deal_status_released"),
+            status: 1
+          });
+        }
+        if (["fresh", "pay", "release"].contains(this.order.status)) {
+          this.stepList.push({
+            img: require("../../static/images/order/Deal-IconEvaluate2.png"),
+            title: this.$t("order.order_deal_status_wait_eval"),
+            status: 0
+          });
+        } else {
+          this.stepList.push({
+            img: require("../../static/images/order/Deal-IconEvaluate.png"),
+            title:
+              this.order.status === "buy_eval"
+                ? this.$t("order.order_status_buy_eval")
+                : this.order.status === "sell_eval"
                   ? this.$t("order.order_status_sell_eval")
                   : this.$t("order.order_deal_complete"),
-              status: 0
-            });
-          }
+            status: 0
+          });
         }
-      },
-      getOrderInfo() {
-        this.$store.dispatch("ajax_order_info", {
+      }
+    },
+    getOrderInfo() {
+      this.$store
+        .dispatch("ajax_order_info", {
           id: this.id
-        }).then(res => {
+        })
+        .then(res => {
           if (res.data && +res.data.error === 0) {
             this.order = res.data.info;
             this.chat = res.data.chat;
@@ -468,21 +487,24 @@
           } else {
             this.$Message.error(this.$t("order.order_info_request_fail"));
           }
-        }).catch(err => {
+        })
+        .catch(err => {
           this.$Message.error(this.$t("order.order_info_request_fail"));
         });
-      },
-      orderOper(operStr) {
-        if (operStr === "pay") {
-          this.confirmFlag.pay = true;
-        } else if (operStr === "release") {
-          this.confirmFlag.release = true;
-        } else if (operStr === "evaluate") {
-          if (+this.evaluate) {
-            this.$store.dispatch("ajax_order_evaluate", {
+    },
+    orderOper(operStr) {
+      if (operStr === "pay") {
+        this.confirmFlag.pay = true;
+      } else if (operStr === "release") {
+        this.confirmFlag.release = true;
+      } else if (operStr === "evaluate") {
+        if (+this.evaluate) {
+          this.$store
+            .dispatch("ajax_order_evaluate", {
               order_id: this.id,
               good: +this.evaluate
-            }).then(res => {
+            })
+            .then(res => {
               if (res.data && +res.data.error === 0) {
                 this.$Message.success(
                   this.$t("order.order_pay_evaluate_success")
@@ -491,45 +513,57 @@
               } else {
                 this.$Message.error(this.$t("order.order_pay_evaluate_fail"));
               }
-            }).catch(err => {
+            })
+            .catch(err => {
               this.$Message.error(this.$t("order.order_pay_evaluate_fail"));
             });
-          } else {
-            this.$Message.error(this.$t("order.order_pay_evaluate_required"));
-          }
-        } else if (operStr === "complete") {
-          this.confirmFlag.complete = true;
-        } else if (operStr === "cancel") {
-          this.confirmFlag.cancel = true;
+        } else {
+          this.$Message.error(this.$t("order.order_pay_evaluate_required"));
         }
-      },
-      doOper(operStr, authJson) {
-        if (operStr === "pay") {
-          this.$store.dispatch("ajax_order_pay", {
-            order_id: this.id
-          }).then(res => {
-            if (res.data && +res.data.error === 0) {
-              this.confirmFlag.pay = false;
-              this.chatMessage = this.confirmForm.remark;
-              this.$Message.success(
-                this.$t("order.order_pay_complete_success")
-              );
-              this.getOrderInfo();
-            } else {
-              this.$Message.error(this.$t("order.order_pay_complete_fail"));
-            }
-          }).catch(err => {
-            this.$Message.error(this.$t("order.order_pay_complete_fail"));
-          });
-        } else if (operStr === "release") {
-          let requestData = {
-            order_id: this.id,
-            password: this.confirmForm.password
-          };
-          if (authJson) {
-            requestData = Object.assign(authJson, requestData);
+      } else if (operStr === "complete") {
+        this.confirmFlag.complete = true;
+      } else if (operStr === "cancel") {
+        this.confirmFlag.cancel = true;
+      }
+    },
+    doOper(operStr, authJson) {
+      if (operStr === "pay") {
+        this.$refs.remarkForm.validate(valid => {
+          if (valid) {
+            this.$store
+              .dispatch("ajax_order_pay", {
+                order_id: this.id
+              })
+              .then(res => {
+                if (res.data && +res.data.error === 0) {
+                  this.confirmFlag.pay = false;
+                  this.chatMessage = this.remarkForm.remark.substr(0, config.limit);
+                  this.$Message.success(
+                    this.$t("order.order_pay_complete_success")
+                  );
+                  this.getOrderInfo();
+                } else {
+                  this.$Message.error(this.$t("order.order_pay_complete_fail"));
+                }
+              })
+              .catch(err => {
+                this.$Message.error(this.$t("order.order_pay_complete_fail"));
+              });
+          } else {
+            // this.$Message.error());
           }
-          this.$store.dispatch("ajax_order_release", requestData).then(res => {
+        });
+      } else if (operStr === "release") {
+        let requestData = {
+          order_id: this.id,
+          password: this.confirmForm.password
+        };
+        if (authJson) {
+          requestData = Object.assign(authJson, requestData);
+        }
+        this.$store
+          .dispatch("ajax_order_release", requestData)
+          .then(res => {
             if (res.data && res.data.error === 0) {
               this.confirmFlag.release = false;
               this.$Message.success(this.$t("order.order_pay_release_success"));
@@ -537,7 +571,8 @@
             } else {
               this.$Message.error(this.$t("order.order_pay_release_fail"));
             }
-          }).catch(err => {
+          })
+          .catch(err => {
             if (err.sms || err.app) {
               this.confirmFlag.release = false;
               this.$store.commit("loginInfo_setter", {
@@ -548,18 +583,20 @@
               this.$Message.error(this.$t("order.order_pay_release_fail"));
             }
           });
-        } else if (operStr === "complete") {
-          this.confirmFlag = {
-            pay: false,
-            release: false,
-            cancel: false,
-            complete: false
-          };
-        } else if (operStr === "cancel") {
-          if (this.cancelFlag) {
-            this.$store.dispatch("ajax_order_cancel", {
+      } else if (operStr === "complete") {
+        this.confirmFlag = {
+          pay: false,
+          release: false,
+          cancel: false,
+          complete: false
+        };
+      } else if (operStr === "cancel") {
+        if (this.cancelFlag) {
+          this.$store
+            .dispatch("ajax_order_cancel", {
               order_id: this.id
-            }).then(res => {
+            })
+            .then(res => {
               if (res.data && +res.data.error === 0) {
                 this.cancelFlag = false;
                 this.confirmFlag.cancel = false;
@@ -571,124 +608,119 @@
                 this.cancelFlag = false;
                 this.$Message.error(this.$t("order.order_pay_cancel_fail"));
               }
-            }).catch(err => {
+            })
+            .catch(err => {
               this.cancelFlag = false;
               this.$Message.error(this.$t("order.order_pay_cancel_fail"));
             });
-          }
         }
-      },
-      showTip() {
-        if (this.order.created_at && this.order.status === "fresh") {
-          let time = new Date().getTime() - this.order.created_at * 1000;
-          if (time) {
-            if (time > 1000 * 60 * 60) {
-              this.stepTip = this.$t("order.order_info_timeout");
-              this.cancelFlag &&
-              this.order.op_type === "buy" && this.doOper("cancel");
-            } else {
-              let minute = Math.floor((1000 * 60 * 60 - time) / (1000 * 60));
-              let second = Math.floor(
-                ((1000 * 60 * 60 - time) % (1000 * 60)) / 1000
-              );
-              minute = minute / 10 < 1 ? "0" + minute : minute;
-              second = second / 10 < 1 ? "0" + second : second;
-              this.stepTip = this.$t("order.order_info_timer").format(
-                `<a>${minute}:${second}</a>`
-              );
-            }
+      }
+    },
+    showTip() {
+      if (this.order.created_at && this.order.status === "fresh") {
+        let time = new Date().getTime() - this.order.created_at * 1000;
+        if (time) {
+          if (time > 1000 * 60 * 60) {
+            this.stepTip = this.$t("order.order_info_timeout");
+            this.cancelFlag &&
+              this.order.op_type === "buy" &&
+              this.doOper("cancel");
           } else {
-            this.stepTip = "";
+            let minute = Math.floor((1000 * 60 * 60 - time) / (1000 * 60));
+            let second = Math.floor(
+              ((1000 * 60 * 60 - time) % (1000 * 60)) / 1000
+            );
+            minute = minute / 10 < 1 ? "0" + minute : minute;
+            second = second / 10 < 1 ? "0" + second : second;
+            this.stepTip = this.$t("order.order_info_timer").format(
+              `<a>${minute}:${second}</a>`
+            );
           }
-          setTimeout(this.showTip, 1000);
         } else {
           this.stepTip = "";
         }
-      },
-      doAuthClose(val) {
-        if (val) {
-          this.doOper("release", val);
-        }
-        this.auth_two_flag = false;
-      },
-      init() {
-        this.$store.commit("header_index_setter", "-1");
-        this.getOrderInfo();
+        setTimeout(this.showTip, 1000);
+      } else {
+        this.stepTip = "";
       }
     },
-    mounted() {
-      this.init();
+    doAuthClose(val) {
+      if (val) {
+        this.doOper("release", val);
+      }
+      this.auth_two_flag = false;
     },
-    components: {
-      logoDiv,
-      chat,
-      auth_two
+    init() {
+      this.$store.commit("header_index_setter", "-1");
+      this.getOrderInfo();
     }
-  };
+  },
+  mounted() {
+    this.init();
+  },
+  components: {
+    logoDiv,
+    chat,
+    auth_two
+  }
+};
 </script>
 <style lang='scss' scoped>
-  .order {
-    padding-top: 30px;
-    padding-bottom: 30px;
-    &-header {
-      background-color: #fff;
-      padding: 30px 100px 18px;
-      margin-bottom: 30px;
-      &-tip {
-        line-height: 16px;
-        font-size: 14px;
-        margin-top: 18px;
-        margin-left: 174px - 100px;
-      }
-      &-steps {
-        width: 100%;
+.order {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  &-header {
+    background-color: #fff;
+    padding: 30px 100px 18px;
+    margin-bottom: 30px;
+    &-tip {
+      line-height: 16px;
+      font-size: 14px;
+      margin-top: 18px;
+      margin-left: 174px - 100px;
+    }
+    &-steps {
+      width: 100%;
+      display: flex;
+      padding-bottom: 22px;
+      border-bottom: 1px solid #eee;
+      &-item {
+        padding-left: 85px;
         display: flex;
-        padding-bottom: 22px;
-        border-bottom: 1px solid #eee;
-        &-item {
-          padding-left: 85px;
+        &:first-child {
+          padding-left: 175px - 120px;
+        }
+        &-left {
+          width: 84px;
           display: flex;
-          &:first-child {
-            padding-left: 175px - 120px;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          margin-right: 83px;
+          .img {
+            width: 70px;
+            height: 70px;
+            display: inline-block;
+            margin-bottom: 12px;
           }
-          &-left {
-            width: 84px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin-right: 83px;
-            .img {
-              width: 70px;
-              height: 70px;
-              display: inline-block;
-              margin-bottom: 12px;
-            }
-            .text {
-              font-size: 14px;
-              line-height: 16px;
-              white-space: nowrap;
-            }
-          }
-          &-right {
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: -10px;
-            .right-arrow {
-              display: inline-block;
-              width: 9px;
-              height: 14px;
-            }
+          .text {
+            font-size: 14px;
+            line-height: 16px;
+            white-space: nowrap;
           }
         }
-      }
-      &-content {
-        display: flex;
-      }
-      &-chat {
-        flex: 1;
+        &-right {
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-top: -10px;
+          .right-arrow {
+            display: inline-block;
+            width: 9px;
+            height: 14px;
+          }
+        }
       }
     }
     &-content {
@@ -696,126 +728,133 @@
     }
     &-chat {
       flex: 1;
-      margin-right: 30px;
-      padding: 30px;
-      background-color: #fff;
-    }
-    &-rules {
-      width: 646px;
-      margin-top: 40px;
-      font-size: 16px;
-      line-height: 19px;
-      &-title {
-        margin-bottom: 20px;
-        font-weight: normal;
-      }
-      &-content {
-        line-height: 20px;
-      }
     }
   }
-
-  .info {
+  &-content {
+    display: flex;
+  }
+  &-chat {
+    flex: 1;
+    margin-right: 30px;
     padding: 30px;
-    padding-bottom: 0;
-    width: 270px;
     background-color: #fff;
+  }
+  &-rules {
+    width: 646px;
+    margin-top: 40px;
+    font-size: 16px;
+    line-height: 19px;
     &-title {
-      line-height: 24px;
-      font-size: 20px;
+      margin-bottom: 20px;
       font-weight: normal;
-      margin-bottom: 10px;
     }
-    &-section {
-      line-height: 30px;
-      font-size: 14px;
-      padding-top: 10px;
-      padding-bottom: 10px;
-      border-top: 1px solid #eee;
-      word-break: break-all;
-      &-title {
-        font-weight: normal;
-      }
+    &-content {
+      line-height: 20px;
     }
-    &-action {
-      height: 152px;
+  }
+}
+
+.info {
+  padding: 30px;
+  padding-bottom: 0;
+  width: 270px;
+  background-color: #fff;
+  &-title {
+    line-height: 24px;
+    font-size: 20px;
+    font-weight: normal;
+    margin-bottom: 10px;
+  }
+  &-section {
+    line-height: 30px;
+    font-size: 14px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top: 1px solid #eee;
+    word-break: break-all;
+    &-title {
+      font-weight: normal;
+    }
+  }
+  &-action {
+    height: 152px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .flex {
+      height: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      .flex {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-      .radio-wrapper {
-        margin-bottom: 20px;
-      }
-      .order-buttons {
-        width: 100%;
-        margin-bottom: 20px;
-        &:last-child {
-          margin-bottom: 0;
-        }
-      }
-      .pay-status-icon {
-        width: 36px;
-        height: 36px;
-        margin-bottom: 10px;
+    }
+    .radio-wrapper {
+      margin-bottom: 20px;
+    }
+    .order-buttons {
+      width: 100%;
+      margin-bottom: 20px;
+      &:last-child {
+        margin-bottom: 0;
       }
     }
+    .pay-status-icon {
+      width: 36px;
+      height: 36px;
+      margin-bottom: 10px;
+    }
   }
+}
 
-  .asset {
-    &-model {
-      padding: 51px 94px 54px;
-      &-title {
-        font-size: 24px;
-        color: #666666;
-        line-height: 33px;
-        font-weight: normal;
-        margin-bottom: 16px;
-      }
-      &-content {
+.asset {
+  &-model {
+    padding: 51px 94px 54px;
+    &-title {
+      font-size: 24px;
+      color: #666666;
+      line-height: 33px;
+      font-weight: normal;
+      margin-bottom: 16px;
+    }
+    &-content {
+      font-size: 16px;
+      color: #666666;
+      line-height: 28px;
+      margin-bottom: 28px;
+      &-desc {
         font-size: 16px;
         color: #666666;
-        line-height: 28px;
-        margin-bottom: 28px;
-        &-desc {
-          font-size: 16px;
-          color: #666666;
-          line-height: 22px;
-          margin-bottom: 17px;
-        }
-      }
-      .input {
-        margin-bottom: 20px;
-      }
-      .warn {
-        margin-bottom: 30px;
         line-height: 22px;
-        font-size: 16px;
-        color: #ED1C24;
-      }
-      .buttons-group {
-        display: flex;
-        width: 100%;
-        justify-content: space-between;
-      }
-      .submit-button {
-        width: 182px;
-      }
-      .cancel-button {
-        width: 100px;
-      }
-      &-warn {
-        font-size: 16px;
-        color: #ED1C24;
-        line-height: 20px;
-        margin-bottom: 37px;
+        margin-bottom: 17px;
       }
     }
+    .input {
+      margin-bottom: 20px;
+    }
+    .warn {
+      margin-bottom: 30px;
+      line-height: 22px;
+      font-size: 16px;
+      color: #ed1c24;
+    }
+    .buttons-group {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+    }
+    .submit-button {
+      width: 182px;
+    }
+    .cancel-button {
+      width: 100px;
+    }
+    &-warn {
+      font-size: 16px;
+      color: #ed1c24;
+      line-height: 20px;
+      margin-bottom: 37px;
+    }
   }
+}
 </style>
