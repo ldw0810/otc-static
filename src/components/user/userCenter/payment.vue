@@ -26,7 +26,7 @@
                 <span>{{item.is_default ? $t('user.default') : $t('user.default_notValid')}}</span>
               </Radio>
               <div class="payment-item-del">
-                <Poptip v-model="visible" trigger='click' class='del'>
+                <Poptip v-model="item.visible" trigger='click' class='del'>
                   <img src="../../../static/images/icon/Trash-666666.svg" class='del-icon hover'>
                   <img src="../../../static/images/icon/Trash-DDDDDD.svg" class='del-icon no-hover'>
                   <div slot='content'>
@@ -34,7 +34,7 @@
                       <h3 class='del-content-title'>{{$t('public.confirm_delete')}}</h3>
                       <div class='del-btn-group'>
                         <i-button type='primary' @click="delReceiving(index)">{{$t('public.confirm')}}</i-button>
-                        <i-button @click="delCancel">{{$t('public.cancel')}}</i-button>
+                        <i-button @click="delCancel(index)">{{$t('public.cancel')}}</i-button>
                       </div>
                     </div>
                   </div>
@@ -64,7 +64,7 @@
   export default {
     data() {
       return {
-        visible: false,
+        // collection: [],
         popUpStatus: false,
         breadcrumbText:
           this.$t("user.info") + " - " + this.$t("user.default_receivables"),
@@ -89,8 +89,8 @@
       }
     },
     methods: {
-      delCancel() {
-        this.visible = false
+      delCancel(index) {
+        this.$store.commit('collection_close_poptip', index)
       },
       getReceivingList() {
         this.$store
