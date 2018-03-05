@@ -76,7 +76,7 @@
                             </i-input>
                         </FormItem>
                         <FormItem prop="bank" class="formItem">
-                            <Select v-model="bankCardForm.bank" class="input select">
+                            <Select v-model="bankCardForm.bank" class="input select" :placeholder='$t("public.select")'>
                                 <Option v-for="item in bankList" :value="item.code" :key="item.code">
                                     {{item.name}}
                                 </Option>
