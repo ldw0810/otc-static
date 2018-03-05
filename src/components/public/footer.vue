@@ -96,11 +96,18 @@ export default {
       if (index === this.languageSelectIndex) {
         return false;
       } else {
-        window.localStorage.setItem(
-          "language",
-          this.languageList[index].language
-        );
-        this.$goRefresh();
+        this.$store.dispatch("ajax_language", {
+          ln: this.languageList[index].language === "zh-CN" ? "zh-CN" : "en"
+        }).then(res => {
+          if(res.data && +res.data.error === 0) {
+            window.localStorage.setItem("language", this.languageList[index].language);
+            this.$goRefresh();
+          } else {
+            return false;
+          }
+        }).catch(err => {
+          return false;
+        });
       }
     },
     goFooter(index) {

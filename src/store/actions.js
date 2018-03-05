@@ -107,6 +107,9 @@ export default {
   ajax_chat({commit}, requestData = {}) {
     return http.get("https://notice.otcmaker.com/chat", requestData, {timeout: 60000});
   },
+  ajax_language({commit}, requestData = {}){
+    return http.get("/api/v1/common/ln.json", requestData);
+  },
   //post
   ajax_register({commit}, requestData) {
     return http.post("/api/v1/members/reg.json", requestData);
