@@ -33,8 +33,8 @@
         {{$t('user.add_auth_google_commit')}}
       </i-button>
     </div>
-    <Modal v-model="popUpStatus" class-name="m-ivu-modal" width='480' :mask-closable="true" :closable="false">
-      <auth_google_pop @cancel='cancelPopup'/>
+    <Modal v-model="pop_google" class-name="m-ivu-modal" width='480' :mask-closable="true" :closable="false">
+      <auth_google_pop @close='closePopGoogle'/>
       <div slot="footer"></div>
     </Modal>
 
@@ -50,7 +50,7 @@
   export default {
     data() {
       return {
-        popUpStatus: false,
+        pop_google: false,
         breadcrumbText:
         this.$t("user.securitySetting") + " - " + this.$t("user.auth_google"),
         qrCodeConfig: {
@@ -89,13 +89,14 @@
     methods: {
       submit() {
         if (this.$store.state.userInfo.activated) {
-          this.popUpStatus = true;
+          this.pop_google = true;
         } else {
           this.$store.commit("showAuthEmail_setter", 1);
         }
       },
-      cancelPopup() {
-        this.popUpStatus = false;
+      closePopGoogle(val) {
+        this.pop_google = false;
+        val && this.$goRouter("/user/userCenter/securitySetting");
       },
       redirect(type) {
         let href =
