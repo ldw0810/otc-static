@@ -415,6 +415,7 @@
     "ad_deal_with_self": "You can not trade with yourself"
   },
   "order": {
+    "remark_required": "Please enter the order related content",
     "order_unfinished": "Processing",
     "order_finished": "Completed",
     "order_trader": "Partner",

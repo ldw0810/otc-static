@@ -212,7 +212,7 @@
     <!-- 留言 -->
     <Modal v-model="confirmFlag.pay" class-name="m-ivu-modal" width='480' :mask-closable="true" :closable="false">
       <logoDiv style="margin: 0" />
-      <Form class="asset-model" ref='remarkForm' :model="remarkForm" :rules="remarkFormRules">
+      <Form @checkValidate = 'checkValidate_remarkForm' class="asset-model" ref='remarkForm' :model="remarkForm" :rules="remarkFormRules">
         <h3 class='asset-model-title'>{{$t("order.order_confirm_pay_title")}}</h3>
         <div class='asset-model-content'>
           <div class='asset-model-content-desc'>{{$t("order.order_confirm_pay_remark_tip")}}</div>
@@ -224,7 +224,7 @@
           <div class='warn'>{{$t("order.order_confirm_pay_warn")}}</div>
         </div>
         <FormItem class='g-comfirm-group buttons-group'>
-          <i-button class="submit-button" type="primary" @click="doOper('pay')">
+          <i-button class="submit-button" type="primary" :disabled='!validate.remarkForm' @click="doOper('pay')">
             {{$t('order.order_confirm_payed')}}
           </i-button>
           <i-button class="cancel-button" @click="confirmFlag.pay = false">
@@ -258,10 +258,10 @@
             </i-col>
           </Row>
         </div>
-        <Form class="form" ref="confirmForm" :model="confirmForm" :rules="confirmRules">
-          <FormItem prop="pinCode" class="formItem">
+        <Form @checkValidate = 'checkValidate_confirmForm' class="form" ref="confirmForm" :model="confirmForm" :rules="confirmRules">
+          <FormItem prop="password" class="formItem">
             <div>
-              <i-input class="input" type="password" v-model="confirmForm.password"
+              <i-input type="password" v-model="confirmForm.password"
                        :placeholder="$t('user.password_login')" @on-enter="doOper('release')">
               </i-input>
             </div>
@@ -272,7 +272,7 @@
             order.currency.toUpperCase())}}
           </div>
           <FormItem class="formItem g-comfirm-group buttons-group">
-            <i-button class="submit-button" type="primary" @click="doOper('release')">
+            <i-button class="submit-button" type="primary" :disabled='!validate.confirmForm' @click="doOper('release')">
               {{$t('order.order_pay_release')}}
             </i-button>
             <i-button class="cancel-button" @click="confirmFlag.release = false">
@@ -330,11 +330,13 @@
 </template>
 <script type="es6">
 import config from '@/config/config'
+import ValidateMixin from "@/components/mixins/validate-mixin";
 import logoDiv from "../public/logo.vue";
 import chat from "../public/chat.vue";
 import auth_two from "../public/auth_two_pop.vue";
 
 export default {
+  mixins: [ValidateMixin(['remarkForm', 'confirmForm'])],
   data() {
     return {
       stepList: [],
@@ -357,7 +359,7 @@ export default {
         remark: [
           {
             required: true,
-            message: this.$t("user.password_required")
+            message: this.$t("order.remark_required")
           }
         ]
       },

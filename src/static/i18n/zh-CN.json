@@ -425,6 +425,7 @@
     "ad_deal_with_self": "您不可以和自己交易"
   },
   "order": {
+    "remark_required": "请输入订单相关内容",
     "order_unfinished": "未完成订单",
     "order_finished": "已完成订单",
     "order_trader": "交易对象",
