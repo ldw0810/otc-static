@@ -390,6 +390,7 @@
     "ad_ceiling_limit": "Max 9999999999",
     "ad_ceiling_tip": "Amount's max limit.",
     "ad_ceiling_number_notValid": "Maximum Limit can not be less than Minimum Limit",
+    "ad_ceiling_sell_all": "Sell all",
     "ad_remark": "Message",
     "ad_remark_tip": "Enter some more message for this Ad",
     "ad_advertise": "POST",
