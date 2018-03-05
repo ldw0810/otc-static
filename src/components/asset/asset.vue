@@ -361,21 +361,21 @@
                         </div>
                         <div slot="footer"></div>
                     </Modal>
-                    <Modal v-model="withdraw_confirm" class-name="m-ivu-modal" :mask-closable="true" :closable="false">
+                    <Modal v-model="withdraw_confirm" width='570' class-name="m-ivu-modal" :mask-closable="true" :closable="false">
                         <logoDiv/>
                         <withdraw_confirm_pop :form="form" @close="doWithdrawPop"/>
                         <div slot="footer"></div>
                     </Modal>
-                    <Modal v-model="withdraw_email" class-name="m-ivu-modal" :mask-closable="true" :closable="false">
+                    <Modal v-model="withdraw_email" width='480' class-name="m-ivu-modal" :mask-closable="true" :closable="false">
                         <logoDiv/>
-                        <div class="asset-model">
-                            <h3 class='asset-model-title'>{{$t("user.authentication_email_beenSend")}}</h3>
-                            <div class='asset-model-content'>
-                                <div>{{userInfo.email}}</div>
-                                <a v-text="$t('user.authentication_email_reSend_link')" @click="sendEmail">
-                                </a>
+                        <div class="asset-model-mail">
+                            <div class='asset-model-mail-title'>
+                                <p>{{$t("user.authentication_email_beenSend")}}</p>
+                                <p>{{userInfo.email}}</p>
                             </div>
-                            <i-button class="submitButton" long type="primary" @click="withdraw_email=false">
+                            <p class='asset-model-mail-desc'>{{$t('asset.asset_withdraw_email')}}</p>
+                            <a v-text="$t('user.authentication_email_reSend_link')" @click="sendEmail" class='asset-model-mail-btn'></a>
+                            <i-button long type="primary" @click="withdraw_email=false">
                                 {{$t('public.confirm')}}
                             </i-button>
                         </div>
