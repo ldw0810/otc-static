@@ -52,15 +52,12 @@
             code: this.$route.query.withdraw_token
           }).then(res => {
             if (res.data && +res.data.error === 0) {
-              this.$Message.info(this.$t("asset.asset_withdraw_confirm_success"))
-              this.$goRouter("/")
+              this.$Message.success(this.$t("asset.asset_withdraw_confirm_success"));
             } else {
               this.$Message.error(this.$t("asset.asset_withdraw_confirm_fail"));
-              this.$goRouter("/")
             }
           }).catch(err => {
             this.$Message.error(this.$t("asset.asset_withdraw_confirm_fail"));
-            this.$goRouter("/")
           });
         } else if (this.$route.query.invitationCode) {
 //                    window.localStorage.setItem("invitationCode", this.$route.query.invitationCode);
@@ -69,20 +66,20 @@
             token: this.$route.query.activation_token
           }).then(res => {
             if (res.data && +res.data.error === 0) {
-              this.$Message.info({
+              this.$Message.success({
                 content: this.$t('public.email_activation_success'),
-                onClose: this.$goRouter("/"),
+                // onClose: this.$goRouter("/"),
               });
             } else {
-              this.$Message.info({
+              this.$Message.error({
                 content: this.$t('public.activation_link_notValid'),
-                onClose: this.$goRouter("/"),
+                // onClose: this.$goRouter("/"),
               });
             }
           }).catch(err => {
-            this.$Message.info({
+            this.$Message.error({
               content: this.$t('public.activation_link_notValid'),
-              onClose: this.$goRouter("/"),
+              // onClose: this.$goRouter("/"),
             });
           });
         }
