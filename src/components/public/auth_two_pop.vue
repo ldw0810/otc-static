@@ -1,6 +1,6 @@
 <template>
     <div>
-        <logoDiv></logoDiv>
+        <logoDiv />
         <div class="content">
             <div v-if="validate_phone && validate_google">
                 <div class="titleDiv" :class="{'titleFocus':+validateIndex === 0}">
@@ -12,7 +12,7 @@
             </div>
             <div class="title" v-else-if="validate_phone" v-text="$t('user.auth_phone')"></div>
             <div class="title" v-else-if="validate_google" v-text="$t('user.auth_google')"></div>
-            <div v-if="+validateIndex === 0">
+            <div v-show="+validateIndex === 0">
                 <div class="tip" v-text="tipText"></div>
                 <Form class="form" ref="phoneForm" :model="phoneForm" :rules="phoneRules">
                     <FormItem prop="pinCode" class="formItem">
@@ -23,7 +23,7 @@
                                     <img src="../../static/images/icon/IdentifyingCode-CCCCCC.svg">
                                 </span>
                             </i-input>
-                            <sendCodeButton ref="sendCodeButton" @sendCode="sendPinCode"></sendCodeButton>
+                            <sendCodeButton ref="sendCodeButton" @sendCode="sendPinCode" />
                         </div>
                     </FormItem>
                     <!--防止自动提交表单-->
@@ -43,7 +43,7 @@
                 </Form>
                 
             </div>
-            <div v-if="+validateIndex === 1">
+            <div v-show="+validateIndex === 1">
                 <div class="tip" v-text="$t('user.auth_google_code_required')"></div>
                 <Form class="form" ref="googleForm" :model="googleForm" :rules="googleRules">
                     <FormItem prop="pinCode" class="formItem">
