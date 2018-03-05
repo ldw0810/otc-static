@@ -1,6 +1,6 @@
 <template>
   <div>
-    <logoDiv></logoDiv>
+    <logoDiv />
     <div class="container-validate">
       <!-- <div v-if="validate_phone && validate_google">
           <div class="titleDiv" :class="{'titleFocus':validateIndex == 1}" @click="changeValidate(0)">
@@ -22,7 +22,7 @@
         <div class="title" v-if="validate_phone && !validate_google" v-text="$t('user.auth_phone')"></div>
         <div class="title" v-if="validate_google && !validate_phone" v-text="$t('user.auth_google')"></div>
         <!-- 手机验证 -->
-        <div v-if="+validateIndex === 0">
+        <div v-show="+validateIndex === 0">
           <div class="tip" v-text="tipText"></div>
           <Form class="form" ref="phoneForm" @checkValidate='checkValidate_phoneForm' :model="phoneForm"
                 :rules="phoneRules">
@@ -34,7 +34,7 @@
                                 <img src="../../../static/images/icon/IdentifyingCode-CCCCCC.svg">
                             </span>
                 </i-input>
-                <sendCodeButton ref="sendCodeButton" @sendCode="sendPinCode"></sendCodeButton>
+                <sendCodeButton ref="sendCodeButton" @sendCode="sendPinCode" />
               </div>
             </FormItem>
             <!--防止自动提交表单-->
@@ -54,7 +54,7 @@
 
         </div>
         <!-- 谷歌验证 -->
-        <div v-else-if="+validateIndex === 1">
+        <div v-show="+validateIndex === 1">
           <div class="tip" v-text="$t('user.auth_google_code_required')"></div>
           <Form class="form" ref="googleForm" @checkValidate='checkValidate_googleForm' :model="googleForm"
                 :rules="googleRules">
