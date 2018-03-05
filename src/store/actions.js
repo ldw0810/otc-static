@@ -1,5 +1,7 @@
 import ajax from "../libs/ajax"
 import queryString from 'querystring'   //post请求转码
+import store from "../store/store"
+
 const http = {
   get: function (url, requestJson, config) {
     return new Promise((resolve, reject) => {
@@ -105,9 +107,14 @@ export default {
     return http.get("/api/v1/common/zendesk.json", requestData);
   },
   ajax_chat({commit}, requestData = {}) {
-    return http.get("https://notice.otcmaker.com/chat", requestData, {timeout: 60000});
+    let source = ajax.CancelToken.source();
+    store.commit("ajax_source_setter", source);
+    return http.get("https://notice.otcmaker.com/chat", requestData, {
+      timeout: 120000,
+      cancelToken: source.token
+    });
   },
-  ajax_language({commit}, requestData = {}){
+  ajax_language({commit}, requestData = {}) {
     return http.get("/api/v1/common/ln.json", requestData);
   },
   //post

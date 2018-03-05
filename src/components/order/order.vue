@@ -511,9 +511,7 @@
             if (res.data && +res.data.error === 0) {
               this.confirmFlag.pay = false;
               this.chatMessage = this.confirmForm.remark;
-              this.$Message.success(
-                this.$t("order.order_pay_complete_success")
-              );
+              this.$Message.success(this.$t("order.order_pay_complete_success"));
               this.getOrderInfo();
             } else {
               this.$Message.error(this.$t("order.order_pay_complete_fail"));

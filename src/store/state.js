@@ -54,5 +54,6 @@ export default {
     paymentList: ["alipay", "bank"],
     userToken: "",  //登录后header必携带
     loginFlag: 0,   //是否登录,
-    showAuthEmail: false
+    showAuthEmail: false,
+    ajax_source: null
 }

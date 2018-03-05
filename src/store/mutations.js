@@ -108,5 +108,8 @@ export default {
       state.showAuthEmail = !value;
     }
     state.showAuthEmail = value;
-  }
+  },
+  ajax_source_setter(state, value) {
+    state.ajax_source = value;
+  },
 };
