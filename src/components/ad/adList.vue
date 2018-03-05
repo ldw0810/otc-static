@@ -179,7 +179,9 @@
             },
             deal(id) {
                 if (!this.$store.state.loginFlag) {
-                    this.$goRouter("/user/login");
+                    this.$goRouter("/user/login", {
+                      redirect: this.$route.fullPath
+                    });
                 } else if (!this.$store.state.userInfo.activated) {
                     this.$store.commit("showAuthEmail_setter", 1);
                 } else {
