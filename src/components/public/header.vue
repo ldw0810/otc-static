@@ -70,7 +70,7 @@
             </li>
             <li class='header-navbar-item' :key='index' :class="{'active': item.index === $store.state.header_index}"
                 v-if='index === 1'>
-              <Poptip trigger="hover" placement="bottom" @on-popper-show="showAsset" @on-popper-hide="hideAsset">
+              <Poptip trigger="hover" placement="bottom" @on-popper-show="getAssetData" @on-popper-hide="getAssetDataCancel">
                 <div class='header-navbar-item-wrapper' @click='goMenu(item)'>
                   <i class='header-navbar-item-icon header-navbar-item-icon-prepend icon-dollar'></i>
                   <a class='header-navbar-item-link' href="javascript:void(0)">
@@ -169,6 +169,7 @@
     name: "headerBar",
     data() {
       return {
+        assetLoading: false,
         menus: [
           {
             title: this.$t("public.homePage"),
@@ -278,6 +279,9 @@
       },
       header_index() {
         return this.$store.state.header_index + "";
+      },
+      ajax_source() {
+        return this.$store.state.ajax_source;
       }
     },
     methods: {
@@ -290,11 +294,20 @@
       handleMouseleave(item) {
         item.visible = false;
       },
-      showAsset(){
-
+      getAssetData() {
+        this.assetLoading = true;
+        this.$store.dispatch("ajax_me").then(res_me => {
+          this.assetLoading = false;
+          if (res_me.data && +res_me.data.error === 0) {
+            this.$store.commit("saveUserInfo", res_me.data.member);
+          } else {
+          }
+        }).catch(res => {
+          this.assetLoading = false;
+        });
       },
-      hideAsset(){
-
+      getAssetDataCancel() {
+        this.ajax_source && this.ajax_source.cancel({});
       },
       goMenu(item, index) {
         if (item.action && isFunction(item.action)) {

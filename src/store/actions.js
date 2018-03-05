@@ -53,7 +53,11 @@ export default {
     return http.get("/api/v1/members/verified_nickname.json", requestData);
   },
   ajax_me({commit}, requestData = {}) {
-    return http.get("/api/v1/members/me.json", requestData);
+    let source = ajax.CancelToken.source();
+    store.commit("ajax_source_setter", source);
+    return http.get("/api/v1/members/me.json", requestData, {
+      cancelToken: source.token
+    });
   },
   ajax_national_list({commit}, requestData = {}) {
     return http.get("/api/v1/two_factor/national_list.json", requestData);

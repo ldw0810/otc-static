@@ -474,7 +474,7 @@
     },
     destroyed() {
       this.getMsgTimer && clearTimeout(this.getMsgTimer);
-      this.ajax_source && this.ajax_source.cancel({err: "123"});
+      this.ajax_source && this.ajax_source.cancel({});
     }
   };
 </script>
