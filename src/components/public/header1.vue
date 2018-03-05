@@ -244,6 +244,7 @@ export default {
               url: "",
               action: () => {
                 this.$store.commit("loginFlag_setter", 0);
+                this.$store.commit("delUserInfo");
                 this.$store.commit("delToken");
                 this.$goRefresh();
               },
