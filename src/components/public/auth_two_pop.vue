@@ -1,71 +1,74 @@
 <template>
     <div>
         <logoDiv />
-        <div class="content">
-            <div v-if="validate_phone && validate_google">
-                <div class="titleDiv" :class="{'titleFocus':+validateIndex === 0}">
-                    <span v-text="$t('user.auth_phone')" @click="changeValidate(0)"></span>
+        <div>
+            <div class="g-tabs" v-if="validate_phone && validate_google">
+                <div class='g-tabs-bar' @click="changeValidate(0)" :class="{'g-tabs-bar-active': +validateIndex === 0}">
+                    <span class='g-tabs-bar-text' v-text="$t('user.auth_phone')"></span>
                 </div>
-                <div class="titleDiv" :class="{'titleFocus':+validateIndex === 1}">
-                    <span v-text="$t('user.auth_google')" @click="changeValidate(1)"></span>
+                <div class='g-tabs-bar'  @click="changeValidate(1)" :class="{'g-tabs-bar-active': +validateIndex === 1}">
+                    <span class='g-tabs-bar-text' v-text="$t('user.auth_google')"></span>
                 </div>
             </div>
-            <div class="title" v-else-if="validate_phone" v-text="$t('user.auth_phone')"></div>
-            <div class="title" v-else-if="validate_google" v-text="$t('user.auth_google')"></div>
-            <div v-show="+validateIndex === 0">
-                <div class="tip" v-text="tipText"></div>
-                <Form class="form" ref="phoneForm" :model="phoneForm" :rules="phoneRules">
-                    <FormItem prop="pinCode" class="formItem">
-                        <div class='g-send-group'>
-                            <i-input class="inputPinCodePhone" type="text" v-model="phoneForm.pinCode"
-                                    :placeholder="$t('user.pinCode_required')" @on-enter="phoneSubmit">
+            <div class='content'>
+                <div class="title" v-if="validate_phone && !validate_google" v-text="$t('user.auth_phone')"></div>
+                <div class="title" v-if="validate_google && !validate_phone" v-text="$t('user.auth_google')"></div>
+                <div v-show="+validateIndex === 0">
+                    <div class="tip" v-text="tipText"></div>
+                    <Form class="form" ref="phoneForm" :model="phoneForm" :rules="phoneRules">
+                        <FormItem prop="pinCode" class="formItem">
+                            <div class='g-send-group'>
+                                <i-input class="inputPinCodePhone" type="text" v-model="phoneForm.pinCode"
+                                        :placeholder="$t('user.pinCode_required')" @on-enter="phoneSubmit">
+                                    <span slot="prepend">
+                                        <img src="../../static/images/icon/IdentifyingCode-CCCCCC.svg">
+                                    </span>
+                                </i-input>
+                                <sendCodeButton ref="sendCodeButton" @sendCode="sendPinCode" />
+                            </div>
+                        </FormItem>
+                        <!--防止自动提交表单-->
+                        <input type="text" style="display:none" />
+                        <FormItem class="formItem submit">
+                            <div class='g-comfirm-group'>
+                                <i-button class="submitButton" type="primary" :loading='phoneLoading' @click="phoneSubmit">
+                                    {{$t('public.confirm')}}
+                                </i-button>
+                                <i-button class="cancelButton" @click="cancel">
+                                    {{$t('public.cancel')}}
+                                </i-button>
+                            </div>
+                        </FormItem>
+                    </Form>
+                    
+                </div>
+                <div v-show="+validateIndex === 1">
+                    <div class="tip" v-text="$t('user.auth_google_code_required')"></div>
+                    <Form class="form" ref="googleForm" :model="googleForm" :rules="googleRules">
+                        <FormItem prop="pinCode" class="formItem">
+                            <i-input class="inputPinCode" type="text" v-model="googleForm.pinCode"
+                                    :placeholder="$t('user.pinCode_required')" @on-enter="googleSubmit">
                                 <span slot="prepend">
                                     <img src="../../static/images/icon/IdentifyingCode-CCCCCC.svg">
                                 </span>
                             </i-input>
-                            <sendCodeButton ref="sendCodeButton" @sendCode="sendPinCode" />
-                        </div>
-                    </FormItem>
-                    <!--防止自动提交表单-->
-                    <input type="text" style="display:none" />
-                    <FormItem class="formItem submit">
-                        <span>
-                            <i-button class="submitButton" type="primary" :loading='phoneLoading' @click="phoneSubmit">
-                                {{$t('public.confirm')}}
-                            </i-button>
-                        </span>
-                        <span>
-                            <i-button class="cancelButton" @click="cancel">
-                            {{$t('public.cancel')}}
-                        </i-button>
-                        </span>
-                    </FormItem>
-                </Form>
-                
+                        </FormItem>
+                        <!--防止自动提交表单-->
+                        <input type="text" style="display:none" />
+                        <FormItem class="formItem submit">
+                            <div class='g-comfirm-group'>
+                                <i-button class="submitButton" type="primary" :loading='googleLoading' @click="googleSubmit">
+                                    {{$t('public.confirm')}}
+                                </i-button>
+                                <i-button class="cancelButton" @click="cancel">
+                                    {{$t('public.cancel')}}
+                                </i-button>
+                            </div>
+                        </FormItem>
+                    </Form>
+                </div>
             </div>
-            <div v-show="+validateIndex === 1">
-                <div class="tip" v-text="$t('user.auth_google_code_required')"></div>
-                <Form class="form" ref="googleForm" :model="googleForm" :rules="googleRules">
-                    <FormItem prop="pinCode" class="formItem">
-                        <i-input class="inputPinCode" type="text" v-model="googleForm.pinCode"
-                                 :placeholder="$t('user.pinCode_required')" @on-enter="googleSubmit">
-                            <span slot="prepend">
-                                <img src="../../static/images/icon/IdentifyingCode-CCCCCC.svg">
-                            </span>
-                        </i-input>
-                    </FormItem>
-                    <!--防止自动提交表单-->
-                    <input type="text" style="display:none" />
-                    <FormItem class="formItem g-comfirm-group submit">
-                        <i-button class="submitButton" type="primary" :loading='googleLoading' @click="googleSubmit">
-                            {{$t('public.confirm')}}
-                        </i-button>
-                        <i-button class="cancelButton" @click="cancel">
-                            {{$t('public.cancel')}}
-                        </i-button>
-                    </FormItem>
-                </Form>
-            </div>
+
         </div>
         <div style="clear: both"></div>
     </div>
@@ -236,40 +239,6 @@
         word-wrap: break-word;
     }
 
-    .titleDiv {
-        width: 240px;
-        height: 50px;
-        float: left;
-        font-size: 16px;
-        color: #666666;
-        text-align: center;
-        margin-bottom: 71px;
-    }
-
-    .titleDiv span {
-        display: inline-block;
-        cursor: pointer;
-        padding-top: 15px;
-    }
-
-    .titleDiv span:hover {
-        background-image: -webkit-gradient(linear, left top, right bottom, color-stop(0, #0BBFD5), color-stop(1, #6DD7B2));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-
-    .titleDiv span:hover:after {
-        display: block;
-        content: '';
-        left: 3px;
-        right: 3px;
-        height: 2px;
-        background-image: linear-gradient(-134deg, #0BBFD5 0%, #6DD7B2 100%);
-    }
-
-    .titleFocus {
-        background: #F4F6F9;
-    }
 
     .title {
         /* margin-left: 94px; */

@@ -42,7 +42,7 @@
           </header>
           <Row>
             <i-col span='10'>
-              <Select class="input paymentInput" v-model="form_buy.payment">
+              <Select class="input paymentInput" :placeholder='$t("public.select")' v-model="form_buy.payment">
                 <Option v-for="item in paymentList" :value="item" :key="item">
                   {{$t("public['" + item + "']")}}
                 </Option>
@@ -58,7 +58,7 @@
           </header>
           <Row>
             <i-col span='10'>
-              <Select class="input" v-model="form_buy.money">
+              <Select class="input" v-model="form_buy.money" :placeholder='$t("public.select")'>
                 <Option v-for="item in moneyList" :value="item" :key="item">
                   {{$t("public['" + item + "']")}}&nbsp;&nbsp;{{$t("public['" + item + "_text']")}}
                 </Option>
