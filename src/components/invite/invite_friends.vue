@@ -83,7 +83,7 @@
             padding: 48px 70px;
             margin-bottom: 30px;
             &-desc {
-                font-size: 18px;
+                font-size: 16px;
                 color: #ED1C24;
                 margin-bottom: 26px;
                 &-sub {
@@ -103,7 +103,7 @@
                 border: 1px solid #CCCCCC;
                 border-radius: 2px;
                 height: 40px;
-                font-size: 18px;
+                font-size: 16px;
                 padding: 8px 20px;
             }
             .copy-btn-wrapper {
@@ -171,7 +171,7 @@
             &-content {
                 border-top: 1px solid #eee;
                 padding-top: 20px;
-                font-size: 18px;
+                font-size: 16px;
                 letter-spacing: 0;
                 line-height: 32px;
             }

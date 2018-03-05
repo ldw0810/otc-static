@@ -130,8 +130,7 @@
                 :class="{'active': Array.isArray(item.index) && item.index.indexOf(+$store.state.header_index) > -1 }" 
                 v-if='index === 2'
                 >
-                  <Dropdown
-                  >
+                  <Dropdown>
                     <div class='header-navbar-item-wrapper' @click='goMenu(item)'>
                     <a class='header-navbar-item-link' href="javascript:void(0)">
                         {{userInfo.nickname || 'Aaron'}}
@@ -144,7 +143,7 @@
                         </DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
-              </li>   
+              </li>
             </template>       
           </ul>
         </nav>
