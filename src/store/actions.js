@@ -55,8 +55,18 @@ export default {
   ajax_me({commit}, requestData = {}) {
     let source = ajax.CancelToken.source();
     store.commit("ajax_source_setter", source);
-    return http.get("/api/v1/members/me.json", requestData, {
-      cancelToken: source.token
+    return new Promise((resolve, reject) => {
+      http.get("/api/v1/members/me.json", requestData, {
+        cancelToken: source.token
+      }).then(res => {
+        if (res.data && +res.data.error === 0) {
+          commit("saveUserInfo", res.data.member);
+        } else {
+        }
+        resolve(res);
+      }).catch(err => {
+        reject(err);
+      });
     });
   },
   ajax_national_list({commit}, requestData = {}) {

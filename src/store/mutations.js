@@ -88,7 +88,6 @@ export default {
     state.userToken = value;
   },
   saveUserInfo(state, value) {
-    localStorage.userInfo = JSON.stringify(value);
     state.userInfo = value;
     state.loginFlag = true;
   },
@@ -97,7 +96,6 @@ export default {
     state.userToken = null;
   },
   delUserInfo(state) {
-    localStorage.removeItem("userInfo");
     state.userInfo = {
       id: ""
     };

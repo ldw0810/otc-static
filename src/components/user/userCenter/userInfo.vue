@@ -93,15 +93,7 @@
     },
     mounted() {
       this.$store.commit("user_sider_index_setter", 0);
-      this.$store.dispatch("ajax_me").then(res => {
-        if (res.data && +res.data.error === 0) {
-          this.$store.commit("saveUserInfo", res.data.member);
-        } else {
-          this.$Message.error(this.$t("user.userInfo_response_none"));
-        }
-      }).catch(res => {
-        this.$Message.error(this.$t("user.userInfo_response_none"));
-      });
+      this.$store.dispatch("ajax_me");
     },
     methods: {
       showAuthPhone() {

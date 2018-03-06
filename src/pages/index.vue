@@ -97,9 +97,6 @@
       }
     },
     methods: {
-      changeClientHeight() {
-//                this.isFooter = document.body.clientHeight > document.documentElement.clientHeight;
-      }
     },
     components: {
       headerBar,
