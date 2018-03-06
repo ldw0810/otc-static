@@ -70,7 +70,8 @@
             </li>
             <li class='header-navbar-item' :key='index' :class="{'active': item.index === $store.state.header_index}"
                 v-if='index === 1'>
-              <Poptip trigger="hover" placement="bottom" @on-popper-show="getAssetData" @on-popper-hide="getAssetDataCancel">
+              <Poptip trigger="hover" placement="bottom" @on-popper-show="getAssetData"
+                      @on-popper-hide="getAssetDataCancel">
                 <div class='header-navbar-item-wrapper' @click='goMenu(item)'>
                   <i class='header-navbar-item-icon header-navbar-item-icon-prepend icon-dollar'></i>
                   <a class='header-navbar-item-link' href="javascript:void(0)">
@@ -170,6 +171,7 @@
     data() {
       return {
         assetLoading: false,
+        noticeTimer: 0,
         menus: [
           {
             title: this.$t("public.homePage"),
@@ -266,7 +268,7 @@
       };
     },
     computed: {
-      userToken(){
+      userToken() {
         return this.$store.state.userToken;
       },
       userInfo() {
@@ -302,6 +304,19 @@
       },
       getAssetDataCancel() {
         this.ajax_source && this.ajax_source.cancel({});
+      },
+      getNotice() {
+        this.noticeTimer && clearTimeout(this.noticeTimer);
+        if(this.userToken) {
+          this.$store.dispatch("ajax_notice").then(res => {
+            if (res.data && +res.data.error === 0) {
+              this.$store.commit("userInfo_notice_setter", +res.data.notice);
+            } else {
+            }
+          }).catch(err => {
+          });
+          this.noticeTimer = setTimeout(this.getNotice, 60 * 1000);
+        }
       },
       goMenu(item, index) {
         if (item.action && isFunction(item.action)) {
@@ -369,6 +384,12 @@
           children: []
         }
       ];
+    },
+    mounted(){
+      this.getNotice();
+    },
+    destroyed(){
+      this.noticeTimer && clearTimeout(this.noticeTimer);
     }
   };
 </script>

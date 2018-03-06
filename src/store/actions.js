@@ -69,6 +69,9 @@ export default {
       });
     });
   },
+  ajax_notice({commit}, requestData = {}) {
+    return http.get("/api/v1/members/notice.json", requestData);
+  },
   ajax_national_list({commit}, requestData = {}) {
     return http.get("/api/v1/two_factor/national_list.json", requestData);
   },
