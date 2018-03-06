@@ -60,7 +60,7 @@ export default {
         cancelToken: source.token
       }).then(res => {
         if (res.data && +res.data.error === 0) {
-          commit("saveUserInfo", res.data.member);
+          commit("userInfo_setter", res.data.member);
         } else {
         }
         resolve(res);

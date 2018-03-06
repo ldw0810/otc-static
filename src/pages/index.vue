@@ -87,13 +87,16 @@
 
     },
     watch: {
-      "showAuthEmail": function (val) {
+      showAuthEmail(val) {
         this.pop_email = !!val;
       }
     },
     computed: {
       showAuthEmail() {
         return this.$store.state.showAuthEmail;
+      },
+      userInfo() {
+        return this.$store.state.userInfo;
       }
     },
     methods: {
