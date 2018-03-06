@@ -1,6 +1,6 @@
 <template>
   <div class='wrapper'>
-    <logoDiv></logoDiv>
+    <logoDiv/>
     <div class="content">
       <div class="title" v-text="$t('public.login')"></div>
       <Form class="form" ref="form" @checkValidate='checkValidate' :model="form" :rules="rules">
