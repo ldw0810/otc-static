@@ -13,7 +13,7 @@
               <div class='sider-item-content'>
                 <h3 class='sider-item-title'>{{$t("public['" + item + "']")}}</h3>
                 <div v-for="(account, index2) in userInfo.valid_account" :key='index2'>
-                  <p class='sider-item-desc' v-if="account.currency == currencyList[index]">
+                  <p class='sider-item-desc' v-if="account.currency === currencyList[index]">
                     <!-- {{$t("public.asset")}}:  -->
                     {{account.amount|fix_decimals(8)}}
                   </p>
@@ -49,17 +49,7 @@
             </div>
           </header>
           <!--验证邮箱-->
-          <div class='content-withdraw-no-verify' v-if="!userInfo.activated">
-            <div class='text'>
-              {{+assetIndex === 0 ?
-              $t("asset.asset_recharge_email_no_Auth").format($t("public['" + this.currency + "']")) :
-              $t("asset.asset_withdraw_email_no_Auth").format($t("public['" + this.currency + "']"))}}
-            </div>
-            <i-button class='g-shadow button' type='primary' @click="showAuthEmail">
-              {{$t("asset.asset_go_email_auth")}}
-            </i-button>
-          </div>
-          <div v-else-if="+deposit.error === 0 || +withdraw.error === 0">
+          <div v-if="+deposit.error === 0 || +withdraw.error === 0">
             <div class="g-shadow content-main">
               <div class="content-tabs">
                 <div class="content-tabs-item echarge"
@@ -560,9 +550,6 @@
       },
       default_source_id() {
         return this.withdraw.default_source_id;
-      },
-      ajax_source() {
-        return this.$store.state.ajax_source;
       }
     },
     watch: {
@@ -815,16 +802,19 @@
       },
       init() {
         this.$store.commit("header_index_setter", "8");
-        if (this.userInfo.activated) {
-          this.showInfo();
-        }
-        this.ajax_source && this.ajax_source.cancel({});
+        this.showInfo();
       }
     },
     mounted() {
       this.init();
     },
     beforeRouteEnter(to, from, next) {
+      if(from.name && from.name.indexOf("/user/login") <= -1) {
+        store.dispatch("ajax_me");
+      }
+      next();
+    },
+    beforeRouteUpdate(to, from, next) {
       if(from.name && from.name.indexOf("/user/login") <= -1) {
         store.dispatch("ajax_me");
       }
