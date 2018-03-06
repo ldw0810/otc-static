@@ -178,7 +178,7 @@
                 });
             },
             deal(id) {
-                if (!localStorage.getItem("userToken")) {
+                if (!this.$store.state.userToken) {
                     this.$goRouter("/user/login", {
                       redirect: this.$route.fullPath
                     });

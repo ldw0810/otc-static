@@ -255,7 +255,7 @@
                 title: this.$t("public.logout"),
                 url: "",
                 action: () => {
-                  localStorage.removeItem("userToken");
+                  this.$store.commit("delToken");
                   this.$goRefresh();
                 },
                 children: []
@@ -267,7 +267,7 @@
     },
     computed: {
       userToken(){
-        return localStorage.getItem("userToken");
+        return this.$store.state.userToken;
       },
       userInfo() {
         return this.$store.state.userInfo;

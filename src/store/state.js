@@ -52,6 +52,7 @@ export default {
     currencyList: ["dai", "eth"],
     // moneyList: ["CNY", "USD"],
     paymentList: ["alipay", "bank"],
+    userToken: null,  //登录后header必携带
     showAuthEmail: false,
     ajax_source: null
 }

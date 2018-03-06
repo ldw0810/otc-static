@@ -102,7 +102,7 @@
                 }).then(result => {
                   this.submitLoading = false;
                   if (result.data && +result.data.error === 0) {
-                    localStorage.setItem("userToken", result.data.token);
+                    this.$store.commit("saveToken", result.data.token);
                     this.$store.dispatch("ajax_me").then(res_me => {
                       if (res_me.data && +res_me.data.error === 0) {
                         this.$Message.success(this.$t("user.login_success"));
