@@ -156,7 +156,7 @@
             }).then(res => {
               this.submitPhoneLoading = false;
               if (res.data && +res.data.error === 0) {
-                this.$store.commit("saveToken", res.data.token);
+                localStorage.setItem("userToken", res.data.token);
                 this.$store.dispatch("ajax_me").then(res_me => {
                   if (res_me.data && +res_me.data.error === 0) {
                     this.$Message.success(this.$t("user.login_success"));
@@ -192,7 +192,7 @@
             }).then(res => {
               this.submitGoogleLoading = false;
               if (res.data && +res.data.error === 0) {
-                this.$store.commit("saveToken", res.data.token);
+                localStorage.setItem("userToken", res.data.token);
                 this.$store.dispatch("ajax_me").then(res_me => {
                   if (res_me.data && +res_me.data.error === 0) {
                     this.$Message.success(this.$t("user.login_success"));

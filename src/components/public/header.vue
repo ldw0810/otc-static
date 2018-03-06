@@ -32,7 +32,7 @@
           </li>
         </ul>
       </nav>
-      <nav class='header-nav header-login' v-if='!loginFlag'>
+      <nav class='header-nav header-login' v-if='!userToken'>
         <ul class='header-navbar'>
           <li class='header-navbar-item' :class="{'active': item.index === $store.state.header_index}"
               v-for='(item, index) in logins' :key='index'>
@@ -54,7 +54,7 @@
           </li>
         </ul>
       </nav>
-      <nav class='header-nav header-user' v-if='loginFlag'>
+      <nav class='header-nav header-user' v-if='userToken'>
         <ul class='header-navbar'>
           <template v-for='(item, index) in user'>
             <li class='header-navbar-item' :key='index' :class="{'active': item.index === $store.state.header_index}"
@@ -143,7 +143,7 @@
               <Dropdown>
                 <div class='header-navbar-item-wrapper' @click='goMenu(item)'>
                   <a class='header-navbar-item-link' href="javascript:void(0)">
-                    {{userInfo.nickname || 'Aaron'}}
+                    {{userInfo.nickname}}
                   </a>
                   <Icon class='header-navbar-item-icon header-navbar-item-icon-append' type="arrow-down-b"></Icon>
                 </div>
@@ -255,9 +255,7 @@
                 title: this.$t("public.logout"),
                 url: "",
                 action: () => {
-                  this.$store.commit("loginFlag_setter", 0);
-                  this.$store.commit("delUserInfo");
-                  this.$store.commit("delToken");
+                  localStorage.removeItem("userToken");
                   this.$goRefresh();
                 },
                 children: []
@@ -268,8 +266,8 @@
       };
     },
     computed: {
-      loginFlag() {
-        return this.$store.state.loginFlag;
+      userToken(){
+        return localStorage.getItem("userToken");
       },
       userInfo() {
         return this.$store.state.userInfo;

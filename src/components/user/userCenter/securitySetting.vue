@@ -71,6 +71,7 @@
   import auth_google_pop from "./auth_google_pop.vue";
   import auth_phone_pop from "./auth_phone_pop.vue";
   import BreadCrumb from "./breadcrumb";
+  import store from "../../../store/store";
 
   export default {
     data() {
@@ -91,10 +92,6 @@
       auth_flag_google() {
         return this.$store.state.userInfo.app_two_factor;
       }
-    },
-    mounted() {
-      this.$store.commit("user_sider_index_setter", 1);
-      this.getUserInfo();
     },
     methods: {
       submit(contentIndex, settingIndex) {
@@ -118,11 +115,8 @@
           }
         }
       },
-      getUserInfo() {
-        this.$store.dispatch("ajax_me");
-      },
-      closePopGoogle(val){
-        val && this.getUserInfo();
+      closePopGoogle(val) {
+        val && this.$store.dispatch("ajax_me");
         this.pop_google = false;
       }
     },
@@ -130,6 +124,15 @@
       auth_phone_pop,
       auth_google_pop,
       BreadCrumb
+    },
+    mounted() {
+      this.$store.commit("user_sider_index_setter", 1);
+    },
+    beforeRouteEnter(to, from, next) {
+      if(from.name && from.name !== "/user/login") {
+        store.dispatch("ajax_me");
+      }
+      next();
     }
   };
 </script>

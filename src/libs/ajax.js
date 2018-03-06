@@ -26,8 +26,8 @@ function languageSelectIndex() {
 axios.interceptors.request.use(
   config => {
     // config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-    if (store.state.userToken) {
-      config.headers.Authorization = `${store.state.userToken}`;
+    if (localStorage.getItem("userToken")) {
+      config.headers.Authorization = `${localStorage.getItem("userToken")}`;
     }
     return config;
   },
@@ -43,16 +43,9 @@ axios.interceptors.response.use(
     if (error.response) {
       const index = languageSelectIndex();
       if (+error.response.status === 504) { //服务器超时应退出登陆状态
-        // store.commit("delToken");
-        // store.commit("delUserInfo");
-        // Message.error({
-        //   content: languageData[index].data.request["" + error.response.status],
-        //   // onClose: router.push("/user/login"),
-        // });
       } else if (error.response.data) {
         if (+error.response.data.error === 999999) {
-          store.commit("delToken");
-          store.commit("delUserInfo");
+          localStorage.removeItem("userToken");
           Message.error({
             content: languageData[index].data.request["" + error.response.data.error],
             onClose: router.push("/user/login")

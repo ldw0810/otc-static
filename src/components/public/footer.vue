@@ -86,9 +86,6 @@
       footer_is_login() {
         return this.$store.state.footer_is_login;
       },
-      loginFlag() {
-        return this.$store.state.loginFlag;
-      }
     },
     watch: {},
     methods: {
@@ -96,7 +93,7 @@
         if (index === this.languageSelectIndex) {
           return false;
         } else {
-          if (this.loginFlag) {
+          if (localStorage.getItem("userToken")) {
             this.$store.dispatch("ajax_language", {
               ln: this.languageList[index].language === "zh-CN" ? "zh-CN" :
                 ["zh-HK", "zh-TW"].contains(this.languageList[index].language) ? "zh-TW" : "en"
@@ -118,7 +115,7 @@
       },
       goFooter(index) {
         if (+index === 4) {
-          if (this.loginFlag) {
+          if (localStorage.getItem("userToken")) {
             this.$store
               .dispatch("ajax_zendesk")
               .then(res => {

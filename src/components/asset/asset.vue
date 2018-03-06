@@ -401,10 +401,19 @@
   import logoDiv from "../public/logo.vue";
   import auth_two from "../public/auth_two_pop.vue";
   import withdraw_confirm_pop from "./withdraw_confirm_pop.vue";
+  import store from "../../store/store";
   // import ethereum_address from "ethereum-address"
+
   export default {
     name: "",
     mixins: [validateMixin(["form", "addForm"])],
+    components: {
+      QrcodeVue,
+      logoDiv,
+      auth_two,
+      withdraw_confirm_pop,
+      emptyList
+    },
     data() {
       const validateNumberCheck = (rule, value, callback) => {
         if (!+value || +value <= 0) {
@@ -789,14 +798,6 @@
           }
         }
       },
-      getAssetData() {
-        this.assetLoading = true;
-        this.$store.dispatch("ajax_me").then(res_me => {
-          this.assetLoading = false;
-        }).catch(res => {
-          this.assetLoading = false;
-        });
-      },
       sendEmail() {
         this.$store.dispatch("ajax_resend_confirm", {
           id: this.withdraw.withdraw_channels.id
@@ -818,18 +819,16 @@
           this.showInfo();
         }
         this.ajax_source && this.ajax_source.cancel({});
-        this.getAssetData();
       }
     },
     mounted() {
       this.init();
     },
-    components: {
-      QrcodeVue,
-      logoDiv,
-      auth_two,
-      withdraw_confirm_pop,
-      emptyList
+    beforeRouteEnter(to, from, next) {
+      if(from.name && from.name !== "/user/login") {
+        store.dispatch("ajax_me");
+      }
+      next();
     }
   };
 </script>

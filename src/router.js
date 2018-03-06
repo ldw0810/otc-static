@@ -5,12 +5,6 @@ import {LoadingBar} from "iview";
 import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
-
-
-if (window.localStorage.getItem("userToken") && !store.state.userToken) {
-  store.commit("saveToken", window.localStorage.getItem("userToken"));
-}
-
 const routers = [
   {
     path: "/",
@@ -211,8 +205,10 @@ router.beforeEach((to, from, next) => {
   };
   LoadingBar.start();
   Util.title(to.meta.title);
-  if (store.state.userToken) {
-    if(!store.state.userInfo.id) {
+  if (localStorage.getItem("userToken")) {
+    if(store.state.userInfo.id) {
+      goFun();
+    } else {
       store.dispatch("ajax_me").then(res => {
         if(res.data && +res.data.error === 0) {
           goFun();
@@ -226,8 +222,6 @@ router.beforeEach((to, from, next) => {
           path: "/user/userCenter"
         });
       });
-    } else {
-      goFun();
     }
   } else {
     if (to.matched.some(r => r.meta.noLogin)) {
