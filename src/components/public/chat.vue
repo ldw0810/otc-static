@@ -419,8 +419,7 @@
       display: flex;
       width: 100%;
       &-input {
-        flex-shrink: 0;
-        flex-grow: 1;
+        flex:1;
         overflow-y: auto;
         overflow-x: hidden;
         outline: 0;

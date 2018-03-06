@@ -38,7 +38,7 @@
                         {{$t("order.order_offer")}}：
                     </div>
                     <div class="deal-info-item-desc">
-                        {{ad.current_price}}
+                        {{ad.current_price|fix_decimals_legal}}
                         {{$t("public['" + ad.target_currency + "']")}}
                         &nbsp;/&nbsp;
                         {{$t("public['" + ad.currency + "']")}}
@@ -49,9 +49,9 @@
                         {{$t("order.order_trade_limit")}}：
                     </div>
                     <div class="deal-info-item-desc">
-                        {{ad.min_limit}}
+                        {{ad.min_limit|fix_decimals_legal}}
                         &nbsp;-&nbsp;
-                        {{ad.order_limit}}
+                        {{ad.order_limit|fix_decimals_legal}}
                         {{$t("public['" + ad.target_currency + "']")}}
                     </div>
                 </div>
@@ -130,7 +130,7 @@
                             {{adType == 0 ? $t("ad.ad_buy_price") : $t("ad.ad_sell_price")}}:
                         </i-col>
                         <i-col class='text-left' span="116">
-                            {{+ad.current_price}}
+                            {{+ad.current_price|fix_decimals_legal}}
                             {{$t("public['" + ad.target_currency + "']")}}
                             &nbsp;/&nbsp;
                             {{$t("public['" + ad.currency + "']")}}
@@ -141,7 +141,7 @@
                             {{adType == 0 ? $t("ad.ad_buy_money_amount") : $t("ad.ad_sell_money_amount")}}:
                         </i-col>
                         <i-col  class='text-left' span="16">
-                            {{+form.moneyAmount}}
+                            {{+form.moneyAmount|fix_decimals_legal}}
                             {{$t("public['" + ad.target_currency + "']")}}
                         </i-col>
                     </Row>
@@ -150,7 +150,7 @@
                             {{adType == 0 ? $t("order.order_buy_number_title") : $t("order.order_sell_number_title")}}:
                         </i-col>
                         <i-col  class='text-left' span="16">
-                            {{+form.number}}
+                            {{+form.number|fix_decimals_base}}
                             {{$t("public['" + ad.currency + "']")}}
                         </i-col>
                     </Row>
@@ -196,6 +196,7 @@
 </template>
 <script type="es6">
     import validateMixin from '@/components/mixins/validate-mixin'
+    import { fixDecimalsBase, fixDecimalsLegal } from "config/config";
     import logoDiv from "../public/logo.vue";
     import Avator from "@/components/public/avator";
     export default {
@@ -354,12 +355,12 @@
             },
             changeAmount() {
                 if (+this.form.moneyAmount || +this.form.moneyAmount == 0) {
-                    this.form.number = +this.form.moneyAmount / +this.ad.current_price;
+                    this.form.number = fixDecimalsBase(+this.form.moneyAmount / +this.ad.current_price);
                 }
             },
             changeNumber() {
                 if (+this.form.number || +this.form.number == 0) {
-                    this.form.moneyAmount = +this.form.number * +this.ad.current_price;
+                    this.form.moneyAmount = fixDecimalsLegal(+this.form.number * +this.ad.current_price);
                 }
             },
             submit() {

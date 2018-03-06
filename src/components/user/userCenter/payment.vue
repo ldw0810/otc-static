@@ -200,8 +200,7 @@
       }
     }
     &-right {
-      flex-shrink: 0;
-      flex-grow: 1;
+      flex:1;
       float: left;
       display: flex;
       align-items: center;
@@ -218,8 +217,7 @@
       }
     }
     &-radio {
-      flex-shrink: 0;
-      flex-grow: 1;
+      flex:1;
     }
     &-del {
       width: 16px;

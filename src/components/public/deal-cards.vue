@@ -18,12 +18,12 @@
         <div class="card-content">
             <div class="card-content-item">
                 <p class='desc'>{{$t("order.order_order_price")}}:</p>
-                <p class='number'>{{ad.current_price}}</p>
+                <p class='number'>{{ad.current_price|fix_decimals_legal}}</p>
                 <p class='currency-type'>{{$t("public['" + ad.target_currency + "']")}}</p>
             </div>
             <div class="card-content-item">
                 <p class='desc'>{{$t("order.order_trade_limit")}}:</p>
-                <p class='number'>{{ad.min_limit}} - {{ad.max_limit}}</p>
+                <p class='number'>{{ad.min_limit|fix_decimals_legal}} - {{ad.max_limit|fix_decimals_legal}}</p>
                 <p class='currency-type'>
                     {{$t("public['" + ad.target_currency + "']")}}
                 </p>
@@ -167,8 +167,7 @@ $baseImage: "~images";
   width: 50%;
   display: flex;
   flex-direction: column;
-  flex-shrink: 0;
-  flex-grow: 1;
+  flex:1;
   justify-content: center;
   align-items: center;
   &-number {

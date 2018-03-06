@@ -138,8 +138,7 @@
 
   #page {
     /* z-index: 0; */
-    flex-shrink: 0;
-    flex-grow: 1;
+    flex:1;
     /* padding-bottom: 30px; */
   }
 </style>

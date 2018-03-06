@@ -50,13 +50,18 @@
                                 </i-col>
                                 <i-col span="3" class='g-list-content-item-col'>
                                     <div>
-                                        {{order.price_sum}}
+                                        <span v-if='DigitalCurrency.indexOf(order.target_currency.toUpperCase()) > -1'>
+                                        {{order.price_sum|fix_decimals_base}}
+                                      </span>
+                                      <span v-if='legalTender.indexOf(order.target_currency.toUpperCase()) > -1'>
+                                            {{order.price_sum|fix_decimals_legal}}
+                                      </span>
                                         {{$t("public['" + order.target_currency + "']")}}
                                     </div>
                                 </i-col>
                                 <i-col span="4" class='g-list-content-item-col'>
                                     <div>
-                                       {{order.amount | fix_decimals(8)}}
+                                       {{order.amount | fix_decimals_base}}
                                     </div>
                                 </i-col>
                                 <i-col span="4" class='g-list-content-item-col'>
@@ -92,6 +97,7 @@
 </template>
 <script type="es6">
 import Avator from "@/components/public/avator";
+import { DigitalCurrency, legalTender } from 'config/config';
 import Tab from "@/components/public/tab";
 import emptyList from "@/components/public/empty-list";
 
@@ -103,6 +109,8 @@ export default {
   },
   data() {
     return {
+      DigitalCurrency, 
+      legalTender,
       loading: true,
       tabList: [
         this.$t("order.order_unfinished"),

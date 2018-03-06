@@ -15,7 +15,7 @@
                 <div v-for="(account, index2) in userInfo.valid_account" :key='index2'>
                   <p class='sider-item-desc' v-if="account.currency == currencyList[index]">
                     <!-- {{$t("public.asset")}}:  -->
-                    {{account.amount|fix_decimals(8)}}
+                    {{account.amount | fix_decimals_assets}}
                   </p>
                 </div>
               </div>
@@ -29,7 +29,7 @@
             <div class="content-header-item">
               <div class="content-header-item-warpper">
                 <h3 class='content-header-item-title'>{{$t("asset.asset_amount")}}</h3>
-                <div class='content-header-item-content'>{{account["amount"]|fix_decimals(8) }}</div>
+                <div class='content-header-item-content'>{{account["amount"] | fix_decimals_assets }}</div>
               </div>
 
             </div>
@@ -37,14 +37,14 @@
             <div class="content-header-item">
               <div class="content-header-item-warpper">
                 <h3 class='content-header-item-title'>{{$t("asset.asset_balance")}}</h3>
-                <div class='content-header-item-content'>{{account["balance"]|fix_decimals(8)}}</div>
+                <div class='content-header-item-content'>{{account["balance"] | fix_decimals_assets}}</div>
               </div>
             </div>
             <div class="border"></div>
             <div class="content-header-item">
               <div class="content-header-item-warpper">
                 <h3 class='content-header-item-title'>{{$t("asset.asset_locked")}}</h3>
-                <div class='content-header-item-content'>{{account["locked"]|fix_decimals(8)}}</div>
+                <div class='content-header-item-content'>{{account["locked"]| fix_decimals_assets}}</div>
               </div>
             </div>
           </header>
