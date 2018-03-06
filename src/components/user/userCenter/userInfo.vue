@@ -57,6 +57,7 @@
 <script>
   import auth_phone_pop from "./auth_phone_pop.vue";
   import BreadCrumb from "./breadcrumb";
+  import store from "../../../store/store";
 
   export default {
     data() {
@@ -91,10 +92,6 @@
         }
       }
     },
-    mounted() {
-      this.$store.commit("user_sider_index_setter", 0);
-      this.$store.dispatch("ajax_me");
-    },
     methods: {
       showAuthPhone() {
         if (this.userInfo.activated) {
@@ -110,6 +107,15 @@
     components: {
       auth_phone_pop,
       BreadCrumb
+    },
+    mounted() {
+      this.$store.commit("user_sider_index_setter", 0);
+    },
+    beforeRouteEnter(to, from, next) {
+      if(from.name && from.name !== "/user/login") {
+        store.dispatch("ajax_me");
+      }
+      next();
     }
   };
 </script>
