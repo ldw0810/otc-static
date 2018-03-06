@@ -167,7 +167,8 @@ $baseImage: "~images";
   width: 50%;
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex-shrink: 0;
+  flex-grow: 1;
   justify-content: center;
   align-items: center;
   &-number {

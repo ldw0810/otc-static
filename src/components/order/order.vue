@@ -706,14 +706,16 @@ export default {
       display: flex;
     }
     &-chat {
-      flex: 1;
+      flex-shrink: 0;
+      flex-grow: 1;
     }
   }
   &-content {
     display: flex;
   }
   &-chat {
-    flex: 1;
+    flex-shrink: 0;
+    flex-grow: 1;
     margin-right: 30px;
     padding: 30px;
     background-color: #fff;

@@ -419,7 +419,8 @@
       display: flex;
       width: 100%;
       &-input {
-        flex: 1;
+        flex-shrink: 0;
+        flex-grow: 1;
         overflow-y: auto;
         overflow-x: hidden;
         outline: 0;
@@ -428,6 +429,7 @@
         font-size: 14px;
         width: 692px;
         min-height: 40px;
+        max-height: 120px;
         padding: 8px 12px;
         user-select: text;
         white-space: pre-wrap;

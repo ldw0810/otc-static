@@ -27,7 +27,8 @@
       padding-top: 14px;
       padding-bottom: 14px;
       background-color: #F4F6F9;
-      flex: 1;
+      flex-shrink: 0;
+      flex-grow: 1;
       display: flex;
       height: 100%;
       align-items: center;
