@@ -163,11 +163,5 @@
 
     .submitButton {
         width: 292px;
-        background-image: linear-gradient(-134deg, #0BBFD5 0%, #6DD7B2 100%);
-        box-shadow: 0 5px 5px 0 rgba(102, 187, 191, 0.14);
-        border-radius: 2px;
-        font-size: 14px;
-        color: #FFFFFF;
-        line-height: 21px;
     }
 </style>

@@ -208,12 +208,6 @@
 
   .submitButton {
     width: 292px;
-    background-image: linear-gradient(-134deg, #0bbfd5 0%, #6dd7b2 100%);
-    box-shadow: 0 5px 5px 0 rgba(102, 187, 191, 0.14);
-    border-radius: 2px;
-    font-size: 14px;
-    color: #ffffff;
-    line-height: 21px;
   }
 
   .goButton {

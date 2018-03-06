@@ -14,10 +14,10 @@
                         <input type="text" class='copy-input' v-model="link" readonly>
                     </div>
                     <div class='copy-btn-wrapper'>
-                        <button type="button" class="copy-btn" v-clipboard:copy="link"
+                        <i-button type="primary" class="copy-btn" v-clipboard:copy="link"
                                 v-clipboard:success="copySuccess">
                             {{$t("public.invite_copy")}}
-                        </button>
+                        </i-button>
                     </div>
                 </div>
                 <!-- <div class="score-cards">
@@ -110,15 +110,7 @@
                 width: 101px;
             }
             .copy-btn {
-                border: 0;
                 width: 101px;
-                height: 40px;
-                font-size: 14px;
-                color: #FFFFFF;
-                background-image: linear-gradient(-134deg, #0BBFD5 0%, #6DD7B2 100%);
-                box-shadow: 0 5px 5px 0 rgba(102, 187, 191, 0.14);
-                border-radius: 2px;
-                cursor: pointer;
             }
         }
         .score-cards {
