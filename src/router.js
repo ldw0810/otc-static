@@ -194,7 +194,7 @@ router.beforeEach((to, from, next) => {
         path: "/"
       });
     } else if (to.matched.some(r => r.meta.needEmail) && !store.state.userInfo.activated) {
-      if (from.name && from.name !== "/user/login") {
+      if (from.name && from.name.indexOf("/user/login") <= -1) {
         LoadingBar.finish();
         store.commit('showAuthEmail_setter', true);
       } else {  //地址栏输入的from.name为空

@@ -129,7 +129,7 @@
       this.$store.commit("user_sider_index_setter", 1);
     },
     beforeRouteEnter(to, from, next) {
-      if(from.name && from.name !== "/user/login") {
+      if(from.name && from.name.indexOf("/user/login") <= -1) {
         store.dispatch("ajax_me");
       }
       next();
