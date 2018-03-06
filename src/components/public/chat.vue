@@ -139,7 +139,9 @@
     methods: {
       scrollToBottom() {
         this.$nextTick(() => {
-          this.$refs.scroll.$el.scrollTop = this.$refs.scroll.$el.scrollHeight;
+          if (this.$refs.scroll) {
+            this.$refs.scroll.$el.scrollTop = this.$refs.scroll.$el.scrollHeight;
+          }
         });
       },
       sendInfo() {
