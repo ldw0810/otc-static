@@ -40,6 +40,7 @@
   import validateMixin from "@/components/mixins/validate-mixin";
   import logoDiv from "../../public/logo.vue";
   import {gt} from "../../../libs/gt";
+  import ajax from "../../../libs/ajax";
 
   export default {
     mixins: [validateMixin("form")],
@@ -103,14 +104,20 @@
                   this.submitLoading = false;
                   if (result.data && +result.data.error === 0) {
                     this.$store.commit("saveToken", result.data.token);
-                    this.$store.dispatch("ajax_me").then(res_me => {
-                      if (res_me.data && +res_me.data.error === 0) {
+                    ajax.all([
+                      this.$store.dispatch("ajax_me"),
+                      this.$store.dispatch("ajax_language", {
+                        ln: localStorage.getItem("language") === "zh-CN" ? "zh-CN" :
+                          ["zh-HK", "zh-TW"].contains(localStorage.getItem("language")) ? "zh-TW" : "en"
+                      })]).then(ajax.spread((res_me, res_lan) => {
+                      if (res_me.data && +res_me.data.error === 0 &&
+                        res_lan.data && +res_lan.data.error === 0) {
                         this.$Message.success(this.$t("user.login_success"));
                         this.$goRouter(this.$route.query.redirect || "/user/userCenter");
                       } else {
                         this.$Message.error(this.$t("user.userInfo_response_none"));
                       }
-                    }).catch(res => {
+                    })).catch(err => {
                       this.$Message.error(this.$t("user.userInfo_response_none"));
                     });
                   } else {

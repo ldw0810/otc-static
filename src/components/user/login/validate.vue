@@ -1,6 +1,6 @@
 <template>
   <div>
-    <logoDiv />
+    <logoDiv/>
     <div class="container-validate">
       <!-- <div v-if="validate_phone && validate_google">
           <div class="titleDiv" :class="{'titleFocus':validateIndex == 1}" @click="changeValidate(0)">
@@ -34,7 +34,7 @@
                                 <img src="../../../static/images/icon/IdentifyingCode-CCCCCC.svg">
                             </span>
                 </i-input>
-                <sendCodeButton ref="sendCodeButton" @sendCode="sendPinCode" />
+                <sendCodeButton ref="sendCodeButton" @sendCode="sendPinCode"/>
               </div>
             </FormItem>
             <!--防止自动提交表单-->
@@ -91,6 +91,7 @@
   import validateMixin from "@/components/mixins/validate-mixin";
   import logoDiv from "../../public/logo.vue";
   import sendCodeButton from "../../public/sendCode.vue";
+  import ajax from "../../../libs/ajax";
 
   export default {
     mixins: [
@@ -157,14 +158,20 @@
               this.submitPhoneLoading = false;
               if (res.data && +res.data.error === 0) {
                 this.$store.commit("saveToken", res.data.token);
-                this.$store.dispatch("ajax_me").then(res_me => {
-                  if (res_me.data && +res_me.data.error === 0) {
+                ajax.all([
+                  this.$store.dispatch("ajax_me"),
+                  this.$store.dispatch("ajax_language", {
+                    ln: localStorage.getItem("language") === "zh-CN" ? "zh-CN" :
+                      ["zh-HK", "zh-TW"].contains(localStorage.getItem("language")) ? "zh-TW" : "en"
+                  })]).then(ajax.spread((res_me, res_lan) => {
+                  if (res_me.data && +res_me.data.error === 0 &&
+                    res_lan.data && +res_lan.data.error === 0) {
                     this.$Message.success(this.$t("user.login_success"));
                     this.$goRouter(this.$route.query.redirect || "/user/userCenter");
                   } else {
                     this.$Message.error(this.$t("user.userInfo_response_none"));
                   }
-                }).catch(res => {
+                })).catch(err => {
                   this.$Message.error(this.$t("user.userInfo_response_none"));
                 });
               } else {
@@ -193,14 +200,20 @@
               this.submitGoogleLoading = false;
               if (res.data && +res.data.error === 0) {
                 this.$store.commit("saveToken", res.data.token);
-                this.$store.dispatch("ajax_me").then(res_me => {
-                  if (res_me.data && +res_me.data.error === 0) {
+                ajax.all([
+                  this.$store.dispatch("ajax_me"),
+                  this.$store.dispatch("ajax_language", {
+                    ln: localStorage.getItem("language") === "zh-CN" ? "zh-CN" :
+                      ["zh-HK", "zh-TW"].contains(localStorage.getItem("language")) ? "zh-TW" : "en"
+                  })]).then(ajax.spread((res_me, res_lan) => {
+                  if (res_me.data && +res_me.data.error === 0 &&
+                    res_lan.data && +res_lan.data.error === 0) {
                     this.$Message.success(this.$t("user.login_success"));
                     this.$goRouter(this.$route.query.redirect || "/user/userCenter");
                   } else {
                     this.$Message.error(this.$t("user.userInfo_response_none"));
                   }
-                }).catch(res => {
+                })).catch(err => {
                   this.$Message.error(this.$t("user.userInfo_response_none"));
                 });
               } else {
@@ -237,7 +250,7 @@
       } else if (this.validate_google) {
         this.validateIndex = 1;
       } else {
-        if(this.$route.query.redirect) {
+        if (this.$route.query.redirect) {
           this.$goRouter("/user/login", {
             redirect: this.$route.query.redirect
           });

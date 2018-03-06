@@ -307,7 +307,10 @@
         if (item.action && isFunction(item.action)) {
           item.action();
         } else {
-          this.$router.push({path: item.url, query: item.query});
+          this.$router.push({
+            path: item.url,
+            query: item.query
+          });
         }
       }
     },
