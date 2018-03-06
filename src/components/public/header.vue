@@ -298,10 +298,6 @@
         this.assetLoading = true;
         this.$store.dispatch("ajax_me").then(res_me => {
           this.assetLoading = false;
-          if (res_me.data && +res_me.data.error === 0) {
-            this.$store.commit("saveUserInfo", res_me.data.member);
-          } else {
-          }
         }).catch(res => {
           this.assetLoading = false;
         });

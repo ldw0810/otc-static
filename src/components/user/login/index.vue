@@ -105,7 +105,6 @@
                     this.$store.commit("saveToken", result.data.token);
                     this.$store.dispatch("ajax_me").then(res_me => {
                       if (res_me.data && +res_me.data.error === 0) {
-                        this.$store.commit("saveUserInfo", res_me.data.member);
                         this.$Message.success(this.$t("user.login_success"));
                         this.$goRouter(this.$route.query.redirect || "/user/userCenter");
                       } else {

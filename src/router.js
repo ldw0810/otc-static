@@ -7,10 +7,12 @@ import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
 
-if (!store.state.userToken || !store.state.userInfo.id) {
-  if (window.localStorage.getItem("userToken") && window.localStorage.getItem("userInfo")) {
+if (window.localStorage.getItem("userToken")) {
+  if(!store.state.userToken) {
     store.commit("saveToken", window.localStorage.getItem("userToken"));
-    store.commit("saveUserInfo", JSON.parse(window.localStorage.getItem("userInfo")));
+  }
+  if(!store.state.userInfo.id) {
+    store.dispatch("ajax_me");
   }
 }
 
