@@ -218,7 +218,7 @@
                   <td class='content-history-table-body-td'>
                     <div class="hash">
                       <a class='u-break-all' @click="onOpenUrl(item['blockchain_url'])">
-                        {{item["txid"]|txid_substr}}
+                        {{item["txid"]}}
                       </a>
                     </div>
                   </td>
@@ -265,8 +265,8 @@
                   </td>
                   <td class='content-history-table-body-td'>
                     <div class="hash">
-                      <a class='u-break-all' @click="window.open(item['blockchain_url'])">
-                        {{item["txid"]|txid_substr}}
+                      <a class='u-break-all' @click="onOpenUrl(item['blockchain_url'])">
+                        {{item["txid"]}}
                       </a>
                     </div>
                   </td>
