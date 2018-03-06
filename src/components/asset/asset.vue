@@ -55,9 +55,9 @@
               $t("asset.asset_recharge_email_no_Auth").format($t("public['" + this.currency + "']")) :
               $t("asset.asset_withdraw_email_no_Auth").format($t("public['" + this.currency + "']"))}}
             </div>
-            <button class='g-shadow button' @click="showAuthEmail">
+            <i-button class='g-shadow button' type='primary' @click="showAuthEmail">
               {{$t("asset.asset_go_email_auth")}}
-            </button>
+            </i-button>
           </div>
           <div v-else-if="+deposit.error === 0 || +withdraw.error === 0">
             <div class="g-shadow content-main">
@@ -227,7 +227,7 @@
                   </td>
                   <td class='content-history-table-body-td'>
                     <div class="hash">
-                      <a @click="onOpenUrl(item['blockchain_url'])">
+                      <a class='u-break-all' @click="onOpenUrl(item['blockchain_url'])">
                         {{item["txid"]|txid_substr}}
                       </a>
                     </div>
@@ -275,7 +275,7 @@
                   </td>
                   <td class='content-history-table-body-td'>
                     <div class="hash">
-                      <a @click="window.open(item['blockchain_url'])">
+                      <a class='u-break-all' @click="window.open(item['blockchain_url'])">
                         {{item["txid"]|txid_substr}}
                       </a>
                     </div>
