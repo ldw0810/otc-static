@@ -253,7 +253,7 @@
               {{$t("order.order_money_amount")}}:
             </i-col>
             <i-col span="10">
-              {{order.price_sum}}
+              {{order.order_number}}
               {{$t("public['" + order.target_currency + "']")}}
             </i-col>
           </Row>

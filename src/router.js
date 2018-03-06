@@ -7,13 +7,8 @@ import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
 
-if (window.localStorage.getItem("userToken")) {
-  if(!store.state.userToken) {
-    store.commit("saveToken", window.localStorage.getItem("userToken"));
-  }
-  if(!store.state.userInfo.id) {
-    store.dispatch("ajax_me");
-  }
+if (window.localStorage.getItem("userToken") && !store.state.userToken) {
+  store.commit("saveToken", window.localStorage.getItem("userToken"));
 }
 
 const routers = [
@@ -196,9 +191,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  LoadingBar.start();
-  Util.title(to.meta.title);
-  if (store.state.userToken && store.state.userInfo.id) {
+  const goFun = () => {
     if (to.matched.some(r => r.meta.noUser)) {
       next({
         path: "/"
@@ -214,6 +207,27 @@ router.beforeEach((to, from, next) => {
       }
     } else {
       next();
+    }
+  };
+  LoadingBar.start();
+  Util.title(to.meta.title);
+  if (store.state.userToken) {
+    if(!store.state.userInfo.id) {
+      store.dispatch("ajax_me").then(res => {
+        if(res.data && +res.data.error === 0) {
+          goFun();
+        } else {
+          next({
+            path: "/user/userCenter"
+          });
+        }
+      }).catch(err => {
+        next({
+          path: "/user/userCenter"
+        });
+      });
+    } else {
+      goFun();
     }
   } else {
     if (to.matched.some(r => r.meta.noLogin)) {
