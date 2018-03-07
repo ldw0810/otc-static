@@ -26,8 +26,8 @@ function languageSelectIndex() {
 axios.interceptors.request.use(
   config => {
     // config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-    if (localStorage.getItem("userToken")) {
-      config.headers.Authorization = `${localStorage.getItem("userToken")}`;
+    if (store.state.userToken) {
+      config.headers.Authorization = `${store.state.userToken}`;
     }
     return config;
   },
@@ -45,7 +45,7 @@ axios.interceptors.response.use(
       if (+error.response.status === 504) { //服务器超时应退出登陆状态
       } else if (error.response.data) {
         if (+error.response.data.error === 999999) {
-          localStorage.removeItem("userToken");
+          store.commit("delToken");
           Message.error({
             content: languageData[index].data.request["" + error.response.data.error],
             onClose: router.push("/user/login")

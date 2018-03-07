@@ -207,362 +207,371 @@
     </div>
 </template>
 <script type="es6">
-    import validateMixin from '@/components/mixins/validate-mixin'
-    import { DigitalCurrency, legalTender, fixDecimalsBase, fixDecimalsLegal } from "config/config";
-    import logoDiv from "../public/logo.vue";
-    import Avator from "@/components/public/avator";
-    export default {
-        mixins: [validateMixin('form')],
-        data() {
-            const validateNumberCheck = (rule, value, callback) => {
-                if (!+value || +value <= 0) {
-                    callback(new Error(this.$t("public.input_number_required")));
-                } else {
-                    callback();
-                }
-            };
-            const validateNumberLimitCheck = (rule, value, callback) => {
-                if(+value < this.ad.min_limit) {
-                    callback(new Error(this.$t("ad.ad_floor_limit")));
-                } else if(+value > this.ad.max_limit) {
-                    callback(new Error(this.$t("ad.ad_ceiling_limit")));
-                } else {
-                    callback();
-                }
-            };
-            const validBalanceBuyCheck = (rule, value, callback) => {
-                if(this.ad && this.adType == 0) {
-                    if (this.ad.currency == `dai`) {
-                        callback();
-                    } else {
-                        if(this.balanceObj[this.ad.target_currency] < +value) {
-                            callback(new Error(this.$t("ad.ad_credit_low")));
-                        } else {
-                            callback();
-                        }
-                    }
-                } else {
-                    callback();
-                }
-            };
-            const validBalanceSellCheck = (rule, value, callback) => {
-                if(this.ad && this.adType == 1) {
-                    if(this.balanceObj[this.ad.currency] < +value) {
-                        callback(new Error(this.$t("ad.ad_credit_low")));
-                    } else {
-                        callback();
-                    }
-                } else {
-                    callback();
-                }
-            };
-            return {
-                DigitalCurrency,
-                legalTender,
-                submitPlaceOrderLoading: false,
-                showModal: true,
-                ad: {},
-                form: {
-                    moneyAmount: "",
-                    number: ""
-                },
-                rules: {
-                    moneyAmount: [
-                        {
-                            required: true,
-                            message: this.$t("order.order_buy_money_amount")
-                        },
-                        {
-                            validator: validateNumberCheck
-                        },
-                        {
-                            validator: validateNumberLimitCheck
-                        },
-                        {
-                            validator: validBalanceBuyCheck
-                        },
-                    ],
-                    number: [
-                        {
-                            required: true,
-                            message: this.$t("order.order_buy_number")
-                        },
-                        {
-                            validator: validateNumberCheck
-                        },
-                        {
-                            validator: validBalanceSellCheck
-                        },
-                    ]
-                },
-                confirmFlag: {
-                    placeOrder: false,
-                    complete: false
-                }
-            };
-        },
-        watch: {},
-        computed: {
-            userInfo() {
-                return this.$store.state.userInfo;
-            },
-            adType() {
-                return +(this.$route.query.adType || 0);
-            },
-            id() {
-                return this.$route.query.id;
-            },
-            balanceObj() {
-                let obj = {};
-                for (let i in this.userInfo.valid_account) {
-                    obj["" + this.userInfo.valid_account[i].currency] = this.userInfo.valid_account[i].balance;
-                }
-                return obj;
-            },
-            balanceFlag() {
-                if (this.adType != 1) {
-                    if (this.ad.currency == "dai") {
-                        return true;
-                    } else if (this.ad.currency == 'eth') {
-                        if (this.balanceObj["dai"] >= 100) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    }
-                } else {
-                    if (this.ad.currency == "dai") {
-                        if (this.balanceObj["dai"] >= 100) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    } else if (this.ad.currency == 'eth') {
-                        if (this.balanceObj["eth"] >= 0.01) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    }
-                }
-            },
-        },
-        methods: {
-            doOper() {
-                this.confirmFlag.complete = false
-            },
-            getInfo() {
-                this.$store
-                    .dispatch("ajax_get_ad", {
-                        id: this.id
-                    })
-                    .then(res => {
-                        if (res.data && res.data.error == 0) {
-                            this.ad = res.data.info;
-                        } else {
-                            this.$Message.error(this.$t("order.order_ad_info_request_fail"));
-                        }
-                    })
-                    .catch(err => {
-                        this.$Message.error(this.$t("order.order_ad_info_request_fail"));
-                    });
-            },
-            changeAmount() {
-                if (+this.form.moneyAmount || +this.form.moneyAmount == 0) {
-                    if (DigitalCurrency.indexOf(this.ad.target_currency.toUpperCase()) > -1) {
-                        this.form.number = fixDecimalsBase(+this.form.moneyAmount / +this.ad.current_price);
-                    } else if (legalTender.indexOf(this.ad.target_currency.toUpperCase()) > -1) {
-                        this.form.number = fixDecimalsLegal(+this.form.moneyAmount / +this.ad.current_price);
-                    }
-                }
-            },
-            changeNumber() {
-                if (+this.form.number || +this.form.number == 0) {
-                    if (DigitalCurrency.indexOf(this.ad.target_currency.toUpperCase()) > -1) {
-                        this.form.moneyAmount = fixDecimalsBase(+this.form.number * +this.ad.current_price);
-                    } else if (legalTender.indexOf(this.ad.target_currency.toUpperCase()) > -1) {
-                        this.form.moneyAmount = fixDecimalsLegal(+this.form.number * +this.ad.current_price);
-                    }
-                }
-            },
-            submit() {
-                if(this.ad.member.id != this.userInfo.id) {
-                    this.$refs["form"].validate(valid => {
-                        if (valid) {
-                            this.confirmFlag.placeOrder = true;
-                        } else {
-                            this.$Message.error(this.$t("order.order_info_notValid"));
-                        }
-                    });
-                } else {
-                    this.$Message.error(this.$t("order.order_join_own_otc_ad"));
-                }
-            },
-            placeOrder_submit() {
-                this.submitPlaceOrderLoading = true
-                this.$store.dispatch("ajax_order_buy", {
-                        id: this.ad.id,
-                        price_sum: this.form.moneyAmount
-                    }).then(res => {
-                        this.submitPlaceOrderLoading = false
-                        if (res.data && res.data.error == 0) {
-                            if (this.ad.currency == "dai") {
-                                this.$goRouter("/order", {
-                                    id: res.data.order_id
-                                });
-                            } else {
-                                this.confirmFlag.placeOrder = false;
-                                this.confirmFlag.complete = true;
-                            }
-                        } else {
-                            this.confirmFlag.placeOrder = false;
-                            this.$Message.error(this.$t("order.order_deal_request_fail"));
-                        }
-                    }).catch(err => {
-                        this.submitPlaceOrderLoading = false
-                        this.confirmFlag.placeOrder = false;
-                        this.$Message.error(this.$t("order.order_deal_request_fail"));
-                    });
-            },
-            init() {
-                this.$store.commit("header_index_setter", "-1"); //清除header的按钮位置标识
-                this.getInfo();
-            }
-        },
-        mounted() {
-            this.init();
-        },
-        components: {
-            logoDiv,
-            Avator,
-        }
+import validateMixin from "@/components/mixins/validate-mixin";
+import {
+  DigitalCurrency,
+  legalTender,
+  fixDecimalsBase,
+  fixDecimalsLegal
+} from "config/config";
+import logoDiv from "../public/logo.vue";
+import Avator from "@/components/public/avator";
+export default {
+  mixins: [validateMixin("form")],
+  data() {
+    const validateNumberCheck = (rule, value, callback) => {
+      if (!+value || +value <= 0) {
+        callback(new Error(this.$t("public.input_number_required")));
+      } else {
+        callback();
+      }
     };
+    const validateNumberLimitCheck = (rule, value, callback) => {
+      if (+value < this.ad.min_limit) {
+        callback(new Error(this.$t("ad.ad_floor_limit")));
+      } else if (+value > this.ad.max_limit) {
+        callback(new Error(this.$t("ad.ad_ceiling_limit")));
+      } else {
+        callback();
+      }
+    };
+    const validBalanceBuyCheck = (rule, value, callback) => {
+      if (this.ad && this.adType == 0) {
+        if (this.ad.currency == `dai`) {
+          callback();
+        } else {
+          if (this.balanceObj[this.ad.target_currency] < +value) {
+            callback(new Error(this.$t("ad.ad_credit_low")));
+          } else {
+            callback();
+          }
+        }
+      } else {
+        callback();
+      }
+    };
+    const validBalanceSellCheck = (rule, value, callback) => {
+      if (this.ad && this.adType == 1) {
+        if (this.balanceObj[this.ad.currency] < +value) {
+          callback(new Error(this.$t("ad.ad_credit_low")));
+        } else {
+          callback();
+        }
+      } else {
+        callback();
+      }
+    };
+    return {
+      DigitalCurrency,
+      legalTender,
+      submitPlaceOrderLoading: false,
+      showModal: true,
+      ad: {},
+      form: {
+        moneyAmount: "",
+        number: ""
+      },
+      rules: {
+        moneyAmount: [
+          {
+            required: true,
+            message: this.$t("order.order_buy_money_amount")
+          },
+          {
+            validator: validateNumberCheck
+          },
+          {
+            validator: validateNumberLimitCheck
+          },
+          {
+            validator: validBalanceBuyCheck
+          }
+        ],
+        number: [
+          {
+            required: true,
+            message: this.$t("order.order_buy_number")
+          },
+          {
+            validator: validateNumberCheck
+          },
+          {
+            validator: validBalanceSellCheck
+          }
+        ]
+      },
+      confirmFlag: {
+        placeOrder: false,
+        complete: false
+      }
+    };
+  },
+  watch: {},
+  computed: {
+    userInfo() {
+      return this.$store.state.userInfo;
+    },
+    adType() {
+      return +(this.$route.query.adType || 0);
+    },
+    id() {
+      return this.$route.query.id;
+    },
+    balanceObj() {
+      let obj = {};
+      for (let i in this.userInfo.valid_account) {
+        obj[
+          "" + this.userInfo.valid_account[i].currency
+        ] = this.userInfo.valid_account[i].balance;
+      }
+      return obj;
+    },
+    balanceFlag() {
+      if (this.adType !== 1) {
+        if (this.ad.currency === "dai") {
+          return true;
+        } else if (this.ad.currency === "eth") {
+          return this.balanceObj["dai"] >= 100;
+        }
+      } else {
+        if (this.ad.currency === "dai") {
+          return this.balanceObj["dai"] >= 100;
+        } else if (this.ad.currency === "eth") {
+          return this.balanceObj["eth"] >= 0.01;
+        }
+      }
+    }
+  },
+  methods: {
+    doOper() {
+      this.confirmFlag.complete = false;
+    },
+    getInfo() {
+      this.$store
+        .dispatch("ajax_get_ad", {
+          id: this.id
+        })
+        .then(res => {
+          if (res.data && +res.data.error === 0) {
+            this.ad = res.data.info;
+          } else {
+            this.$Message.error(this.$t("order.order_ad_info_request_fail"));
+          }
+        })
+        .catch(err => {
+          this.$Message.error(this.$t("order.order_ad_info_request_fail"));
+        });
+    },
+    submit() {
+      if (this.ad.member.id !== this.userInfo.id) {
+        this.$refs["form"].validate(valid => {
+          if (valid) {
+            this.confirmFlag.placeOrder = true;
+          } else {
+            this.$Message.error(this.$t("order.order_info_notValid"));
+          }
+        });
+      } else {
+        this.$Message.error(this.$t("order.order_join_own_otc_ad"));
+      }
+    },
+    changeAmount() {
+      if (+this.form.moneyAmount || +this.form.moneyAmount == 0) {
+        this.form.number = fixDecimalsBase(
+            +this.form.moneyAmount / +this.ad.current_price
+          );
+      }
+    },
+    changeNumber() {
+      if (+this.form.number || +this.form.number == 0) {
+        if (
+          DigitalCurrency.indexOf(this.ad.target_currency.toUpperCase()) > -1
+        ) {
+          this.form.moneyAmount = fixDecimalsBase(
+            +this.form.number * +this.ad.current_price
+          );
+        } else if (
+          legalTender.indexOf(this.ad.target_currency.toUpperCase()) > -1
+        ) {
+          this.form.moneyAmount = fixDecimalsLegal(
+            +this.form.number * +this.ad.current_price
+          );
+        }
+      }
+    },
+    placeOrder_submit() {
+      this.submitPlaceOrderLoading = true;
+      this.$store
+        .dispatch("ajax_order_buy", {
+          id: this.ad.id,
+          price_sum: +this.form.moneyAmount
+        })
+        .then(res => {
+          this.submitPlaceOrderLoading = false;
+          if (res.data && res.data.error === 0) {
+            if (this.ad.currency === "dai") {
+              this.$goRouter("/order", {
+                id: res.data.order_id
+              });
+            } else {
+              this.confirmFlag.placeOrder = false;
+              this.confirmFlag.complete = true;
+            }
+          } else {
+            this.confirmFlag.placeOrder = false;
+            this.$Message.error(this.$t("order.order_deal_request_fail"));
+          }
+        })
+        .catch(err => {
+          this.submitPlaceOrderLoading = false;
+          this.confirmFlag.placeOrder = false;
+          this.$Message.error(this.$t("order.order_deal_request_fail"));
+        });
+    },
+    init() {
+      this.$store.commit("header_index_setter", "-1"); //清除header的按钮位置标识
+      this.getInfo();
+    }
+  },
+  mounted() {
+    this.init();
+  },
+  components: {
+    logoDiv,
+    Avator
+  }
+};
 </script>
 <style lang='scss' scoped>
-    .text-left {
-        text-align: left;
-    }
-    .detail {
-        padding-top: 30px;
-        &-model {
-            padding: 52px 94px 54px;
-            &-title {
-                font-size: 24px;
-                color: #666666;
-                line-height: 28px;
-                font-weight: normal;
-                margin-bottom: 16px;
-            }
-            &-content {
-                font-size: 16px;
-                color: #666666;
-                line-height: 28px;
-                margin-bottom: 28px;
-            }
-            &-warn {
-                font-size: 16px;
-                color: #ED1C24;
-                line-height: 20px;
-                margin-bottom: 37px;
-            }
-        }
-    }
-    .submit-button {
-        width: 182px;
-        margin-right: 10px;
-    }
-    .submit-button-2 {
-        width: 100%;
-    }
-    .cancel-button {
-        width: 100px;
-    }
-    .header {
-        background-color: #fff;
-        display: flex;
-        align-items: center;
-        height: 150px;
-        margin-bottom: 20px;
-        &-avator {
-            width: 60px;
-            height: 60px;
-            margin-left: 40px;
-            margin-right: 32px;
-        }
-        &-content {
-            &-name {
-                font-size: 22px;
-                line-height: 26px;
-                margin-bottom: 14px;
-            }
-            &-list {
-                display: flex;
-            }
-            &-item {
-                font-size: 16px;
-                margin-right: 26px;
-            }
-        }
-    }
+.text-left {
+  text-align: left;
+}
 
-    .deal {
-        background-color: #fff;
-        padding: 60px 0 60px 40px;
-        &-common {
-            width: 1169px - 484px;
-            border-bottom: 1px solid #eee;
-            &-title {
-                font-size: 16px;
-                font-weight: normal;
-                line-height: 19px;
-            }
-            &:last-child {
-                border-bottom: 0;
-            }
-        }
-        &-info {
-            padding-bottom: 40px - 15px;
-            &-item {
-                display: flex;
-                font-size: 16px;
-                line-height: 19px;
-                margin-bottom: 15px;
-                &-title {
-                    width: 92px;
-                    flex-shrink: 0;
-                    margin-right: 22px;
-                }
-            }
-        }
-        &-exchange {
-            padding-top: 58px;
-            padding-bottom: 40px;
-            &-title {
-                margin-bottom: 12px;
-            }
-            .submit {
-                margin-top: 10px;
-            }
-            .input {
-                width: 100%;
-            }
-            .arrow {
-                margin-top: -24px;
-            }
-            &-btn {
-                width: 100%;
-            }
-        }
-        &-rules {
-            font-size: 16px;
-            line-height: 19px;
-            &-title {
-                margin-top: 28px;
-                margin-bottom: 22px;
-            }
-            &-content {
-                line-height: 22px;
-            }
-        }
+.detail {
+  padding-top: 30px;
+  &-model {
+    padding: 52px 94px 54px;
+    &-title {
+      font-size: 24px;
+      color: #666666;
+      line-height: 28px;
+      font-weight: normal;
+      margin-bottom: 16px;
     }
+    &-content {
+      font-size: 16px;
+      color: #666666;
+      line-height: 28px;
+      margin-bottom: 28px;
+    }
+    &-warn {
+      font-size: 16px;
+      color: #ed1c24;
+      line-height: 20px;
+      margin-bottom: 37px;
+    }
+  }
+}
+
+.submit-button {
+  width: 182px;
+  margin-right: 10px;
+}
+
+.submit-button-2 {
+  width: 100%;
+}
+
+.cancel-button {
+  width: 100px;
+}
+
+.header {
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  height: 150px;
+  margin-bottom: 20px;
+  &-avator {
+    width: 60px;
+    height: 60px;
+    margin-left: 40px;
+    margin-right: 32px;
+  }
+  &-content {
+    &-name {
+      font-size: 22px;
+      line-height: 26px;
+      margin-bottom: 14px;
+    }
+    &-list {
+      display: flex;
+    }
+    &-item {
+      font-size: 16px;
+      margin-right: 26px;
+    }
+  }
+}
+
+.deal {
+  background-color: #fff;
+  padding: 60px 0 60px 40px;
+  &-common {
+    width: 1169px - 484px;
+    border-bottom: 1px solid #eee;
+    &-title {
+      font-size: 16px;
+      font-weight: normal;
+      line-height: 19px;
+    }
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+  &-info {
+    padding-bottom: 40px - 15px;
+    &-item {
+      display: flex;
+      font-size: 16px;
+      line-height: 19px;
+      margin-bottom: 15px;
+      &-title {
+        width: 92px;
+        flex-shrink: 0;
+        margin-right: 22px;
+      }
+    }
+  }
+  &-exchange {
+    padding-top: 58px;
+    padding-bottom: 40px;
+    &-title {
+      margin-bottom: 12px;
+    }
+    .submit {
+      margin-top: 10px;
+    }
+    .input {
+      width: 100%;
+    }
+    .arrow {
+      margin-top: -24px;
+    }
+    &-btn {
+      width: 100%;
+    }
+  }
+  &-rules {
+    font-size: 16px;
+    line-height: 19px;
+    &-title {
+      margin-top: 28px;
+      margin-bottom: 22px;
+    }
+    &-content {
+      line-height: 22px;
+    }
+  }
+}
 </style>

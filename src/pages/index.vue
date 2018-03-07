@@ -8,8 +8,8 @@
       <footerBar id="footer" :class="{'fixed': isFooter}"/>
     </div>
     <Modal v-model="pop_email" class-name="m-ivu-modal" width='480' :mask-closable="true"
-           :closable="false">
-      <auth_email ref="auth_email"/>
+           :closable="false" @on-visible-change="popEmailTrigger">
+      <auth_email ref="auth_email" @close="pop_email = false"/>
       <div slot="footer"></div>
     </Modal>
   </div>
@@ -100,6 +100,11 @@
       }
     },
     methods: {
+      popEmailTrigger(val) {
+        if (!val) {
+          this.$store.commit("showAuthEmail_setter", 0);
+        }
+      }
     },
     components: {
       headerBar,

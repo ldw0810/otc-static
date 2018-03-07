@@ -46,8 +46,9 @@
         <!--<span v-text="userInfo.omt.amount"></span>-->
       </div>
     </div>
-    <Modal v-model="pop_phone" class-name="m-ivu-modal" width='480' :mask-closable="true" :closable="false">
-      <auth_phone_pop @cancel='pop_phone = false'/>
+    <Modal v-model="pop_phone" class-name="m-ivu-modal" width='480' :mask-closable="true"
+           :closable="false" @on-visible-change="popPhoneTrigger">
+      <auth_phone_pop :pop_phone_show="pop_phone_show" @cancel='pop_phone = false'/>
       <div slot="footer"></div>
     </Modal>
     <div style="clear: both"></div>
@@ -64,7 +65,8 @@
       return {
         breadcrumbText: this.$t("user.info"),
         user: {},
-        pop_phone: false
+        pop_phone: false,
+        pop_phone_show: false
       };
     },
     computed: {
@@ -102,6 +104,9 @@
       },
       reSendEmail() {
         this.$store.commit("showAuthEmail_setter", 1);
+      },
+      popPhoneTrigger(val) {
+        this.pop_phone_show = val;
       }
     },
     components: {
@@ -112,7 +117,7 @@
       this.$store.commit("user_sider_index_setter", 0);
     },
     beforeRouteEnter(to, from, next) {
-      if(from.name && from.name !== "/user/login") {
+      if (from.name && from.name.indexOf("/user/login") <= -1) {
         store.dispatch("ajax_me");
       }
       next();

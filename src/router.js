@@ -5,6 +5,9 @@ import {LoadingBar} from "iview";
 import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
+if(localStorage.getItem("userToken") && !store.state.userToken) {
+  store.commit("saveToken", localStorage.getItem("userToken"));
+}
 const routers = [
   {
     path: "/",
@@ -116,7 +119,6 @@ const routers = [
         name: "/buy",
         meta: {
           noLogin: true,
-          needEmail: true
         },
         component: resolve => require(["./components/ad/adList.vue"], resolve)
       },
@@ -125,7 +127,6 @@ const routers = [
         name: "/sell",
         meta: {
           noLogin: true,
-          needEmail: true
         },
         component: resolve => require(["./components/ad/adList.vue"], resolve)
       },
@@ -191,7 +192,7 @@ router.beforeEach((to, from, next) => {
         path: "/"
       });
     } else if (to.matched.some(r => r.meta.needEmail) && !store.state.userInfo.activated) {
-      if (from.name && from.name !== "/user/login") {
+      if (from.name && from.name.indexOf("/user/login") <= -1) {
         LoadingBar.finish();
         store.commit('showAuthEmail_setter', true);
       } else {  //地址栏输入的from.name为空

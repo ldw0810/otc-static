@@ -12,7 +12,7 @@
               <div class='sider-item-content'>
                 <h3 class='sider-item-title'>{{$t("public['" + item + "']")}}</h3>
                 <div v-for="(account, index2) in userInfo.valid_account" :key='index2'>
-                  <p class='sider-item-desc' v-if="account.currency == currencyList[index]">
+                  <p class='sider-item-desc' v-if="account.currency === currencyList[index]">
                     <!-- {{$t("public.asset")}}:  -->
                     {{account.amount | fix_decimals_assets}}
                   </p>
@@ -48,17 +48,7 @@
             </div>
           </header>
           <!--验证邮箱-->
-          <div class='content-withdraw-no-verify' v-if="!userInfo.activated">
-            <div class='text'>
-              {{+assetIndex === 0 ?
-              $t("asset.asset_recharge_email_no_Auth").format($t("public['" + this.currency + "']")) :
-              $t("asset.asset_withdraw_email_no_Auth").format($t("public['" + this.currency + "']"))}}
-            </div>
-            <i-button class='g-shadow button' type='primary' @click="showAuthEmail">
-              {{$t("asset.asset_go_email_auth")}}
-            </i-button>
-          </div>
-          <div v-else-if="+deposit.error === 0 || +withdraw.error === 0">
+          <div v-if="+deposit.error === 0 || +withdraw.error === 0">
             <div class="g-shadow content-main">
               <div class="content-tabs">
                 <div class="content-tabs-item echarge"
@@ -282,7 +272,7 @@
                   <td class='content-history-table-body-td'>
                     <div class="hash">
                       <a class='u-break-all' @click="onOpenUrl(item['blockchain_url'])">
-                        {{item["txid"]|txid_substr}}
+                        {{item["txid"]}}
                       </a>
                     </div>
                   </td>
@@ -329,8 +319,8 @@
                   </td>
                   <td class='content-history-table-body-td'>
                     <div class="hash">
-                      <a class='u-break-all' @click="window.open(item['blockchain_url'])">
-                        {{item["txid"]|txid_substr}}
+                      <a class='u-break-all' @click="onOpenUrl(item['blockchain_url'])">
+                        {{item["txid"]}}
                       </a>
                     </div>
                   </td>
@@ -564,30 +554,9 @@ export default {
         total_count: 0,
         total_pages: 1
       },
-      withdraw: {
-        default_source_id: "",
-        fund_sources: [],
-        withdraw_channels: {},
-        withdraws: [],
-        page: 1,
-        per_page: 20,
-        total_count: 0,
-        total_pages: 1
-      },
-      withdraw_confirm: false,
-      withdraw_email: false,
-      auth_two_flag: false,
-      addressLoading: false,
-      addressAddLoading: false,
-      assetLoading: false
-    };
-  },
-  computed: {
-    assetIndex() {
-      return +(this.$route.query.type || 0);
-    },
-    withdraw_token() {
-      return this.$route.query.withdraw_token;
+      default_source_id() {
+        return this.withdraw.default_source_id;
+      }
     },
     currencyList() {
       return this.$store.state.currencyList;
@@ -918,17 +887,30 @@ export default {
         .catch(err => {
           this.$Message.error(this.$t("public.fail"));
         });
+      },
+      showAuthEmail() {
+        this.$store.commit("showAuthEmail_setter", 1);
+      },
+      copySuccess() {
+        this.$Message.success(this.$t("public.invite_copy_success"));
+      },
+      init() {
+        this.$store.commit("header_index_setter", "8");
+        this.showInfo();
+      }
     },
     showAuthEmail() {
       this.$store.commit("showAuthEmail_setter", 1);
     },
-    copySuccess() {
-      this.$Message.success(this.$t("public.invite_copy_success"));
+    beforeRouteEnter(to, from, next) {
+      if(from.name && from.name.indexOf("/user/login") <= -1) {
+        store.dispatch("ajax_me");
+      }
+      next();
     },
-    init() {
-      this.$store.commit("header_index_setter", "8");
-      if (this.userInfo.activated) {
-        this.showInfo();
+    beforeRouteUpdate(to, from, next) {
+      if(from.name && from.name.indexOf("/user/login") <= -1) {
+        store.dispatch("ajax_me");
       }
       this.ajax_source && this.ajax_source.cancel({});
     }

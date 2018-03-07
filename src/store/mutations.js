@@ -38,6 +38,9 @@ export default {
   userInfo_app_two_factor_setter(state, value) {
     state.userInfo.app_two_factor = value;
   },
+  userInfo_notice_setter(state, value) {
+    state.userInfo.notice = value;
+  },
   collection_setter(state, value) {
     state.collection = value;
   },
@@ -55,5 +58,13 @@ export default {
   },
   ajax_source_setter(state, value) {
     state.ajax_source = value;
+  },
+  saveToken(state, value) {
+    localStorage.userToken = value;
+    state.userToken = value;
+  },
+  delToken(state) {
+    localStorage.removeItem("userToken");
+    state.userToken = null;
   },
 };

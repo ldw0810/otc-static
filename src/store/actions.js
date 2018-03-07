@@ -69,6 +69,9 @@ export default {
       });
     });
   },
+  ajax_notice({commit}, requestData = {}) {
+    return http.get("/api/v1/members/notice.json", requestData);
+  },
   ajax_national_list({commit}, requestData = {}) {
     return http.get("/api/v1/two_factor/national_list.json", requestData);
   },
@@ -110,6 +113,9 @@ export default {
   },
   ajax_get_ad({commit}, requestData = {}) {
     return http.get("/api/v1/otc/ad.json", requestData);
+  },
+  ajax_exam_ad({commit}, requestData = {}) {
+    return http.get("/api/v1/otc/ex_ad.json", requestData);
   },
   ajax_currency_code({commit}, requestData = {}) {
     return http.get("/api/v1/currency/code.json", requestData);
