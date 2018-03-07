@@ -4,7 +4,11 @@
       <div class='ad-header'>
         <div class="g-title ad-title">{{$t("ad.ad_title").format($t("public['" + this.currency + "']"))}}</div>
         <div class="title-tip" v-html='$t("ad.ad_title_tip")'></div>
-        <!-- 备注 -->
+        <!--相同类型广告判断-->
+        <div class="credit-low-tip" v-if="+adType === 0 ? !examineAdFlagList[0] : !examineAdFlagList[1]">
+          <span class='red'>{{$t("ad.ad_publish_repeat_tip")}}</span>
+        </div>
+        <!-- 余额判断 -->
         <div class="credit-low-tip" v-if="!balanceFlag && +adType !== 1">
                     <span class='red'>{{$t("ad.ad_credit_low_tip").format(
                         $t("public['" + (currency === 'eth' ? 'dai' : (currency === 'dai' ? 'cny' : 'cny')) + "']"),

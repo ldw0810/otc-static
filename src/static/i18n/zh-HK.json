@@ -404,6 +404,7 @@
     "ad_advertise_info_notValid": "請輸入正確的廣告信息",
     "ad_advertise_success": "發布成功",
     "ad_advertise_fail": "發布失敗",
+    "ad_publish_repeat_tip": "* 不能發布超過壹個同類型廣告",
     "ad_publish_repeat": "不能發布超過壹個同類型廣告",
     "ad_data_request_fail": "廣告數據獲取失敗",
     "ad_ongoing": "進行中廣告",
