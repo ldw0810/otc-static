@@ -34,7 +34,7 @@
                             <img src="../../../static/images/icon/IdentifyingCode-CCCCCC.svg">
                         </span>
             </i-input>
-            <sendCodeButton ref="sendButton" @sendCode="sendPinCode" />
+            <sendCodeButton ref="sendButton" @sendCode="sendPinCode"/>
           </div>
         </FormItem>
         <FormItem class="formItem submit">
@@ -68,7 +68,7 @@
                                 <img src="../../../static/images/icon/IdentifyingCode-CCCCCC.svg">
                             </span>
             </i-input>
-            <sendCodeButton @sendCode="sendPinCode" />
+            <sendCodeButton @sendCode="sendPinCode"/>
           </div>
         </FormItem>
         <FormItem class="formItem submit">
@@ -94,6 +94,12 @@
 
   export default {
     mixins: [validateMixin(['addForm', 'delForm'])],
+    props: {
+      pop_phone_show: {
+        type: Boolean,
+        default: false
+      }
+    },
     data() {
       return {
         submitloading: false,
@@ -137,6 +143,28 @@
         }
       };
     },
+    watch:{
+      pop_phone_show(val){
+        if(val) {
+          this.$store.dispatch("ajax_national_list").then(res => {
+            if (res && +res.data.error === 0) {
+              let resList = res.data.country || [];
+              let countryList = [];
+              for (let i = 0; i < resList.length; i++) {
+                countryList[i] = {};
+                countryList[i].label = resList[i] ? resList[i][0] : "";
+                countryList[i].value = resList[i] ? resList[i][1] : "";
+              }
+              this.countryList = countryList;
+            } else {
+              this.$Message.error(this.$t("user.country_response_none"));
+            }
+          }).catch(err => {
+            this.$Message.error(this.$t("user.country_response_none"));
+          });
+        }
+      }
+    },
     methods: {
       sendPinCode() {
         if (!this.userInfo.mobile) {
@@ -147,7 +175,7 @@
               mobile: this.addForm.phoneNumber
             }).then(res => {
               if (res.data && +res.data.error === 0) {
-                this.$Message.success(this.$t("user.auth_phone_code_send_success"));
+                // this.$Message.success(this.$t("user.auth_phone_code_send_success"));
               } else {
                 this.$refs.sendButton.refresh();
                 this.$Message.error(this.$t("user.auth_phone_code_send_fail"));
@@ -165,7 +193,7 @@
             refresh: 1
           }).then(res => {
             if (res.data && +res.data.error === 0) {
-              this.$Message.success(this.$t("user.auth_phone_code_send_success"));
+              // this.$Message.success(this.$t("user.auth_phone_code_send_success"));
             } else {
               this.$Message.error(this.$t("user.auth_phone_code_send_fail"));
             }
@@ -224,7 +252,6 @@
             }
           });
         }
-
       },
       cancel() {
         this.$emit('cancel');
@@ -240,30 +267,6 @@
           label: "China"
         }
       }
-
-    },
-    mounted() {
-      if (this.userInfo.activated && !this.userInfo.mobile) {
-        this.$store.dispatch("ajax_national_list").then(res => {
-          if (res && +res.data.error === 0) {
-            let resList = res.data.country || [];
-            let countryList = [];
-            for (let i = 0; i < resList.length; i++) {
-              countryList[i] = {};
-              countryList[i].label = resList[i] ? resList[i][0] : "";
-              countryList[i].value = resList[i] ? resList[i][1] : "";
-            }
-            this.countryList = countryList;
-          } else {
-            this.$Message.error(this.$t("user.country_response_none"));
-          }
-        }).catch(err => {
-          this.$Message.error(this.$t("user.country_response_none"));
-        });
-      }
-    },
-    destroyed() {
-      // this.$store.commit("layer_index_setter", 1);
     },
     components: {
       logoDiv,

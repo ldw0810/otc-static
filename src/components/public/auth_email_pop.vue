@@ -19,18 +19,10 @@
         loading: false
       };
     },
-    computed: {
-      email: function() {
-        return this.$store.state.userInfo.email;
-      }
-    },
     methods: {
       submit() {
-        this.$store.commit('showAuthEmail_setter', 0);
+        this.$emit("close", 0);
       }
-    },
-    destroyed() {
-      this.$store.commit('showAuthEmail_setter', 0);
     },
     components: {
       logoDiv
