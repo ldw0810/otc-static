@@ -386,7 +386,7 @@
       ];
     },
     mounted(){
-      this.getNotice();
+      this.noticeTimer = setTimeout(this.getNotice, 60 * 1000);
     },
     destroyed(){
       this.noticeTimer && clearTimeout(this.noticeTimer);
