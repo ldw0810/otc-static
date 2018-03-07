@@ -119,7 +119,6 @@ const routers = [
         name: "/buy",
         meta: {
           noLogin: true,
-          needEmail: true
         },
         component: resolve => require(["./components/ad/adList.vue"], resolve)
       },
@@ -128,7 +127,6 @@ const routers = [
         name: "/sell",
         meta: {
           noLogin: true,
-          needEmail: true
         },
         component: resolve => require(["./components/ad/adList.vue"], resolve)
       },
