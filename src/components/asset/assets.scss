@@ -307,8 +307,14 @@
 
 // withdraw
 .withdraw {
+  &-form {
+    margin-bottom: 15px;
+  }
   &-address {
-    margin-bottom: 33px - 29px;
+    & /deep/ .withdraw-address-select {
+      margin-bottom: 0;
+    }
+    // margin-bottom: 33px - 29px;
     &-select {
       &-text {
         color: #333;
@@ -323,6 +329,8 @@
       margin-bottom: 15px;
     }
     &-add {
+      margin-top: 15px;
+      margin-bottom: 33px - 15px;
       display: flex;
       justify-content: space-between;
       .add-label {

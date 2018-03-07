@@ -145,7 +145,7 @@
                         :rules="rules"
                         :label-width="90"
                         >
-                    <FormItem :label="$t('asset.asset_withdraw_address')" class="formItem">
+                    <FormItem :label="$t('asset.asset_withdraw_address')" class="withdraw-form">
                       <div class='withdraw-address'>
                         <FormItem prop="address" v-if="withdraw.fund_sources && withdraw.fund_sources.length">
                           <Select class='withdraw-address-select'
@@ -174,7 +174,7 @@
                       </div>
                     </FormItem>
                     
-                    <FormItem prop="number" :label="$t('asset.asset_withdraw_number')" class="formItem">
+                    <FormItem prop="number" :label="$t('asset.asset_withdraw_number')" class="withdraw-form">
                       <div class='withdraw-number'>
                         <i-input class='withdraw-number-input' v-model='form.number' type="text" :placeholder='"可用余额：" + amount'>
                           <span slot="append">{{currency.toUpperCase()}}</span>
@@ -731,7 +731,7 @@ export default {
       });
     },
     doWithdraw(authJson) {
-      this.address_add().then(response => {
+      this.checkAddress().then(response => {
         let fund_index = 0;
         for (let i in this.withdraw.fund_sources) {
           if (this.withdraw.fund_sources[i].id === this.form.address) {
@@ -740,22 +740,34 @@ export default {
         }
         const { number, id } = this.form;
         let requestData = {
-          fund_source_id: id,
-          // member_id: this.withdraw.fund_sources[fund_index].member_id,
           member_id: this.userInfo.id,
           currency: this.currency,
           sum: +number
         };
+
+        if (this.form.id) {
+          requestData.fund_source_id = id;
+        } else if (
+          this.addNewAddressStatus ||
+          (!this.withdraw.fund_sources || !this.withdraw.fund_sources.length)
+        ) {
+          requestData.uid = this.form.addressPlus
+          requestData.extra = this.form.labelPlus
+        }
+
         if (authJson) {
           requestData = Object.assign(authJson, requestData);
         }
         this.$store
           .dispatch("ajax_withdraw", requestData)
           .then(res => {
-            if (res.data && +res.data.error === 0) {
+            if (res.data && (res.data.uid || res.data.error === 0)) {
               this.withdraw_email = true;
-              //                        this.$Message.success(this.$t("asset.asset_withdraw_success"));
+              // this.$Message.success(this.$t("asset.asset_withdraw_success"));
               this.$refs["form"].resetFields();
+              this.form.addressPlus = "";
+              this.form.labelPlus = "";
+              this.form.id = "";
               this.init();
             } else {
               this.$Message.error(this.$t("asset.asset_withdraw_fail"));
@@ -775,51 +787,18 @@ export default {
           });
       });
     },
-    address_add() {
+    checkAddress() {
       return new Promise((resolve, reject) => {
-        // addNewAddressStatus || (!withdraw.fund_sources || !withdraw.fund_sources.length)'
-        if (
-          this.addNewAddressStatus ||
-          (!this.withdraw.fund_sources || !this.withdraw.fund_sources.length)
-        ) {
-          resolve();
-        } else {
-          this.$refs["form"].validate(valid => {
-            if (valid) {
-              this.$store
-                .dispatch("ajax_add_fund_sources", {
-                  uid: this.form.addressPlus,
-                  extra: this.form.labelPlus,
-                  currency: this.currency
-                })
-                .then(res => {
-                  if (res.data && +res.data.error === 0) {
-                    // this.$Message.success(
-                    //   this.$t("asset.asset_withdraw_address_add_success")
-                    // );
-                    this.showInfo();
-                    resolve(res);
-                  } else {
-                    this.$Message.error(
-                      this.$t("asset.asset_withdraw_address_add_fail")
-                    );
-                    reject();
-                  }
-                })
-                .catch(err => {
-                  this.$Message.error(
-                    this.$t("asset.asset_withdraw_address_add_fail")
-                  );
-                  reject();
-                });
-            } else {
-              this.$Message.error(
-                this.$t("asset.asset_withdraw_address_notValid")
-              );
-              reject();
-            }
-          });
-        }
+        this.$refs["form"].validate(valid => {
+          if (valid) {
+            resolve();
+          } else {
+            this.$Message.error(
+              this.$t("asset.asset_withdraw_address_notValid")
+            );
+            reject();
+          }
+        });
       });
     },
     setDefaultAddress(id) {
@@ -882,6 +861,7 @@ export default {
       if (val === "1000" || val === "") {
         this.form.addressPlus = "";
         this.form.labelPlus = "";
+        this.form.id = "";
         this.$refs["form"].resetFields();
         this.addNewAddressStatus = true;
       } else {
