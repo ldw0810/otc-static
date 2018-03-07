@@ -46,6 +46,11 @@
         <!--<span v-text="userInfo.omt.amount"></span>-->
       </div>
     </div>
+    <Modal v-model="pop_email" class-name="m-ivu-modal" width='480' :mask-closable="true"
+           :closable="false">
+      <auth_email_send ref="auth_email_send" @close="pop_email = false" />
+      <div slot="footer"></div>
+    </Modal>
     <Modal v-model="pop_phone" class-name="m-ivu-modal" width='480' :mask-closable="true"
            :closable="false" @on-visible-change="popPhoneTrigger">
       <auth_phone_pop :pop_phone_show="pop_phone_show" @cancel='pop_phone = false'/>
@@ -56,6 +61,7 @@
 </template>
 
 <script>
+  import auth_email_send from "./auth_email_send_pop.vue";
   import auth_phone_pop from "./auth_phone_pop.vue";
   import BreadCrumb from "./breadcrumb";
   import store from "../../../store/store";
@@ -65,6 +71,7 @@
       return {
         breadcrumbText: this.$t("user.info"),
         user: {},
+        pop_email: false,
         pop_phone: false,
         pop_phone_show: false
       };
@@ -103,7 +110,8 @@
         }
       },
       reSendEmail() {
-        this.$store.commit("showAuthEmail_setter", 1);
+        this.pop_email = true;
+        this.$refs.auth_email_send.init();
       },
       popPhoneTrigger(val) {
         this.pop_phone_show = val;
@@ -111,7 +119,8 @@
     },
     components: {
       auth_phone_pop,
-      BreadCrumb
+      BreadCrumb,
+      auth_email_send
     },
     mounted() {
       this.$store.commit("user_sider_index_setter", 0);
