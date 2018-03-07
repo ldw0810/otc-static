@@ -47,7 +47,7 @@
       </div>
     </div>
     <Modal v-model="pop_email" class-name="m-ivu-modal" width='480' :mask-closable="true"
-           :closable="false">
+           :closable="false" @on-visible-change="popEmailTrigger">
       <auth_email_send ref="auth_email_send" @close="pop_email = false" />
       <div slot="footer"></div>
     </Modal>
@@ -112,6 +112,11 @@
       reSendEmail() {
         this.pop_email = true;
         this.$refs.auth_email_send.init();
+      },
+      popEmailTrigger(val){
+        if(!val) {
+          this.$refs.auth_email_send.close();
+        }
       },
       popPhoneTrigger(val) {
         this.pop_phone_show = val;

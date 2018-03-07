@@ -597,7 +597,7 @@ export default {
     },
     account() {
       let index = 0;
-      for (let i in this.userInfo.valid_account) {
+      for (let i = 0; i < this.userInfo.valid_account.length; i++) {
         if (
           this.userInfo.valid_account[i] &&
           this.userInfo.valid_account[i].currency === this.currency
@@ -693,7 +693,7 @@ export default {
           .then(res => {
             if (res.data && +res.data.error === 0) {
               this.withdraw = res.data;
-              for (let i in this.withdraw.fund_sources) {
+              for (let i = 0; i < this.withdraw.fund_sources.length; i++) {
                 if (
                   this.withdraw.fund_sources[i].id === this.default_source_id
                 ) {
@@ -733,7 +733,7 @@ export default {
     doWithdraw(authJson) {
       this.address_add().then(response => {
         let fund_index = 0;
-        for (let i in this.withdraw.fund_sources) {
+        for (let i = 0; i < this.withdraw.fund_sources.length; i++) {
           if (this.withdraw.fund_sources[i].id === this.form.address) {
             fund_index = i;
           }
@@ -886,7 +886,7 @@ export default {
         this.addNewAddressStatus = true;
       } else {
         this.addNewAddressStatus = false;
-        for (let i in this.withdraw.fund_sources) {
+        for (let i = 0; i < this.withdraw.fund_sources.length; i++) {
           if (
             val ===
             this.withdraw.fund_sources[i].id +

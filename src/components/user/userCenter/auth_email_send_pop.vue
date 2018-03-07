@@ -38,6 +38,9 @@
           this.$refs.sendCodeButton.init();
         });
       },
+      close(){
+        this.$refs.sendCodeButton.close();
+      },
       sendEmail() {
         return new Promise((resolve, reject) => {
           this.loading = true;

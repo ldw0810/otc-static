@@ -53,6 +53,9 @@
       refresh() {
         this.once = true;
       },
+      clear(){
+        this.timer && clearTimeout(this.timer);
+      },
       init() {
         if (this.time && !this.once) {
           this.countDown();
@@ -60,7 +63,7 @@
       }
     },
     destroyed(){
-      this.timer && clearTimeout(this.timer);
+      this.clear();
     }
   }
 </script>
