@@ -576,7 +576,7 @@
       adId() {
         return this.$route.query.adId;
       },
-      form(){
+      form() {
         return +this.adType === 0 ? this.form_buy : this.form_sell;
       }
     },
@@ -844,6 +844,9 @@
             this.$Message.error(this.$t("ad.ad_data_request_fail"));
           });
       },
+      examineAd() {
+        this.$store.dispatch()
+      },
       init() {
         let index = -1;
         for (let i in this.currencyList) {
@@ -865,6 +868,7 @@
         } else {
           this.$store.commit("header_index_setter", "3" + index);
         }
+        this.examineAd();
         if (!this.userInfo.activated) {
           this.$store.commit("showAuthEmail_setter", 1);
         }
