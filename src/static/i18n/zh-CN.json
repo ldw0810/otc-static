@@ -466,7 +466,7 @@
     "order_email_verified": "邮箱已验证",
     "order_email_notVerified": "邮箱未验证",
     "order_phone_verified": "手机已验证",
-    "order_phone_notVerified": "手机已验证",
+    "order_phone_notVerified": "手机未验证",
     "order_trade_notice": "交易须知",
     "order_trade_notice_content": "1.交易前请详细了解对方的交易信息。<br>2.请通过平台进行沟通约定，并保存好相关聊天记录。<br>3.请注意欺诈风险，交易前请检查该用户收到的评价和相关信用信息，并对新近创建的账户多加留意。<br>4.托管服务保护网上交易的买卖双方。在发生争议的情况下，我们将评估所提供的所有信息，并将托管的资产放行给其合法所有者。",
     "order_info_notValid": "请正确填写交易信息",
