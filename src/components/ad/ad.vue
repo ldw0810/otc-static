@@ -89,7 +89,14 @@
             <i-col span='10'>
               <div class='premium-example'>
                 <span class='premium-example-desc'>{{$t("ad.ad_reference_price")}}:</span>
-                <span class='premium-example-number'>{{tradePrice|fix_decimals_legal}}&nbsp;&nbsp;{{moneyText}}</span>
+                <span class='premium-example-number'>
+                  <span v-if='DigitalCurrency.indexOf(moneyText.toUpperCase()) > -1'>
+                        {{tradePrice|fix_decimals_base}}
+                    </span>
+                    <span v-if='legalTender.indexOf(moneyText.toUpperCase()) > -1'>
+                        {{tradePrice|fix_decimals_legal}}
+                    </span>
+                  &nbsp;&nbsp;{{moneyText}}</span>
               </div>
             </i-col>
           </Row>
@@ -102,7 +109,6 @@
           </header>
           <Row>
             <i-col span='10'>
-              
               <i-input class="input" v-model="form_buy.buyPrice" type="text"
                        :placeholder="$t('ad.ad_buy_price_required')" @on-change="changePrice">
                 <span slot="append">{{moneyText}}</span>
@@ -347,9 +353,13 @@
 <script type="es6">
 import ValidateMixin from "@/components/mixins/validate-mixin";
 import { BigNumber } from "bignumber.js";
-import { fixDecimalsBase, fixDecimalsLegal } from "config/config";
+import {
+  DigitalCurrency,
+  legalTender,
+  fixDecimalsBase,
+  fixDecimalsLegal
+} from "config/config";
 import config from "@/config/config";
-
 
 export default {
   mixins: [ValidateMixin("form", "form")],
@@ -402,6 +412,8 @@ export default {
       }
     };
     return {
+      DigitalCurrency,
+      legalTender,
       submitLoading: false,
       opList: ["buy", "sell"],
       formFlag: true,
@@ -634,8 +646,13 @@ export default {
           if (res.data && +res.data.error === 0) {
             this.tradePrice = res.data.price;
             if (!this.isUpdate) {
-              this.form.buyPrice = fixDecimalsLegal(this.tradePrice);
-              this.form.sellPrice = fixDecimalsLegal(this.tradePrice);
+              if (DigitalCurrency.indexOf(this.moneyText.toUpperCase()) > -1) {
+                this.form.buyPrice = fixDecimalsBase(this.tradePrice);
+              } else if (
+                legalTender.indexOf(this.moneyText.toUpperCase()) > -1
+              ) {
+                this.form.sellPrice = fixDecimalsLegal(this.tradePrice);
+              }
             }
           } else {
             this.$Message.error(this.$t("ad.ad_reference_price_request_fail"));
@@ -662,12 +679,27 @@ export default {
     changePremium() {
       if (+this.adType === 0) {
         this.$nextTick(() => {
-          this.form.buyPrice = fixDecimalsLegal(this.tradePrice * (1 + +this.form.premium / 100));
+          if (DigitalCurrency.indexOf(this.moneyText.toUpperCase()) > -1) {
+            this.form.buyPrice = fixDecimalsBase(
+              this.tradePrice * (1 + +this.form.premium / 100)
+            );
+          } else if (legalTender.indexOf(this.moneyText.toUpperCase()) > -1) {
+            this.form.buyPrice = fixDecimalsLegal(
+              this.tradePrice * (1 + +this.form.premium / 100)
+            );
+          }
         });
       } else if (+this.adType === 1) {
         this.$nextTick(() => {
-          this.form.sellPrice =
-            fixDecimalsLegal(this.tradePrice * (1 + +this.form.premium / 100));
+          if (DigitalCurrency.indexOf(this.moneyText.toUpperCase()) > -1) {
+            this.form.sellPrice = fixDecimalsBase(
+              this.tradePrice * (1 + +this.form.premium / 100)
+            );
+          } else if (legalTender.indexOf(this.moneyText.toUpperCase()) > -1) {
+            this.form.sellPrice = fixDecimalsLegal(
+              this.tradePrice * (1 + +this.form.premium / 100)
+            );
+          }
         });
       }
     },
@@ -714,10 +746,19 @@ export default {
     },
     sellAll() {
       this.$nextTick(() => {
-        this.form.ceiling =
-          fixDecimalsLegal(this.balanceObj[this.currency] *
-          this.tradePrice *
-          (1 - +config.poundage));
+        if (DigitalCurrency.indexOf(this.moneyText.toUpperCase()) > -1) {
+          this.form.ceiling = fixDecimalsBase(
+            this.balanceObj[this.currency] *
+              this.tradePrice *
+              (1 - +config.poundage)
+          );
+        } else if (legalTender.indexOf(this.moneyText.toUpperCase()) > -1) {
+          this.form.ceiling = fixDecimalsLegal(
+            this.balanceObj[this.currency] *
+              this.tradePrice *
+              (1 - +config.poundage)
+          );
+        }
       });
     },
     submit() {
@@ -831,8 +872,17 @@ export default {
             if (+this.adType === 0) {
               this.form.payment = this.ad.pay_kind;
               this.form.maxPrice = this.ad.price;
-              this.form.buyPrice =
-                fixDecimalsLegal(this.tradePrice * (1 + +this.form.premium / 100));
+              if (DigitalCurrency.indexOf(this.moneyText.toUpperCase()) > -1) {
+                this.form.buyPrice = fixDecimalsBase(
+                  this.tradePrice * (1 + +this.form.premium / 100)
+                );
+              } else if (
+                legalTender.indexOf(this.moneyText.toUpperCase()) > -1
+              ) {
+                this.form.buyPrice = fixDecimalsLegal(
+                  this.tradePrice * (1 + +this.form.premium / 100)
+                );
+              }
             } else if (+this.adType === 1) {
               this.form.collection = this.ad.pay_kind;
               this.form.minPrice = this.ad.price;

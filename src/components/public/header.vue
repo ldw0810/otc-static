@@ -369,18 +369,15 @@
     }
   };
 </script>
-<style lang='scss'>
+
+<style lang="scss" scoped>
+  @import "~style/variables";
   .header-navbar-item {
-    .ivu-select-dropdown {
+    & /deep/ .ivu-select-dropdown {
       margin: 0;
       z-index: -1;
     }
   }
-</style>
-
-<style lang="scss" scoped>
-  @import "~style/variables";
-
   $height: 76px;
   .header {
     width: 100%;

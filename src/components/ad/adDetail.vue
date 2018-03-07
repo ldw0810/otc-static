@@ -38,7 +38,12 @@
                         {{$t("order.order_offer")}}：
                     </div>
                     <div class="deal-info-item-desc">
-                        {{ad.current_price|fix_decimals_legal}}
+                        <span v-if='DigitalCurrency.indexOf(ad.target_currency.toUpperCase()) > -1'>
+                            {{ad.current_price | fix_decimals_base }}
+                        </span>
+                        <span v-if='legalTender.indexOf(ad.target_currency.toUpperCase()) > -1'>
+                            {{ad.current_price|fix_decimals_legal}}
+                        </span>
                         {{$t("public['" + ad.target_currency + "']")}}
                         &nbsp;/&nbsp;
                         {{$t("public['" + ad.currency + "']")}}
@@ -49,9 +54,16 @@
                         {{$t("order.order_trade_limit")}}：
                     </div>
                     <div class="deal-info-item-desc">
-                        {{ad.min_limit|fix_decimals_legal}}
-                        &nbsp;-&nbsp;
-                        {{ad.order_limit|fix_decimals_legal}}
+                        <span v-if='DigitalCurrency.indexOf(ad.target_currency.toUpperCase()) > -1'>
+                            {{ad.min_limit | fix_decimals_base}}
+                             &nbsp;-&nbsp;
+                            {{ad.order_limit | fix_decimals_base}}
+                        </span>
+                        <span v-if='legalTender.indexOf(ad.target_currency.toUpperCase()) > -1'>
+                            {{ad.min_limit | fix_decimals_legal}}
+                            &nbsp;-&nbsp;
+                            {{ad.order_limit | fix_decimals_legal}}
+                        </span>
                         {{$t("public['" + ad.target_currency + "']")}}
                     </div>
                 </div>
@@ -196,7 +208,7 @@
 </template>
 <script type="es6">
     import validateMixin from '@/components/mixins/validate-mixin'
-    import { fixDecimalsBase, fixDecimalsLegal } from "config/config";
+    import { DigitalCurrency, legalTender, fixDecimalsBase, fixDecimalsLegal } from "config/config";
     import logoDiv from "../public/logo.vue";
     import Avator from "@/components/public/avator";
     export default {
@@ -245,6 +257,8 @@
                 }
             };
             return {
+                DigitalCurrency,
+                legalTender,
                 submitPlaceOrderLoading: false,
                 showModal: true,
                 ad: {},
@@ -355,12 +369,20 @@
             },
             changeAmount() {
                 if (+this.form.moneyAmount || +this.form.moneyAmount == 0) {
-                    this.form.number = fixDecimalsBase(+this.form.moneyAmount / +this.ad.current_price);
+                    if (DigitalCurrency.indexOf(this.ad.target_currency.toUpperCase()) > -1) {
+                        this.form.number = fixDecimalsBase(+this.form.moneyAmount / +this.ad.current_price);
+                    } else if (legalTender.indexOf(this.ad.target_currency.toUpperCase()) > -1) {
+                        this.form.number = fixDecimalsLegal(+this.form.moneyAmount / +this.ad.current_price);
+                    }
                 }
             },
             changeNumber() {
                 if (+this.form.number || +this.form.number == 0) {
-                    this.form.moneyAmount = fixDecimalsLegal(+this.form.number * +this.ad.current_price);
+                    if (DigitalCurrency.indexOf(this.ad.target_currency.toUpperCase()) > -1) {
+                        this.form.moneyAmount = fixDecimalsBase(+this.form.number * +this.ad.current_price);
+                    } else if (legalTender.indexOf(this.ad.target_currency.toUpperCase()) > -1) {
+                        this.form.moneyAmount = fixDecimalsLegal(+this.form.number * +this.ad.current_price);
+                    }
                 }
             },
             submit() {
