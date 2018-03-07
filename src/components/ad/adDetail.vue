@@ -99,7 +99,7 @@
           </Row>
           <FormItem class="formItem submit">
             <i-button class="deal-exchange-btn" type='primary' :disabled='!validate' @click="submit">
-              {{adType == 0 ? $t('order.order_buy_confirm') : $t('order.order_sell_confirm')}}
+              {{+adType === 0 ? $t('order.order_buy_confirm') : $t('order.order_sell_confirm')}}
             </i-button>
           </FormItem>
         </Form>
@@ -125,7 +125,7 @@
           <Row
           >
             <i-col class='text-left' span="8">
-              {{adType == 0 ? $t("ad.ad_buy_price") : $t("ad.ad_sell_price")}}:
+              {{+adType === 0 ? $t("ad.ad_buy_price") : $t("ad.ad_sell_price")}}:
             </i-col>
             <i-col class='text-left' span="116">
               {{+ad.current_price}}
@@ -136,7 +136,7 @@
           </Row>
           <Row>
             <i-col class='text-left' span="8">
-              {{adType == 0 ? $t("ad.ad_buy_money_amount") : $t("ad.ad_sell_money_amount")}}:
+              {{+adType === 0 ? $t("ad.ad_buy_money_amount") : $t("ad.ad_sell_money_amount")}}:
             </i-col>
             <i-col class='text-left' span="16">
               {{+form.moneyAmount}}
@@ -145,7 +145,7 @@
           </Row>
           <Row>
             <i-col class='text-left' span="8">
-              {{adType == 0 ? $t("order.order_buy_number_title") : $t("order.order_sell_number_title")}}:
+              {{+adType === 0 ? $t("order.order_buy_number_title") : $t("order.order_sell_number_title")}}:
             </i-col>
             <i-col class='text-left' span="16">
               {{+form.number}}
@@ -154,17 +154,17 @@
           </Row>
         </div>
         <div class="detail-model-warn" v-if="ad.currency === 'dai'">
-          {{adType == 0 ? $t("order.order_place_order_buy_warn") : $t("order.order_place_order_sell_warn")}}
+          {{+adType === 0 ? $t("order.order_place_order_buy_warn") : $t("order.order_place_order_sell_warn")}}
         </div>
         <div class="detail-model-warn" v-else>
-          {{adType == 0 ? $t("order.order_confirm_complete_buy_warn").format(form.moneyAmount, $t("public['" +
+          {{+adType === 0 ? $t("order.order_confirm_complete_buy_warn").format(form.moneyAmount, $t("public['" +
           ad.target_currency + "']"), form.number, $t("public['" + ad.currency + "']")) :
           $t("order.order_confirm_complete_sell_warn").format(form.number, $t("public['" + ad.currency + "']"),
           form.moneyAmount, $t("public['" + ad.target_currency + "']"))}}
         </div>
         <div class='g-comfirm-group'>
           <i-button class="submit-button" type="primary" :loading='submitPlaceOrderLoading' @click="placeOrder_submit">
-            {{adType == 0 ? $t("order.order_buy_confirm") : $t("order.order_sell_confirm")}}
+            {{+adType === 0 ? $t("order.order_buy_confirm") : $t("order.order_sell_confirm")}}
           </i-button>
           <i-button class="cancel-button" @click="confirmFlag.placeOrder=false">
             {{$t('public.cancel')}}
@@ -178,7 +178,7 @@
       <div class="detail-model">
         <h3 class='detail-model-title'>{{$t("order.order_complete")}}</h3>
         <div class='detail-model-content' style='width:292px;margin-bottom:92px' v-if="ad.id">
-          <span v-if="adType == 1"
+          <span v-if="+adType === 1"
                 v-html='$t("order.order_complete_info").format(form.moneyAmount, $t("public[\"" + ad.target_currency + "\"]"))'></span>
           <span v-else
                 v-html='$t("order.order_complete_info").format(form.number, $t("public[\"" + ad.currency + "\"]"))'></span>
@@ -370,7 +370,7 @@
         this.submitPlaceOrderLoading = true;
         this.$store.dispatch("ajax_order_buy", {
           id: this.ad.id,
-          price_sum: +this.adType === 0 ? this.form.moneyAmount : this.form.number
+          price_sum: +this.form.moneyAmount
         }).then(res => {
           this.submitPlaceOrderLoading = false;
           if (res.data && res.data.error === 0) {
