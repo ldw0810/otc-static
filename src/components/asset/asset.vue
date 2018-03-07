@@ -553,11 +553,10 @@ export default {
         per_page: 20,
         total_count: 0,
         total_pages: 1
-      },
-      default_source_id() {
-        return this.withdraw.default_source_id;
       }
-    },
+    };
+  },
+  computed: {
     currencyList() {
       return this.$store.state.currencyList;
     },
@@ -578,7 +577,7 @@ export default {
       return this.userInfo.valid_account[index];
     },
     amount() {
-      return this.account ? fixDecimalsAsset(this.account.balance) : 0
+      return this.account ? fixDecimalsAsset(this.account.balance) : 0;
     },
     userInfo() {
       return this.$store.state.userInfo;
@@ -613,7 +612,7 @@ export default {
   },
   methods: {
     handleAllWithdrawal() {
-      this.form.number = this.amount
+      this.form.number = this.amount;
     },
     onOpenUrl(url) {
       window.open(url);
@@ -887,42 +886,32 @@ export default {
         .catch(err => {
           this.$Message.error(this.$t("public.fail"));
         });
-      },
-      showAuthEmail() {
-        this.$store.commit("showAuthEmail_setter", 1);
-      },
-      copySuccess() {
-        this.$Message.success(this.$t("public.invite_copy_success"));
-      },
-      init() {
-        this.$store.commit("header_index_setter", "8");
-        this.showInfo();
-      }
     },
     showAuthEmail() {
       this.$store.commit("showAuthEmail_setter", 1);
     },
-    beforeRouteEnter(to, from, next) {
-      if(from.name && from.name.indexOf("/user/login") <= -1) {
-        store.dispatch("ajax_me");
-      }
-      next();
+    copySuccess() {
+      this.$Message.success(this.$t("public.invite_copy_success"));
     },
-    beforeRouteUpdate(to, from, next) {
-      if(from.name && from.name.indexOf("/user/login") <= -1) {
-        store.dispatch("ajax_me");
-      }
-      this.ajax_source && this.ajax_source.cancel({});
+    init() {
+      this.$store.commit("header_index_setter", "8");
+      this.showInfo();
     }
   },
   mounted() {
     this.init();
   },
   beforeRouteEnter(to, from, next) {
-    if (from.name && from.name !== "/user/login") {
+    if (from.name && from.name.indexOf("/user/login") <= -1) {
       store.dispatch("ajax_me");
     }
     next();
+  },
+  beforeRouteUpdate(to, from, next) {
+    if (from.name && from.name.indexOf("/user/login") <= -1) {
+      store.dispatch("ajax_me");
+    }
+    this.ajax_source && this.ajax_source.cancel({});
   }
 };
 </script>
