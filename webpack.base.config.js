@@ -48,8 +48,8 @@ module.exports = {
       },
       {
         test: /iview.src.*?js$/,
-        loader: 'babel-loader'
-     },
+        loader: "babel-loader"
+      },
       {
         test: /\.js$/,
         loader: "babel-loader",
@@ -76,16 +76,26 @@ module.exports = {
           use: ["css-loader", "less-loader"]
         })
       },
-
       {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
           //resolve-url-loader may be chained before sass-loader if necessary
-          use: ["css-loader", "sass-loader"]
+          use: [
+            "css-loader",
+            "sass-loader",
+            {
+              loader: "sass-resources-loader",
+              options: {
+                resources: [
+                  resolve("src/style/_variables.scss"),
+                  resolve("src/style/_mixins.scss")
+                ]
+              }
+            }
+          ]
         })
       },
-
       {
         test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
         loader: "url-loader?limit=1024"
@@ -101,10 +111,11 @@ module.exports = {
     alias: {
       vue: "vue/dist/vue.esm.js",
       "@": resolve("src"),
+      config: resolve("src/config"),
       style: resolve("src/style"),
       images: resolve("src/static/images"),
       fonts: resolve("src/static/fonts"),
-      utils: resolve('src/utils'),
+      utils: resolve("src/utils")
     }
   }
 };

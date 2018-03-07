@@ -53,7 +53,7 @@
                 {{$t("order.order_money_amount")}}:
               </i-col>
               <i-col span='16'>
-                {{order.price_sum}}
+                {{order.price_sum|fix_decimals_legal}}
                 {{$t("public['" + order.target_currency + "']")}}
               </i-col>
             </Row>
@@ -63,7 +63,7 @@
                 {{$t("order.order_price")}}:
               </i-col>
               <i-col span='16'>
-                {{order.price}}
+                {{order.price|fix_decimals_legal}}
                 {{$t("public['" + order.target_currency + "']")}}
                 &nbsp;/&nbsp;
                 {{$t("public['" + order.currency + "']")}}
@@ -75,7 +75,7 @@
                 {{$t("order.order_number")}}:
               </i-col>
               <i-col span='16'>
-                {{order.amount|fix_decimals(8)}}
+                {{order.amount|fix_decimals_base}}
                 {{$t("public['" + order.currency + "']")}}
               </i-col>
             </Row>
@@ -268,7 +268,7 @@
           </FormItem>
           <!--防止自动提交表单-->
           <input type="text" style="display:none"/>
-          <div class='warn'>{{$t("order.order_confirm_release_warn").format(order.price_sum,
+          <div class='warn'>{{$t("order.order_confirm_release_warn").format(orderPriceSum,
             order.currency.toUpperCase())}}
           </div>
           <FormItem class="formItem g-comfirm-group buttons-group">
@@ -331,6 +331,7 @@
 <script type="es6">
 import config from '@/config/config'
 import ValidateMixin from "@/components/mixins/validate-mixin";
+import { fixDecimalsBase } from "config/config";
 import logoDiv from "../public/logo.vue";
 import chat from "../public/chat.vue";
 import auth_two from "../public/auth_two_pop.vue";
@@ -379,6 +380,9 @@ export default {
     };
   },
   computed: {
+    orderPriceSum() {
+      return fixDecimalsBase(this.order.price_sum)
+    },
     id() {
       return this.$route.query.id;
     },
@@ -706,14 +710,15 @@ export default {
       display: flex;
     }
     &-chat {
-      flex: 1;
+      flex:1;
     }
   }
   &-content {
     display: flex;
+    align-items: flex-start;
   }
   &-chat {
-    flex: 1;
+    flex:1;
     margin-right: 30px;
     padding: 30px;
     background-color: #fff;

@@ -65,4 +65,9 @@
   &-break-all {
       word-break: break-all;
   }
+  &-text {
+      &-center {
+          text-align: center;
+      }
+  }
 }

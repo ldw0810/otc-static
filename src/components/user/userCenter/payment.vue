@@ -200,7 +200,7 @@
       }
     }
     &-right {
-      flex: 1;
+      flex:1;
       float: left;
       display: flex;
       align-items: center;
@@ -217,7 +217,7 @@
       }
     }
     &-radio {
-      flex: 1;
+      flex:1;
     }
     &-del {
       width: 16px;

@@ -146,7 +146,7 @@
 
   #page {
     /* z-index: 0; */
-    flex: 1;
+    flex:1;
     /* padding-bottom: 30px; */
   }
 </style>

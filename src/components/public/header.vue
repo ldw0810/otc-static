@@ -99,7 +99,7 @@
                           <article class='assets-content'>
                             <ul>
                               <li class='assets-list-item' v-for="(item, index) in userInfo.valid_account" :key="index">
-                                {{item.balance|fix_decimals(8)}}
+                                {{item.balance | fix_decimals_assets}}
                               </li>
                             </ul>
                           </article>
@@ -110,7 +110,7 @@
                           <article class='assets-content'>
                             <ul>
                               <li class='assets-list-item' v-for="(item, index) in userInfo.valid_account" :key="index">
-                                {{item.locked|fix_decimals(8)}}
+                                {{item.locked | fix_decimals_assets}}
                               </li>
                             </ul>
                           </article>
@@ -393,18 +393,15 @@
     }
   };
 </script>
-<style lang='scss'>
+
+<style lang="scss" scoped>
+  @import "~style/variables";
   .header-navbar-item {
-    .ivu-select-dropdown {
+    & /deep/ .ivu-select-dropdown {
       margin: 0;
       z-index: -1;
     }
   }
-</style>
-
-<style lang="scss" scoped>
-  @import "~style/variables";
-
   $height: 76px;
   .header {
     width: 100%;

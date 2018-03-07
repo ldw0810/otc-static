@@ -1,5 +1,5 @@
 <template>
-  <div class="g-shadow breadcrumb">
+  <div class="breadcrumb">
       <div class='breadcrumb-text' v-text="breadcrumbText"></div>
   </div>
 </template>
