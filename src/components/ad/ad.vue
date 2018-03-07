@@ -4,7 +4,11 @@
       <div class='ad-header'>
         <div class="g-title ad-title">{{$t("ad.ad_title").format($t("public['" + this.currency + "']"))}}</div>
         <div class="title-tip" v-html='$t("ad.ad_title_tip")'></div>
-        <!-- 备注 -->
+        <!--相同类型广告判断-->
+        <div class="credit-low-tip" v-if="+adType === 0 ? !examineAdFlagList[0] : !examineAdFlagList[1]">
+          <span class='red'>{{$t("ad.ad_publish_repeat_tip")}}</span>
+        </div>
+        <!-- 余额判断 -->
         <div class="credit-low-tip" v-if="!balanceFlag && +adType !== 1">
                     <span class='red'>{{$t("ad.ad_credit_low_tip").format(
                         $t("public['" + (currency === 'eth' ? 'dai' : (currency === 'dai' ? 'cny' : 'cny')) + "']"),
@@ -521,6 +525,7 @@
         tradePrice: 0,
         moneyList: [],
         ad: {},
+        examineAdFlagList: [true, true],
         timer: 0
       };
     },
@@ -548,10 +553,8 @@
       },
       balanceObj() {
         let obj = {};
-        for (let i in this.userInfo.valid_account) {
-          obj[
-          "" + this.userInfo.valid_account[i].currency
-            ] = this.userInfo.valid_account[i].balance;
+        for (let i = 0; i < this.userInfo.valid_account.length; i++) {
+          obj["" + this.userInfo.valid_account[i].currency] = this.userInfo.valid_account[i].balance;
         }
         return obj;
       },
@@ -596,7 +599,8 @@
             if (res.data && +res.data.error === 0) {
               this.collection_default = res.data.default;
               if (res.data.default) {
-                this.form.collection = res.data.default.id;
+                this.form_buy.collection = res.data.default.id;
+                this.form_sell.collection = res.data.default.id;
               }
             } else {
               this.$Message.error(this.$t("user.receivables_request_fail"));
@@ -612,7 +616,8 @@
           .then(res => {
             if (res.data && +res.data.error === 0) {
               this.moneyList = res.data.payable;
-              this.form.money = this.currency === "eth" ? "dai" : "cny";
+              this.form_buy.money = this.currency === "eth" ? "dai" : "cny";
+              this.form_sell.money = this.currency === "eth" ? "dai" : "cny";
             } else {
               this.$Message.error(this.$t("ad.ad_money_request_fail"));
             }
@@ -630,8 +635,8 @@
             if (res.data && +res.data.error === 0) {
               this.tradePrice = res.data.price;
               if (!this.isUpdate) {
-                this.form.buyPrice = this.tradePrice;
-                this.form.sellPrice = this.tradePrice;
+                this.form_buy.buyPrice = +this.tradePrice;
+                this.form_sell.sellPrice = +this.tradePrice;
               }
             } else {
               this.$Message.error(this.$t("ad.ad_reference_price_request_fail"));
@@ -719,14 +724,16 @@
       submit() {
         if (!this.userInfo.activated) {
           this.$store.commit("showAuthEmail_setter", 1);
+        } else if (!this.examineAdFlagList[+this.adType]) {
+          this.$Message.error(this.$t("ad.ad_publish_repeat"));
         } else if (!this.balanceFlag) {
           this.$Message.error(this.$t("ad.ad_credit_low"));
         } else {
           const form_ref = +this.adType === 0 ? this.$refs["form_buy"] : this.$refs["form_sell"];
           form_ref.validate(valid => {
             if (valid) {
+              this.submitLoading = true;
               if (this.isUpdate) {
-                this.submitLoading = true;
                 const requestData = {
                   id: this.adId,
                   max: this.form.ceiling,
@@ -786,6 +793,7 @@
                   remark: this.form.remark
                 };
                 this.$store.dispatch("ajax_add_ad", requestData).then(res => {
+                  this.submitLoading = false;
                   if (res.data && +res.data.error === 0) {
                     this.$Message.success(this.$t("ad.ad_advertise_success"));
                     this.$goRouter("myAd");
@@ -793,6 +801,7 @@
                     this.$Message.error(this.$t("ad.ad_advertise_fail"));
                   }
                 }).catch(err => {
+                  this.submitLoading = false;
                   if (err.error === "100034") {
                     this.$Message.error(this.$t("ad.ad_advertise_fail"));
                   } else {
@@ -814,7 +823,7 @@
           .then(res => {
             if (res.data && +res.data.error === 0) {
               this.ad = res.data.info;
-              for (let i in this.opList) {
+              for (let i = 0; i < this.opList.length; i++) {
                 if (this.opList[i] === this.ad.op_type) {
                   this.adType = i;
                   break;
@@ -845,11 +854,26 @@
           });
       },
       examineAd() {
-        this.$store.dispatch()
+        for (let i = 0; i < this.opList.length; i++) {
+          this.$store.dispatch("ajax_exam_ad", {
+            op_type: this.opList[i],
+            currency: this.currency,
+            target_currency: this.form.money
+          }).then(res => {
+            if (res.data && +res.data.error === 0) {
+              this.examineAdFlagList[i] = true;
+            } else {
+            }
+          }).catch(err => {
+            if (+err.error === 100036) {
+              this.examineAdFlagList[i] = false;
+            }
+          });
+        }
       },
       init() {
         let index = -1;
-        for (let i in this.currencyList) {
+        for (let i = 0; i < this.currencyList.length; i++) {
           if (this.currencyList[i] === this.currency) {
             index = i;
             break;
