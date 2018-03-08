@@ -93,7 +93,7 @@
         if (index === this.languageSelectIndex) {
           return false;
         } else {
-          if (!this.$store.state.userToken) {
+          if (this.$store.state.userToken) {
             this.$store.dispatch("ajax_language", {
               ln: this.languageList[index].language === "zh-CN" ? "zh-CN" :
                 ["zh-HK", "zh-TW"].contains(this.languageList[index].language) ? "zh-TW" : "en"
@@ -115,7 +115,7 @@
       },
       goFooter(index) {
         if (+index === 4) {
-          if (!this.$store.state.userToken) {
+          if (this.$store.state.userToken) {
             this.$store
               .dispatch("ajax_zendesk")
               .then(res => {
