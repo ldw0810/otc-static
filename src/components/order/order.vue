@@ -22,9 +22,9 @@
     </header>
     <div class="order-content">
       <div class="g-shadow order-chat">
-        <chat :contact="{id: order.member.member_id, name: order.member.nickname}"
-              :owner="{id: userInfo.id, name: userInfo.nickname}" :orderId="order.id" :chatList="chatList"
-              :msg="chatMessage" :chatFlag="chatFlag" @refresh="getOrderInfo">
+        <chat ref="chat" :contact="{id: order.member.member_id, name: order.member.nickname}"
+              :owner="{id: userInfo.id, name: userInfo.nickname}" :orderId="order.id"
+              :chatList="chatList" :msg="chatMessage" :chatFlag="chatFlag" @refresh="getOrderInfo">
         </chat>
       </div>
       <div class="order-status">
