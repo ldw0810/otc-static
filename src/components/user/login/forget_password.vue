@@ -1,15 +1,15 @@
 <template>
   <div>
-    <logoDiv></logoDiv>
+    <logoDiv />
     <div class="content">
       <div class="title" v-text="$t('user.password_forget')"></div>
       <Form class="form" ref="form" @checkValidate='checkValidate' :model="form" :rules="rules">
         <FormItem prop="email" class="formItem">
           <i-input class="input" type="text" v-model="form.email" @on-enter="submit"
                    :placeholder="$t('user.email_required')">
-                            <span slot="prepend">
-                                <img src="../../../static/images/icon/Email-CCCCCC.svg">
-                            </span>
+            <span slot="prepend">
+              <img src="../../../static/images/icon/Email-CCCCCC.svg">
+            </span>
           </i-input>
         </FormItem>
         <!--防止自动提交表单-->
