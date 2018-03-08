@@ -160,10 +160,10 @@
           {{+adType === 0 ? $t("order.order_place_order_buy_warn") : $t("order.order_place_order_sell_warn")}}
         </div>
         <div class="detail-model-warn" v-else>
-          {{+adType === 0 ? $t("order.order_confirm_complete_buy_warn").format(form.moneyAmount, $t("public['" +
-          ad.target_currency + "']"), form.number, $t("public['" + ad.currency + "']")) :
-          $t("order.order_confirm_complete_sell_warn").format(form.number, $t("public['" + ad.currency + "']"),
-          form.moneyAmount, $t("public['" + ad.target_currency + "']"))}}
+          {{+adType === 0 ? $t("order.order_confirm_complete_buy_warn").format(formMoneyAmount, $t("public['" +
+          ad.target_currency + "']"), formNumber, $t("public['" + ad.currency + "']")) :
+          $t("order.order_confirm_complete_sell_warn").format(formNumber, $t("public['" + ad.currency + "']"),
+          formMoneyAmount, $t("public['" + ad.target_currency + "']"))}}
         </div>
         <div class='g-comfirm-group'>
           <i-button class="submit-button" type="primary" :loading='submitPlaceOrderLoading' @click="placeOrder_submit">
@@ -182,9 +182,9 @@
         <h3 class='detail-model-title'>{{$t("order.order_complete")}}</h3>
         <div class='detail-model-content' style='width:292px;margin-bottom:92px' v-if="ad.id">
           <span v-if="+adType === 1"
-                v-html='$t("order.order_complete_info").format(form.moneyAmount, $t("public[\"" + ad.target_currency + "\"]"))'></span>
+                v-html='$t("order.order_complete_info").format(formMoneyAmount, $t("public[\"" + ad.target_currency + "\"]"))'></span>
           <span v-else
-                v-html='$t("order.order_complete_info").format(form.number, $t("public[\"" + ad.currency + "\"]"))'></span>
+                v-html='$t("order.order_complete_info").format(formNumber, $t("public[\"" + ad.currency + "\"]"))'></span>
           <a @click="$goRouter('/myOrder', {status: 1})">{{$t("order.order_show_order")}}</a>
           <span v-html='$t("public.or")'></span>
           <a @click="$goRouter('/asset')">{{$t("order.order_show_asset")}}</a>
@@ -296,6 +296,12 @@ export default {
   },
   watch: {},
   computed: {
+    formMoneyAmount() {
+      return this.$fixDeciamlAuto(this.form.moneyAmount || 0, this.ad.target_currency)
+    },
+    formNumber() {
+      return this.$fixDeciamlAuto(this.form.number || 0, this.ad.currency)
+    },
     userInfo() {
       return this.$store.state.userInfo;
     },
