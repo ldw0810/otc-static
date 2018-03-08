@@ -86,7 +86,7 @@
       default_receiver() {
         let default_collection = this.userInfo.default_collection;
         if (Object.keys(default_collection).length) {
-          if (default_collection.kind == "bank") {
+          if ("" + default_collection.kind === "bank") {
             return (
               default_collection.bank_name +
               "(" +

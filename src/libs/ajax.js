@@ -51,7 +51,7 @@ axios.interceptors.response.use(
             onClose: router.push("/user/login")
           });
         } else if (+error.response.data.error === 100031) {
-          store.commit("showAuthEmail_setter", 1);
+          // store.commit("showAuthEmail_setter", 1);
         } else if ([100017, 100036, 100038].contains(+error.response.data.error)) {
         } else {
           Message.error(languageData[index].data.request["" + error.response.data.error]);
