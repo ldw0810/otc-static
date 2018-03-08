@@ -281,7 +281,7 @@
                   <td class='content-history-table-body-td'>
                     <div class="hash">
                       <a class='u-break-all' @click="onOpenUrl(item['blockchain_url'])">
-+                        {{item["txid"]}}
+                          {{item["txid"]}}
                        </a>
                     </div>
                   </td>
