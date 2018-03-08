@@ -344,7 +344,11 @@
     "asset_withdraw_email_success": "重發成功",
     "asset_recharge_email_no_Auth": "您尚未驗證郵箱，無法充值{0}",
     "asset_withdraw_email_no_Auth": "您尚未驗證郵箱，無法提現{0}",
-    "asset_go_email_auth": "前往驗證"
+    "asset_go_email_auth": "前往驗證",
+    "asset_withdraw_add_new_address_down": "請在下方輸入新的提現地址",
+    "asset_add_balance": "可用餘額",
+    "asset_withdraw_all": "全部提現",
+    "asset_add_new_withdraw_address": "新增地址"
   },
   "ad": {
     "ad_title": "發布壹個{0}交易廣告",

@@ -343,7 +343,11 @@
     "asset_withdraw_confirm_fail": "无效的确认链接",
     "asset_withdraw_address_invalid": "无效的提现地址",
     "asset_withdraw_email": "请点击邮件中的链接确认本次提现申请",
-    "asset_withdraw_email_success": "重发成功"
+    "asset_withdraw_email_success": "重发成功",
+    "asset_withdraw_add_new_address_down": "请在下方输入新的提现地址",
+    "asset_add_balance": "可用余额",
+    "asset_withdraw_all": "全部提现",
+    "asset_add_new_withdraw_address": "新增地址"
   },
   "ad": {
     "ad_title": "发布一个{0}交易广告",

@@ -70,7 +70,7 @@
                   </a>
                   <div class='bottom-border'></div>
                 </div>
-                <div class="content-tabs-item withdraw"
+                <div class="content-tabs-item"
                      :class="{ 'content-tabs-item-active' : +assetIndex === 1}"
                      @click="changeOperation(1)"
                 >
@@ -112,7 +112,7 @@
                 </div>
               </div>
               <!-- widthdraw -->
-              <div class='content-withdraw' v-show="+assetIndex === 1">
+              <div class='withdraw content-withdraw' v-show="+assetIndex === 1">
                 <!-- 您尚未设置二次验证，无法提取ETH -->
                 <div class='content-withdraw-no-verify'
                      v-if="!userInfo.mobile && !userInfo.app_two_factor">
@@ -144,14 +144,14 @@
                         :rules="rules"
                         :label-width="90"
                         >
-                    <FormItem :label="$t('asset.asset_withdraw_address')" class="withdraw-form">
+                    <FormItem :label="addressEditStatus" class="withdraw-form">
                       <div class='withdraw-address'>
                         <FormItem prop="address" v-if="withdraw.fund_sources && withdraw.fund_sources.length">
                           <Select class='withdraw-address-select'
                             @on-change='get_address_id'
                             :value='setAddress'
                             >
-                              <Option value='1000' label='请在下方输入新的提现地址'>
+                              <Option value='1000' :label='$t("asset.asset_withdraw_add_new_address_down")'>
                                 <span class='withdraw-address-select-text'>{{$t('asset.asset_withdraw_address_add')}}</span>
                               </Option>
                               <template v-if='withdraw.fund_sources.length'>
@@ -164,10 +164,10 @@
                         </FormItem>
                         <div class='withdraw-address-add' v-if='addNewAddressStatus || (!withdraw.fund_sources || !withdraw.fund_sources.length)'>
                           <FormItem prop="labelPlus">
-                            <i-input class='add-label' v-model="form.labelPlus" placeholder='标签'></i-input>
+                            <i-input class='add-label' v-model="form.labelPlus" :placeholder='$t("public.label")'></i-input>
                           </FormItem>
                           <FormItem prop="addressPlus">
-                            <i-input class='add-address' v-model="form.addressPlus" placeholder='提现地址'></i-input>
+                            <i-input class='add-address' v-model="form.addressPlus" :placeholder='$t("asset.asset_withdraw_address")'></i-input>
                           </FormItem>
                         </div>
                       </div>
@@ -175,11 +175,11 @@
                     
                     <FormItem prop="number" :label="$t('asset.asset_withdraw_number')" class="withdraw-form-number">
                       <div class='withdraw-number'>
-                        <i-input class='withdraw-number-input' v-model='form.number' type="text" :placeholder='"可用余额：" + amount'>
+                        <i-input class='withdraw-number-input' v-model='form.number' type="text" :placeholder='$t("asset.asset_add_balance") + ": " + amount'>
                           <span slot="append">{{currency.toUpperCase()}}</span>
                         </i-input>
                         <i-button class='withdraw-number-btn' @click='handleAllWithdrawal'>
-                          全部提现
+                          {{$t("asset.asset_withdraw_all")}}
                         </i-button>
                       </div>
                     </FormItem>
@@ -288,6 +288,7 @@
                   <td class='content-history-table-body-td'>
                     <div class="status">
                       {{$t("asset['asset_recharge_status_" + item["aasm_state"] + "']")}}
+                      {{item.confirmations < 12 ? '&nbsp;&nbsp;' + item.confirmations + '/' + 12 : '' }}
                     </div>
                   </td>
                 </tr>
@@ -582,6 +583,9 @@ export default {
     };
   },
   computed: {
+    addressEditStatus() {
+      return this.withdraw.fund_sources && this.withdraw.fund_sources.length ? this.$t('asset.asset_withdraw_address') : this.$t("asset.asset_add_new_withdraw_address")
+    },
     assetIndex() {
       return +(this.$route.query.type || 0);
     },

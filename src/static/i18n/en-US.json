@@ -337,7 +337,11 @@
     "asset_withdraw_confirm_fail": "Invalid link",
     "asset_withdraw_address_invalid": "Invalid withdraw address",
     "asset_withdraw_email": "Please confirm the withdraw request by clicking link in email",
-    "asset_withdraw_email_success": "Resend success"
+    "asset_withdraw_email_success": "Resend success",
+    "asset_withdraw_add_new_address_down": "Please enter new withdraw address",
+    "asset_add_balance": "Balance",
+    "asset_withdraw_all": "Withdraw all",
+    "asset_add_new_withdraw_address": "Add new withdraw address"
   },
   "ad": {
     "ad_title": "Create a trading advertisement for {0}",

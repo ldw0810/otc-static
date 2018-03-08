@@ -98,6 +98,7 @@
   #popPage .content .content_1 {
     width: 480px;
     text-align: center;
+    line-height: 33px;
     padding-top: 63px;
     font-size: 24px;
     color: #666666;
@@ -106,31 +107,33 @@
   #popPage .content .content_2 {
     width: 480px;
     text-align: center;
-    margin-top: 10px;
+    line-height: 33px;
     font-size: 24px;
     color: #666666;
+    margin-bottom: 26px;
   }
 
   #popPage .content .content_3 {
     width: 480px;
     text-align: center;
-    margin-top: 25px;
     font-size: 16px;
     color: #666666;
     line-height: 21px;
+    margin-bottom: 20px;
   }
 
   #popPage .content .content_4 {
     width: 480px;
     text-align: center;
-    margin-top: 20px;
     font-size: 16px;
     color: #00a6ae;
     letter-spacing: 0;
+    margin-bottom: 67px;
+    margin-left: 0;
   }
 
   #popPage .submitButton {
-    margin: 50px 0 0 94px;
+    margin-left: 94px;
     width: 292px;
   }
 </style>
