@@ -276,7 +276,7 @@
                     </div>
                   </td>
                   <td class='content-history-table-body-td'>
-                    <div class="number">{{item.amount}}</div>
+                    <div class="number">{{$fixDecimalsBase(item.amount)}}</div>
                   </td>
                   <td class='content-history-table-body-td'>
                     <div class="hash">
@@ -325,7 +325,7 @@
                     </div>
                   </td>
                   <td class='content-history-table-body-td'>
-                    <div class="number">{{item["amount"]}}</div>
+                    <div class="number">{{$fixDecimalsBase(item["amount"])}}</div>
                   </td>
                   <td class='content-history-table-body-td'>
                     <div class="hash">
