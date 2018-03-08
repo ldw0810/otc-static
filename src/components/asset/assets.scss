@@ -307,12 +307,19 @@
 
 // withdraw
 .withdraw {
+  & /deep/ .ivu-form-item-label {
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
   &-form {
-    margin-bottom: 15px;
+    margin-bottom: 0;
+    &-number {
+      margin-bottom: 40px;
+    }
   }
   &-address {
     & /deep/ .withdraw-address-select {
-      margin-bottom: 0;
+      // margin-bottom: 0;
     }
     // margin-bottom: 33px - 29px;
     &-select {
@@ -329,8 +336,8 @@
       margin-bottom: 15px;
     }
     &-add {
-      margin-top: 15px;
-      margin-bottom: 33px - 15px;
+      // margin-top: 15px;
+      margin-bottom: 33px;
       display: flex;
       justify-content: space-between;
       .add-label {

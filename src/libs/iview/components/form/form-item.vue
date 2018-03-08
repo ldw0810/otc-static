@@ -208,7 +208,6 @@
                 }
 
                 let prop = getPropByPath(model, path);
-
 //                if (Array.isArray(value) && value.length > 0) {
 //                    this.validateDisabled = true;
 //                    prop.o[prop.k] = [];

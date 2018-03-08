@@ -166,7 +166,17 @@
       }
     }
     .g-list-content-item-unread {
-      border-left: 2px solid red;
+      position: relative;
+      &:before {
+        content:'';
+        position: absolute;
+        width: 4px;
+        height: 20px;
+        background-color: #f36066;
+        left: 0;
+        top: 50%;
+        margin-top: -10px;
+      }
     }
   }
 
