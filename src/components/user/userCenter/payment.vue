@@ -179,6 +179,8 @@
   }
   .payment-list {
     width: 100%;
+    padding-left: 42px;
+    padding-right: 40px;
   }
   .payment-item {
     padding-top: 15px;
@@ -208,7 +210,7 @@
       border-bottom: 1px solid #eee;
     }
     &-info {
-      width: 254px + 42px;
+      width: 193px + 103px;
       font-size: 14px;
       color: #333333;
       line-height: 21px;
