@@ -47,7 +47,7 @@
       </div>
     </div>
     <Modal v-model="pop_email" class-name="m-ivu-modal" width='480' :mask-closable="true"
-           :closable="false">
+           :closable="false" @on-visible-change="popEmailTrigger">
       <auth_email_send ref="auth_email_send" @close="pop_email = false" />
       <div slot="footer"></div>
     </Modal>
@@ -86,7 +86,7 @@
       default_receiver() {
         let default_collection = this.userInfo.default_collection;
         if (Object.keys(default_collection).length) {
-          if (default_collection.kind == "bank") {
+          if ("" + default_collection.kind === "bank") {
             return (
               default_collection.bank_name +
               "(" +
@@ -112,6 +112,11 @@
       reSendEmail() {
         this.pop_email = true;
         this.$refs.auth_email_send.init();
+      },
+      popEmailTrigger(val){
+        if(!val) {
+          this.$refs.auth_email_send.close();
+        }
       },
       popPhoneTrigger(val) {
         this.pop_phone_show = val;

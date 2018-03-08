@@ -149,7 +149,7 @@
             },
             tabIndex() {
                 let index = 0;
-                for (let i in this.currencyList) {
+                for (let i = 0; i < this.currencyList.length; i++) {
                     if (this.currencyList[i] === this.currency) {
                         index = i;
                         break;
