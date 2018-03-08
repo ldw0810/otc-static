@@ -832,7 +832,7 @@
               this.form.money = this.ad.target_currency;
               this.form.premium = +(this.ad.margin || 0);
               this.form.floor = +(this.ad.min_limit || 0);
-              this.form.ceiling = +(this.ad.max_limit || 0);
+              this.form.ceiling = +(this.ad.order_limit || 0);
               this.form.remark = this.ad.remark;
               if (+this.adType === 0) {
                 this.form.payment = this.ad.pay_kind;

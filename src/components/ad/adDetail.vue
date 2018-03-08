@@ -232,11 +232,11 @@
         }
       };
       const validateNumberLimitCheck = (rule, value, callback) => {
-        if (+this.ad.min_limit > +this.ad.max_limit) {
+        if (+this.ad.min_limit > +this.ad.order_limit) {
           callback(new Error(this.$t("ad.ad_ceiling_number_notValid")));
         } else if (+value < this.ad.min_limit) {
           callback(new Error(this.$t("ad.ad_floor_limit")));
-        } else if (+value > this.ad.max_limit) {
+        } else if (+value > this.ad.order_limit) {
           callback(new Error(this.$t("ad.ad_ceiling_limit")));
         } else {
           callback();

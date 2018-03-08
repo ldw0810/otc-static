@@ -23,7 +23,7 @@
             </div>
             <div class="card-content-item">
                 <p class='desc'>{{$t("order.order_trade_limit")}}:</p>
-                <p class='number'>{{ad.min_limit|fix_decimals_legal}} - {{ad.max_limit|fix_decimals_legal}}</p>
+                <p class='number'>{{ad.min_limit|fix_decimals_legal}} - {{ad.order_limit|fix_decimals_legal}}</p>
                 <p class='currency-type'>
                     {{$t("public['" + ad.target_currency + "']")}}
                 </p>
