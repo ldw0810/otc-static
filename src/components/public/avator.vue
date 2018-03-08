@@ -32,6 +32,7 @@ export default {
 <style lang="scss" scoped>
 $avatorImage: "../../static/images/DefaultHead.jpg";
 .avator {
+  flex-shrink: 0;
   position: relative;
   width: 50px;
   height: 50px;
