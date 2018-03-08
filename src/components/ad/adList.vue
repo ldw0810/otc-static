@@ -49,28 +49,16 @@
                             </i-col>
                             <i-col span="4" class='g-list-content-item-col'>
                                 <div>
-                                    <span v-if='DigitalCurrency.indexOf(ad.target_currency.toUpperCase()) > -1'>
-                                        {{ad.min_limit | fix_decimals_base }}
-                                            &nbsp;-&nbsp;
-                                        {{ad.order_limit | fix_decimals_base}}
-                                    </span>
-                                    <span v-if='legalTender.indexOf(ad.target_currency.toUpperCase()) > -1'>
-                                        {{ad.min_limit | fix_decimals_legal }}
-                                            &nbsp;-&nbsp;
-                                        {{ad.order_limit | fix_decimals_legal}}
-                                    </span>
+                                    {{$fixDeciamlAuto(ad.min_limit, ad.target_currency)}}
+                                     &nbsp;-&nbsp;
+                                     {{$fixDeciamlAuto(ad.order_limit, ad.target_currency)}}
+                                    
                                     {{$t("public['" + ad.target_currency + "']")}}
                                 </div>
                             </i-col>
                             <i-col span="4" class='g-list-content-item-col'>
                                 <div class='pay'>
-                                    <span v-if='DigitalCurrency.indexOf(ad.target_currency.toUpperCase()) > -1'>
-                                        {{ad.current_price | fix_decimals_base}}
-                                    </span>
-                                    <span v-if='legalTender.indexOf(ad.target_currency.toUpperCase()) > -1'>
-                                        {{ad.current_price | fix_decimals_legal}}
-                                    </span>
-                                    
+                                    {{$fixDeciamlAuto(ad.current_price, ad.target_currency)}}                                   
                                     {{$t("public['" + ad.target_currency + "']")}}
                                 </div>
                             </i-col>
@@ -97,7 +85,6 @@
 </template>
 <script type="es6">
     import Avator from "@/components/public/avator";
-    import { DigitalCurrency, legalTender } from 'config/config';
     import Tab from '@/components/public/tab';
     import emptyList from "@/components/public/empty-list";
 
@@ -109,8 +96,6 @@
         },
         data() {
             return {
-                DigitalCurrency,
-                legalTender,
                 loading: true,
                 adType: 0,
                 ads: {

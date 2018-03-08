@@ -41,13 +41,8 @@
 														</i-col>
 														<i-col span="4" class='g-list-content-item-col'>
 																<div>
-                                    <span v-if='DigitalCurrency.indexOf(item.target_currency.toUpperCase()) > -1'>
-                                        	{{item.current_price|fix_decimals_base}}
-                                    </span>
-                                    <span v-if='legalTender.indexOf(item.target_currency.toUpperCase()) > -1'>
-                                        	{{item.current_price|fix_decimals_legal}}
-                                    </span>
-																	
+                                    {{$fixDeciamlAuto(item.current_price, item.target_currency)}}
+                                    
 																		{{$t("public['" + item.target_currency + "']")}}
 																</div>
 														</i-col>
@@ -94,7 +89,6 @@
 </template>
 <script type="es6">
 import emptyList from "@/components/public/empty-list";
-import { DigitalCurrency, legalTender } from 'config/config';
 import Tab from "@/components/public/tab";
 
 export default {
@@ -104,8 +98,6 @@ export default {
   },
   data() {
     return {
-      DigitalCurrency, 
-      legalTender,
       loading: true,
       tabList: [this.$t("ad.ad_ongoing"), this.$t("ad.ad_closed")],
       myAds: {

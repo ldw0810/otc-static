@@ -450,7 +450,6 @@
 <script type="es6">
 import validateMixin from "@/components/mixins/validate-mixin";
 import emptyList from "@/components/public/empty-list";
-import { fixDecimalsAsset } from "config/config.js";
 import QrcodeVue from "qrcode.vue";
 import logoDiv from "../public/logo.vue";
 import auth_two from "../public/auth_two_pop.vue";
@@ -472,7 +471,7 @@ export default {
     const validateNumberCheck = (rule, value, callback) => {
       if (!+value || +value <= 0) {
         callback(new Error(this.$t("public.input_number_required")));
-      } else if (+value > +fixDecimalsAsset(this.account["balance"])) {
+      } else if (+value > +this.$fixDecimalsAsset(this.account["balance"])) {
         callback(new Error(this.$t("public.balance_insufficient")));
       } else if (this.currency === "eth" && +value < 0.01) {
         callback(
@@ -612,7 +611,7 @@ export default {
       return this.userInfo.valid_account[index];
     },
     amount() {
-      return this.account ? fixDecimalsAsset(this.account.balance) : 0;
+      return this.account ? this.$fixDecimalsAsset(this.account.balance) : 0;
     },
     userInfo() {
       return this.$store.state.userInfo;
