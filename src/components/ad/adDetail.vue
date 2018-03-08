@@ -181,7 +181,7 @@
       <div class="detail-model">
         <h3 class='detail-model-title'>{{$t("order.order_complete")}}</h3>
         <div class='detail-model-content' style='width:292px;margin-bottom:92px' v-if="ad.id">
-          <span v-if="adType == 1"
+          <span v-if="+adType === 1"
                 v-html='$t("order.order_complete_info").format(form.moneyAmount, $t("public[\"" + ad.target_currency + "\"]"))'></span>
           <span v-else
                 v-html='$t("order.order_complete_info").format(form.number, $t("public[\"" + ad.currency + "\"]"))'></span>

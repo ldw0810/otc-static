@@ -306,7 +306,6 @@
         this.ajax_source && this.ajax_source.cancel({});
       },
       getNotice() {
-        this.noticeTimer && clearTimeout(this.noticeTimer);
         if(this.userToken) {
           this.$store.dispatch("ajax_notice").then(res => {
             if (res.data && +res.data.error === 0) {
@@ -315,7 +314,8 @@
             }
           }).catch(err => {
           });
-          this.noticeTimer = setTimeout(this.getNotice, 60 * 1000);
+          this.noticeTimer && clearTimeout(this.noticeTimer);
+          this.noticeTimer = setTimeout(this.getNotice, 30 * 1000);
         }
       },
       goMenu(item, index) {
