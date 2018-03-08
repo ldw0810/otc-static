@@ -253,7 +253,7 @@
               {{$t("order.order_money_amount")}}:
             </i-col>
             <i-col span="10">
-              {{$fixDeciamlAuto(+order.order_number, order.target_currency)}}
+              {{orderPriceSum}}
               {{$t("public['" + order.target_currency + "']")}}
             </i-col>
           </Row>
@@ -380,7 +380,7 @@ export default {
   },
   computed: {
     orderPriceSum() {
-      return this.$fixDecimalsBase(this.order.price_sum)
+      return this.$fixDeciamlAuto(this.order.price_sum, this.order.target_currency)
     },
     id() {
       return this.$route.query.id;
