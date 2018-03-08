@@ -38,12 +38,12 @@
             {{$t("order.order_offer")}}：
           </div>
           <div class="deal-info-item-desc">
-                        <span v-if='DigitalCurrency.indexOf(ad.target_currency.toUpperCase()) > -1'>
-                            {{ad.current_price | fix_decimals_base }}
-                        </span>
+            <span v-if='DigitalCurrency.indexOf(ad.target_currency.toUpperCase()) > -1'>
+              {{ad.current_price | fix_decimals_base }}
+            </span>
             <span v-if='legalTender.indexOf(ad.target_currency.toUpperCase()) > -1'>
-                            {{ad.current_price|fix_decimals_legal}}
-                        </span>
+              {{ad.current_price|fix_decimals_legal}}
+            </span>
             {{$t("public['" + ad.target_currency + "']")}}
             &nbsp;/&nbsp;
             {{$t("public['" + ad.currency + "']")}}
@@ -54,16 +54,16 @@
             {{$t("order.order_trade_limit")}}：
           </div>
           <div class="deal-info-item-desc">
-                        <span v-if='DigitalCurrency.indexOf(ad.target_currency.toUpperCase()) > -1'>
-                            {{ad.min_limit | fix_decimals_base}}
-                             &nbsp;-&nbsp;
-                            {{ad.order_limit | fix_decimals_base}}
-                        </span>
+            <span v-if='DigitalCurrency.indexOf(ad.target_currency.toUpperCase()) > -1'>
+              {{ad.min_limit | fix_decimals_base}}
+              &nbsp;-&nbsp;
+              {{ad.order_limit | fix_decimals_base}}
+            </span>
             <span v-if='legalTender.indexOf(ad.target_currency.toUpperCase()) > -1'>
-                            {{ad.min_limit | fix_decimals_legal}}
-                            &nbsp;-&nbsp;
-                            {{ad.order_limit | fix_decimals_legal}}
-                        </span>
+              {{ad.min_limit | fix_decimals_legal}}
+              &nbsp;-&nbsp;
+              {{ad.order_limit | fix_decimals_legal}}
+            </span>
             {{$t("public['" + ad.target_currency + "']")}}
           </div>
         </div>
@@ -86,7 +86,7 @@
       </div>
       <div class='deal-common deal-exchange'>
         <h3 class='deal-common-title deal-exchange-title'>
-          {{(adType == 0 ? $t("order.order_buy_title") : $t("order.order_sell_title")).format($t("public['" +
+          {{(+adType === 0 ? $t("order.order_buy_title") : $t("order.order_sell_title")).format($t("public['" +
           ad.currency + "']"))}}
         </h3>
         <Form class="form" ref="form" @checkValidate='checkValidate' :model="form" :rules="rules">
@@ -94,7 +94,7 @@
             <i-col span="11">
               <FormItem prop="moneyAmount" class="form-item">
                 <i-input class="input" v-model="form.moneyAmount" type="text" @on-change="changeAmount"
-                         :placeholder="adType == 0 ? $t('order.order_buy_money_amount'): $t('order.order_sell_money_amount')">
+                         :placeholder="+adType === 0 ? $t('order.order_buy_money_amount'): $t('order.order_sell_money_amount')">
                   <span slot="append">{{$t("public['" + ad.target_currency + "']")}}</span>
                 </i-input>
               </FormItem>
@@ -105,7 +105,7 @@
             <i-col span="11">
               <FormItem prop="number" class="formItem">
                 <i-input class="input" v-model="form.number" type="text" @on-change="changeNumber"
-                         :placeholder="adType == 0 ? $t('order.order_buy_number'): $t('order.order_sell_number')">
+                         :placeholder="+adType === 0 ? $t('order.order_buy_number'): $t('order.order_sell_number')">
                   <span slot="append">{{$t("public['" + ad.currency + "']")}}</span>
                 </i-input>
               </FormItem>
@@ -113,7 +113,7 @@
           </Row>
           <FormItem class="formItem submit">
             <i-button class="deal-exchange-btn" type='primary' :disabled='!validate' @click="submit">
-              {{adType == 0 ? $t('order.order_buy_confirm') : $t('order.order_sell_confirm')}}
+              {{+adType === 0 ? $t('order.order_buy_confirm') : $t('order.order_sell_confirm')}}
             </i-button>
           </FormItem>
         </Form>
@@ -132,14 +132,14 @@
            width='480'
            :mask-closable="true" :closable="false"
            v-if="ad.id">
-      <logoDiv style="margin: 0"></logoDiv>
+      <logoDiv style="margin: 0"/>
       <div class="detail-model">
         <h3 class='detail-model-title'>{{$t("order.order_place_order_confirm")}}</h3>
         <div class='detail-model-content'>
           <Row
           >
             <i-col class='text-left' span="8">
-              {{adType == 0 ? $t("ad.ad_buy_price") : $t("ad.ad_sell_price")}}:
+              {{+adType === 0 ? $t("ad.ad_buy_price") : $t("ad.ad_sell_price")}}:
             </i-col>
             <i-col class='text-left' span="116">
               {{+ad.current_price|fix_decimals_legal}}
@@ -150,7 +150,7 @@
           </Row>
           <Row>
             <i-col class='text-left' span="8">
-              {{adType == 0 ? $t("ad.ad_buy_money_amount") : $t("ad.ad_sell_money_amount")}}:
+              {{+adType === 0 ? $t("ad.ad_buy_money_amount") : $t("ad.ad_sell_money_amount")}}:
             </i-col>
             <i-col class='text-left' span="16">
               {{+form.moneyAmount|fix_decimals_legal}}
@@ -159,7 +159,7 @@
           </Row>
           <Row>
             <i-col class='text-left' span="8">
-              {{adType == 0 ? $t("order.order_buy_number_title") : $t("order.order_sell_number_title")}}:
+              {{+adType === 0 ? $t("order.order_buy_number_title") : $t("order.order_sell_number_title")}}:
             </i-col>
             <i-col class='text-left' span="16">
               {{+form.number|fix_decimals_base}}
@@ -167,18 +167,18 @@
             </i-col>
           </Row>
         </div>
-        <div class="detail-model-warn" v-if="ad.currency == 'dai'">
-          {{adType == 0 ? $t("order.order_place_order_buy_warn") : $t("order.order_place_order_sell_warn")}}
+        <div class="detail-model-warn" v-if="ad.currency === 'dai'">
+          {{+adType === 0 ? $t("order.order_place_order_buy_warn") : $t("order.order_place_order_sell_warn")}}
         </div>
         <div class="detail-model-warn" v-else>
-          {{adType == 0 ? $t("order.order_confirm_complete_buy_warn").format(form.moneyAmount, $t("public['" +
+          {{+adType === 0 ? $t("order.order_confirm_complete_buy_warn").format(form.moneyAmount, $t("public['" +
           ad.target_currency + "']"), form.number, $t("public['" + ad.currency + "']")) :
           $t("order.order_confirm_complete_sell_warn").format(form.number, $t("public['" + ad.currency + "']"),
           form.moneyAmount, $t("public['" + ad.target_currency + "']"))}}
         </div>
         <div class='g-comfirm-group'>
           <i-button class="submit-button" type="primary" :loading='submitPlaceOrderLoading' @click="placeOrder_submit">
-            {{adType == 0 ? $t("order.order_buy_confirm") : $t("order.order_sell_confirm")}}
+            {{+adType === 0 ? $t("order.order_buy_confirm") : $t("order.order_sell_confirm")}}
           </i-button>
           <i-button class="cancel-button" @click="confirmFlag.placeOrder=false">
             {{$t('public.cancel')}}
@@ -188,7 +188,7 @@
       <div slot="footer"></div>
     </Modal>
     <Modal width='480' v-model="confirmFlag.complete" class-name="m-ivu-modal" :mask-closable="true" :closable="false">
-      <logoDiv style="margin: 0"></logoDiv>
+      <logoDiv style="margin: 0"/>
       <div class="detail-model">
         <h3 class='detail-model-title'>{{$t("order.order_complete")}}</h3>
         <div class='detail-model-content' style='width:292px;margin-bottom:92px' v-if="ad.id">
@@ -201,10 +201,10 @@
           <a @click="$goRouter('/asset')">{{$t("order.order_show_asset")}}</a>
         </div>
         <span>
-                    <i-button class="submit-button-2" type="primary" @click="doOper">
-                        {{$t('public.confirm')}}
-                    </i-button>
-                </span>
+          <i-button class="submit-button-2" type="primary" @click="doOper">
+            {{$t('public.confirm')}}
+          </i-button>
+        </span>
       </div>
       <div slot="footer"></div>
     </Modal>
@@ -241,8 +241,8 @@
         }
       };
       const validBalanceBuyCheck = (rule, value, callback) => {
-        if (this.ad && this.adType == 0) {
-          if (this.ad.currency == `dai`) {
+        if (this.ad && +this.adType === 0) {
+          if (this.ad.currency === `dai`) {
             callback();
           } else {
             if (this.balanceObj[this.ad.target_currency] < +value) {
