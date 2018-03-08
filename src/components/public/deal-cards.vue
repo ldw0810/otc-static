@@ -27,7 +27,7 @@
                 <p class='number'>
                   {{$fixDeciamlAuto(ad.min_limit, ad.target_currency)}}
                   -
-                  {{$fixDeciamlAuto(ad.max_limit, ad.target_currency)}}
+                  {{$fixDeciamlAuto(ad.order_limit, ad.target_currency)}}
                 </p>
                 <p class='currency-type'>
                     {{$t("public['" + ad.target_currency + "']")}}
