@@ -71,7 +71,7 @@
       return {
         breadcrumbText: this.$t("user.info"),
         user: {},
-        pop_email: true,
+        pop_email: false,
         pop_phone: false,
         pop_phone_show: false
       };
