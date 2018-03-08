@@ -105,7 +105,6 @@
                   </div>
                 </div>
                 <div class='content-recharge-right'>
-                  <!-- <qart class="qrCode" :config="qrCodeConfig"></qart> -->
                   <qrcode-vue
                       :value='qrCodeConfig.value'
                       :size='qrCodeConfig.size'
@@ -174,7 +173,7 @@
                       </div>
                     </FormItem>
                     
-                    <FormItem prop="number" :label="$t('asset.asset_withdraw_number')" class="withdraw-form">
+                    <FormItem prop="number" :label="$t('asset.asset_withdraw_number')" class="withdraw-form-number">
                       <div class='withdraw-number'>
                         <i-input class='withdraw-number-input' v-model='form.number' type="text" :placeholder='"可用余额：" + amount'>
                           <span slot="append">{{currency.toUpperCase()}}</span>
@@ -329,8 +328,8 @@
                   </td>
                   <td class='content-history-table-body-td'>
                     <div class="hash">
-                      <a class='u-break-all' @click="window.open(item['blockchain_url'])">
-                        {{item["txid"]|txid_substr}}
+                      <a class='u-break-all' @click="onOpenUrl(item['blockchain_url'])">
+                        {{item["txid"]}}
                       </a>
                     </div>
                   </td>
@@ -640,6 +639,12 @@ export default {
     }
   },
   methods: {
+    initFormData() {
+      Object.keys(this.form).map(item => {
+        this.form[item] = ''
+      })
+      this.$refs["form"].resetFields();
+    },
     handleAllWithdrawal() {
       this.form.number = this.amount;
     },
@@ -697,8 +702,10 @@ export default {
                 if (
                   this.withdraw.fund_sources[i].id === this.default_source_id
                 ) {
+                  const value = this.withdraw.fund_sources[i].id + '-' + this.withdraw.fund_sources[i].uid
                   this.form.address = this.withdraw.fund_sources[i].uid;
-                  this.get_address_id(this.withdraw.fund_sources[i].uid);
+                  this.setAddress =  value;
+                  this.get_address_id(value);
                 }
               }
             } else {
@@ -751,8 +758,8 @@ export default {
           this.addNewAddressStatus ||
           (!this.withdraw.fund_sources || !this.withdraw.fund_sources.length)
         ) {
-          requestData.uid = this.form.addressPlus
-          requestData.extra = this.form.labelPlus
+          requestData.uid = this.form.addressPlus;
+          requestData.extra = this.form.labelPlus;
         }
 
         if (authJson) {
@@ -764,10 +771,8 @@ export default {
             if (res.data && (res.data.uid || res.data.error === 0)) {
               this.withdraw_email = true;
               // this.$Message.success(this.$t("asset.asset_withdraw_success"));
-              this.$refs["form"].resetFields();
-              this.form.addressPlus = "";
-              this.form.labelPlus = "";
-              this.form.id = "";
+             
+              this.initFormData();
               this.init();
             } else {
               this.$Message.error(this.$t("asset.asset_withdraw_fail"));
@@ -859,10 +864,7 @@ export default {
     },
     get_address_id(val) {
       if (val === "1000" || val === "") {
-        this.form.addressPlus = "";
-        this.form.labelPlus = "";
-        this.form.id = "";
-        this.$refs["form"].resetFields();
+        this.initFormData();
         this.addNewAddressStatus = true;
       } else {
         this.addNewAddressStatus = false;
@@ -919,6 +921,7 @@ export default {
   beforeRouteUpdate(to, from, next) {
     if (from.name && from.name.indexOf("/user/login") <= -1) {
       store.dispatch("ajax_me");
+      this.initFormData()
     }
     next();
   }
