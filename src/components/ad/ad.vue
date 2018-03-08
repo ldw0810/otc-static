@@ -93,7 +93,7 @@
             <i-col span='10'>
               <div class='premium-example'>
                 <span class='premium-example-desc'>{{$t("ad.ad_reference_price")}}:</span>
-                <span class='premium-example-number'>{{tradePrice}}&nbsp;&nbsp;{{moneyText}}</span>
+                <span class='premium-example-number'>{{$fixDeciamlAuto(tradePrice, moneyText)}}&nbsp;&nbsp;{{moneyText}}</span>
               </div>
             </i-col>
           </Row>
@@ -635,8 +635,8 @@
             if (res.data && +res.data.error === 0) {
               this.tradePrice = res.data.price;
               if (!this.isUpdate) {
-                this.form_buy.buyPrice = +this.tradePrice;
-                this.form_sell.sellPrice = +this.tradePrice;
+                this.form_buy.buyPrice = this.$fixDeciamlAuto(+this.tradePrice, this.moneyText);
+                this.form_sell.sellPrice = this.$fixDeciamlAuto(+this.tradePrice, this.moneyText);
               }
             } else {
               this.$Message.error(this.$t("ad.ad_reference_price_request_fail"));
@@ -667,8 +667,7 @@
           });
         } else if (+this.adType === 1) {
           this.$nextTick(() => {
-            this.form.sellPrice =
-              this.tradePrice * (1 + +this.form.premium / 100);
+            this.form.sellPrice = this.$fixDeciamlAuto(+this.tradePrice * (1 + +this.form.premium / 100), this.moneyText);
           });
         }
       },
