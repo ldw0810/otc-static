@@ -152,11 +152,11 @@
                             :value='setAddress'
                             >
                               <Option value='1000' :label='$t("asset.asset_withdraw_add_new_address_down")'>
-                                <span class='withdraw-address-select-text'>{{$t('asset.asset_withdraw_address_add')}}</span>
+                                <span class='withdraw-address-select-text u-ellipsis-1'>{{$t('asset.asset_withdraw_address_add')}}</span>
                               </Option>
                               <template v-if='withdraw.fund_sources.length'>
                                 <Option :value="item.id + '-' + item.uid" :label="item.extra + ' - ' + item.uid" v-for="(item, index) in withdraw.fund_sources" :key='index'>
-                                  <span class='withdraw-address-select-text'>{{item.extra}} - {{item.uid}}</span>
+                                  <span class='withdraw-address-select-text u-ellipsis-1'>{{item.extra}} - {{item.uid}}</span>
                                   <span class='withdraw-address-select-trash icon-trash' @click.stop='address_del(item.id)'></span>
                               </Option>
                               </template>
