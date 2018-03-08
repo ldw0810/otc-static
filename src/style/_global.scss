@@ -136,7 +136,8 @@
           align-items: center;
         }
         .avator-name {
-          width: 56px;
+          width: auto;
+          flex: 1;
           display: inline-block;
           margin-left: 10px;
           text-align: left;
@@ -162,7 +163,9 @@
       margin-bottom: 0;
       border-bottom: 1px solid #f1f1f1;
       .avator-name {
-        width: 67px;
+        // width: 67px;
+        width: auto;
+        flex: 1;
       }
     }
     .g-list-content-item-unread {

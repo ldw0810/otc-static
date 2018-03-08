@@ -323,7 +323,10 @@
     }
     // margin-bottom: 33px - 29px;
     &-select {
+      max-width: 644px;
       &-text {
+        display: inline-block;
+        max-width: 644px - 12px - 14px - 34px;
         color: #333;
       }
       &-trash {

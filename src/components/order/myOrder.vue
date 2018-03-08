@@ -13,11 +13,11 @@
               <Row
                   type="flex"
               >
-                <i-col span="3" class='g-list-header-title'>{{$t("order.order_trader")}}</i-col>
+                <i-col span="4" class='g-list-header-title'>{{$t("order.order_trader")}}</i-col>
                 <i-col span="3" class='g-list-header-title'>{{$t("order.order_id")}}</i-col>
                 <i-col span="2" class='g-list-header-title'>{{$t("order.order_type")}}</i-col>
                 <i-col span="3" class='g-list-header-title'>{{$t("order.order_money_amount")}}</i-col>
-                <i-col span="4" class='g-list-header-title'>{{$t("order.order_number")}}</i-col>
+                <i-col span="3" class='g-list-header-title'>{{$t("order.order_number")}}</i-col>
                 <i-col span="4" class='g-list-header-title'>{{$t("order.order_time")}}</i-col>
                 <i-col span="3" class='g-list-header-title'>{{$t("order.order_status")}}</i-col>
                 <i-col span="2" class='g-list-header-title'>{{$t("public.operation")}}</i-col>
@@ -31,7 +31,7 @@
                   :class="{'g-list-content-item-unread': order.notice_order !== 0}"
               >
                 <!-- avator -->
-                <i-col span="3" class='g-list-content-item-col'>
+                <i-col span="4" class='g-list-content-item-col'>
                   <div class='avator'>
                     <Avator
                         :status='order.member.online'
@@ -55,7 +55,7 @@
                     {{$t("public['" + order.target_currency + "']")}}
                   </div>
                 </i-col>
-                <i-col span="4" class='g-list-content-item-col'>
+                <i-col span="3" class='g-list-content-item-col'>
                   <div>
                     {{$fixDeciamlAuto(order.amount)}}
                   </div>

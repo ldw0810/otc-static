@@ -93,7 +93,7 @@
             <i-col span='10'>
               <div class='premium-example'>
                 <span class='premium-example-desc'>{{$t("ad.ad_reference_price")}}:</span>
-                <span class='premium-example-number'>{{tradePrice}}&nbsp;&nbsp;{{moneyText}}</span>
+                <span class='premium-example-number'>{{$fixDeciamlAuto(tradePrice, moneyText)}}&nbsp;&nbsp;{{moneyText}}</span>
               </div>
             </i-col>
           </Row>
@@ -254,7 +254,7 @@
             <i-col span='10'>
               <div class='premium-example'>
                 <span class='premium-example-desc'>{{$t("ad.ad_reference_price")}}:</span>
-                <span class='premium-example-number'>{{tradePrice}}&nbsp;&nbsp;{{moneyText}}</span>
+                <span class='premium-example-number'>{{$fixDeciamlAuto(tradePrice, moneyText)}}&nbsp;&nbsp;{{moneyText}}</span>
               </div>
             </i-col>
           </Row>
@@ -348,269 +348,272 @@
   </div>
 </template>
 <script type="es6">
-  import ValidateMixin from "@/components/mixins/validate-mixin";
-  import config from "@/config/config";
+import ValidateMixin from "@/components/mixins/validate-mixin";
+import config from "@/config/config";
 
-  export default {
-    mixins: [ValidateMixin("form", "form")],
-    data() {
-      const validateNumberCheck = (rule, value, callback) => {
-        if (!+value || +value <= 0) {
-          callback(new Error(this.$t("public.input_number_required")));
-        } else {
-          callback();
-        }
-      };
-      const validateNumberLimitCheck = (rule, value, callback) => {
-        if (+value < 50) {
-          callback(new Error(this.$t("ad.ad_min_number_required")));
-        } else {
-          callback();
-        }
-      };
-      const validatePercentCheck = (rule, value, callback) => {
-        if (isNaN(+value)) {
-          callback(new Error(this.$t("public.input_number")));
-        } else if (-99.99 > +value || +value > 99.99) {
-          callback(new Error(this.$t("ad.ad_premium_notValid")));
-        } else {
-          callback();
-        }
-      };
-      const validateCeilingCheck = (rule, value, callback) => {
-        if (+this.form.floor && +value < +this.form.floor) {
-          callback(new Error(this.$t("ad.ad_ceiling_number_notValid")));
-        } else {
-          callback();
-        }
-      };
-      const validatePriceCheck = (rule, value, callback) => {
-        if (!+value && +value < 0) {
-          callback(new Error(this.$t("public.input_number")));
-        } else {
-          callback();
-        }
-      };
-      const validateMaxPriceCheck = (rule, value, callback) => {
-        if (!+value && +value < 0) {
-          callback(new Error(this.$t("public.input_number")));
-        }
-        if (+value > 9999999999) {
-          callback(new Error(this.$t("ad.ad_max_price_limit")));
-        } else {
-          callback();
-        }
-      };
-      return {
-        submitLoading: false,
-        opList: ["buy", "sell"],
-        formFlag: true,
-        adType: this.$route.query.adType || 0,
-        form_buy: {
-          payment: "",
-          collection: "",
-          money: "cny",
-          premium: "",
-          buyPrice: "",
-          sellPrice: "",
-          maxPrice: "",
-          minPrice: "",
-          floor: "",
-          ceiling: "",
-          remark: ""
-        },
-        form_sell: {
-          payment: "",
-          collection: "",
-          money: "cny",
-          premium: "",
-          buyPrice: "",
-          sellPrice: "",
-          maxPrice: "",
-          minPrice: "",
-          floor: "",
-          ceiling: "",
-          remark: ""
-        },
-        rules: {
-          adType: [
-            {
-              required: true,
-              message: this.$t("ad.ad_type_select_required")
-            }
-          ],
-          payment: [
-            {
-              required: true,
-              message: this.$t("ad.ad_payment_select_required")
-            }
-          ],
-          collection: [
-            {
-              required: true,
-              message: this.$t("ad.ad_collection_select_required")
-            }
-          ],
-          money: [
-            {
-              required: true,
-              message: this.$t("ad.ad_money_select_required")
-            }
-          ],
-          premium: [
-            {
-              required: true,
-              message: this.$t("ad.ad_premium_required")
-            },
-            {
-              validator: validatePercentCheck
-            }
-          ],
-          buyPrice: [
-            {
-              required: true,
-              message: this.$t("ad.ad_buy_price_required")
-            },
-            {
-              validator: validateNumberCheck
-            }
-          ],
-          sellPrice: [
-            {
-              required: true,
-              message: this.$t("ad.ad_sell_price_required")
-            },
-            {
-              validator: validateNumberCheck
-            }
-          ],
-          maxPrice: [
-            {
-              validator: validatePriceCheck
-            }
-          ],
-          minPrice: [
-            {
-              validator: validatePriceCheck
-            }
-          ],
-          floor: [
-            {
-              required: true,
-              message: this.$t("ad.ad_floor_required")
-            },
-            {
-              validator: validateNumberCheck
-            },
-            {
-              validator: validateNumberLimitCheck
-            }
-          ],
-          ceiling: [
-            {
-              required: true,
-              message: this.$t("ad.ad_ceiling_required")
-            },
-            {
-              validator: validateCeilingCheck
-            },
-            {
-              validator: validateMaxPriceCheck
-            }
-          ]
-        },
-        collection_default: {
-          id: ""
-        },
-        tradePrice: 0,
-        moneyList: [],
-        ad: {},
-        examineAdFlagList: [true, true],
-        timer: 0
-      };
+export default {
+  mixins: [ValidateMixin("form", "form")],
+  data() {
+    const validateNumberCheck = (rule, value, callback) => {
+      if (!+value || +value <= 0) {
+        callback(new Error(this.$t("public.input_number_required")));
+      } else {
+        callback();
+      }
+    };
+    const validateNumberLimitCheck = (rule, value, callback) => {
+      if (+value < 50) {
+        callback(new Error(this.$t("ad.ad_min_number_required")));
+      } else {
+        callback();
+      }
+    };
+    const validatePercentCheck = (rule, value, callback) => {
+      if (isNaN(+value)) {
+        callback(new Error(this.$t("public.input_number")));
+      } else if (-99.99 > +value || +value > 99.99) {
+        callback(new Error(this.$t("ad.ad_premium_notValid")));
+      } else {
+        callback();
+      }
+    };
+    const validateCeilingCheck = (rule, value, callback) => {
+      if (+this.form.floor && +value < +this.form.floor) {
+        callback(new Error(this.$t("ad.ad_ceiling_number_notValid")));
+      } else {
+        callback();
+      }
+    };
+    const validatePriceCheck = (rule, value, callback) => {
+      if (!+value && +value < 0) {
+        callback(new Error(this.$t("public.input_number")));
+      } else {
+        callback();
+      }
+    };
+    const validateMaxPriceCheck = (rule, value, callback) => {
+      if (!+value && +value < 0) {
+        callback(new Error(this.$t("public.input_number")));
+      }
+      if (+value > 9999999999) {
+        callback(new Error(this.$t("ad.ad_max_price_limit")));
+      } else {
+        callback();
+      }
+    };
+    return {
+      submitLoading: false,
+      opList: ["buy", "sell"],
+      formFlag: true,
+      adType: this.$route.query.adType || 0,
+      form_buy: {
+        payment: "",
+        collection: "",
+        money: "cny",
+        premium: "",
+        buyPrice: "",
+        sellPrice: "",
+        maxPrice: "",
+        minPrice: "",
+        floor: "",
+        ceiling: "",
+        remark: ""
+      },
+      form_sell: {
+        payment: "",
+        collection: "",
+        money: "cny",
+        premium: "",
+        buyPrice: "",
+        sellPrice: "",
+        maxPrice: "",
+        minPrice: "",
+        floor: "",
+        ceiling: "",
+        remark: ""
+      },
+      rules: {
+        adType: [
+          {
+            required: true,
+            message: this.$t("ad.ad_type_select_required")
+          }
+        ],
+        payment: [
+          {
+            required: true,
+            message: this.$t("ad.ad_payment_select_required")
+          }
+        ],
+        collection: [
+          {
+            required: true,
+            message: this.$t("ad.ad_collection_select_required")
+          }
+        ],
+        money: [
+          {
+            required: true,
+            message: this.$t("ad.ad_money_select_required")
+          }
+        ],
+        premium: [
+          {
+            required: true,
+            message: this.$t("ad.ad_premium_required")
+          },
+          {
+            validator: validatePercentCheck
+          }
+        ],
+        buyPrice: [
+          {
+            required: true,
+            message: this.$t("ad.ad_buy_price_required")
+          },
+          {
+            validator: validateNumberCheck
+          }
+        ],
+        sellPrice: [
+          {
+            required: true,
+            message: this.$t("ad.ad_sell_price_required")
+          },
+          {
+            validator: validateNumberCheck
+          }
+        ],
+        maxPrice: [
+          {
+            validator: validatePriceCheck
+          }
+        ],
+        minPrice: [
+          {
+            validator: validatePriceCheck
+          }
+        ],
+        floor: [
+          {
+            required: true,
+            message: this.$t("ad.ad_floor_required")
+          },
+          {
+            validator: validateNumberCheck
+          },
+          {
+            validator: validateNumberLimitCheck
+          }
+        ],
+        ceiling: [
+          {
+            required: true,
+            message: this.$t("ad.ad_ceiling_required")
+          },
+          {
+            validator: validateCeilingCheck
+          },
+          {
+            validator: validateMaxPriceCheck
+          }
+        ]
+      },
+      collection_default: {
+        id: ""
+      },
+      tradePrice: 0,
+      moneyList: [],
+      ad: {},
+      examineAdFlagList: [true, true],
+      timer: 0
+    };
+  },
+  computed: {
+    userInfo() {
+      return this.$store.state.userInfo;
     },
-    computed: {
-      userInfo() {
-        return this.$store.state.userInfo;
-      },
-      currency() {
-        return this.$route.query.currency || this.$store.state.currencyList[0];
-      },
-      currencyList() {
-        return this.$store.state.currencyList;
-      },
-      moneyText() {
-        return this.$t("public['" + this.form.money + "']");
-      },
-      collection() {
-        return this.$store.state.collection;
-      },
-      collection_refresh() {
-        return this.$store.state.collection_refresh;
-      },
-      paymentList() {
-        return this.$store.state.paymentList;
-      },
-      balanceObj() {
-        let obj = {};
-        for (let i = 0; i < this.userInfo.valid_account.length; i++) {
-          obj["" + this.userInfo.valid_account[i].currency] = this.userInfo.valid_account[i].balance;
+    currency() {
+      return this.$route.query.currency || this.$store.state.currencyList[0];
+    },
+    currencyList() {
+      return this.$store.state.currencyList;
+    },
+    moneyText() {
+      return this.$t("public['" + this.form.money + "']");
+    },
+    collection() {
+      return this.$store.state.collection;
+    },
+    collection_refresh() {
+      return this.$store.state.collection_refresh;
+    },
+    paymentList() {
+      return this.$store.state.paymentList;
+    },
+    balanceObj() {
+      let obj = {};
+      for (let i = 0; i < this.userInfo.valid_account.length; i++) {
+        obj[
+          "" + this.userInfo.valid_account[i].currency
+        ] = this.userInfo.valid_account[i].balance;
+      }
+      return obj;
+    },
+    balanceFlag() {
+      if (+this.adType !== 1) {
+        if (this.currency === "dai") {
+          return true;
+        } else if (this.currency === "eth") {
+          return +this.balanceObj["dai"] >= 100;
         }
-        return obj;
-      },
-      balanceFlag() {
-        if (+this.adType !== 1) {
-          if (this.currency === "dai") {
-            return true;
-          } else if (this.currency === "eth") {
-            return +this.balanceObj["dai"] >= 100;
-          }
-        } else {
-          if (this.currency === "dai") {
-            return +this.balanceObj["dai"] >= 100;
-          } else if (this.currency === "eth") {
-            return +this.balanceObj["eth"] >= 0.01;
-          }
+      } else {
+        if (this.currency === "dai") {
+          return +this.balanceObj["dai"] >= 100;
+        } else if (this.currency === "eth") {
+          return +this.balanceObj["eth"] >= 0.01;
         }
-      },
-      isUpdate() {
-        return !!(this.$route.query.update || 0);
-      },
-      adId() {
-        return this.$route.query.adId;
-      },
-      form() {
-        return +this.adType === 0 ? this.form_buy : this.form_sell;
       }
     },
-    watch: {
-      $route: function (val) {
-        this.init();
-      },
+    isUpdate() {
+      return !!(this.$route.query.update || 0);
     },
-    methods: {
-      onChangeAdType(index) {
-        this.adType = index;
-      },
-      getPayCollections() {
-        this.$store
-          .dispatch("ajax_pay_collections")
-          .then(res => {
-            if (res.data && +res.data.error === 0) {
-              this.collection_default = res.data.default;
-              if (res.data.default) {
-                this.form_buy.collection = res.data.default.id;
-                this.form_sell.collection = res.data.default.id;
-              }
-            } else {
-              this.$Message.error(this.$t("user.receivables_request_fail"));
+    adId() {
+      return this.$route.query.adId;
+    },
+    form() {
+      return +this.adType === 0 ? this.form_buy : this.form_sell;
+    }
+  },
+  watch: {
+    $route: function(val) {
+      this.init();
+    }
+  },
+  methods: {
+    onChangeAdType(index) {
+      this.adType = index;
+    },
+    getPayCollections() {
+      this.$store
+        .dispatch("ajax_pay_collections")
+        .then(res => {
+          if (res.data && +res.data.error === 0) {
+            this.collection_default = res.data.default;
+            if (res.data.default) {
+              this.form_buy.collection = res.data.default.id;
+              this.form_sell.collection = res.data.default.id;
             }
-          })
-          .catch(err => {
+          } else {
             this.$Message.error(this.$t("user.receivables_request_fail"));
-          });
-      },
-      getCurrencyCode() {
+          }
+        })
+        .catch(err => {
+          this.$Message.error(this.$t("user.receivables_request_fail"));
+        });
+    },
+    getCurrencyCode() {
+      return new Promise(resolve => {
         this.$store
           .dispatch("ajax_currency_code")
           .then(res => {
@@ -618,6 +621,7 @@
               this.moneyList = res.data.payable;
               this.form_buy.money = this.currency === "eth" ? "dai" : "cny";
               this.form_sell.money = this.currency === "eth" ? "dai" : "cny";
+              resolve()
             } else {
               this.$Message.error(this.$t("ad.ad_money_request_fail"));
             }
@@ -625,136 +629,152 @@
           .catch(err => {
             this.$Message.error(this.$t("ad.ad_money_request_fail"));
           });
-      },
-      getTradePrice() {
-        this.$store
-          .dispatch("ajax_trade_price", {
-            symbol: this.currency
-          })
-          .then(res => {
-            if (res.data && +res.data.error === 0) {
-              this.tradePrice = res.data.price;
-              if (!this.isUpdate) {
-                this.form_buy.buyPrice = +this.tradePrice;
-                this.form_sell.sellPrice = +this.tradePrice;
-              }
-            } else {
-              this.$Message.error(this.$t("ad.ad_reference_price_request_fail"));
+      });
+    },
+    getTradePrice() {
+      this.$store
+        .dispatch("ajax_trade_price", {
+          symbol: this.currency
+        })
+        .then(res => {
+          if (res.data && +res.data.error === 0) {
+            this.tradePrice = res.data.price;
+            if (!this.isUpdate) {
+              const moneyText = this.ad.target_currency;
+              this.form_buy.buyPrice = this.$fixDeciamlAuto(
+                +this.tradePrice,
+                this.moneyText
+              );
+              this.form_sell.sellPrice = this.$fixDeciamlAuto(
+                +this.tradePrice,
+                this.moneyText
+              );
+
+              return;
             }
-          })
-          .catch(err => {
+          } else {
             this.$Message.error(this.$t("ad.ad_reference_price_request_fail"));
-          });
-        this.timer && clearTimeout(this.timer);
-        this.timer = setTimeout(this.getTradePrice, 1000 * 60 * 10);
-      },
-      goRecharge() {
-        let index = 0;
-        for (let i = 0; i < this.currencyList.length; i++) {
-          if (this.currencyList[i] === this.currency) {
-            index = i;
-            break;
           }
-        }
-        this.$goRouter("/asset", {
-          currency: this.currency
+        })
+        .catch(err => {
+          this.$Message.error(this.$t("ad.ad_reference_price_request_fail"));
         });
-      },
-      changePremium() {
-        if (+this.adType === 0) {
-          this.$nextTick(() => {
-            this.form.buyPrice = this.tradePrice * (1 + +this.form.premium / 100);
-          });
-        } else if (+this.adType === 1) {
-          this.$nextTick(() => {
-            this.form.sellPrice =
-              this.tradePrice * (1 + +this.form.premium / 100);
-          });
+      this.timer && clearTimeout(this.timer);
+      this.timer = setTimeout(this.getTradePrice, 1000 * 60 * 10);
+    },
+    goRecharge() {
+      let index = 0;
+      for (let i = 0; i < this.currencyList.length; i++) {
+        if (this.currencyList[i] === this.currency) {
+          index = i;
+          break;
         }
-      },
-      changePrice() {
-        if (+this.adType === 0) {
-          this.$nextTick(() => {
-            this.form.premium = (
-              (+this.form.buyPrice / this.tradePrice - 1) *
-              100
-            ).toFixed(3);
-          });
-        } else if (+this.adType === 1) {
-          this.$nextTick(() => {
-            this.form.premium = (
-              (+this.form.sellPrice / this.tradePrice - 1) *
-              100
-            ).toFixed(3);
-          });
-        }
-      },
-      changeFloor() {
-        let tempBalance =
-          +this.balanceObj[this.currency] *
-          this.tradePrice *
-          (1 - +config.poundage);
-        if (this.currency === `dai` && +this.adType !== 1) {
-        } else if (+this.form.floor > tempBalance) {
-          this.$nextTick(() => {
-            this.form.floor = tempBalance;
-          });
-        }
-      },
-      changeCeiling() {
-        let tempBalance =
-          +this.balanceObj[this.currency] *
-          this.tradePrice *
-          (1 - +config.poundage);
-        if (this.currency === `dai` && +this.adType !== 1) {
-        } else if (+this.form.ceiling > tempBalance) {
-          this.$nextTick(() => {
-            this.form.ceiling = tempBalance;
-          });
-        }
-      },
-      sellAll() {
+      }
+      this.$goRouter("/asset", {
+        currency: this.currency
+      });
+    },
+    changePremium() {
+      if (+this.adType === 0) {
         this.$nextTick(() => {
-          this.form.ceiling =
-            this.balanceObj[this.currency] *
-            this.tradePrice *
-            (1 - +config.poundage);
+          this.form.buyPrice = this.$fixDeciamlAuto(
+            this.tradePrice * (1 + +this.form.premium / 100),
+            this.moneyText
+          );
         });
-      },
-      submit() {
-        if (!this.userInfo.activated) {
-          this.$store.commit("showAuthEmail_setter", 1);
-        } else if (!this.examineAdFlagList[+this.adType]) {
-          this.$Message.error(this.$t("ad.ad_publish_repeat"));
-        } else if (!this.balanceFlag) {
-          this.$Message.error(this.$t("ad.ad_credit_low"));
-        } else {
-          const form_ref = +this.adType === 0 ? this.$refs["form_buy"] : this.$refs["form_sell"];
-          form_ref.validate(valid => {
-            if (valid) {
-              this.submitLoading = true;
-              if (this.isUpdate) {
-                const requestData = {
-                  id: this.adId,
-                  max: this.form.ceiling,
-                  min: this.form.floor,
-                  price:
-                    +this.adType === 0
-                      ? this.form.maxPrice
-                      : this.form.minPrice,
-                  margin: this.form.premium,
-                  pay_kind:
-                    +this.adType === 0
-                      ? this.form.payment
-                      : this.form.collection,
-                  pay_default:
-                    this.collection_default &&
-                    this.collection_default.id === this.form.collection
-                      ? 1
-                      : 0,
-                  remark: this.form.remark
-                };
-                this.$store.dispatch("ajax_update_ad", requestData).then(res => {
+      } else if (+this.adType === 1) {
+        this.$nextTick(() => {
+          this.form.sellPrice = this.$fixDeciamlAuto(
+            +this.tradePrice * (1 + +this.form.premium / 100),
+            this.moneyText
+          );
+        });
+      }
+    },
+    changePrice() {
+      if (+this.adType === 0) {
+        this.$nextTick(() => {
+          this.form.premium = (
+            (+this.form.buyPrice / this.tradePrice - 1) *
+            100
+          ).toFixed(3);
+        });
+      } else if (+this.adType === 1) {
+        this.$nextTick(() => {
+          this.form.premium = (
+            (+this.form.sellPrice / this.tradePrice - 1) *
+            100
+          ).toFixed(3);
+        });
+      }
+    },
+    changeFloor() {
+      let tempBalance =
+        +this.balanceObj[this.currency] *
+        this.tradePrice *
+        (1 - +config.poundage);
+      if (this.currency === `dai` && +this.adType !== 1) {
+      } else if (+this.form.floor > tempBalance) {
+        this.$nextTick(() => {
+          this.form.floor = this.$fixDeciamlAuto(tempBalance, this.moneyText);
+        });
+      }
+    },
+    changeCeiling() {
+      let tempBalance =
+        +this.balanceObj[this.currency] *
+        this.tradePrice *
+        (1 - +config.poundage);
+      if (this.currency === `dai` && +this.adType !== 1) {
+      } else if (+this.form.ceiling > tempBalance) {
+        this.$nextTick(() => {
+          this.form.ceiling = this.$fixDeciamlAuto(tempBalance, this.moneyText);
+        });
+      }
+    },
+    sellAll() {
+      this.$nextTick(() => {
+        this.form.ceiling = this.$fixDeciamlAuto(
+          this.balanceObj[this.currency] *
+            this.tradePrice *
+            (1 - +config.poundage),
+          this.moneyText
+        );
+      });
+    },
+    submit() {
+      if (!this.userInfo.activated) {
+        this.$store.commit("showAuthEmail_setter", 1);
+      } else if (!this.examineAdFlagList[+this.adType]) {
+        this.$Message.error(this.$t("ad.ad_publish_repeat"));
+      } else if (!this.balanceFlag) {
+        this.$Message.error(this.$t("ad.ad_credit_low"));
+      } else {
+        const form_ref =
+          +this.adType === 0 ? this.$refs["form_buy"] : this.$refs["form_sell"];
+        form_ref.validate(valid => {
+          if (valid) {
+            this.submitLoading = true;
+            if (this.isUpdate) {
+              const requestData = {
+                id: this.adId,
+                max: this.form.ceiling,
+                min: this.form.floor,
+                price:
+                  +this.adType === 0 ? this.form.maxPrice : this.form.minPrice,
+                margin: this.form.premium,
+                pay_kind:
+                  +this.adType === 0 ? this.form.payment : this.form.collection,
+                pay_default:
+                  this.collection_default &&
+                  this.collection_default.id === this.form.collection
+                    ? 1
+                    : 0,
+                remark: this.form.remark
+              };
+              this.$store
+                .dispatch("ajax_update_ad", requestData)
+                .then(res => {
                   this.submitLoading = false;
                   if (res.data && +res.data.error === 0) {
                     this.$Message.success(this.$t("ad.ad_update_success"));
@@ -764,35 +784,34 @@
                   } else {
                     this.$Message.error(this.$t("ad.ad_update_fail"));
                   }
-                }).catch(err => {
+                })
+                .catch(err => {
                   this.submitLoading = false;
                   this.$Message.error(this.$t("ad.ad_update_fail"));
                 });
-              } else {
-                const requestData = {
-                  op_type: this.opList[this.adType],
-                  currency: this.currency,
-                  target_currency: this.form.money,
-                  max: this.form.ceiling,
-                  min: this.form.floor,
-                  price:
-                    +this.adType === 0
-                      ? this.form.maxPrice
-                      : this.form.minPrice,
-                  margin: this.form.premium,
-                  pay_kind:
-                    +this.adType === 0
-                      ? this.form.payment
-                      : this.form.collection,
-                  //nft_id: "",
-                  pay_default:
-                    this.collection_default &&
-                    this.collection_default.id === this.form.collection
-                      ? 1
-                      : 0,
-                  remark: this.form.remark
-                };
-                this.$store.dispatch("ajax_add_ad", requestData).then(res => {
+            } else {
+              const requestData = {
+                op_type: this.opList[this.adType],
+                currency: this.currency,
+                target_currency: this.form.money,
+                max: this.form.ceiling,
+                min: this.form.floor,
+                price:
+                  +this.adType === 0 ? this.form.maxPrice : this.form.minPrice,
+                margin: this.form.premium,
+                pay_kind:
+                  +this.adType === 0 ? this.form.payment : this.form.collection,
+                //nft_id: "",
+                pay_default:
+                  this.collection_default &&
+                  this.collection_default.id === this.form.collection
+                    ? 1
+                    : 0,
+                remark: this.form.remark
+              };
+              this.$store
+                .dispatch("ajax_add_ad", requestData)
+                .then(res => {
                   this.submitLoading = false;
                   if (res.data && +res.data.error === 0) {
                     this.$Message.success(this.$t("ad.ad_advertise_success"));
@@ -800,7 +819,8 @@
                   } else {
                     this.$Message.error(this.$t("ad.ad_advertise_fail"));
                   }
-                }).catch(err => {
+                })
+                .catch(err => {
                   this.submitLoading = false;
                   if (err.error === "100034") {
                     this.$Message.error(this.$t("ad.ad_advertise_fail"));
@@ -808,173 +828,190 @@
                     this.$Message.error(this.$t("ad.ad_advertise_fail"));
                   }
                 });
-              }
-            } else {
-              this.$Message.error(this.$t("ad.ad_advertise_info_notValid"));
             }
-          });
-        }
-      },
-      getAdById(adId) {
-        this.$store
-          .dispatch("ajax_get_ad", {
-            id: adId
-          })
-          .then(res => {
-            if (res.data && +res.data.error === 0) {
-              this.ad = res.data.info;
-              for (let i = 0; i < this.opList.length; i++) {
-                if (this.opList[i] === this.ad.op_type) {
-                  this.adType = i;
-                  break;
-                }
+          } else {
+            this.$Message.error(this.$t("ad.ad_advertise_info_notValid"));
+          }
+        });
+      }
+    },
+    getAdById(adId) {
+      this.$store
+        .dispatch("ajax_get_ad", {
+          id: adId
+        })
+        .then(res => {
+          if (res.data && +res.data.error === 0) {
+            this.ad = res.data.info;
+            for (let i = 0; i < this.opList.length; i++) {
+              if (this.opList[i] === this.ad.op_type) {
+                this.adType = i;
+                break;
               }
-              this.form.money = this.ad.target_currency;
-              this.form.premium = +(this.ad.margin || 0);
-              this.form.floor = +(this.ad.min_limit || 0);
-              this.form.ceiling = +(this.ad.order_limit || 0);
-              this.form.remark = this.ad.remark;
-              if (+this.adType === 0) {
-                this.form.payment = this.ad.pay_kind;
-                this.form.maxPrice = this.ad.price;
-                this.form.buyPrice =
-                  this.tradePrice * (1 + +this.form.premium / 100);
-              } else if (+this.adType === 1) {
-                this.form.collection = this.ad.pay_kind;
-                this.form.minPrice = this.ad.price;
-                this.form.sellPrice =
-                  this.tradePrice * (1 + +this.form.premium / 100);
-              }
-            } else {
-              this.$Message.error(this.$t("ad.ad_data_request_fail"));
             }
-          })
-          .catch(err => {
+            alert(1);
+            this.form.money = this.ad.target_currency;
+            this.form.premium = +(this.ad.margin || 0);
+            this.form.floor = +(this.ad.min_limit || 0);
+            this.form.ceiling = +(this.ad.order_limit || 0);
+            this.form.remark = this.ad.remark;
+            if (+this.adType === 0) {
+              this.form.payment = this.ad.pay_kind;
+              this.form.maxPrice = this.$fixDeciamlAuto(
+                this.ad.price,
+                this.moneyText
+              );
+              this.form.buyPrice = this.$fixDeciamlAuto(
+                this.tradePrice * (1 + +this.form.premium / 100),
+                this.moneyText
+              );
+            } else if (+this.adType === 1) {
+              this.form.collection = this.ad.pay_kind;
+              this.form.minPrice = this.$fixDeciamlAuto(
+                this.ad.price,
+                this.moneyText
+              );
+              this.form.sellPrice = this.$fixDeciamlAuto(
+                this.tradePrice * (1 + +this.form.premium / 100),
+                this.moneyText
+              );
+            }
+          } else {
             this.$Message.error(this.$t("ad.ad_data_request_fail"));
-          });
-      },
-      examineAd() {
-        for (let i = 0; i < this.opList.length; i++) {
-          this.$store.dispatch("ajax_exam_ad", {
+          }
+        })
+        .catch(err => {
+          this.$Message.error(this.$t("ad.ad_data_request_fail"));
+        });
+    },
+    examineAd() {
+      for (let i = 0; i < this.opList.length; i++) {
+        this.$store
+          .dispatch("ajax_exam_ad", {
             op_type: this.opList[i],
             currency: this.currency,
             target_currency: this.form.money
-          }).then(res => {
+          })
+          .then(res => {
             if (res.data && +res.data.error === 0) {
               this.examineAdFlagList[i] = true;
             } else {
             }
-          }).catch(err => {
+          })
+          .catch(err => {
             if (+err.error === 100036) {
               this.examineAdFlagList[i] = false;
             }
           });
-        }
-      },
-      init() {
-        let index = -1;
-        for (let i = 0; i < this.currencyList.length; i++) {
-          if (this.currencyList[i] === this.currency) {
-            index = i;
-            break;
-          }
-        }
-        this.getTradePrice();
-        this.getPayCollections();
-        this.getCurrencyCode();
-        if (this.isUpdate && this.adId) {
-          this.getAdById(this.adId);
-        } else if (+index === -1) {
-          this.$Message.error(this.$t("public.currency_notFound"));
-          this.$goRouter(
-            this.$route.fullPath.replace(this.currency, this.currencyList[0])
-          );
-        } else {
-          this.$store.commit("header_index_setter", "3" + index);
-        }
-        this.examineAd();
-        if (!this.userInfo.activated) {
-          this.$store.commit("showAuthEmail_setter", 1);
-        }
       }
     },
-    mounted() {
-      this.init();
-    },
-    destroyed() {
-      this.timer && clearTimeout(this.timer);
+    init() {
+      let index = -1;
+      for (let i = 0; i < this.currencyList.length; i++) {
+        if (this.currencyList[i] === this.currency) {
+          index = i;
+          break;
+        }
+      }
+      
+      this.getPayCollections();
+      this.getCurrencyCode()
+        .then(() => {
+          this.getTradePrice();
+        })
+      if (this.isUpdate && this.adId) {
+        this.getAdById(this.adId);
+      } else if (+index === -1) {
+        this.$Message.error(this.$t("public.currency_notFound"));
+        this.$goRouter(
+          this.$route.fullPath.replace(this.currency, this.currencyList[0])
+        );
+      } else {
+        this.$store.commit("header_index_setter", "3" + index);
+      }
+      this.examineAd();
+      if (!this.userInfo.activated) {
+        this.$store.commit("showAuthEmail_setter", 1);
+      }
     }
-  };
+  },
+  mounted() {
+    this.init();
+  },
+  destroyed() {
+    this.timer && clearTimeout(this.timer);
+  }
+};
 </script>
 <style lang='scss' scoped>
-  .red {
+.red {
+  color: red;
+}
+
+.link {
+}
+
+.g-title {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.ad {
+  background-color: #fff;
+  margin: 30px 0 40px;
+  padding: 33px 51px 58px 49px;
+  &-title {
+    font-size: 26px;
+    line-height: 37px;
+    margin-bottom: 10px;
+  }
+  .title-tip {
+    font-size: 14px;
+    line-height: 26px;
+    margin-bottom: 20px;
+  }
+  .credit-low-tip {
+    margin-bottom: 20px;
+  }
+}
+
+.form-item {
+  margin-bottom: 30px;
+  &-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    &-title {
+      font-size: 16px;
+      margin-right: 10px;
+    }
+    &-title-tip {
+      font-size: 14px;
+      color: #999999;
+    }
+  }
+  .form-item-radio-group {
+    padding-top: 20px;
+    padding-bottom: 26px;
+    border-top: 1px solid #eee;
+  }
+}
+
+.premium-example {
+  margin-left: 24px;
+  &-desc {
+    font-size: 14px;
+    color: #666666;
+    line-height: 20px;
+    margin-right: 5px;
+  }
+  &-number {
+    font-size: 14px;
     color: red;
   }
+}
 
-  .link {
-  }
-
-  .g-title {
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
-  }
-
-  .ad {
-    background-color: #fff;
-    margin: 30px 0 40px;
-    padding: 33px 51px 58px 49px;
-    &-title {
-      font-size: 26px;
-      line-height: 37px;
-      margin-bottom: 10px;
-    }
-    .title-tip {
-      font-size: 14px;
-      line-height: 26px;
-      margin-bottom: 20px;
-    }
-    .credit-low-tip {
-      margin-bottom: 20px;
-    }
-  }
-
-  .form-item {
-    margin-bottom: 30px;
-    &-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-      &-title {
-        font-size: 16px;
-        margin-right: 10px;
-      }
-      &-title-tip {
-        font-size: 14px;
-        color: #999999;
-      }
-    }
-    .form-item-radio-group {
-      padding-top: 20px;
-      padding-bottom: 26px;
-      border-top: 1px solid #eee;
-    }
-  }
-
-  .premium-example {
-    margin-left: 24px;
-    &-desc {
-      font-size: 14px;
-      color: #666666;
-      line-height: 20px;
-      margin-right: 5px;
-    }
-    &-number {
-      font-size: 14px;
-      color: red;
-    }
-  }
-
-  .add-payment {
-    margin-left: 24px;
-  }
+.add-payment {
+  margin-left: 24px;
+}
 </style>
