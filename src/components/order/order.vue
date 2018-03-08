@@ -53,7 +53,7 @@
                 {{$t("order.order_money_amount")}}:
               </i-col>
               <i-col span='16'>
-                {{order.price_sum|fix_decimals_legal}}
+                {{$fixDeciamlAuto(order.price_sum, order.target_currency)}}
                 {{$t("public['" + order.target_currency + "']")}}
               </i-col>
             </Row>
@@ -63,7 +63,7 @@
                 {{$t("order.order_price")}}:
               </i-col>
               <i-col span='16'>
-                {{order.price|fix_decimals_legal}}
+                {{$fixDeciamlAuto(order.price, order.target_currency)}}
                 {{$t("public['" + order.target_currency + "']")}}
                 &nbsp;/&nbsp;
                 {{$t("public['" + order.currency + "']")}}
@@ -75,7 +75,7 @@
                 {{$t("order.order_number")}}:
               </i-col>
               <i-col span='16'>
-                {{order.amount|fix_decimals_base}}
+                {{$fixDeciamlAuto(order.amount, order.currency)}}
                 {{$t("public['" + order.currency + "']")}}
               </i-col>
             </Row>
@@ -253,7 +253,7 @@
               {{$t("order.order_money_amount")}}:
             </i-col>
             <i-col span="10">
-              {{order.order_number}}
+              {{$fixDeciamlAuto(+order.order_number, order.target_currency)}}
               {{$t("public['" + order.target_currency + "']")}}
             </i-col>
           </Row>
@@ -331,7 +331,6 @@
 <script type="es6">
 import config from '@/config/config'
 import ValidateMixin from "@/components/mixins/validate-mixin";
-import { fixDecimalsBase } from "config/config";
 import logoDiv from "../public/logo.vue";
 import chat from "../public/chat.vue";
 import auth_two from "../public/auth_two_pop.vue";
@@ -381,7 +380,7 @@ export default {
   },
   computed: {
     orderPriceSum() {
-      return fixDecimalsBase(this.order.price_sum)
+      return this.$fixDecimalsBase(this.order.price_sum)
     },
     id() {
       return this.$route.query.id;

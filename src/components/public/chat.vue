@@ -568,7 +568,6 @@
     float: left;
     margin: 0 10px 0 0;
     border-radius: 3px;
-    background: #fff;
   }
 
   .message .time > span {
