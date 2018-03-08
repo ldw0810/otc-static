@@ -136,7 +136,8 @@
           align-items: center;
         }
         .avator-name {
-          width: 56px;
+          width: auto;
+          flex: 1;
           display: inline-block;
           margin-left: 10px;
           text-align: left;
