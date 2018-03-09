@@ -71,6 +71,7 @@
 <script type="es6">
   import ScrollLoader from "./scrollLoader.vue";
   import Avator from "./avator.vue";
+  import axios from "../../libs/ajax"
 
   export default {
     components: {
@@ -120,19 +121,26 @@
         msgList: this.chatList,
         inputFocusFlag: false,
         lastEditRange: null,
-        chatTime: 0,
-        getMsgTimer: 0
+        chatTime: 0
       };
-    },
-    computed: {
-      ajax_source() {
-        return this.$store.state.ajax_source;
-      }
     },
     watch: {
       inputFocusFlag(val) {
         if (!val) {
           this.inputText = this.$refs.input.innerHTML;
+        }
+      }
+    },
+    computed: {
+      ajax_source_chat() {
+        return this.$store.state.ajax_source.chat;
+      },
+      timeout: {
+        set(val) {
+          this.$store.state.timeout.chat = val;
+        },
+        get() {
+          return this.$store.state.timeout.chat;
         }
       }
     },
@@ -170,7 +178,6 @@
               msg: inputInfo
             })
             .then(res => {
-              // console.log(this.msgList, this.msgList.length, this.msgList[this.msgList.length-1])
               if (res.data && +res.data.error === 0) {
                 this.msgList[this.msgList.length - 1].status = 1;
               } else {
@@ -216,19 +223,24 @@
             } else if (res.data && +res.data.error === 100002) {  //timeout
               this.getMsg();
             } else {
-              this.getMsgTimer && clearTimeout(this.getMsgTimer);
-              this.getMsgTimer = setTimeout(() => {
-                this.$emit("refresh", 1);
-                this.getMsg();
-              }, 60 * 1000);
+              let that = this;
+              this.timeout && clearTimeout(this.timeout);
+              this.timeout = setTimeout(() => {
+                that.$emit("refresh", 1);
+                that.getMsg();
+              }, 6 * 1000);
             }
           })
           .catch(err => {
-            this.getMsgTimer && clearTimeout(this.getMsgTimer);
-            this.getMsgTimer = setTimeout(() => {
-              this.$emit("refresh", 1);
-              this.getMsg();
-            }, 60 * 1000);
+            let that = this;
+            if(err && +err.cancel === 1) {
+            } else {
+              this.timeout && clearTimeout(this.timeout);
+              this.timeout = setTimeout(() => {
+                that.$emit("refresh", 1);
+                that.getMsg();
+              }, 6 * 1000);
+            }
           });
       },
       inputKey(event) {
@@ -323,6 +335,7 @@
         return ele.textContent;
       },
       init() {
+        this.timeout && clearTimeout(this.timeout);
         this.msg && (this.msgList[this.msgList.length] = this.msg);
         this.getMsg();
       },
@@ -363,9 +376,9 @@
       this.scrollToBottom()
     },
     destroyed() {
-      this.getMsgTimer && clearTimeout(this.getMsgTimer);
-      this.ajax_source && this.ajax_source.cancel({});
-    }
+      this.ajax_source_chat && this.ajax_source_chat.cancel({cancel: 1});
+      this.timeout && clearTimeout(this.timeout);
+    },
   };
 </script>
 
@@ -419,7 +432,7 @@
       display: flex;
       width: 100%;
       &-input {
-        flex:1;
+        flex: 1;
         overflow-y: auto;
         overflow-x: hidden;
         outline: 0;

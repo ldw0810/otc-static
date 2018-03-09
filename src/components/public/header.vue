@@ -171,7 +171,6 @@
     data() {
       return {
         assetLoading: false,
-        noticeTimer: 0,
         menus: [
           {
             title: this.$t("public.homePage"),
@@ -281,7 +280,15 @@
         return +this.$store.state.header_index;
       },
       ajax_source() {
-        return this.$store.state.ajax_source;
+        return this.$store.state.ajax_source.me;
+      },
+      timeout: {
+        set(val) {
+          this.$store.state.timeout.chat = val;
+        },
+        get() {
+          return this.$store.state.timeout.notice;
+        }
       }
     },
     methods: {
@@ -303,7 +310,7 @@
         });
       },
       getAssetDataCancel() {
-        this.ajax_source && this.ajax_source.cancel({});
+        this.ajax_source && this.ajax_source.cancel({cancel: 1});
       },
       getNotice() {
         if(this.userToken) {
@@ -314,9 +321,9 @@
             }
           }).catch(err => {
           });
-          this.noticeTimer && clearTimeout(this.noticeTimer);
-          this.noticeTimer = setTimeout(this.getNotice, 30 * 1000);
         }
+        this.timeout && clearTimeout(this.timeout);
+        this.timeout = setTimeout(this.getNotice, 30 * 1000);
       },
       goMenu(item, index) {
         if (item.action && isFunction(item.action)) {
@@ -384,12 +391,11 @@
           children: []
         }
       ];
-    },
-    mounted(){
-      this.noticeTimer = setTimeout(this.getNotice, 60 * 1000);
+      this.timeout && clearTimeout(this.timeout);
+      this.timeout = setTimeout(this.getNotice, 30 * 1000);
     },
     destroyed(){
-      this.noticeTimer && clearTimeout(this.noticeTimer);
+      this.timeout && clearTimeout(this.timeout);
     }
   };
 </script>
