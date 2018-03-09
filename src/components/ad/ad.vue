@@ -849,7 +849,6 @@ export default {
                 break;
               }
             }
-            alert(1);
             this.form.money = this.ad.target_currency;
             this.form.premium = +(this.ad.margin || 0);
             this.form.floor = +(this.ad.min_limit || 0);
