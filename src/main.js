@@ -1,5 +1,5 @@
 import Vue from "vue";
-import iView from '@/config/iview'
+import globalComponents from '@/config/global-components'
 import router from "./router";
 import Vuex from "vuex";
 import App from "./app.vue";
@@ -14,7 +14,7 @@ import VueClipboard from "vue-clipboard2";
 
 Vue.use(Vuex);
 Vue.use(VueI18n);
-Vue.use(iView);
+Vue.use(globalComponents);
 Vue.use(Functions);
 Vue.use(Filters);
 Vue.use(VueClipboard);
