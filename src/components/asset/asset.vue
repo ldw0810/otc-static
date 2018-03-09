@@ -149,12 +149,13 @@
                         <FormItem prop="address" v-if="withdraw.fund_sources && withdraw.fund_sources.length">
                           <Select class='withdraw-address-select'
                                   @on-change='get_address_id'
-                                  :value='setAddress'
+                                  v-model='setAddress'
                           >
-                            <Option value='1000' :label='$t("asset.asset_withdraw_add_new_address_down")'>
-                              <span class='withdraw-address-select-text u-ellipsis-1'>{{$t('asset.asset_withdraw_address_add')}}</span>
-                            </Option>
+                           
                             <template v-if='withdraw.fund_sources.length'>
+                               <Option :value='1000' :label='$t("asset.asset_withdraw_add_new_address_down")'>
+                                <span class='withdraw-address-select-text u-ellipsis-1'>{{$t('asset.asset_withdraw_address_add')}}</span>
+                              </Option>
                               <Option :value="item.id + '-' + item.uid" :label="item.extra + ' - ' + item.uid"
                                       v-for="(item, index) in withdraw.fund_sources" :key='index'>
                                 <span
@@ -663,6 +664,9 @@
         });
         this.$refs["form"] && this.$refs["form"].resetFields();
       },
+      initSelectedValue() {
+        this.setAddress = ''
+      },
       handleAllWithdrawal() {
         this.form.number = this.amount;
       },
@@ -791,6 +795,7 @@
                 this.$refs.sendCodeButton.init();
                 // this.$Message.success(this.$t("asset.asset_withdraw_success"));
                 this.initFormData();
+                this.initSelectedValue()
                 this.init();
               } else {
                 this.$Message.error(this.$t("asset.asset_withdraw_fail"));
@@ -881,7 +886,7 @@
         this.auth_two_flag = false;
       },
       get_address_id(val) {
-        if (val === "1000" || val === "") {
+        if (val === 1000) {
           this.initFormData();
           this.addNewAddressStatus = true;
         } else {
@@ -941,6 +946,7 @@
       if (from.name && from.name.indexOf("/user/login") <= -1) {
         store.dispatch("ajax_me");
         this.initFormData()
+        this.initSelectedValue()
       }
       next();
     }

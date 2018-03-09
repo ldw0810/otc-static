@@ -62,7 +62,6 @@ axios.interceptors.response.use(
         data: error.message
       };
     }
-    // console.log(JSON.stringify(error));//console : Error: Request failed with status code 402
     return Promise.reject(error.response.data)
   });
 
