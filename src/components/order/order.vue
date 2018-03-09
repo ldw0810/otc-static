@@ -268,7 +268,7 @@
           </FormItem>
           <!--防止自动提交表单-->
           <input type="text" style="display:none"/>
-          <div class='warn'>{{$t("order.order_confirm_release_warn").format(order.amount,
+          <div class='warn'>{{$t("order.order_confirm_release_warn").format(orderAmount,
             order.currency.toUpperCase())}}
           </div>
           <FormItem class="formItem g-comfirm-group buttons-group">
@@ -379,6 +379,9 @@ export default {
     };
   },
   computed: {
+    orderAmount() {
+      return this.$fixDeciamlAuto(this.order.amount, this.order.currency)
+    },
     orderPriceSum() {
       return this.$fixDeciamlAuto(this.order.price_sum, this.order.target_currency)
     },
