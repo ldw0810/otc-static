@@ -1,8 +1,8 @@
 <!--手机发送验证码按钮-->
 <template>
   <div class='send'>
-    <a @click="send" class='send-btn send-primary' v-if="once">{{text || $t("user.auth_phone_code_send")}}</a>
-    <a disabled class='send-btn send-disabled' v-else-if="time > 0">{{$t("user.auth_phone_code_reSend_seconds").format(time)}}</a>
+    <a @click="send" class='send-btn send-primary' v-if="subOnce">{{text || $t("user.auth_phone_code_send")}}</a>
+    <a disabled class='send-btn send-disabled' v-else-if="subTime > 0">{{$t("user.auth_phone_code_reSend_seconds").format(subTime)}}</a>
     <a @click="send" class='send-btn send-primary' v-else>{{reText || $t("user.auth_phone_code_reSend")}}</a>
   </div>
 </template>
@@ -33,31 +33,41 @@
     },
     data: function () {
       return {
+        subTime: this.time,
+        subOnce: this.once,
         timer: 0
+      }
+    },
+    watch:{
+      time(val){
+        this.subTime = val;
+      },
+      once(val){
+        this.subOnce = val;
       }
     },
     methods: {
       send() {
-        this.once && (this.once = false);
+        this.subOnce && (this.subOnce = false);
         this.$emit("sendCode", 1);
-        this.time = this.maxTime + 1;
+        this.subTime = this.maxTime + 1;
         this.countDown();
       },
       countDown() {
-        if (this.time) {
-          this.time--;
+        if (this.subTime) {
+          this.subTime--;
           this.timer && clearTimeout(this.timer);
           this.timer = setTimeout(this.countDown, 1000);
         }
       },
       refresh() {
-        this.once = true;
+        this.subOnce = true;
       },
       clear(){
         this.timer && clearTimeout(this.timer);
       },
       init() {
-        if (this.time && !this.once) {
+        if (this.subTime && !this.subOnce) {
           this.countDown();
         }
       }
