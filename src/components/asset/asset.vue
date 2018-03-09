@@ -104,7 +104,7 @@
                     "']"))}}
                   </div>
                 </div>
-                <div class='content-recharge-right'>
+                <div class='content-recharge-right' v-if="deposit.account.length && deposit.account[0].deposit_address">
                   <qrcode-vue
                       :value='qrCodeConfig.value'
                       :size='qrCodeConfig.size'
@@ -172,7 +172,7 @@
                         </div>
                       </div>
                     </FormItem>
-                    
+
                     <FormItem prop="number" :label="$t('asset.asset_withdraw_number')" class="withdraw-form-number">
                       <div class='withdraw-number'>
                         <i-input class='withdraw-number-input' v-model='form.number' type="text" :placeholder='$t("asset.asset_add_balance") + ": " + amount'>
@@ -774,7 +774,7 @@ export default {
             if (res.data && (res.data.uid || res.data.error === 0)) {
               this.withdraw_email = true;
               // this.$Message.success(this.$t("asset.asset_withdraw_success"));
-             
+
               this.initFormData();
               this.init();
             } else {
