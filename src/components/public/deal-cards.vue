@@ -17,31 +17,28 @@
         </header>
         <div class="card-content">
             <div class="card-content-item">
-                <p class='desc'>{{$t("order.order_order_price")}}:</p>
+              {{$t("order.order_order_price")}}：
+              {{$fixDeciamlAuto(ad.current_price, ad.target_currency)}}
+              {{$t("public['" + ad.target_currency + "']")}}
+                <!-- <p class='desc'>{{$t("order.order_order_price")}}:</p>
                 <p class='number'>
                   {{$fixDeciamlAuto(ad.current_price, ad.target_currency)}}
-                <p class='currency-type'>{{$t("public['" + ad.target_currency + "']")}}</p>
+                <p class='currency-type'>{{$t("public['" + ad.target_currency + "']")}}</p> -->
             </div>
             <div class="card-content-item">
-                <p class='desc'>{{$t("order.order_trade_limit")}}:</p>
-                <p class='number'>
-                  {{$fixDeciamlAuto(ad.min_limit, ad.target_currency)}}
-                  -
-                  {{$fixDeciamlAuto(ad.order_limit, ad.target_currency)}}
-                </p>
-                <p class='currency-type'>
-                    {{$t("public['" + ad.target_currency + "']")}}
-                </p>
+              {{$t("order.order_trade_limit")}}：
+              {{$fixDeciamlAuto(ad.min_limit, ad.target_currency)}}
+              -
+              {{$fixDeciamlAuto(ad.order_limit, ad.target_currency)}}
+              {{$t("public['" + ad.target_currency + "']")}}
             </div>
             <div class="card-content-item">
-                <p class='desc'>{{$t("order.order_order_payment")}}:</p>
-                <p class='pay'>
-                    <span class='pay-logo' :class="{'pay-logo-card': ad.pay_kind == 'bank',
-                     'pay-logo-alipay': ad.pay_kind == 'alipay'}"></span>
-                    <span class='pay-desc'>
-                        {{$t("public['" + ad.pay_kind + "']")}}
-                    </span>
-                </p>
+              {{$t("order.order_order_payment")}}：&nbsp;
+              <span class='pay-logo' :class="{'pay-logo-card': ad.pay_kind == 'bank',
+                'pay-logo-alipay': ad.pay_kind == 'alipay'}"></span>
+              <span class='pay-desc'>
+                  {{$t("public['" + ad.pay_kind + "']")}}
+              </span>
             </div>
         </div>
         <div class="u-flex u-flex-center btn-wrapper">
@@ -113,9 +110,10 @@ $baseImage: "~images";
   //     background-image: url(#{$baseImage}/home/Home-UserBg1.jpg);
   // }
   &-content {
-    padding: 42px 40px 31px;
+    padding: 42px 10px 31px;
     &-item {
       display: flex;
+      justify-content: center;
       color: #999;
       font-size: 12px;
       margin-bottom: 10px;
@@ -129,29 +127,29 @@ $baseImage: "~images";
       .pay {
         display: flex;
         align-items: center;
-        .pay-logo {
-          width: 14px;
-          height: 14px;
-          display: block;
-          background-position: center;
-          background-size: 100%;
-          background-repeat: no-repeat;
-          margin-right: 5px;
-        }
-        .pay-logo-alipay {
-          background-image: url(#{$baseImage}/C-Alipay.png);
-        }
-        .pay-logo-card {
-          background-image: url(#{$baseImage}/C-Card.png);
-        }
-        .pay-desc {
-          color: #666;
-        }
+
       }
     }
   }
 }
-
+.pay-logo {
+  width: 14px;
+  height: 14px;
+  display: block;
+  background-position: center;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  margin-right: 5px;
+}
+.pay-logo-alipay {
+  background-image: url(#{$baseImage}/C-Alipay.png);
+}
+.pay-logo-card {
+  background-image: url(#{$baseImage}/C-Card.png);
+}
+.pay-desc {
+  color: #666;
+}
 .btn-wrapper {
   .btn {
     width: 191px;
