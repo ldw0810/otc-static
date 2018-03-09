@@ -845,8 +845,6 @@
                   break;
                 }
               }
-              console.log(JSON.stringify(this.form));
-              console.log(JSON.stringify(this.ad));
               this.form.money = this.ad.target_currency;
               this.form.premium = +(this.ad.margin || 0);
               this.form.floor = +(this.ad.min_limit || 0);

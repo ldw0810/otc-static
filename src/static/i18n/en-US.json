@@ -417,6 +417,7 @@
     "ad_update": "Edit",
     "ad_update_success": "Edit success",
     "ad_update_fail": "Edit fail",
+    "ad_asset_deficiency": "Asset deficiency",
     "ad_max_price_limit": "Max 9999999999",
     "ad_deal_with_self": "You can not trade with yourself"
   },

@@ -424,6 +424,7 @@
     "ad_update": "修改廣告",
     "ad_update_success": "修改成功",
     "ad_update_fail": "修改失敗",
+    "ad_asset_deficiency": "資產不足",
     "ad_max_price_limit": "最大限額9999999999",
     "ad_deal_with_self": "您不可以和自己交易"
   },
