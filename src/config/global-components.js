@@ -21,7 +21,8 @@ import {
   Select,
   Option,
 } from "iview";
-import Form from '@/libs/iview/components/form'
+import Loading from '@/components/public/loading';
+import Form from '@/libs/iview/components/form';
 
 const components = {
   Message,
@@ -46,14 +47,15 @@ const components = {
   Radio,
   RadioGroup,
   Select,
-  Option
+  Option,
 };
 const iview = {
   ...components,
   iButton: Button,
   iCol: Col,
   iForm: Form,
-  iInput: Input,
+  iInput: Input, // i开头的组件为iview自带的组件
+  cLoading: Loading // c开头的组件为自己定义的全局组件
 };
 const install = function(Vue, options) {
   Object.keys(iview).forEach(key => {

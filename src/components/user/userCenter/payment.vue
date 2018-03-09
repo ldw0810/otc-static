@@ -210,7 +210,7 @@
       border-bottom: 1px solid #eee;
     }
     &-info {
-      width: 193px + 103px;
+      width: 193px + 123px;
       font-size: 14px;
       color: #333333;
       line-height: 21px;
