@@ -149,7 +149,7 @@
                         <FormItem prop="address" v-if="withdraw.fund_sources && withdraw.fund_sources.length">
                           <Select class='withdraw-address-select'
                                   @on-change='get_address_id'
-                                  :value='setAddress'
+                                  v-model='setAddress'
                           >
                             <Option value='1000' :label='$t("asset.asset_withdraw_add_new_address_down")'>
                               <span class='withdraw-address-select-text u-ellipsis-1'>{{$t('asset.asset_withdraw_address_add')}}</span>
@@ -658,6 +658,7 @@
     },
     methods: {
       initFormData() {
+        this.setAddress = ''
         Object.keys(this.form).map(item => {
           this.form[item] = ''
         });
