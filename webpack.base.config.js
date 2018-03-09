@@ -26,13 +26,13 @@ module.exports = {
                 less: ExtractTextPlugin.extract({
                   use: [
                     "css-loader?minimize",
-                    "autoprefixer-loader",
+                    "postcss-loader",
                     "less-loader"
                   ],
                   fallback: "vue-style-loader"
                 }),
                 css: ExtractTextPlugin.extract({
-                  use: ["css-loader", "autoprefixer-loader", "less-loader"],
+                  use: ["css-loader", "postcss-loader", "less-loader"],
                   fallback: "vue-style-loader"
                 })
               }
@@ -61,7 +61,7 @@ module.exports = {
       {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
-          use: ["css-loader?minimize", "autoprefixer-loader"],
+          use: ["css-loader?minimize", "postcss-loader"],
           fallback: "style-loader"
         })
       },
@@ -69,7 +69,6 @@ module.exports = {
       {
         test: /\.less/,
         use: ExtractTextPlugin.extract({
-          // use: ["autoprefixer-loader", "less-loader"],
           // fallback: "style-loader"
           fallback: "style-loader",
           //resolve-url-loader may be chained before sass-loader if necessary
@@ -83,6 +82,7 @@ module.exports = {
           //resolve-url-loader may be chained before sass-loader if necessary
           use: [
             "css-loader",
+            "postcss-loader",
             "sass-loader",
             {
               loader: "sass-resources-loader",
