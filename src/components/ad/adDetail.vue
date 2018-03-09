@@ -151,7 +151,7 @@
               {{+adType === 0 ? $t("order.order_buy_number_title") : $t("order.order_sell_number_title")}}:
             </i-col>
             <i-col class='text-left' span="16">
-              {{$fixDeciamlAuto(+form.moneyAmount, ad.currency)}}
+              {{$fixDeciamlAuto(+form.number, ad.currency)}}
               {{$t("public['" + ad.currency + "']")}}
             </i-col>
           </Row>
