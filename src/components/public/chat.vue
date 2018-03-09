@@ -449,11 +449,16 @@
         background: #ffffff;
         border: 1px solid #dddddd;
         &[contenteditable="true"] {
-          user-modify: read-write-plaintext-only;
+          -webkit-user-modify: read-write-plaintext-only;
           &:empty:before {
             content: attr(placeholder);
             display: block;
             color: #ccc;
+          }
+          &:focus {
+            &:before{
+              display: none;
+            }
           }
         }
       }
@@ -624,6 +629,7 @@
   }
 
   .message .text {
+    background-color: #fff;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
     display: inline-block;
     position: relative;
