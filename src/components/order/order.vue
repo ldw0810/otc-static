@@ -268,7 +268,7 @@
           </FormItem>
           <!--防止自动提交表单-->
           <input type="text" style="display:none"/>
-          <div class='warn'>{{$t("order.order_confirm_release_warn").format(orderPriceSum,
+          <div class='warn'>{{$t("order.order_confirm_release_warn").format(order.amount,
             order.currency.toUpperCase())}}
           </div>
           <FormItem class="formItem g-comfirm-group buttons-group">
