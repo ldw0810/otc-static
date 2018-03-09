@@ -418,6 +418,7 @@
     "ad_close": "下架",
     "ad_close_success": "下架成功",
     "ad_close_fail": "下架失敗",
+    "ad_trading": "交易中",
     "ad_open": "上架",
     "ad_open_success": "上架成功",
     "ad_open_fail": "上架失敗",

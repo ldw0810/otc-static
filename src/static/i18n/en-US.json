@@ -411,6 +411,7 @@
     "ad_close": "Closed",
     "ad_close_success": "Close success",
     "ad_close_fail": "Close fail",
+    "ad_trading": "trading",
     "ad_open": "Open",
     "ad_open_success": "Open success",
     "ad_open_fail": "Open fail",
