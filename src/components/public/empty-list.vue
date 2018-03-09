@@ -8,11 +8,7 @@
       <p class='empty-text'>{{text}}</p>
     </div>
     <div class='loading-show' v-show='loading'>
-      <Spin class='spin'>
-          <Icon type="load-c" size=22 class="demo-spin-icon-load"></Icon>
-          <br>
-          <div>{{$t('order.order_chat_loading')}}</div>
-      </Spin>
+      <c-loading/>
     </div>
   </div>
 </template>
@@ -36,18 +32,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.spin {
-  color:#999;
-  font-size: 16px;
-}
-  .demo-spin-icon-load{
-      animation: ani-demo-spin 1.5s linear infinite;
-  }
-  @keyframes ani-demo-spin {
-      from { transform: rotate(0deg);}
-      50%  { transform: rotate(180deg);}
-      to   { transform: rotate(360deg);}
-  }
   .empty {
     .empty-show,.loading-show {
       height: 640px;
