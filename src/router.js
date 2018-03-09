@@ -1,11 +1,11 @@
 import store from "./store/store";
 import Util from "./libs/util";
 import Vue from "vue";
-import {LoadingBar} from "iview";
+import { LoadingBar } from "iview";
 import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
-if(localStorage.getItem("userToken") && !store.state.userToken) {
+if (localStorage.getItem("userToken") && !store.state.userToken) {
   store.commit("saveToken", localStorage.getItem("userToken"));
 }
 const routers = [
@@ -31,7 +31,8 @@ const routers = [
         meta: {
           noLogin: true
         },
-        component: resolve => require(["./components/policy/index.vue"], resolve)
+        component: resolve =>
+          require(["./components/policy/index.vue"], resolve)
       },
       {
         path: "/user/login",
@@ -44,22 +45,26 @@ const routers = [
           {
             path: "/",
             name: "/user/login",
-            component: resolve => require(["./components/user/login/index.vue"], resolve)
+            component: resolve =>
+              require(["./components/user/login/index.vue"], resolve)
           },
           {
             path: "modify_password",
             name: "/user/login/modify_password",
-            component: resolve => require(["./components/user/login/modify_password.vue"], resolve)
+            component: resolve =>
+              require(["./components/user/login/modify_password.vue"], resolve)
           },
           {
             path: "forget_password",
             name: "/user/login/forget_password",
-            component: resolve => require(["./components/user/login/forget_password.vue"], resolve)
+            component: resolve =>
+              require(["./components/user/login/forget_password.vue"], resolve)
           },
           {
             path: "validate",
             name: "/user/login/validate",
-            component: resolve => require(["./components/user/login/validate.vue"], resolve)
+            component: resolve =>
+              require(["./components/user/login/validate.vue"], resolve)
           }
         ]
       },
@@ -70,26 +75,35 @@ const routers = [
           noLogin: true,
           noUser: true
         },
-        component: resolve => require(["./components/user/register.vue"], resolve)
+        component: resolve =>
+          require(["./components/user/register.vue"], resolve)
       },
       {
         path: "/user/userCenter",
-        component: resolve => require(["./components/user/userCenter.vue"], resolve),
+        component: resolve =>
+          require(["./components/user/userCenter.vue"], resolve),
         children: [
           {
             path: "/",
             name: "/user/userCenter",
-            component: resolve => require(["./components/user/userCenter/userInfo.vue"], resolve)
+            component: resolve =>
+              require(["./components/user/userCenter/userInfo.vue"], resolve)
           },
           {
             path: "securitySetting",
             name: "/user/userCenter/securitySetting",
-            component: resolve => require(["./components/user/userCenter/securitySetting.vue"], resolve)
+            component: resolve =>
+              require([
+                "./components/user/userCenter/securitySetting.vue"
+              ], resolve)
           },
           {
             path: "modify_password",
             name: "/user/userCenter/modify_password",
-            component: resolve => require(["./components/user/userCenter/modify_password.vue"], resolve)
+            component: resolve =>
+              require([
+                "./components/user/userCenter/modify_password.vue"
+              ], resolve)
           },
           {
             path: "auth_google",
@@ -97,7 +111,8 @@ const routers = [
             meta: {
               needEmail: true
             },
-            component: resolve => require(["./components/user/userCenter/auth_google.vue"], resolve)
+            component: resolve =>
+              require(["./components/user/userCenter/auth_google.vue"], resolve)
           },
           {
             path: "payment",
@@ -105,20 +120,22 @@ const routers = [
             meta: {
               needEmail: true
             },
-            component: resolve => require(["./components/user/userCenter/payment.vue"], resolve)
+            component: resolve =>
+              require(["./components/user/userCenter/payment.vue"], resolve)
           }
         ]
       },
       {
         path: "/myOrder",
         name: "/myOrder",
-        component: resolve => require(["./components/order/myOrder.vue"], resolve)
+        component: resolve =>
+          require(["./components/order/myOrder.vue"], resolve)
       },
       {
         path: "/buy",
         name: "/buy",
         meta: {
-          noLogin: true,
+          noLogin: true
         },
         component: resolve => require(["./components/ad/adList.vue"], resolve)
       },
@@ -126,7 +143,7 @@ const routers = [
         path: "/sell",
         name: "/sell",
         meta: {
-          noLogin: true,
+          noLogin: true
         },
         component: resolve => require(["./components/ad/adList.vue"], resolve)
       },
@@ -170,7 +187,8 @@ const routers = [
       {
         path: "/invite",
         name: "/invite",
-        component: resolve => require(["./components/invite/invite_friends.vue"], resolve)
+        component: resolve =>
+          require(["./components/invite/invite_friends.vue"], resolve)
       }
     ]
   },
@@ -186,16 +204,25 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  console.log(to, from);
+  LoadingBar.start();
   const goFun = () => {
     if (to.matched.some(r => r.meta.noUser)) {
+      if (from.name === "home") {
+        LoadingBar.finish();
+      }
       next({
         path: "/"
       });
-    } else if (to.matched.some(r => r.meta.needEmail) && !store.state.userInfo.activated) {
+    } else if (
+      to.matched.some(r => r.meta.needEmail) &&
+      !store.state.userInfo.activated
+    ) {
       if (from.name && from.name.indexOf("/user/login") <= -1) {
-        
-        store.commit('showAuthEmail_setter', 1);
-      } else {  //地址栏输入的from.name为空
+        LoadingBar.finish();
+        store.commit("showAuthEmail_setter", 1);
+      } else {
+        //地址栏输入的from.name为空name为空
         next({
           path: "/user/userCenter"
         });
@@ -204,27 +231,28 @@ router.beforeEach((to, from, next) => {
       next();
     }
   };
-  LoadingBar.finish();
-  LoadingBar.start();
 
   Util.title(to.meta.title);
   if (localStorage.getItem("userToken")) {
-    if(store.state.userInfo.id) {
+    if (store.state.userInfo.id) {
       goFun();
     } else {
-      store.dispatch("ajax_me").then(res => {
-        if(res.data && +res.data.error === 0) {
-          goFun();
-        } else {
+      store
+        .dispatch("ajax_me")
+        .then(res => {
+          if (res.data && +res.data.error === 0) {
+            goFun();
+          } else {
+            next({
+              path: "/user/userCenter"
+            });
+          }
+        })
+        .catch(err => {
           next({
             path: "/user/userCenter"
           });
-        }
-      }).catch(err => {
-        next({
-          path: "/user/userCenter"
         });
-      });
     }
   } else {
     if (to.matched.some(r => r.meta.noLogin)) {
@@ -232,7 +260,7 @@ router.beforeEach((to, from, next) => {
     } else {
       next({
         path: "/user/login",
-        query: {redirect: to.fullPath}
+        query: { redirect: to.fullPath }
       });
       if (from.name === "/user/login") {
         LoadingBar.finish();
@@ -244,7 +272,7 @@ router.afterEach((to, from) => {
   LoadingBar.finish();
   window.scrollTo(0, 0);
   if (window.gtag) {
-    gtag('event', to.fullPath, {
+    gtag("event", to.fullPath, {
       from: from.fullPath,
       to: to.fullPath
     });
