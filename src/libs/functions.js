@@ -10,6 +10,11 @@ import {
   legalCurrencyList
 } from "config/config";
 
+/**
+ * 设置bigNumber的全局参数
+ */
+BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_FLOOR });
+
 export const fixDecimal = function(value, limit) {
   return BigNumber(value + "")
     .decimalPlaces(limit)
