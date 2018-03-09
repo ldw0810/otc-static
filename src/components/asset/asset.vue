@@ -121,8 +121,8 @@
                     "']"))}}
                   </div>
                   <i-button class='g-shadow button'
-                          type='primary'
-                          @click="$goRouter('/user/userCenter/securitySetting')">
+                            type='primary'
+                            @click="$goRouter('/user/userCenter/securitySetting')">
                     {{$t("asset.asset_go_set_auth")}}
                   </i-button>
                 </div>
@@ -143,33 +143,37 @@
                   <Form class="form" ref="form" @checkValidate='checkValidate_form' :model="form"
                         :rules="rules"
                         :label-width="90"
-                        >
+                  >
                     <FormItem :label="addressEditStatus" class="withdraw-form">
                       <div class='withdraw-address'>
                         <FormItem prop="address" v-if="withdraw.fund_sources && withdraw.fund_sources.length">
-                          <Select 
-                            res='selectAddress'
-                            class='withdraw-address-select'
-                            @on-change='get_address_id'
-                            v-model='setAddress'
-                            >
-                              <Option value='1000' :label='$t("asset.asset_withdraw_add_new_address_down")'>
-                                <span class='withdraw-address-select-text u-ellipsis-1'>{{$t('asset.asset_withdraw_address_add')}}</span>
+                          <Select class='withdraw-address-select'
+                                  @on-change='get_address_id'
+                                  :value='setAddress'
+                          >
+                            <Option value='1000' :label='$t("asset.asset_withdraw_add_new_address_down")'>
+                              <span class='withdraw-address-select-text u-ellipsis-1'>{{$t('asset.asset_withdraw_address_add')}}</span>
+                            </Option>
+                            <template v-if='withdraw.fund_sources.length'>
+                              <Option :value="item.id + '-' + item.uid" :label="item.extra + ' - ' + item.uid"
+                                      v-for="(item, index) in withdraw.fund_sources" :key='index'>
+                                <span
+                                    class='withdraw-address-select-text u-ellipsis-1'>{{item.extra}} - {{item.uid}}</span>
+                                <span class='withdraw-address-select-trash icon-trash'
+                                      @click.stop='address_del(item.id)'></span>
                               </Option>
-                              <template v-if='withdraw.fund_sources.length'>
-                                <Option :value="item.id + '-' + item.uid" :label="item.extra + ' - ' + item.uid" v-for="(item, index) in withdraw.fund_sources" :key='index'>
-                                  <span class='withdraw-address-select-text u-ellipsis-1'>{{item.extra}} - {{item.uid}}</span>
-                                  <span class='withdraw-address-select-trash icon-trash' @click.stop='address_del(item.id)'></span>
-                              </Option>
-                              </template>
+                            </template>
                           </Select>
                         </FormItem>
-                        <div class='withdraw-address-add' v-if='addNewAddressStatus || (!withdraw.fund_sources || !withdraw.fund_sources.length)'>
+                        <div class='withdraw-address-add'
+                             v-if='addNewAddressStatus || (!withdraw.fund_sources || !withdraw.fund_sources.length)'>
                           <FormItem prop="labelPlus">
-                            <i-input class='add-label' v-model="form.labelPlus" :placeholder='$t("public.label")'></i-input>
+                            <i-input class='add-label' v-model="form.labelPlus"
+                                     :placeholder='$t("public.label")'></i-input>
                           </FormItem>
                           <FormItem prop="addressPlus">
-                            <i-input class='add-address' v-model="form.addressPlus" :placeholder='$t("asset.asset_withdraw_address")'></i-input>
+                            <i-input class='add-address' v-model="form.addressPlus"
+                                     :placeholder='$t("asset.asset_withdraw_address")'></i-input>
                           </FormItem>
                         </div>
                       </div>
@@ -177,7 +181,8 @@
 
                     <FormItem prop="number" :label="$t('asset.asset_withdraw_number')" class="withdraw-form-number">
                       <div class='withdraw-number'>
-                        <i-input class='withdraw-number-input' v-model='form.number' type="text" :placeholder='$t("asset.asset_add_balance") + ": " + amount'>
+                        <i-input class='withdraw-number-input' v-model='form.number' type="text"
+                                 :placeholder='$t("asset.asset_add_balance") + ": " + amount'>
                           <span slot="append">{{currency.toUpperCase()}}</span>
                         </i-input>
                         <i-button class='withdraw-number-btn' @click='handleAllWithdrawal'>
@@ -195,58 +200,58 @@
                   </Form>
                   <!-- begin -->
                   <!-- <Form class="form" ref="form" @checkValidate='checkValidate_form' :model="form" -->
-                        <!-- :rules="rules"> -->
-                    <!-- <FormItem prop="address" class="formItem">
-                      <Row :gutter='16' class='form-item'>
-                        <i-col span='3' class="left">
-                          <div>{{$t("asset.asset_withdraw_address")}}:</div>
-                        </i-col>
-                        <i-col span='14' class="center">
-                          <Select class="input" v-model="form.address"
-                                  v-if="withdraw.fund_sources && withdraw.fund_sources.length"
-                                  @on-change="get_address_id">
-                            <Option v-for="(item, index) in withdraw.fund_sources"
-                                    :value="item.id"
-                                    :key="index" :disabled="item.is_locked"
-                                    v-text="'(' + item.extra + ')' + item.uid">
-                            </Option>
-                          </Select>
-                          <a @click="addressPop = true" v-else>
-                            {{$t("asset.asset_withdraw_address_add")}}
-                          </a>
-                        </i-col>
-                        <i-col span='6' class="right">
-                          <a @click="addressPop = true"
-                             v-if="withdraw.fund_sources && withdraw.fund_sources.length">
-                            {{$t("asset.asset_withdraw_address_manage")}}
-                          </a>
-                        </i-col>
-                      </Row>
-                    </FormItem> -->
-                    <!-- <FormItem prop="number" class="formItem">
-                      <Row class='form-item'>
-                        <i-col span='3' class='left'>
-                          <div>{{$t("asset.asset_withdraw_number")}}:</div>
-                        </i-col>
-                        <i-col span='14' class='center'>
-                          <i-input class="input" v-model="form.number" type="text"
-                                   @on-enter="submit"
-                                   :placeholder="$t('asset.asset_withdraw_number_info')">
-                          </i-input>
-                        </i-col>
-                      </Row>
-                    </FormItem> -->
-                    <!-- <FormItem class="formItem ">
-                      <Row class='form-item'>
-                        <i-col span='14' offset='3'>
-                          <i-button class="submit-button-type-2" long
-                                    :disabled='!validate.form'
-                                    type="primary" @click="submit">
-                            {{$t('public.submit')}}
-                          </i-button>
-                        </i-col>
-                      </Row>
-                    </FormItem> -->
+                  <!-- :rules="rules"> -->
+                  <!-- <FormItem prop="address" class="formItem">
+                    <Row :gutter='16' class='form-item'>
+                      <i-col span='3' class="left">
+                        <div>{{$t("asset.asset_withdraw_address")}}:</div>
+                      </i-col>
+                      <i-col span='14' class="center">
+                        <Select class="input" v-model="form.address"
+                                v-if="withdraw.fund_sources && withdraw.fund_sources.length"
+                                @on-change="get_address_id">
+                          <Option v-for="(item, index) in withdraw.fund_sources"
+                                  :value="item.id"
+                                  :key="index" :disabled="item.is_locked"
+                                  v-text="'(' + item.extra + ')' + item.uid">
+                          </Option>
+                        </Select>
+                        <a @click="addressPop = true" v-else>
+                          {{$t("asset.asset_withdraw_address_add")}}
+                        </a>
+                      </i-col>
+                      <i-col span='6' class="right">
+                        <a @click="addressPop = true"
+                           v-if="withdraw.fund_sources && withdraw.fund_sources.length">
+                          {{$t("asset.asset_withdraw_address_manage")}}
+                        </a>
+                      </i-col>
+                    </Row>
+                  </FormItem> -->
+                  <!-- <FormItem prop="number" class="formItem">
+                    <Row class='form-item'>
+                      <i-col span='3' class='left'>
+                        <div>{{$t("asset.asset_withdraw_number")}}:</div>
+                      </i-col>
+                      <i-col span='14' class='center'>
+                        <i-input class="input" v-model="form.number" type="text"
+                                 @on-enter="submit"
+                                 :placeholder="$t('asset.asset_withdraw_number_info')">
+                        </i-input>
+                      </i-col>
+                    </Row>
+                  </FormItem> -->
+                  <!-- <FormItem class="formItem ">
+                    <Row class='form-item'>
+                      <i-col span='14' offset='3'>
+                        <i-button class="submit-button-type-2" long
+                                  :disabled='!validate.form'
+                                  type="primary" @click="submit">
+                          {{$t('public.submit')}}
+                        </i-button>
+                      </i-col>
+                    </Row>
+                  </FormItem> -->
                   <!-- </Form> -->
                 </div>
               </div>
@@ -283,8 +288,8 @@
                   <td class='content-history-table-body-td'>
                     <div class="hash">
                       <a class='u-break-all' @click="onOpenUrl(item['blockchain_url'])">
-                          {{item["txid"]}}
-                       </a>
+                        {{item["txid"]}}
+                      </a>
                     </div>
                   </td>
                   <td class='content-history-table-body-td'>
@@ -422,7 +427,8 @@
             <withdraw_confirm_pop :form="form" @close="doWithdrawPop"/>
             <div slot="footer"></div>
           </Modal>
-          <Modal v-model="withdraw_email" width='480' class-name="m-ivu-modal" :mask-closable="true" :closable="false">
+          <Modal v-model="withdraw_email" width='480' class-name="m-ivu-modal" :mask-closable="false"
+                 :closable="false">
             <logoDiv/>
             <div class="asset-model-mail">
               <div class='asset-model-mail-title'>
@@ -430,9 +436,11 @@
                 <p>{{userInfo.email}}</p>
               </div>
               <p class='asset-model-mail-desc'>{{$t('asset.asset_withdraw_email')}}</p>
-              <a v-text="$t('user.authentication_email_reSend_link')" @click="sendEmail"
-                 class='asset-model-mail-btn'></a>
-              <i-button long type="primary" @click="withdraw_email=false">
+              <sendCodeButton class='asset-model-mail-btn' ref="sendCodeButton"
+                              :text="$t('user.authentication_email_reSend_link')"
+                              :reText="$t('user.authentication_email_reSend_link')" :time="remainTime"
+                              :maxTime="maxTime" :once="!+remainTime" @sendCode="sendEmail"/>
+              <i-button long type="primary" @click="withdraw_email = false">
                 {{$t('public.confirm')}}
               </i-button>
             </div>
@@ -450,357 +458,360 @@
 </template>
 
 <script type="es6">
-import validateMixin from "@/components/mixins/validate-mixin";
-import emptyList from "@/components/public/empty-list";
-import QrcodeVue from "qrcode.vue";
-import logoDiv from "../public/logo.vue";
-import auth_two from "../public/auth_two_pop.vue";
-import withdraw_confirm_pop from "./withdraw_confirm_pop.vue";
-import store from "../../store/store";
-// import ethereum_address from "ethereum-address"
+  import validateMixin from "@/components/mixins/validate-mixin";
+  import emptyList from "@/components/public/empty-list";
+  import QrcodeVue from "qrcode.vue";
+  import logoDiv from "../public/logo.vue";
+  import auth_two from "../public/auth_two_pop.vue";
+  import withdraw_confirm_pop from "./withdraw_confirm_pop.vue";
+  import store from "../../store/store";
+  import sendCodeButton from "../public/sendCode"
+  // import ethereum_address from "ethereum-address"
 
-export default {
-  name: "",
-  mixins: [validateMixin(["form", "addForm"])],
-  components: {
-    QrcodeVue,
-    logoDiv,
-    auth_two,
-    withdraw_confirm_pop,
-    emptyList
-  },
-  data() {
-    const validateNumberCheck = (rule, value, callback) => {
-      if (!+value || +value <= 0) {
-        callback(new Error(this.$t("public.input_number_required")));
-      } else if (+value > +this.$fixDecimalsAsset(this.account["balance"])) {
-        callback(new Error(this.$t("public.balance_insufficient")));
-      } else if (this.currency === "eth" && +value < 0.01) {
-        callback(
-          new Error(this.$t("asset.asset_withdraw_eth_number_required"))
-        );
-      } else if (this.currency === "dai" && +value < 100) {
-        callback(
-          new Error(this.$t("asset.asset_withdraw_dai_number_required"))
-        );
-      } else {
-        callback();
-      }
-    };
-    const validateEthAddress = (rule, value, callback) => {
-      let reg = /^(0x)?[0-9a-f]{40}$/i;
-      if (!reg.test(value)) {
-        callback(new Error(this.$t("asset.asset_withdraw_address_invalid")));
-      } else {
-        callback();
-      }
-    };
-
-    return {
-      addNewAddressStatus: false,
-      addressPop: false,
-      loading: true,
-      imageType: [
-        require("../../static/images/CoinLogo-DAI.png"),
-        require("../../static/images/CoinLogo-ETH .png"),
-        require("../../static/images/CoinLogo-CAT.png")
-      ],
-      setAddress: "",
-      form: {
-        label: "",
-        labelPlus: "",
-        address: "",
-        addressPlus: "",
-        number: "",
-        id: ""
-      },
-      addForm: {
-        label: "",
-        address: ""
-      },
-      rules: {
-        label: [
-          {
-            required: true,
-            message: this.$t("asset.asset_withdraw_label_required")
-          }
-        ],
-        labelPlus: [
-          {
-            required: true,
-            message: this.$t("asset.asset_withdraw_label_required")
-          }
-        ],
-        address: [
-          {
-            required: true,
-            message: this.$t("asset.asset_withdraw_address_info")
-          }
-        ],
-        addressPlus: [
-          {
-            required: true,
-            message: this.$t("asset.asset_withdraw_address_required")
-          },
-          {
-            validator: validateEthAddress
-          }
-        ],
-        number: [
-          {
-            required: true,
-            message: this.$t("asset.asset_withdraw_number_info")
-          },
-          {
-            validator: validateNumberCheck
-          }
-        ]
-      },
-      deposit: {
-        account: [],
-        deposit_channels: {},
-        deposits_history: [],
-        page: 1,
-        per_page: 20,
-        total_count: 0,
-        total_pages: 1
-      },
-      withdraw: {
-        default_source_id: "",
-        fund_sources: [],
-        withdraw_channels: {},
-        withdraws: [],
-        page: 1,
-        per_page: 20,
-        total_count: 0,
-        total_pages: 1
-      },
-      withdraw_confirm: false,
-      withdraw_email: false,
-      auth_two_flag: false,
-      addressLoading: false,
-      addressAddLoading: false,
-      assetLoading: false
-    };
-  },
-  computed: {
-    addressEditStatus() {
-      return this.withdraw.fund_sources && this.withdraw.fund_sources.length ? this.$t('asset.asset_withdraw_address') : this.$t("asset.asset_add_new_withdraw_address")
+  export default {
+    name: "",
+    mixins: [validateMixin(["form", "addForm"])],
+    components: {
+      QrcodeVue,
+      logoDiv,
+      auth_two,
+      withdraw_confirm_pop,
+      emptyList,
+      sendCodeButton
     },
-    assetIndex() {
-      return +(this.$route.query.type || 0);
-    },
-    withdraw_token() {
-      return this.$route.query.withdraw_token;
-    },
-    currencyList() {
-      return this.$store.state.currencyList;
-    },
-    currency() {
-      return this.$route.query.currency || this.$store.state.currencyList[0];
-    },
-    account() {
-      let index = 0;
-      for (let i = 0; i < this.userInfo.valid_account.length; i++) {
-        if (
-          this.userInfo.valid_account[i] &&
-          this.userInfo.valid_account[i].currency === this.currency
-        ) {
-          index = i;
-          break;
+    data() {
+      const validateNumberCheck = (rule, value, callback) => {
+        if (!+value || +value <= 0) {
+          callback(new Error(this.$t("public.input_number_required")));
+        } else if (+value > +this.$fixDecimalsAsset(this.account["balance"])) {
+          callback(new Error(this.$t("public.balance_insufficient")));
+        } else if (this.currency === "eth" && +value < 0.01) {
+          callback(
+            new Error(this.$t("asset.asset_withdraw_eth_number_required"))
+          );
+        } else if (this.currency === "dai" && +value < 100) {
+          callback(
+            new Error(this.$t("asset.asset_withdraw_dai_number_required"))
+          );
+        } else {
+          callback();
         }
-      }
-      return this.userInfo.valid_account[index];
-    },
-    amount() {
-      return this.account ? this.$fixDecimalsAsset(this.account.balance) : 0;
-    },
-    userInfo() {
-      return this.$store.state.userInfo;
-    },
-    qrCodeConfig() {
+      };
+      const validateEthAddress = (rule, value, callback) => {
+        let reg = /^(0x)?[0-9a-f]{40}$/i;
+        if (!reg.test(value)) {
+          callback(new Error(this.$t("asset.asset_withdraw_address_invalid")));
+        } else {
+          callback();
+        }
+      };
+
       return {
-        value: this.deposit.account.length
-          ? this.deposit.account[0].deposit_address
-          : "",
-        imagePath: require("../../static/images/home/QC-Code-BG.png"),
-        filter: "canvas",
-        size: 150
+        addNewAddressStatus: false,
+        addressPop: false,
+        loading: true,
+        imageType: [
+          require("../../static/images/CoinLogo-DAI.png"),
+          require("../../static/images/CoinLogo-ETH .png"),
+          require("../../static/images/CoinLogo-CAT.png")
+        ],
+        setAddress: "",
+        form: {
+          label: "",
+          labelPlus: "",
+          address: "",
+          addressPlus: "",
+          number: "",
+          id: ""
+        },
+        addForm: {
+          label: "",
+          address: ""
+        },
+        rules: {
+          label: [
+            {
+              required: true,
+              message: this.$t("asset.asset_withdraw_label_required")
+            }
+          ],
+          labelPlus: [
+            {
+              required: true,
+              message: this.$t("asset.asset_withdraw_label_required")
+            }
+          ],
+          address: [
+            {
+              required: true,
+              message: this.$t("asset.asset_withdraw_address_info")
+            }
+          ],
+          addressPlus: [
+            {
+              required: true,
+              message: this.$t("asset.asset_withdraw_address_required")
+            },
+            {
+              validator: validateEthAddress
+            }
+          ],
+          number: [
+            {
+              required: true,
+              message: this.$t("asset.asset_withdraw_number_info")
+            },
+            {
+              validator: validateNumberCheck
+            }
+          ]
+        },
+        deposit: {
+          account: [],
+          deposit_channels: {},
+          deposits_history: [],
+          page: 1,
+          per_page: 20,
+          total_count: 0,
+          total_pages: 1
+        },
+        withdraw: {
+          default_source_id: "",
+          fund_sources: [],
+          withdraw_channels: {},
+          withdraws: [],
+          page: 1,
+          per_page: 20,
+          total_count: 0,
+          total_pages: 1
+        },
+        remainTime: 120,
+        maxTime: 120,
+        withdraw_confirm: false,
+        withdraw_email: false,
+        withdraw_id: "",
+        auth_two_flag: false,
+        addressLoading: false,
+        addressAddLoading: false,
+        assetLoading: false
       };
     },
-    default_source_id() {
-      return this.withdraw.default_source_id;
-    }
-  },
-  watch: {
-    "form.labelPlus"(newVal) {
-      this.form.label = newVal;
-    },
-    "form.addressPlus"(newVal) {
-      this.form.address = newVal;
-    },
-    $route: function(val) {
-      this.init();
-    }
-  },
-  methods: {
-    initFormData() {
-      if(this.$refs.selectAddress) this.$refs.selectAddress.$el.value = ''
-      this.setAddress = ''
-      Object.keys(this.form).map(item => {
-        this.form[item] = ''
-      })
-      this.$refs["form"] && this.$refs["form"].resetFields();
-    },
-    handleAllWithdrawal() {
-      this.form.number = this.amount;
-    },
-    onOpenUrl(url) {
-      window.open(url);
-    },
-    getAddress() {
-      this.addressLoading = true;
-      this.$store
-        .dispatch("ajax_gen_address", {
-          currency: this.currency
-        })
-        .then(res => {
-          this.addressLoading = false;
-          if (res.data && +res.data.error === 0) {
-            this.showInfo();
-          } else {
-            this.$Message.error(this.$t("asset.asset_address_request_fail"));
+    computed: {
+      addressEditStatus() {
+        return this.withdraw.fund_sources && this.withdraw.fund_sources.length ? this.$t('asset.asset_withdraw_address') : this.$t("asset.asset_add_new_withdraw_address")
+      },
+      assetIndex() {
+        return +(this.$route.query.type || 0);
+      },
+      withdraw_token() {
+        return this.$route.query.withdraw_token;
+      },
+      currencyList() {
+        return this.$store.state.currencyList;
+      },
+      currency() {
+        return this.$route.query.currency || this.$store.state.currencyList[0];
+      },
+      account() {
+        let index = 0;
+        for (let i = 0; i < this.userInfo.valid_account.length; i++) {
+          if (
+            this.userInfo.valid_account[i] &&
+            this.userInfo.valid_account[i].currency === this.currency
+          ) {
+            index = i;
+            break;
           }
-        })
-        .catch(err => {
-          this.addressLoading = false;
-          this.$Message.error(this.$t("asset.asset_address_request_fail"));
-        });
-    },
-    showInfo(index) {
-      if (this.assetIndex === 0) {
-        this.$store
-          .dispatch("ajax_get_deposit", {
-            currency: this.currency,
-            limit: this.deposit.per_page,
-            page: index ? +index : this.deposit.page
-          })
-          .then(res => {
-            this.initFormData()
-            if (res.data && +res.data.error === 0) {
-              this.deposit = res.data;
-            } else {
-              this.$Message.error(this.$t("asset.asset_recharge_request_fail"));
-            }
-          })
-          .catch(err => {
-            this.$Message.error(this.$t("asset.asset_recharge_request_fail"));
-          });
-      } else if (+this.assetIndex === 1) {
-        this.$store
-          .dispatch("ajax_get_withdraw", {
-            currency: this.currency,
-            limit: this.withdraw.per_page,
-            page: index ? index : this.withdraw.page
-          })
-          .then(res => {
-            this.initFormData()
-            if (res.data && +res.data.error === 0) {
-              this.withdraw = res.data;
-              for (let i = 0; i < this.withdraw.fund_sources.length; i++) {
-                if (
-                  this.withdraw.fund_sources[i].id === this.default_source_id
-                ) {
-                  const value = this.withdraw.fund_sources[i].id + '-' + this.withdraw.fund_sources[i].uid
-                  this.form.address = this.withdraw.fund_sources[i].uid;
-                  this.setAddress =  value;
-                  this.get_address_id(value);
-                }
-              }
-            } else {
-              this.$Message.error(this.$t("asset.asset_withdraw_request_fail"));
-            }
-          })
-          .catch(err => {
-            this.$Message.error(this.$t("asset.asset_withdraw_request_fail"));
-          });
+        }
+        return this.userInfo.valid_account[index];
+      },
+      amount() {
+        return this.account ? this.$fixDecimalsAsset(this.account.balance) : 0;
+      },
+      userInfo() {
+        return this.$store.state.userInfo;
+      },
+      qrCodeConfig() {
+        return {
+          value: this.deposit.account.length
+            ? this.deposit.account[0].deposit_address
+            : "",
+          imagePath: require("../../static/images/home/QC-Code-BG.png"),
+          filter: "canvas",
+          size: 150
+        };
+      },
+      default_source_id() {
+        return this.withdraw.default_source_id;
       }
     },
-    changeSider(index) {
-      this.$goRouter(this.$route.name, {
-        currency: this.currencyList[+index]
-      });
+    watch: {
+      "form.labelPlus"(newVal) {
+        this.form.label = newVal;
+      },
+      "form.addressPlus"(newVal) {
+        this.form.address = newVal;
+      },
+      $route: function (val) {
+        this.init();
+      }
     },
-    changeOperation(index) {
-      this.$goRouter(this.$route.name, {
-        currency: this.currency,
-        type: index
-      });
-    },
-    submit() {
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-          this.withdraw_confirm = true;
-        } else {
-          this.$Message.error(this.$t("asset.asset_withdraw_form_notValid"));
-        }
-      });
-    },
-    doWithdraw(authJson) {
-      this.checkAddress().then(response => {
-        let fund_index = 0;
-        for (let i = 0; i < this.withdraw.fund_sources.length; i++) {
-          if (this.withdraw.fund_sources[i].id === this.form.address) {
-            fund_index = i;
-          }
-        }
-        const { number, id } = this.form;
-        let requestData = {
-          member_id: this.userInfo.id,
-          currency: this.currency,
-          sum: +number
-        };
-
-        if (this.form.id) {
-          requestData.fund_source_id = id;
-        } else if (
-          this.addNewAddressStatus ||
-          (!this.withdraw.fund_sources || !this.withdraw.fund_sources.length)
-        ) {
-          requestData.uid = this.form.addressPlus;
-          requestData.extra = this.form.labelPlus;
-        }
-
-        if (authJson) {
-          requestData = Object.assign(authJson, requestData);
-        }
+    methods: {
+      initFormData() {
+        Object.keys(this.form).map(item => {
+          this.form[item] = ''
+        });
+        this.$refs["form"] && this.$refs["form"].resetFields();
+      },
+      handleAllWithdrawal() {
+        this.form.number = this.amount;
+      },
+      onOpenUrl(url) {
+        window.open(url);
+      },
+      getAddress() {
+        this.addressLoading = true;
         this.$store
-          .dispatch("ajax_withdraw", requestData)
+          .dispatch("ajax_gen_address", {
+            currency: this.currency
+          })
           .then(res => {
-            if (res.data && (res.data.uid || res.data.error === 0)) {
-              this.withdraw_email = true;
-              // this.$Message.success(this.$t("asset.asset_withdraw_success"));
-              this.init();
+            this.addressLoading = false;
+            if (res.data && +res.data.error === 0) {
+              this.showInfo();
             } else {
-              this.$Message.error(this.$t("asset.asset_withdraw_fail"));
-              this.init();
+              this.$Message.error(this.$t("asset.asset_address_request_fail"));
             }
           })
           .catch(err => {
-            if (err.sms || err.app) {
-              this.$store.commit("loginInfo_setter", {
-                mobile: err.mobile
-              });
-              this.auth_two_flag = true;
-            } else {
-              this.$Message.error(this.$t("asset.asset_withdraw_fail"));
-              this.init();
-            }
+            this.addressLoading = false;
+            this.$Message.error(this.$t("asset.asset_address_request_fail"));
           });
-      });
-    },
-    checkAddress() {
-      return new Promise((resolve, reject) => {
+      },
+      showInfo(index) {
+        if (this.assetIndex === 0) {
+          this.$store
+            .dispatch("ajax_get_deposit", {
+              currency: this.currency,
+              limit: this.deposit.per_page,
+              page: index ? +index : this.deposit.page
+            })
+            .then(res => {
+              if (res.data && +res.data.error === 0) {
+                this.deposit = res.data;
+              } else {
+                this.$Message.error(this.$t("asset.asset_recharge_request_fail"));
+              }
+            })
+            .catch(err => {
+              this.$Message.error(this.$t("asset.asset_recharge_request_fail"));
+            });
+        } else if (+this.assetIndex === 1) {
+          this.$store
+            .dispatch("ajax_get_withdraw", {
+              currency: this.currency,
+              limit: this.withdraw.per_page,
+              page: index ? index : this.withdraw.page
+            })
+            .then(res => {
+              if (res.data && +res.data.error === 0) {
+                this.withdraw = res.data;
+                for (let i = 0; i < this.withdraw.fund_sources.length; i++) {
+                  if (
+                    this.withdraw.fund_sources[i].id === this.default_source_id
+                  ) {
+                    const value = this.withdraw.fund_sources[i].id + '-' + this.withdraw.fund_sources[i].uid
+                    this.form.address = this.withdraw.fund_sources[i].uid;
+                    this.setAddress = value;
+                    this.get_address_id(value);
+                  }
+                }
+              } else {
+                this.$Message.error(this.$t("asset.asset_withdraw_request_fail"));
+              }
+            })
+            .catch(err => {
+              this.$Message.error(this.$t("asset.asset_withdraw_request_fail"));
+            });
+        }
+      },
+      changeSider(index) {
+        this.$goRouter(this.$route.name, {
+          currency: this.currencyList[+index]
+        });
+      },
+      changeOperation(index) {
+        this.$goRouter(this.$route.name, {
+          currency: this.currency,
+          type: index
+        });
+      },
+      submit() {
+        this.$refs["form"].validate(valid => {
+          if (valid) {
+            this.withdraw_confirm = true;
+          } else {
+            this.$Message.error(this.$t("asset.asset_withdraw_form_notValid"));
+          }
+        });
+      },
+      doWithdraw(authJson) {
+        this.checkAddress().then(response => {
+          let fund_index = 0;
+          for (let i = 0; i < this.withdraw.fund_sources.length; i++) {
+            if (this.withdraw.fund_sources[i].id === this.form.address) {
+              fund_index = i;
+            }
+          }
+          const {number, id} = this.form;
+          let requestData = {
+            member_id: this.userInfo.id,
+            currency: this.currency,
+            sum: +number
+          };
+          if (this.form.id) {
+            requestData.fund_source_id = id;
+          } else if (
+            this.addNewAddressStatus ||
+            (!this.withdraw.fund_sources || !this.withdraw.fund_sources.length)
+          ) {
+            requestData.uid = this.form.addressPlus;
+            requestData.extra = this.form.labelPlus;
+          }
+          if (authJson) {
+            requestData = Object.assign(authJson, requestData);
+          }
+          this.$store
+            .dispatch("ajax_withdraw", requestData)
+            .then(res => {
+              if (res.data && (res.data.uid || res.data.error === 0)) {
+                this.withdraw_id = res.data.id;
+                this.remainTime = +res.data.remain || 120;
+                this.withdraw_email = true;
+                this.$refs.sendCodeButton.init();
+                // this.$Message.success(this.$t("asset.asset_withdraw_success"));
+                this.initFormData();
+                this.init();
+              } else {
+                this.$Message.error(this.$t("asset.asset_withdraw_fail"));
+                this.init();
+              }
+            })
+            .catch(err => {
+              if (err.sms || err.app) {
+                this.$store.commit("loginInfo_setter", {
+                  mobile: err.mobile
+                });
+                this.auth_two_flag = true;
+              } else {
+                this.$Message.error(this.$t("asset.asset_withdraw_fail"));
+                this.init();
+              }
+            });
+        });
+      },
+      checkAddress() {
+        return new Promise((resolve, reject) => {
           this.$refs["form"].validate(valid => {
             if (valid) {
               resolve();
@@ -811,129 +822,130 @@ export default {
               reject();
             }
           });
-      });
-    },
-    setDefaultAddress(id) {
-      this.$store
-        .dispatch("ajax_set_default_fund_sources", {
-          id: id
-        })
-        .then(res => {
-          if (res.data && +res.data.error === 0) {
-            this.showInfo();
-            this.$Message.success(
-              this.$t("asset.asset_withdraw_address_set_default_success")
-            );
-          } else {
+        });
+      },
+      setDefaultAddress(id) {
+        this.$store
+          .dispatch("ajax_set_default_fund_sources", {
+            id: id
+          })
+          .then(res => {
+            if (res.data && +res.data.error === 0) {
+              this.showInfo();
+              this.$Message.success(
+                this.$t("asset.asset_withdraw_address_set_default_success")
+              );
+            } else {
+              this.$Message.error(
+                this.$t("asset.asset_withdraw_address_set_default_fail")
+              );
+            }
+          })
+          .catch(err => {
             this.$Message.error(
               this.$t("asset.asset_withdraw_address_set_default_fail")
             );
-          }
-        })
-        .catch(err => {
-          this.$Message.error(
-            this.$t("asset.asset_withdraw_address_set_default_fail")
-          );
-        });
-    },
-    address_del(id) {
-      this.$store
-        .dispatch("ajax_del_fund_sources", {
-          id: id
-        })
-        .then(res => {
-          if (res.data && +res.data.error === 0) {
-            this.showInfo();
-            this.$Message.success(
-              this.$t("asset.asset_withdraw_address_del_success")
-            );
-          } else {
-            this.$Message.error(
-              this.$t("asset.asset_withdraw_address_del_fail")
-            );
-          }
-        })
-        .catch(err => {
-          this.$Message.error(this.$t("asset.asset_withdraw_address_del_fail"));
-        });
-    },
-    doWithdrawPop(val) {
-      if (val) {
-        this.auth_two_flag = true;
-      }
-      this.withdraw_confirm = false;
-    },
-    doAuthClose(val) {
-      if (val) {
-        this.doWithdraw(val);
-      }
-      this.auth_two_flag = false;
-    },
-    get_address_id(val) {
-      if (val === "1000" || val === "") {
-        this.initFormData();
-        this.addNewAddressStatus = true;
-      } else {
-        this.addNewAddressStatus = false;
-        for (let i = 0; i < this.withdraw.fund_sources.length; i++) {
-          if (
-            val ===
-            this.withdraw.fund_sources[i].id +
+          });
+      },
+      address_del(id) {
+        this.$store
+          .dispatch("ajax_del_fund_sources", {
+            id: id
+          })
+          .then(res => {
+            if (res.data && +res.data.error === 0) {
+              this.showInfo();
+              this.$Message.success(
+                this.$t("asset.asset_withdraw_address_del_success")
+              );
+            } else {
+              this.$Message.error(
+                this.$t("asset.asset_withdraw_address_del_fail")
+              );
+            }
+          })
+          .catch(err => {
+            this.$Message.error(this.$t("asset.asset_withdraw_address_del_fail"));
+          });
+      },
+      doWithdrawPop(val) {
+        if (val) {
+          this.auth_two_flag = true;
+        }
+        this.withdraw_confirm = false;
+      },
+      doAuthClose(val) {
+        if (val) {
+          this.doWithdraw(val);
+        }
+        this.auth_two_flag = false;
+      },
+      get_address_id(val) {
+        if (val === "1000" || val === "") {
+          this.initFormData();
+          this.addNewAddressStatus = true;
+        } else {
+          this.addNewAddressStatus = false;
+          for (let i = 0; i < this.withdraw.fund_sources.length; i++) {
+            if (
+              val ===
+              this.withdraw.fund_sources[i].id +
               "-" +
               this.withdraw.fund_sources[i].uid
-          ) {
-            this.form.id = this.withdraw.fund_sources[i].id;
-            this.form.label = this.withdraw.fund_sources[i].extra;
-            this.form.labelPlus = this.withdraw.fund_sources[i].extra;
-            this.form.address = this.withdraw.fund_sources[i].uid;
-            this.form.addressPlus = this.withdraw.fund_sources[i].uid;
+            ) {
+              this.form.id = this.withdraw.fund_sources[i].id;
+              this.form.label = this.withdraw.fund_sources[i].extra;
+              this.form.labelPlus = this.withdraw.fund_sources[i].extra;
+              this.form.address = this.withdraw.fund_sources[i].uid;
+              this.form.addressPlus = this.withdraw.fund_sources[i].uid;
 
-            return false;
+              return false;
+            }
           }
         }
+      },
+      sendEmail() {
+        this.$store
+          .dispatch("ajax_resend_confirm", {
+            id: this.withdraw_id
+          })
+          .then(res => {
+            this.$refs.sendCodeButton.init();
+            this.$Message.success(this.$t("asset.asset_withdraw_email_success"));
+          })
+          .catch(err => {
+            this.$Message.error(this.$t("public.fail"));
+          });
+      },
+      showAuthEmail() {
+        this.$store.commit("showAuthEmail_setter", 1);
+      },
+      copySuccess() {
+        this.$Message.success(this.$t("public.invite_copy_success"));
+      },
+      init() {
+        this.$store.commit("header_index_setter", "8");
+        this.showInfo();
       }
     },
-    sendEmail() {
-      this.$store
-        .dispatch("ajax_resend_confirm", {
-          id: this.withdraw.withdraw_channels.id
-        })
-        .then(res => {
-          this.$Message.success(this.$t("asset.asset_withdraw_email_success"));
-        })
-        .catch(err => {
-          this.$Message.error(this.$t("public.fail"));
-        });
+    mounted() {
+      this.init();
     },
-    showAuthEmail() {
-      this.$store.commit("showAuthEmail_setter", 1);
+    beforeRouteEnter(to, from, next) {
+      if (from.name && from.name !== "/user/login") {
+        store.dispatch("ajax_me");
+      }
+      next();
     },
-    copySuccess() {
-      this.$Message.success(this.$t("public.invite_copy_success"));
-    },
-    init() {
-      this.$store.commit("header_index_setter", "8");
-      this.showInfo();
+    beforeRouteUpdate(to, from, next) {
+      if (from.name && from.name.indexOf("/user/login") <= -1) {
+        store.dispatch("ajax_me");
+        this.initFormData()
+      }
+      next();
     }
-  },
-  mounted() {
-    this.init();
-  },
-  beforeRouteEnter(to, from, next) {
-    if (from.name && from.name !== "/user/login") {
-      store.dispatch("ajax_me");
-    }
-    next();
-  },
-  beforeRouteUpdate(to, from, next) {
-    if (from.name && from.name.indexOf("/user/login") <= -1) {
-      store.dispatch("ajax_me");
-      this.initFormData()
-    }
-    next();
-  }
-};
+  };
 </script>
 <style lang='scss' scoped>
-@import "assets";
+  @import "assets";
 </style>

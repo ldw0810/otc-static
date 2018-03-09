@@ -852,22 +852,26 @@
               this.form.remark = this.ad.remark;
               if (+this.adType === 0) {
                 this.form.payment = this.ad.pay_kind;
-                this.form.maxPrice = this.$fixDeciamlAuto(
-                  this.ad.price,
-                  this.moneyText
-                );
+                if(this.ad.price) {
+                  this.form.maxPrice = this.$fixDeciamlAuto(
+                    +this.ad.price,
+                    this.moneyText
+                  );
+                }
                 this.form.buyPrice = this.$fixDeciamlAuto(
-                  this.ad.current_price,
+                  +this.ad.current_price,
                   this.moneyText
                 );
               } else if (+this.adType === 1) {
                 this.form.collection = this.ad.pay_kind;
-                this.form.minPrice = this.$fixDeciamlAuto(
-                  this.ad.price,
-                  this.moneyText
-                );
+                if(this.ad.price) {
+                  this.form.minPrice = this.$fixDeciamlAuto(
+                    +this.ad.price,
+                    this.moneyText
+                  );
+                }
                 this.form.sellPrice = this.$fixDeciamlAuto(
-                  this.ad.current_price,
+                  +this.ad.current_price,
                   this.moneyText
                 );
               }
