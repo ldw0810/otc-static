@@ -147,9 +147,11 @@
                     <FormItem :label="addressEditStatus" class="withdraw-form">
                       <div class='withdraw-address'>
                         <FormItem prop="address" v-if="withdraw.fund_sources && withdraw.fund_sources.length">
-                          <Select class='withdraw-address-select'
+                          <Select 
+                            res='selectAddress'
+                            class='withdraw-address-select'
                             @on-change='get_address_id'
-                            :value='setAddress'
+                            v-model='setAddress'
                             >
                               <Option value='1000' :label='$t("asset.asset_withdraw_add_new_address_down")'>
                                 <span class='withdraw-address-select-text u-ellipsis-1'>{{$t('asset.asset_withdraw_address_add')}}</span>
@@ -643,6 +645,8 @@ export default {
   },
   methods: {
     initFormData() {
+      if(this.$refs.selectAddress) this.$refs.selectAddress.$el.value = ''
+      this.setAddress = ''
       Object.keys(this.form).map(item => {
         this.form[item] = ''
       })
@@ -682,6 +686,7 @@ export default {
             page: index ? +index : this.deposit.page
           })
           .then(res => {
+            this.initFormData()
             if (res.data && +res.data.error === 0) {
               this.deposit = res.data;
             } else {
@@ -699,6 +704,7 @@ export default {
             page: index ? index : this.withdraw.page
           })
           .then(res => {
+            this.initFormData()
             if (res.data && +res.data.error === 0) {
               this.withdraw = res.data;
               for (let i = 0; i < this.withdraw.fund_sources.length; i++) {
@@ -774,8 +780,6 @@ export default {
             if (res.data && (res.data.uid || res.data.error === 0)) {
               this.withdraw_email = true;
               // this.$Message.success(this.$t("asset.asset_withdraw_success"));
-
-              this.initFormData();
               this.init();
             } else {
               this.$Message.error(this.$t("asset.asset_withdraw_fail"));

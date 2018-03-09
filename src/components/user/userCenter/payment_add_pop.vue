@@ -161,7 +161,6 @@ export default {
       //     for (let i = 0; i <= tvalue.length - 2; i++) {
       //         if (i % 2 === 0) {
       //             sum += (Number(tvalue[i]) * 2) % 10 + parseInt((Number(tvalue[i]) * 2) / 10)
-      //             console.log((Number(tvalue[i]) * 2) % 10, parseInt((Number(tvalue[i]) * 2) / 10))
       //         } else {
       //             sum += Number(tvalue[i])
       //         }

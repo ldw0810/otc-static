@@ -204,7 +204,6 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log(to, from);
   LoadingBar.start();
   const goFun = () => {
     if (to.matched.some(r => r.meta.noUser)) {
