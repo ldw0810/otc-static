@@ -2,7 +2,6 @@ import {
   Message,
   Modal,
   Notice,
-  Spin,
   Button,
   Dropdown,
   DropdownMenu,
@@ -28,7 +27,6 @@ const components = {
   Message,
   Modal,
   Notice,
-  Spin,
   Button,
   Dropdown,
   DropdownMenu,
@@ -66,7 +64,6 @@ const install = function(Vue, options) {
   Vue.prototype.$Message = Message;
   Vue.prototype.$Modal = Modal;
   Vue.prototype.$Notice = Notice;
-  Vue.prototype.$Spin = Spin;
 };
 
 export default install

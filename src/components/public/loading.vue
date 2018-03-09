@@ -3,7 +3,7 @@
     <div class="loading-inner">
       <div class='loading-inner-dot' :style="{backgroundColor: bgColor, width: width + 'px', height: height + 'px' }" v-for='(item, i) in length' :key='i'></div>
     </div>
-    <p class='loading-text'>{{$t("order.order_chat_loading")}}</p>
+    <p class='loading-text' :style="{color: bgColor}">{{$t("order.order_chat_loading")}}</p>
   </div>
 </template>
 <script>
