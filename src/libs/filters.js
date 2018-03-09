@@ -1,5 +1,4 @@
-import { BigNumber } from "bignumber.js";
-import { fixDecimalsAsset } from "./functions";
+import { fixDecimal, fixDecimalsAsset } from "./functions";
 
 export default {
   install(Vue, options) {
@@ -9,9 +8,7 @@ export default {
       return value.charAt(0).toUpperCase() + value.slice(1);
     });
     Vue.filter("fix_decimals", function(value, num) {
-      return BigNumber(value)
-        .decimalPlaces(num)
-        .toString();
+      return fixDecimal(value, num);
     });
     // 资产显示统一保留位数
     Vue.filter("fix_decimals_assets", value => {

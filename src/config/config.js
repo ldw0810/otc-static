@@ -1,5 +1,4 @@
 import Env from "./env";
-import { BigNumber } from "bignumber.js";
 
 let config = {
   env: Env,
