@@ -133,15 +133,14 @@
       }
     },
     methods: {
-      showMyAds(index, pageIndex) {
+      showMyAds() {
         this.loading = true;
         this.myAds.list = [];
-        index = +index || +this.tabIndex;
         this.$store
           .dispatch("ajax_ads_my", {
-            limit: this.myAds.per_page,
-            page: pageIndex || this.myAds.page,
-            status: index == 0 ? "ongoing" : "closed"
+            limit: +this.myAds.per_page,
+            page: +this.pageIndex || +this.myAds.page,
+            status: +this.tabIndex === 0 ? "ongoing" : "closed"
           })
           .then(res => {
             this.loading = false;
@@ -157,7 +156,9 @@
           });
       },
       changePage(pageIndex) {
-        this.showMyAds(this.tabIndex, pageIndex);
+        this.$goRouter(this.$route.fullPath, {
+          pageIndex: pageIndex
+        });
       },
       changeTab(index) {
         this.$goRouter(this.$route.path, {
@@ -178,9 +179,9 @@
             status: "closed"
           })
           .then(res => {
-            if (res.data && res.data.error == 0) {
+            if (res.data && +res.data.error === 0) {
               this.$Message.success(this.$t("ad.ad_close_success"));
-              this.showMyAds(this.tabIndex);
+              this.showMyAds();
             } else {
               this.$Message.error(this.$t("ad.ad_close_fail"));
             }
@@ -196,9 +197,9 @@
             status: "ongoing"
           })
           .then(res => {
-            if (res.data && res.data.error == 0) {
+            if (res.data && +res.data.error === 0) {
               this.$Message.success(this.$t("ad.ad_open_success"));
-              this.showMyAds(this.tabIndex);
+              this.showMyAds();
             } else {
               this.$Message.error(this.$t("ad.ad_open_fail"));
             }
