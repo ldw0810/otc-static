@@ -3,11 +3,11 @@ import ajax from "./ajax";
 import queryString from "querystring"; //解决post请求跨域问题
 import { BigNumber } from "bignumber.js";
 import {
-  decimalAsset,
-  decimalBase,
-  decimalLegal,
-  digitalCurrencyList,
-  legalCurrencyList
+  CONF_DECIMAL_ASSET,
+  CONF_DECIMAL_BASE,
+  CONF_DECIMAL_LEGAL,
+  CONF_DIGITAL_CURRENCY_LIST,
+  CONF_LEGAL_CURRENCY_LIST
 } from "config/config";
 
 /**
@@ -22,15 +22,15 @@ export const fixDecimal = function(value, limit) {
     .toString();
 };
 export const fixDecimalsAsset = function(value) {
-  return fixDecimal(value, decimalAsset);
+  return fixDecimal(value, CONF_DECIMAL_ASSET);
 };
 
 export const fixDecimalsBase = function(value) {
-  return fixDecimal(value, decimalBase);
+  return fixDecimal(value, CONF_DECIMAL_BASE);
 };
 
 export const fixDecimalsLegal = function(value) {
-  return fixDecimal(value, decimalLegal);
+  return fixDecimal(value, CONF_DECIMAL_LEGAL);
 };
 
 export default {
@@ -101,7 +101,7 @@ export default {
      */
     Vue.prototype.$fixDeciamlAuto = function(value, curreny) {
       const upCurrent = curreny ? curreny.toUpperCase() : undefined;
-      if (upCurrent && digitalCurrencyList.indexOf(upCurrent) === -1) {
+      if (upCurrent && CONF_DIGITAL_CURRENCY_LIST.indexOf(upCurrent) === -1) {
         return fixDecimalsLegal(value);
       }
       return fixDecimalsBase(value);
