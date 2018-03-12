@@ -231,7 +231,7 @@
     "receivables_request_fail": "用户收款方式列表获取失败",
     "banks_request_fail": "银行列表获取失败",
     "add_receivables": "添加更多收款方式",
-    "default_receivables_info": "默认收款方式将会自动在交易中显示，让交易更方便",
+    "default_receivables_info": "默认收款信息将会自动在交易中显示，让交易更方便",
     "add_payment_link_none": "点击“+”号按钮添加默认收款方式",
     "receivables_add_success": "添加成功",
     "receivables_add_fail": "添加失败",

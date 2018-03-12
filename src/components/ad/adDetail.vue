@@ -101,9 +101,10 @@
             </i-col>
           </Row>
           <FormItem class="formItem submit">
-            <i-button class="deal-exchange-btn" type='primary' :disabled='!validate' @click="submit">
-              {{+adType === 0 ? $t('order.order_buy_confirm') : $t('order.order_sell_confirm')}}
+            <i-button class="deal-exchange-btn" type='primary' :disabled='!validate || isSelfOrder' @click="submit">
+              {{isSelfOrder ? $t('order.order_join_own_otc_ad') : +adType === 0 ? $t('order.order_buy_confirm') : $t('order.order_sell_confirm')}}
             </i-button>
+                        
           </FormItem>
         </Form>
       </div>
@@ -252,6 +253,7 @@ export default {
       }
     };
     return {
+      isSelfOrder: false,
       submitPlaceOrderLoading: false,
       showModal: true,
       ad: {},
@@ -348,6 +350,7 @@ export default {
         .then(res => {
           if (res.data && +res.data.error === 0) {
             this.ad = res.data.info;
+            this.isSelfOrder = (this.ad.member.id === this.userInfo.id)
           } else {
             this.$Message.error(this.$t("order.order_ad_info_request_fail"));
           }

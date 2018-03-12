@@ -227,7 +227,7 @@
     "receivables_request_fail": "Transaction account list request fail",
     "banks_request_fail": "Bank list request fail",
     "add_receivables": "Add more transaction account",
-    "default_receivables_info": "Default transaction account will automatically shown in your order to make the transaction easily",
+    "default_receivables_info": "Default transaction information will automatically shown in your order to make the transaction easily",
     "add_payment_link_none": "Click“+”to add default transaction account",
     "receivables_add_success": "Add success",
     "receivables_add_fail": "Add fail",
