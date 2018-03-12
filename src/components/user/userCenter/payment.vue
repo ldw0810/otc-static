@@ -3,56 +3,62 @@
     <BreadCrumb
         :breadcrumbText='breadcrumbText'
     />
-    <div class="payment_none" v-if="!collection.length">
-      <div class="img" @click="popUpStatus = true">
-        <img src="../../../static/images/+.png">
-      </div>
-      <div class="text_1" v-text="$t('user.add_payment_link_none')"></div>
-      <div class="text_2" v-text="$t('user.default_receivables_info')"></div>
+    <div class='g-loading-wrapper' v-if='isLoading'>
+      <c-loading/>
     </div>
-    <div class="payment" v-else>
-      <RadioGroup class='payment-list' vertical v-model="defaultIndex" @on-change="setDefaultReceiving">
-          <div class="payment-item" v-for="(item, index) in collection" :key='index'>
-            <div class="payment-item-assets">
-              <img class='payment-item-assets-img' src="../../../static/images/C-Alipay.png" v-if="!item.bank">
-              <img class='payment-item-assets-img' src="../../../static/images/C-Card.png" v-else-if="item.bank">
-            </div>
-            <div class="payment-item-right">
-              <div class='payment-item-info'>
-                <div class="payment-item-info-name" v-text="item.name"></div>
-                <div class="payment-item-info-address" v-text="item.account"></div>
+    <template v-if='!isLoading'>
+      <div class="payment_none" v-if="!collection.length">
+        <div class="img" @click="popUpStatus = true">
+          <img src="../../../static/images/+.png">
+        </div>
+        <div class="text_1" v-text="$t('user.add_payment_link_none')"></div>
+        <div class="text_2" v-text="$t('user.default_receivables_info')"></div>
+      </div>
+      <div class="payment" v-else>
+        <RadioGroup class='payment-list' vertical v-model="defaultIndex" @on-change="setDefaultReceiving">
+            <div class="payment-item" v-for="(item, index) in collection" :key='index'>
+              <div class="payment-item-assets">
+                <img class='payment-item-assets-img' src="../../../static/images/C-Alipay.png" v-if="!item.bank">
+                <img class='payment-item-assets-img' src="../../../static/images/C-Card.png" v-else-if="item.bank">
               </div>
-              <Radio class='payment-item-radio' :label="index" >
-                <span>{{item.is_default ? $t('user.default') : $t('user.default_notValid')}}</span>
-              </Radio>
-              <div class="payment-item-del">
-                <Poptip v-model="item.visible" trigger='click' class='del'>
-                  <img src="../../../static/images/icon/Trash-666666.svg" class='del-icon hover'>
-                  <img src="../../../static/images/icon/Trash-DDDDDD.svg" class='del-icon no-hover'>
-                  <div slot='content'>
-                    <div class='del-content'>
-                      <h3 class='del-content-title'>{{$t('public.confirm_delete')}}</h3>
-                      <div class='del-btn-group'>
-                        <i-button type='primary' @click="delReceiving(index)">{{$t('public.confirm')}}</i-button>
-                        <i-button @click="delCancel(index)">{{$t('public.cancel')}}</i-button>
+              <div class="payment-item-right">
+                <div class='payment-item-info'>
+                  <div class="payment-item-info-name" v-text="item.name"></div>
+                  <div class="payment-item-info-address" v-text="item.account"></div>
+                </div>
+                <Radio class='payment-item-radio' :label="index" >
+                  <span>{{item.is_default ? $t('user.default') : $t('user.default_notValid')}}</span>
+                </Radio>
+                <div class="payment-item-del">
+                  <Poptip v-model="item.visible" trigger='click' class='del'>
+                    <img src="../../../static/images/icon/Trash-666666.svg" class='del-icon hover'>
+                    <img src="../../../static/images/icon/Trash-DDDDDD.svg" class='del-icon no-hover'>
+                    <div slot='content'>
+                      <div class='del-content'>
+                        <h3 class='del-content-title'>{{$t('public.confirm_delete')}}</h3>
+                        <div class='del-btn-group'>
+                          <i-button type='primary' @click="delReceiving(index)">{{$t('public.confirm')}}</i-button>
+                          <i-button @click="delCancel(index)">{{$t('public.cancel')}}</i-button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Poptip>
+                  </Poptip>
+                </div>
               </div>
+              
             </div>
-            
-          </div>
-      </RadioGroup>
-      <div class='payment-btn-wrapper'>
-        <i-button class="payment-btn" type="primary" @click="popUpStatus = true" :disabled="collection.length >= 5">
-          {{$t('user.add_receivables')}}
-        </i-button>
-        <div class="payment-btn-text" v-text="$t('user.default_receivables_info')"></div>        
-      </div>
+        </RadioGroup>
+        <div class='payment-btn-wrapper'>
+          <i-button class="payment-btn" type="primary" @click="popUpStatus = true" :disabled="collection.length >= 5">
+            {{$t('user.add_receivables')}}
+          </i-button>
+          <div class="payment-btn-text" v-text="$t('user.default_receivables_info')"></div>        
+        </div>
 
-      
-    </div>
+        
+      </div>
+    </template>
+
     <Modal v-model="popUpStatus" class-name="m-ivu-modal" width='480' :mask-closable="true" :closable="false">
       <payment_add_pop @refresh="getReceivingList" :popUpStatus='popUpStatus' @cancel="popUpStatus = false"/>
       <div slot="footer"></div>
@@ -70,6 +76,7 @@ export default {
   data() {
     return {
       // collection: [],
+      isLoading: true,
       popUpStatus: false,
       breadcrumbText:
         this.$t("user.info") + " - " + this.$t("user.default_receivables"),
@@ -92,6 +99,7 @@ export default {
     if (!this.collection || !this.collection.length) {
       this.getReceivingList();
     } else {
+      this.isLoading = false
       this.findDefaultIndex(this.collection)
     }
   },
@@ -108,6 +116,7 @@ export default {
       this.$store
         .dispatch("ajax_get_receiving")
         .then(res => {
+          this.isLoading = false
           if (res.data && +res.data.error === 0) {
             this.$store.commit("collection_setter", res.data.list || []);
             if (res.data.list.length) {
@@ -118,6 +127,7 @@ export default {
           }
         })
         .catch(err => {
+          this.isLoading = false
           this.$Message.error(this.$t("user.receivables_request_fail"));
         });
     },
