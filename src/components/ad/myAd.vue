@@ -64,13 +64,24 @@
                 </i-col>
                 <i-col span="3" class='g-list-content-item-col'>
                   <div>
-                    <a href='javascript:' class='action-link' @click="closeAd(item.id)"
-                       v-if="+tabIndex === 0">{{$t("ad.ad_close")}}</a>
-                    <a href='javascript:' class='action-link'
-                       @click="updateAd(item.id,item.currency)" v-if="+tabIndex === 1">{{$t("public.modify")}}</a>
-                    <a href='javascript:' class='action-link' @click="openAd(item.id)"
-                       v-if="+tabIndex === 1 && +item.order_limit >= +item.min_limit">{{$t("ad.ad_open")}}</a>
-                    <p class="text" v-if="+tabIndex === 1 && +item.order_limit < +item.min_limit">{{$t("ad.ad_asset_deficiency")}}</p>
+                    <div v-if="+tabIndex === 0">
+                      <a href='javascript:' class='action-link' @click="closeAd(item.id)"
+                         v-if="+tabIndex === 0">{{$t("ad.ad_close")}}</a>
+                    </div>
+                    <div v-else>
+                      <p class="text" v-if="+item.locked > 0">
+                        {{$t("ad.ad_trading")}}
+                      </p>
+                      <a href='javascript:' class='action-link' @click="updateAd(item.id,item.currency)" v-else>
+                        {{$t("public.modify")}}
+                      </a>
+                      <p class="text" v-if="+item.order_limit < +item.min_limit">
+                        {{$t("ad.ad_asset_deficiency")}}
+                      </p>
+                      <a href='javascript:' class='action-link' @click="openAd(item.id)" v-else>
+                        {{$t("ad.ad_open")}}
+                      </a>
+                    </div>
                   </div>
                 </i-col>
               </Row>
