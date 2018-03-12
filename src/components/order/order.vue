@@ -491,10 +491,10 @@ export default {
             this.showTip();
             this.showStep();
           } else {
-            this.$Message.error(this.$t("order.order_info_request_fail"));
+            // this.$Message.error(this.$t("order.order_info_request_fail"));
           }
         }).catch(err => {
-          this.$Message.error(this.$t("order.order_info_request_fail"));
+          // this.$Message.error(this.$t("order.order_info_request_fail"));
         });
       },
       orderOper(operStr) {
@@ -514,10 +514,10 @@ export default {
                 );
                 this.getOrderInfo();
               } else {
-                this.$Message.error(this.$t("order.order_pay_evaluate_fail"));
+                // this.$Message.error(this.$t("order.order_pay_evaluate_fail"));
               }
             }).catch(err => {
-              this.$Message.error(this.$t("order.order_pay_evaluate_fail"));
+              // this.$Message.error(this.$t("order.order_pay_evaluate_fail"));
             });
           } else {
             this.$Message.error(this.$t("order.order_pay_evaluate_required"));

@@ -171,11 +171,11 @@
                     if (res.data && +res.data.error === 0) {
                         this.ads = res.data;
                     } else {
-                        this.$Message.error(this.$t("order.order_list_request_fail"));
+                        // this.$Message.error(this.$t("order.order_list_request_fail"));
                     }
                 }).catch(err => {
                     this.loading = false;
-                    this.$Message.error(this.$t("order.order_list_request_fail"));
+                    // this.$Message.error(this.$t("order.order_list_request_fail"));
                 });
             },
             deal(id) {

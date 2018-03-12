@@ -177,7 +177,7 @@
       </div>
       <div slot="footer"></div>
     </Modal>
-    <Modal width='480' v-model="confirmFlag.complete" class-name="m-ivu-modal" :mask-closable="true" :closable="false">
+    <Modal width='480' v-model="confirmFlag.complete" class-name="m-ivu-modal" :mask-closable="false" :closable="false">
       <logoDiv style="margin: 0"/>
       <div class="detail-model">
         <h3 class='detail-model-title'>{{$t("order.order_complete")}}</h3>
@@ -341,6 +341,7 @@ export default {
   methods: {
     doOper() {
       this.confirmFlag.complete = false;
+      this.$router.go(-1);
     },
     getInfo() {
       this.$store
@@ -352,11 +353,11 @@ export default {
             this.ad = res.data.info;
             this.isSelfOrder = (this.ad.member.id === this.userInfo.id)
           } else {
-            this.$Message.error(this.$t("order.order_ad_info_request_fail"));
+            // this.$Message.error(this.$t("order.order_ad_info_request_fail"));
           }
         })
         .catch(err => {
-          this.$Message.error(this.$t("order.order_ad_info_request_fail"));
+          // this.$Message.error(this.$t("order.order_ad_info_request_fail"));
         });
     },
     submit() {
@@ -373,7 +374,7 @@ export default {
       }
     },
     changeAmount() {
-      if (+this.form.moneyAmount || +this.form.moneyAmount == 0) {
+      if (+this.form.moneyAmount || +this.form.moneyAmount === 0) {
         this.form.number = this.$fixDeciamlAuto(
           +this.form.moneyAmount / +this.ad.current_price,
           this.ad.currency
@@ -381,7 +382,7 @@ export default {
       }
     },
     changeNumber() {
-      if (+this.form.number || +this.form.number == 0) {
+      if (+this.form.number || +this.form.number === 0) {
         this.form.moneyAmount = this.$fixDeciamlAuto(
           +this.form.number * +this.ad.current_price,
           this.ad.target_currency

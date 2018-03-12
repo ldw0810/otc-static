@@ -99,10 +99,10 @@
           if (res.data && +res.data.error === 0) {
             this.ads = res.data.sell_ads.concat(res.data.buy_ads);
           } else {
-            this.$Message.error(this.$t("public.ads_request_fail"));
+            // this.$Message.error(this.$t("public.ads_request_fail"));
           }
         }).catch(err => {
-          this.$Message.error(this.$t("public.ads_request_fail"));
+          // this.$Message.error(this.$t("public.ads_request_fail"));
         });
       }
     },
