@@ -54,7 +54,9 @@ export default {
   },
   ajax_me({commit}, requestData = {}) {
     let source = ajax.CancelToken.source();
-    store.commit("ajax_source_setter", Object.assign(store.state.ajax_source, {me: source}));
+    store.commit("ajax_source_setter", {
+      me: source
+    });
     return new Promise((resolve, reject) => {
       http.get("/api/v1/members/me.json", requestData, {
         cancelToken: source.token
@@ -128,7 +130,9 @@ export default {
   },
   ajax_chat({commit}, requestData = {}) {
     let source = ajax.CancelToken.source();
-    store.commit("ajax_source_setter", Object.assign(store.state.ajax_source, {chat: source}));
+    store.commit("ajax_source_setter", {
+      chat: source
+    });
     return http.get("https://notice.otcmaker.com/chat", requestData, {
       timeout: 90000,
       cancelToken: source.token

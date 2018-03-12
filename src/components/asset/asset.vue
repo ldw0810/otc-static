@@ -945,8 +945,8 @@
     beforeRouteUpdate(to, from, next) {
       if (from.name && from.name.indexOf("/user/login") <= -1) {
         store.dispatch("ajax_me");
-        this.initFormData()
-        this.initSelectedValue()
+        this.initFormData();
+        this.initSelectedValue();
       }
       next();
     }

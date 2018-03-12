@@ -1,3 +1,4 @@
+import Vue from 'vue'
 export default {
   header_index_setter(state, value) {
     state.header_index = value;
@@ -56,8 +57,10 @@ export default {
     }
     state.showAuthEmail = value;
   },
-  ajax_source_setter(state, value) {
-    state.ajax_source = value;
+  ajax_source_setter(state, item) {
+    for(let key in item) {
+      Vue.set(state.ajax_source, key, item[key]);
+    }
   },
   saveToken(state, value) {
     localStorage.userToken = value;
