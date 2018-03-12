@@ -176,7 +176,7 @@
       </div>
       <div slot="footer"></div>
     </Modal>
-    <Modal width='480' v-model="confirmFlag.complete" class-name="m-ivu-modal" :mask-closable="true" :closable="false">
+    <Modal width='480' v-model="confirmFlag.complete" class-name="m-ivu-modal" :mask-closable="false" :closable="false">
       <logoDiv style="margin: 0"/>
       <div class="detail-model">
         <h3 class='detail-model-title'>{{$t("order.order_complete")}}</h3>
