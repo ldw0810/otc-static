@@ -77,16 +77,6 @@ export default {
       return bigNumber.minus(args[1]);
     };
     /**
-     * 加法（解决精度问题）
-     */
-    Vue.prototype.$plus = function(...args) {
-      if (args.length !== 2) {
-        throw Error("Must set two params");
-      }
-      const bigNumber = new BigNumber(args[0]);
-      return bigNumber.plus(args[1]);
-    };
-    /**
      * 乘法（解决精度问题）
      */
     Vue.prototype.$multipliedBy = function(...args) {
@@ -94,10 +84,10 @@ export default {
         throw Error("Must set two params");
       }
       const bigNumber = new BigNumber(args[0]);
-      return BigNumber.multipliedBy(args[1]);
+      return bigNumber.multipliedBy(args[1]);
     };
     /**
-     * 除法（解决除法问题）
+     * 除法（解决精度问题）
      */
     Vue.prototype.$dividedBy = function(...args) {
       if (args.length !== 2) {
