@@ -339,6 +339,7 @@ export default {
   methods: {
     doOper() {
       this.confirmFlag.complete = false;
+      this.$router.go(-1);
     },
     getInfo() {
       this.$store
@@ -370,7 +371,7 @@ export default {
       }
     },
     changeAmount() {
-      if (+this.form.moneyAmount || +this.form.moneyAmount == 0) {
+      if (+this.form.moneyAmount || +this.form.moneyAmount === 0) {
         this.form.number = this.$fixDeciamlAuto(
           +this.form.moneyAmount / +this.ad.current_price,
           this.ad.currency
@@ -378,7 +379,7 @@ export default {
       }
     },
     changeNumber() {
-      if (+this.form.number || +this.form.number == 0) {
+      if (+this.form.number || +this.form.number === 0) {
         this.form.moneyAmount = this.$fixDeciamlAuto(
           +this.form.number * +this.ad.current_price,
           this.ad.target_currency
