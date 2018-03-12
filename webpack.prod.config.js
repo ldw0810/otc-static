@@ -1,9 +1,11 @@
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const WebpackMd5Hash = require('webpack-md5-hash');
+const utils = require("./utils");
+const WebpackMd5Hash = require("webpack-md5-hash");
 const merge = require("webpack-merge");
 const webpackBaseConfig = require("./webpack.base.config.js");
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const fs = require("fs");
 const path = require("path");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
@@ -15,15 +17,24 @@ fs.open("./src/config/env.js", "w", function(err, fd) {
 
 const webpackConfig = merge(webpackBaseConfig, {
   output: {
-      path: path.join(__dirname, "../public/dist"),
-      publicPath: "/dist/",
+    path: path.join(__dirname, "../public/dist"),
+    publicPath: "/dist/",
     filename: "[name].[chunkhash:8].js",
     chunkFilename: "[name].[chunkhash:8].chunk.js"
+  },
+  module: {
+    rules: utils.styleLoaders({
+      extract: true,
+      usePostCSS: true
+    })
   },
   plugins: [
     new ExtractTextPlugin({
       filename: "[name].[hash].css",
       allChunks: true
+    }),
+    new OptimizeCSSPlugin({
+      cssProcessorOptions: { safe: true }
     }),
     new WebpackMd5Hash(),
     new webpack.optimize.CommonsChunkPlugin({
@@ -58,7 +69,7 @@ const webpackConfig = merge(webpackBaseConfig, {
       parallel: true // 多线程压缩
     }),
     new HtmlWebpackPlugin({
-      filename: '../index_prod.html',
+      filename: "../index_prod.html",
       template: "./src/template/index.ejs",
       inject: false
     })
@@ -78,7 +89,8 @@ if (process.env.npm_config_gzip) {
 }
 // 分析
 if (process.env.npm_config_report) {
-  const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+  const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+    .BundleAnalyzerPlugin;
   webpackConfig.plugins.push(new BundleAnalyzerPlugin());
 }
 
