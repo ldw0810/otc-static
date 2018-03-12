@@ -22,7 +22,7 @@
                 <div class="payment-item-info-name" v-text="item.name"></div>
                 <div class="payment-item-info-address" v-text="item.account"></div>
               </div>
-              <Radio class='payment-item-radio' :label="index">
+              <Radio class='payment-item-radio' :label="index" >
                 <span>{{item.is_default ? $t('user.default') : $t('user.default_notValid')}}</span>
               </Radio>
               <div class="payment-item-del">
@@ -57,110 +57,115 @@
 </template>
 
 <script type="es6">
-  import payment_add_pop from "./payment_add_pop.vue";
-  import BreadCrumb from "./breadcrumb";
-  import _findIndex from "lodash/findIndex";
+import payment_add_pop from "./payment_add_pop.vue";
+import BreadCrumb from "./breadcrumb";
+import _findIndex from "lodash/findIndex";
 
-  export default {
-    data() {
-      return {
-        // collection: [],
-        popUpStatus: false,
-        breadcrumbText:
-          this.$t("user.info") + " - " + this.$t("user.default_receivables"),
-        defaultIndex: -1
-      };
+export default {
+  data() {
+    return {
+      // collection: [],
+      popUpStatus: false,
+      breadcrumbText:
+        this.$t("user.info") + " - " + this.$t("user.default_receivables"),
+      defaultIndex: -1
+    };
+  },
+  computed: {
+    layer_index() {
+      return this.$store.state.layer_index;
     },
-    computed: {
-      layer_index() {
-        return this.$store.state.layer_index;
-      },
-      collection() {
-        return this.$store.state.collection;
-      },
-      banks() {
-        return this.$store.state.banks;
-      }
+    collection() {
+      return this.$store.state.collection;
     },
-    mounted() {
-      this.$store.commit("user_sider_index_setter", 0);
-      if (!this.collection || !this.collection.length) {
-        this.getReceivingList();
-      }
-    },
-    methods: {
-      delCancel(index) {
-        this.$store.commit('collection_close_poptip', index)
-      },
-      getReceivingList() {
-        this.$store
-          .dispatch("ajax_get_receiving")
-          .then(res => {
-            if (res.data && +res.data.error === 0) {
-              this.$store.commit("collection_setter", res.data.list || []);
-              if (res.data.list.length) {
-                this.defaultIndex = _findIndex(res.data.list, item => {
-                  return +item.is_default === 1;
-                });
-              }
-            } else {
-              this.$Message.error(this.$t("user.receivables_request_fail"));
-            }
-          })
-          .catch(err => {
-            this.$Message.error(this.$t("user.receivables_request_fail"));
-          });
-      },
-      delReceiving(index) {
-        this.$store
-          .dispatch("ajax_del_receiving", {
-            id: this.collection[index].id
-          })
-          .then(res => {
-            if (res.data && +res.data.error === 0) {
-              this.$Message.success(this.$t("user.receivables_del_success"));
-              let list = this.collection;
-              list.splice(index, 1);
-              this.$store.commit("collection_setter", list);
-            } else {
-              this.$Message.error(this.$t("user.receivables_del_fail"));
-            }
-          })
-          .catch(err => {
-            this.$Message.error(this.$t("user.receivables_del_fail"));
-          });
-      },
-      setDefaultReceiving(index) {
-        this.$store
-          .dispatch("ajax_default_receiving", {
-            id: this.collection[index].id
-          })
-          .then(res => {
-            if (res.data && +res.data.error === 0) {
-              // this.$Message.success(this.$t("user.receivables_set_default_success"));
-              let list = this.collection;
-              for (let i = 0; i < list.length; i++) {
-                if (+index === i) {
-                  list[i].is_default = 1;
-                } else {
-                  list[i].is_default = 0;
-                }
-              }
-              this.$store.commit("collection_setter", list);
-            } else {
-              this.$Message.error(this.$t("user.receivables_set_default_fail"));
-            }
-          })
-          .catch(err => {
-            this.$Message.error(this.$t("user.receivables_set_default_fail"));
-          });
-      }
-    },
-    components: {
-      payment_add_pop,
-      BreadCrumb
+    banks() {
+      return this.$store.state.banks;
     }
-  };
+  },
+  mounted() {
+    this.$store.commit("user_sider_index_setter", 0);
+    if (!this.collection || !this.collection.length) {
+      this.getReceivingList();
+    } else {
+      this.findDefaultIndex(this.collection)
+    }
+  },
+  methods: {
+    delCancel(index) {
+      this.$store.commit("collection_close_poptip", index);
+    },
+    findDefaultIndex(arr) {
+      this.defaultIndex = _findIndex(arr, item => {
+        return +item.is_default === 1;
+      });
+    },
+    getReceivingList() {
+      this.$store
+        .dispatch("ajax_get_receiving")
+        .then(res => {
+          if (res.data && +res.data.error === 0) {
+            this.$store.commit("collection_setter", res.data.list || []);
+            if (res.data.list.length) {
+              this.findDefaultIndex(res.data.list)
+            }
+          } else {
+            this.$Message.error(this.$t("user.receivables_request_fail"));
+          }
+        })
+        .catch(err => {
+          this.$Message.error(this.$t("user.receivables_request_fail"));
+        });
+    },
+    delReceiving(index) {
+      this.$store
+        .dispatch("ajax_del_receiving", {
+          id: this.collection[index].id
+        })
+        .then(res => {
+          if (res.data && +res.data.error === 0) {
+            this.$Message.success(this.$t("user.receivables_del_success"));
+            let list = this.collection;
+            list.splice(index, 1);
+            this.$store.commit("collection_setter", list);
+          } else {
+            this.$Message.error(this.$t("user.receivables_del_fail"));
+          }
+        })
+        .catch(err => {
+          this.$Message.error(this.$t("user.receivables_del_fail"));
+        });
+    },
+    setDefaultReceiving(index) {
+      this.$store
+        .dispatch("ajax_default_receiving", {
+          id: this.collection[index].id
+        })
+        .then(res => {
+          if (res.data && +res.data.error === 0) {
+            // this.$Message.success(this.$t("user.receivables_set_default_success"));
+            let list = this.collection;
+            for (let i = 0; i < list.length; i++) {
+              if (+index === i) {
+                list[i].is_default = 1;
+              } else {
+                list[i].is_default = 0;
+              }
+            }
+            this.$store.commit("collection_setter", list);
+          } else {
+            this.$Message.error(this.$t("user.receivables_set_default_fail"));
+          }
+        })
+        .catch(err => {
+          this.$Message.error(this.$t("user.receivables_set_default_fail"));
+        });
+    }
+  },
+  components: {
+    payment_add_pop,
+    BreadCrumb
+  }
+};
 </script>
 <style lang="scss">
 .payment-item-del {
@@ -174,96 +179,95 @@
 </style>
 
 <style lang="scss" scoped>
-  .payment {
-    padding-top: 100px - 50px;
-  }
-  .payment-list {
-    width: 100%;
-    padding-left: 42px;
-    padding-right: 40px;
-  }
-  .payment-item {
-    padding-top: 15px;
-    width: 100%;
-    display: flex;
+.payment {
+  padding-top: 100px - 50px;
+}
+.payment-list {
+  width: 100%;
+  padding-left: 42px;
+  padding-right: 40px;
+}
+.payment-item {
+  padding-top: 15px;
+  width: 100%;
+  display: flex;
 
-    &:not(:only-of-type):last-of-type {
-      margin-bottom: 0;
-      .payment-item-right {
-          border-bottom: 0;
-      }
+  &:not(:only-of-type):last-of-type {
+    margin-bottom: 0;
+    .payment-item-right {
+      border-bottom: 0;
     }
-    // height: 74px;
-    &-assets {
-      margin-right: 20px;
-      &-img {
-        width: 38px;
-        height: 38px;
-      }
+  }
+  // height: 74px;
+  &-assets {
+    margin-right: 20px;
+    &-img {
+      width: 38px;
+      height: 38px;
     }
-    &-right {
-      flex:1;
-      float: left;
-      display: flex;
-      align-items: center;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #eee;
+  }
+  &-right {
+    flex: 1;
+    float: left;
+    display: flex;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  &-info {
+    width: 193px + 123px;
+    font-size: 14px;
+    color: #333333;
+    line-height: 21px;
+    &-name {
+      margin-bottom: 5px;
     }
-    &-info {
-      width: 193px + 123px;
+  }
+  &-radio {
+    flex: 1;
+  }
+  &-del {
+    width: 16px;
+    line-height: 1;
+  }
+}
+.del {
+  &-btn-group {
+    display: flex;
+    justify-content: space-between;
+  }
+  &-icon {
+    cursor: pointer;
+  }
+  .ivu-poptip-body-content {
+    overflow: hidden;
+  }
+  &-content {
+    width: 178px;
+    padding: 20px;
+    word-wrap: normal;
+    &-title {
       font-size: 14px;
       color: #333333;
-      line-height: 21px;
-      &-name {
-        margin-bottom: 5px;
-      }
+      font-weight: normal;
+      margin-bottom: 12px;
     }
-    &-radio {
-      flex:1;
-    }
-    &-del {
-      width: 16px;
-      line-height: 1;
-
+    .ivu-btn {
+      width: 60px;
+      padding: 0;
+      text-align: center;
+      height: 28px;
+      line-height: 28px;
     }
   }
-  .del {
-    &-btn-group {
-      display: flex;
-      justify-content: space-between;
+  &:hover {
+    .hover {
+      display: block;
     }
-    &-icon {
-      cursor: pointer;
+    .no-hover {
+      display: none;
     }
-    .ivu-poptip-body-content {
-      overflow: hidden;
-    }
-    &-content {
-      width: 178px;
-      padding: 20px;
-      word-wrap:normal;
-      &-title {
-        font-size: 14px;
-        color: #333333;
-        font-weight: normal;
-        margin-bottom: 12px;
-      }
-      .ivu-btn {
-        width: 60px;
-        padding: 0;
-        text-align: center;
-        height: 28px;
-        line-height: 28px
-      }
-    }
-    &:hover {
-      .hover {
-        display: block;
-      }
-      .no-hover {
-        display: none;
-      }
-    }
+  }
 }
 
 .del-icon {
