@@ -467,7 +467,7 @@
   import withdraw_confirm_pop from "./withdraw_confirm_pop.vue";
   import store from "../../store/store";
   import sendCodeButton from "../public/sendCode"
-  // import ethereum_address from "ethereum-address"
+  import ethereumAddress from "ethereum-address"
 
   export default {
     name: "",
@@ -500,10 +500,10 @@
       };
       const validateEthAddress = (rule, value, callback) => {
         let reg = /^(0x)?[0-9a-f]{40}$/i;
-        if (!reg.test(value)) {
+        if (!ethereumAddress.isAddress(value)) {
           callback(new Error(this.$t("asset.asset_withdraw_address_invalid")));
         } else {
-          callback();
+          callback()
         }
       };
 
