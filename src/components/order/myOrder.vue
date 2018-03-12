@@ -122,6 +122,9 @@
       tabIndex() {
         return "" + (this.$route.query.status || 0);
       },
+      pageIndex(){
+        return this.$route.query.pageIndex || 1;
+      },
       computedText() {
         return this.tabIndex === "0"
           ? this.$t("public.no_complete_order")
@@ -134,15 +137,14 @@
           return this.$t(`public.${item}`);
         });
       },
-      showOrders(index, pageIndex) {
-        index = +index || +this.tabIndex;
+      showOrders() {
         this.loading = true;
         this.orders.list = [];
         this.$store
           .dispatch("ajax_order_list", {
-            limit: this.orders.per_page,
-            page: pageIndex || this.orders.page,
-            complete: +index
+            limit: +this.orders.per_page,
+            page: +this.pageIndex || +this.orders.page,
+            complete: +this.tabIndex
           })
           .then(res => {
             this.loading = false;
@@ -158,7 +160,9 @@
           });
       },
       changePage(pageIndex) {
-        this.showOrders(this.tabIndex, pageIndex);
+        this.$goRouter(this.$route.fullPath, {
+          pageIndex: pageIndex
+        });
       },
       changeTab(index) {
         this.$goRouter(this.$route.path, {
