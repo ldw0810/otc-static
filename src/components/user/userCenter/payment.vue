@@ -44,9 +44,14 @@
             
           </div>
       </RadioGroup>
-      <i-button class="submitButton" type="primary" @click="popUpStatus = true" :disabled="collection.length >= 5">
-        {{$t('user.add_receivables')}}
-      </i-button>
+      <div class='payment-btn-wrapper'>
+        <i-button class="payment-btn" type="primary" @click="popUpStatus = true" :disabled="collection.length >= 5">
+          {{$t('user.add_receivables')}}
+        </i-button>
+        <div class="payment-btn-text" v-text="$t('user.default_receivables_info')"></div>        
+      </div>
+
+      
     </div>
     <Modal v-model="popUpStatus" class-name="m-ivu-modal" width='480' :mask-closable="true" :closable="false">
       <payment_add_pop @refresh="getReceivingList" :popUpStatus='popUpStatus' @cancel="popUpStatus = false"/>
@@ -327,9 +332,16 @@ export default {
   width: 570px;
   margin: 50px auto;
 }
-
-#content .submitButton {
-  margin: 47px 130px;
+.payment-btn-wrapper {
+  margin: 47px auto;
+  text-align: center;
+}
+.payment-btn-text {
+  font-size: 14px;
+  color: #999999;
+  margin-top: 15px;
+}
+.payment-btn {
   width: 292px;
 }
 </style>
