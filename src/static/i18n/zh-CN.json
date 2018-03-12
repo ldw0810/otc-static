@@ -279,6 +279,7 @@
     "email_not_reg": "邮箱未注册"
   },
   "asset": {
+    "asset_miners_fee": "含矿工费",
     "asset_amount": "总资产",
     "asset_balance": "可用资产",
     "asset_locked": "冻结资产",

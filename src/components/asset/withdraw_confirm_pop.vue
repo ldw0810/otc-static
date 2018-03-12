@@ -9,7 +9,7 @@
             </div>
             <div class='content-item'>
                 <h3 class='content-item-title'>{{$t("asset.asset_withdraw_number")}}</h3>
-                <p class='content-item-address'>{{form.number}}</p>
+                <p class='content-item-address'>{{form.number}} {{currency}} （{{$t('asset.asset_miners_fee')}} {{currenyFee}} {{currency}}）</p>
             </div>
         </div>
         <p class='desc'>{{$t('asset.asset_withdraw_confirm_tip')}}</p>
@@ -25,6 +25,7 @@
 </div>
 </template>
 <script type="es6">
+    import { CONF_MINERSFEE } from 'config/config'
     import logoDiv from "../public/logo.vue"
     export default {
         props: {
@@ -36,6 +37,14 @@
         },
         data(){
             return {};
+        },
+        computed: {
+            currency() {
+                return (this.$route.query.currency || this.$store.state.currencyList[0]).toUpperCase()
+            },
+            currenyFee() {
+                return CONF_MINERSFEE.filter(item => item.name.toUpperCase() === this.currency).map(item => item.fee)[0] || 0
+            }
         },
         methods: {
             submit(){
@@ -53,7 +62,7 @@
 <style lang="scss" scoped>
 .asset {
   &-model {
-    width: 570px;
+    width: 580px;
     padding: 48px 75px 60px;
     &-title {
         font-size: 24px;
