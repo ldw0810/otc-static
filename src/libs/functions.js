@@ -13,11 +13,11 @@ import {
 /**
  * 设置bigNumber的全局参数
  */
-BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_FLOOR });
+// BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_FLOOR });
 
 export const fixDecimal = function(value, limit) {
   return BigNumber(value + "")
-    .decimalPlaces(limit)
+    .decimalPlaces(limit, BigNumber.ROUND_FLOOR)
     .toFixed(limit)
     .toString();
 };
@@ -56,6 +56,42 @@ export default {
      * 法币显示位数
      */
     Vue.prototype.$fixDecimalsLegal = fixDecimalsLegal;
+    /**
+     * 加法（解决精度问题）
+     */
+    Vue.prototype.$plus = function(...args) {
+      if (args.length !== 2) {
+        throw Error('Must set two params')
+      }
+      const bigNumber = new BigNumber(args[0])
+        return bigNumber.plus(args[1])
+    }
+    /**
+     * 减法（解决精度问题）
+     */
+    Vue.prototype.$minus = function(...args) {
+      if (args.length !== 2) {
+        throw Error('Must set two params')
+      }
+      const bigNumber = new BigNumber(args[0])
+      return bigNumber.minus(args[1])
+    }
+    /**
+     * 加法（解决精度问题）
+     */
+    Vue.prototype.$plus = function(...args) {
+      if (args.length !== 2) {
+        throw Error('Must set two params')
+      }
+      const bigNumber = new BigNumber(args[0])
+      return bigNumber.plus(args[1])
+    }
+    /**
+     * 乘法（解决精度问题）
+     */
+    Vue.prototype.$multipliedBy = function(...args) {
+      return BigNumber.multipliedBy(...args)
+    }
     /**
      * 根据参数定义显示资产位数
      */
