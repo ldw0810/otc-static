@@ -16,4 +16,19 @@ export const decimalLegal = 2; // 法币保留2位
 export const digitalCurrencyList = ["DAI", "ETH"]; // 当前平台支持的数字币
 export const legalCurrencyList = ["CNY"]; // 当前平台支持的法币
 
+
+/**
+ * 矿工费
+ */
+export const CONF_MINERSFEE = [
+  {
+    name: 'dai',
+    fee: 1
+  },
+  {
+    name: 'eth',
+    fee: 0.005
+  }
+]
+
 export default config;

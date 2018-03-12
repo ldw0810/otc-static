@@ -761,6 +761,19 @@ export default {
     &-title {
       font-weight: normal;
     }
+    &-desc {
+        max-height: 200px;
+        overflow-y: auto;
+          &::-webkit-scrollbar {
+          width: 10px;
+          -webkit-appearance: none;
+        }
+        &::-webkit-scrollbar-thumb {
+          background-color: #ccc;
+          border: 2px solid #fff;
+          border-radius: 8px;
+        }
+    }
   }
   &-action {
     height: 152px;

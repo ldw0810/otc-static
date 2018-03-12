@@ -275,6 +275,7 @@
     "email_not_reg": "Email not registered"
   },
   "asset": {
+    "asset_miners_fee": "Network transfer fees",
     "asset_amount": "Total",
     "asset_balance": "Available",
     "asset_locked": "Locked",

@@ -422,7 +422,7 @@
             </div>
             <div slot="footer"></div>
           </Modal> -->
-          <Modal v-model="withdraw_confirm" width='570' class-name="m-ivu-modal" :mask-closable="true"
+          <Modal v-model="withdraw_confirm" width='580' class-name="m-ivu-modal" :mask-closable="true"
                  :closable="false">
             <logoDiv/>
             <withdraw_confirm_pop :form="form" @close="doWithdrawPop"/>

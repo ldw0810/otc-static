@@ -277,6 +277,7 @@
     "email_not_reg": "郵箱未註冊"
   },
   "asset": {
+    "asset_miners_fee": "含礦工費",
     "asset_amount": "總資產",
     "asset_balance": "可用資產",
     "asset_locked": "凍結資產",
