@@ -75,7 +75,7 @@
                       <a href='javascript:' class='action-link' @click="updateAd(item.id,item.currency)" v-else>
                         {{$t("public.modify")}}
                       </a>
-                      <p class="text" v-if="+item.order_limit < +item.min_limit">
+                      <p class="text" v-if="+item.balance_limit && +item.balance_limit < +item.min_limit">
                         {{$t("ad.ad_asset_deficiency")}}
                       </p>
                       <a href='javascript:' class='action-link' @click="openAd(item.id)" v-else>
