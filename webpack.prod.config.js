@@ -5,6 +5,7 @@ const utils = require("./utils");
 const WebpackMd5Hash = require("webpack-md5-hash");
 const merge = require("webpack-merge");
 const webpackBaseConfig = require("./webpack.base.config.js");
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const fs = require("fs");
 const path = require("path");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
