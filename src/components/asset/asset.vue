@@ -684,12 +684,12 @@
             if (res.data && +res.data.error === 0) {
               this.showInfo();
             } else {
-              this.$Message.error(this.$t("asset.asset_address_request_fail"));
+              // this.$Message.error(this.$t("asset.asset_address_request_fail"));
             }
           })
           .catch(err => {
             this.addressLoading = false;
-            this.$Message.error(this.$t("asset.asset_address_request_fail"));
+            // this.$Message.error(this.$t("asset.asset_address_request_fail"));
           });
       },
       showInfo(index) {
@@ -704,11 +704,11 @@
               if (res.data && +res.data.error === 0) {
                 this.deposit = res.data;
               } else {
-                this.$Message.error(this.$t("asset.asset_recharge_request_fail"));
+                // this.$Message.error(this.$t("asset.asset_recharge_request_fail"));
               }
             })
             .catch(err => {
-              this.$Message.error(this.$t("asset.asset_recharge_request_fail"));
+              // this.$Message.error(this.$t("asset.asset_recharge_request_fail"));
             });
         } else if (+this.assetIndex === 1) {
           this.$store
@@ -731,11 +731,11 @@
                   }
                 }
               } else {
-                this.$Message.error(this.$t("asset.asset_withdraw_request_fail"));
+                // this.$Message.error(this.$t("asset.asset_withdraw_request_fail"));
               }
             })
             .catch(err => {
-              this.$Message.error(this.$t("asset.asset_withdraw_request_fail"));
+              // this.$Message.error(this.$t("asset.asset_withdraw_request_fail"));
             });
         }
       },
@@ -755,7 +755,7 @@
           if (valid) {
             this.withdraw_confirm = true;
           } else {
-            this.$Message.error(this.$t("asset.asset_withdraw_form_notValid"));
+            // this.$Message.error(this.$t("asset.asset_withdraw_form_notValid"));
           }
         });
       },

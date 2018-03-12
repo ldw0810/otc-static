@@ -87,14 +87,11 @@
         let default_collection = this.userInfo.default_collection;
         if (Object.keys(default_collection).length) {
           if ("" + default_collection.kind === "bank") {
-            return (
-              default_collection.bank_name +
-              "(" +
-              default_collection.account_display +
-              ")"
-            );
+            // return default_collection.bank_name + "(" + default_collection.account_display + ")";
+            return default_collection.bank_name;
           } else {
-            return (this.$t("public.alipay") + "(" + default_collection.account_display + ")");
+            // return (this.$t("public.alipay") + "(" + default_collection.account_display + ")");
+            return (this.$t("public.alipay"));
           }
         } else {
           return "";

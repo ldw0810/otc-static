@@ -104,11 +104,11 @@
                 });
               }
             } else {
-              this.$Message.error(this.$t("user.receivables_request_fail"));
+              // this.$Message.error(this.$t("user.receivables_request_fail"));
             }
           })
           .catch(err => {
-            this.$Message.error(this.$t("user.receivables_request_fail"));
+            // this.$Message.error(this.$t("user.receivables_request_fail"));
           });
       },
       delReceiving(index) {

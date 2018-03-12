@@ -349,11 +349,11 @@ export default {
           if (res.data && +res.data.error === 0) {
             this.ad = res.data.info;
           } else {
-            this.$Message.error(this.$t("order.order_ad_info_request_fail"));
+            // this.$Message.error(this.$t("order.order_ad_info_request_fail"));
           }
         })
         .catch(err => {
-          this.$Message.error(this.$t("order.order_ad_info_request_fail"));
+          // this.$Message.error(this.$t("order.order_ad_info_request_fail"));
         });
     },
     submit() {

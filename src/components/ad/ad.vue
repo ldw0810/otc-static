@@ -605,11 +605,11 @@
                 this.form_sell.collection = res.data.default.id;
               }
             } else {
-              this.$Message.error(this.$t("user.receivables_request_fail"));
+              // this.$Message.error(this.$t("user.receivables_request_fail"));
             }
           })
           .catch(err => {
-            this.$Message.error(this.$t("user.receivables_request_fail"));
+            // this.$Message.error(this.$t("user.receivables_request_fail"));
           });
       },
       getCurrencyCode() {
@@ -623,11 +623,11 @@
                 this.form_sell.money = this.currency === "eth" ? "dai" : "cny";
                 resolve()
               } else {
-                this.$Message.error(this.$t("ad.ad_money_request_fail"));
+                // this.$Message.error(this.$t("ad.ad_money_request_fail"));
               }
             })
             .catch(err => {
-              this.$Message.error(this.$t("ad.ad_money_request_fail"));
+              // this.$Message.error(this.$t("ad.ad_money_request_fail"));
             });
         });
       },
@@ -651,11 +651,11 @@
                 );
               }
             } else {
-              this.$Message.error(this.$t("ad.ad_reference_price_request_fail"));
+              // this.$Message.error(this.$t("ad.ad_reference_price_request_fail"));
             }
           })
           .catch(err => {
-            this.$Message.error(this.$t("ad.ad_reference_price_request_fail"));
+            // this.$Message.error(this.$t("ad.ad_reference_price_request_fail"));
           });
         this.timer && clearTimeout(this.timer);
         this.timer = setTimeout(this.getTradePrice, 1000 * 60 * 10);
@@ -876,11 +876,11 @@
                 );
               }
             } else {
-              this.$Message.error(this.$t("ad.ad_data_request_fail"));
+              // this.$Message.error(this.$t("ad.ad_data_request_fail"));
             }
           })
           .catch(err => {
-            this.$Message.error(this.$t("ad.ad_data_request_fail"));
+            // this.$Message.error(this.$t("ad.ad_data_request_fail"));
           });
       },
       examineAd() {
@@ -920,12 +920,14 @@
           });
         if (this.isUpdate && this.adId) {
           this.getAdById(this.adId);
-        } else if (+index === -1) {
-          this.$Message.error(this.$t("public.currency_notFound"));
-          this.$goRouter(
-            this.$route.fullPath.replace(this.currency, this.currencyList[0])
-          );
-        } else {
+        }
+        // else if (+index === -1) {
+        //   this.$Message.error(this.$t("public.currency_notFound"));
+        //   this.$goRouter(
+        //     this.$route.fullPath.replace(this.currency, this.currencyList[0])
+        //   );
+        // }
+        else {
           this.$store.commit("header_index_setter", "3" + index);
           this.examineAd();
         }

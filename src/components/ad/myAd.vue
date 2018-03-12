@@ -145,15 +145,15 @@
           })
           .then(res => {
             this.loading = false;
-            if (res.data && res.data.error == 0) {
+            if (res.data && +res.data.error === 0) {
               this.myAds = res.data;
             } else {
-              this.$Message.error(this.$t("ad.ad_data_request_fail"));
+              // this.$Message.error(this.$t("ad.ad_data_request_fail"));
             }
           })
           .catch(err => {
             this.loading = false;
-            this.$Message.error(this.$t("ad.ad_data_request_fail"));
+            // this.$Message.error(this.$t("ad.ad_data_request_fail"));
           });
       },
       changePage(pageIndex) {
