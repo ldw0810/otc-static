@@ -42,8 +42,8 @@ axios.interceptors.response.use(
   error => {
     if (error.response) {
       const index = languageSelectIndex();
-      if (+error.response.status === 504) { //服务器超时应退出登陆状态
-      } else if (error.response.data) {
+      const errMsg = languageData[index].data.request["" + error.response.data.error];
+      if (error.response.data) {
         if (+error.response.data.error === 999999) {
           store.commit("delToken");
           Message.error({
@@ -53,8 +53,9 @@ axios.interceptors.response.use(
         } else if (+error.response.data.error === 100031) {
           // store.commit("showAuthEmail_setter", 1);
         } else if ([100017, 100036, 100038].contains(+error.response.data.error)) {
+        } else if(errMsg){
+          Message.error(errMsg);
         } else {
-          Message.error(languageData[index].data.request["" + error.response.data.error]);
         }
       }
     } else if(error.message) {

@@ -63,7 +63,7 @@
         <FormItem prop="pinCode" class="formItem">
           <div class='g-send-group'>
             <i-input class="inputPinCode" type="text" v-model="delForm.pinCode"
-                     :placeholder="$t('user.pinCode_required')">
+                     :placeholder="$t('user.pinCode_required')" @on-enter="submit">
                             <span slot="prepend">
                                 <img src="../../../static/images/icon/IdentifyingCode-CCCCCC.svg">
                             </span>
@@ -157,10 +157,10 @@
               }
               this.countryList = countryList;
             } else {
-              this.$Message.error(this.$t("user.country_response_none"));
+              // this.$Message.error(this.$t("user.country_response_none"));
             }
           }).catch(err => {
-            this.$Message.error(this.$t("user.country_response_none"));
+            // this.$Message.error(this.$t("user.country_response_none"));
           });
         }
       }
@@ -242,10 +242,10 @@
                   this.$store.commit("userInfo_mobile_setter", false);
                   this.$emit('cancel');
                 } else {
-                  this.$Message.error(this.$t("user.auth_phone_unbind_fail"));
+                  // this.$Message.error(this.$t("user.auth_phone_unbind_fail"));
                 }
               }).catch(err => {
-                this.$Message.error(this.$t("user.auth_phone_unbind_fail"));
+                // this.$Message.error(this.$t("user.auth_phone_unbind_fail"));
               });
             } else {
               this.$Message.error(this.$t("user.auth_phone_notValid"));

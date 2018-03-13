@@ -122,11 +122,9 @@
                 if (res.data && +res.data.error === 0) {
                   window.location.href = res.data.path;
                 } else {
-                  this.$Message.error(this.$t("public.url_request_fail"));
                 }
               })
               .catch(err => {
-                this.$Message.error(this.$t("public.url_request_fail"));
               });
           } else {
             window.location.href =

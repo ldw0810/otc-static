@@ -55,8 +55,9 @@
                 </span>
       </div>
     </div>
-    <Modal v-model="pop_phone" class-name="m-ivu-modal" width='480' :mask-closable="true" :closable="false">
-      <auth_phone_pop @cancel='pop_phone = false'/>
+    <Modal v-model="pop_phone" class-name="m-ivu-modal" width='480' :mask-closable="true"
+           :closable="false" @on-visible-change="popPhoneTrigger">
+      <auth_phone_pop :pop_phone_show="pop_phone_show" @cancel='pop_phone = false'/>
       <div slot="footer"></div>
     </Modal>
     <Modal v-model="pop_google" class-name="m-ivu-modal" width='480' :mask-closable="true" :closable="false">
@@ -78,7 +79,8 @@
         breadcrumbText: this.$t("user.securitySetting"),
         popIndex: 0,
         pop_phone: false,
-        pop_google: false
+        pop_google: false,
+        pop_phone_show:false
       };
     },
     computed: {
@@ -113,6 +115,9 @@
             }
           }
         }
+      },
+      popPhoneTrigger(val) {
+        this.pop_phone_show = val;
       },
       closePopGoogle(val) {
         val && this.$store.dispatch("ajax_me");

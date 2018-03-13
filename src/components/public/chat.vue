@@ -198,12 +198,10 @@
                 this.msgList[this.msgList.length - 1].status = 1;
               } else {
                 this.msgList[this.msgList.length - 1].status = -1;
-                this.$Message.error(this.$t("order.order_chat_send_msg_fail"));
               }
             })
             .catch(err => {
               this.msgList[this.msgList.length - 1].status = -1;
-              this.$Message.error(this.$t("order.order_chat_send_msg_fail"));
             });
         } else {
           return false;

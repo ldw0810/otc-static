@@ -21,6 +21,8 @@
                             </span>
           </i-input>
         </FormItem>
+        <!--防止自动提交表单-->
+        <input type="text" style="display:none"/>
         <FormItem class="formItem submit">
                     <span>
                         <i-button class="submitButton" type="primary" :disabled='!validate' :loading='submitLoading'

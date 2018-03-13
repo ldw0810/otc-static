@@ -39,7 +39,7 @@
         });
       },
       close(){
-        this.$refs.sendCodeButton.close();
+        // this.$refs.sendCodeButton.clear();
       },
       sendEmail() {
         return new Promise((resolve, reject) => {
