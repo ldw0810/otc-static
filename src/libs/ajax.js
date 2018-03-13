@@ -53,7 +53,7 @@ axios.interceptors.response.use(
         } else if (+error.response.data.error === 100031) {
           // store.commit("showAuthEmail_setter", 1);
         } else if ([100017, 100036, 100038].contains(+error.response.data.error)) {
-        } else if(errMsg){
+        } else if(errMsg && +error.response.data.error !== 100021){
           Message.error(errMsg);
         } else {
         }
