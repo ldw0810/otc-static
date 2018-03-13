@@ -63,7 +63,7 @@
         <FormItem prop="pinCode" class="formItem">
           <div class='g-send-group'>
             <i-input class="inputPinCode" type="text" v-model="delForm.pinCode"
-                     :placeholder="$t('user.pinCode_required')">
+                     :placeholder="$t('user.pinCode_required')" @on-enter="submit">
                             <span slot="prepend">
                                 <img src="../../../static/images/icon/IdentifyingCode-CCCCCC.svg">
                             </span>
