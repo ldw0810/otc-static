@@ -20,7 +20,7 @@ const webpackConfig = merge(webpackBaseConfig, {
     path: path.join(__dirname, "../public/dist"),
     publicPath: "/dist/",
     filename: "[name].[chunkhash:8].js",
-    chunkFilename: "[name].[chunkhash:8].chunk.js"
+    chunkFilename: "[name].[chunkhash:8].chunk.js",
   },
   module: {
     rules: utils.styleLoaders({
@@ -33,9 +33,9 @@ const webpackConfig = merge(webpackBaseConfig, {
       filename: "[name].[hash].css",
       allChunks: true
     }),
-    new OptimizeCSSPlugin({
-      cssProcessorOptions: { safe: true }
-    }),
+    // new OptimizeCSSPlugin({
+    //   cssProcessorOptions: { discardComments: { removeAll: true } },
+    // }),
     new WebpackMd5Hash(),
     new webpack.optimize.CommonsChunkPlugin({
       name: "vendors",
@@ -51,10 +51,6 @@ const webpackConfig = merge(webpackBaseConfig, {
         );
       }
     }),
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: "manifest",
-    //   minChunks: Infinity
-    // }),
     new webpack.DefinePlugin({
       "process.env": {
         NODE_ENV: '"production"'
@@ -71,6 +67,7 @@ const webpackConfig = merge(webpackBaseConfig, {
     new HtmlWebpackPlugin({
       filename: "../index_prod.html",
       template: "./src/template/index.ejs",
+      favicon: './src/static/favicon.ico',
       inject: false
     })
   ]
