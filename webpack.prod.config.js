@@ -20,7 +20,9 @@ const webpackConfig = merge(webpackBaseConfig, {
     path: path.join(__dirname, "../public/dist"),
     publicPath: "/dist/",
     filename: "[name].[chunkhash:8].js",
-    chunkFilename: "[name].[chunkhash:8].chunk.js"
+    chunkFilename: "[name].[chunkhash:8].chunk.js",
+    assetsSubDirectory: 'assets',
+    assetsPublicPath: '/',
   },
   module: {
     rules: utils.styleLoaders({
@@ -51,10 +53,6 @@ const webpackConfig = merge(webpackBaseConfig, {
         );
       }
     }),
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: "manifest",
-    //   minChunks: Infinity
-    // }),
     new webpack.DefinePlugin({
       "process.env": {
         NODE_ENV: '"production"'
@@ -71,6 +69,7 @@ const webpackConfig = merge(webpackBaseConfig, {
     new HtmlWebpackPlugin({
       filename: "../index_prod.html",
       template: "./src/template/index.ejs",
+      favicon: '/favicon.ico',
       inject: false
     })
   ]
