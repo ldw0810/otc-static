@@ -64,7 +64,6 @@
   import auth_email_send from "./auth_email_send_pop.vue";
   import auth_phone_pop from "./auth_phone_pop.vue";
   import BreadCrumb from "./breadcrumb";
-  import store from "../../../store/store";
 
   export default {
     data() {
@@ -126,12 +125,6 @@
     },
     mounted() {
       this.$store.commit("user_sider_index_setter", 0);
-    },
-    beforeRouteEnter(to, from, next) {
-      if (from.name && from.name.indexOf("/user/login") <= -1) {
-        store.dispatch("ajax_me");
-      }
-      next();
     }
   };
 </script>
