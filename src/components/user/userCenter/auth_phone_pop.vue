@@ -157,10 +157,10 @@
               }
               this.countryList = countryList;
             } else {
-              this.$Message.error(this.$t("user.country_response_none"));
+              // this.$Message.error(this.$t("user.country_response_none"));
             }
           }).catch(err => {
-            this.$Message.error(this.$t("user.country_response_none"));
+            // this.$Message.error(this.$t("user.country_response_none"));
           });
         }
       }
