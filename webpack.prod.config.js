@@ -34,7 +34,7 @@ const webpackConfig = merge(webpackBaseConfig, {
       allChunks: true
     }),
     new OptimizeCSSPlugin({
-      cssProcessorOptions: { safe: true }
+      cssProcessorOptions: { discardComments: { removeAll: true } },
     }),
     new WebpackMd5Hash(),
     new webpack.optimize.CommonsChunkPlugin({
