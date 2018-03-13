@@ -148,6 +148,7 @@
                       <div class='withdraw-address'>
                         <FormItem prop="address" v-if="withdraw.fund_sources && withdraw.fund_sources.length">
                           <Select class='withdraw-address-select'
+                                  :placeholder="$t('ad.ad_type_select_withdraw_address')"
                                   @on-change='get_address_id'
                                   v-model='setAddress'
                           >
@@ -462,6 +463,7 @@
   import validateMixin from "@/components/mixins/validate-mixin";
   import emptyList from "@/components/public/empty-list";
   import QrcodeVue from "qrcode.vue";
+  import { VALI_ADDRESS_LABEL } from 'config/validator'
   import logoDiv from "../public/logo.vue";
   import auth_two from "../public/auth_two_pop.vue";
   import withdraw_confirm_pop from "./withdraw_confirm_pop.vue";
@@ -539,6 +541,14 @@
             {
               required: true,
               message: this.$t("asset.asset_withdraw_label_required")
+            },
+            {
+              min: VALI_ADDRESS_LABEL.min,
+              message: VALI_ADDRESS_LABEL.message
+            },
+            {
+              max: VALI_ADDRESS_LABEL.max,
+              message: VALI_ADDRESS_LABEL.message
             }
           ],
           address: [

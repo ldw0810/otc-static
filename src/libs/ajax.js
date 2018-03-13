@@ -15,7 +15,7 @@ axios.defaults.baseURL = env === 'development' ? '/' : "https://apialpha.otcmake
 function languageSelectIndex() {
   let index = 0;
   for (let i = 0; i < languageData.length; i++) {
-    if (languageData[i].language === (window.localStorage.getItem("language") || "zh-CN")) {
+    if (languageData[i].language === (window.localStorage.getItem("language") || "zh-HK")) {
       index = i;
     }
   }

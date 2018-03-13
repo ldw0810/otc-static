@@ -82,6 +82,7 @@
 </template>
 
 <script type="es6">
+  import { VALI_NICKNAME } from 'config/validator'
   import validateMixin from "@/components/mixins/validate-mixin";
   import {gt} from "../../libs/gt";
 
@@ -92,10 +93,11 @@
         if (!value || !value.length) {
           this.validFlag.userName = false;
           callback(new Error(this.$t("user.userName_required")));
-        } else if (!/^[a-zA-Z0-9_-]{6,16}$/.test(value)) {
+          
+        } else if (!new RegExp(`^[a-zA-Z0-9_-]{${VALI_NICKNAME.min},${VALI_NICKNAME.max}}$`).test(value)) {
           //4到16位（字母，数字，下划线，减号）
           this.validFlag.userName = false;
-          callback(new Error(this.$t("user.userName_notValid")));
+          callback(new Error(VALI_NICKNAME.message));
         } else {
           this.$store.dispatch("ajax_verified_nickname", {
             nickname: value

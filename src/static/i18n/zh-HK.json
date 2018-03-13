@@ -360,6 +360,7 @@
     "ad_type_select": "選擇廣告類型",
     "ad_type_select_tip": "您想要創建什麽樣的交易廣告？",
     "ad_type_select_required": "請選擇交易類型",
+    "ad_type_select_withdraw_address": "請選擇提現地址",
     "ad_collection": "收款方式",
     "ad_collection_select": "選擇收款方式",
     "ad_collection_select_tip": "您希望交易收款的支付方式",
@@ -588,5 +589,13 @@
     "100045": "該電話號碼已經被綁定",
     "888888": "校驗失敗",
     "999999": "鑒權失敗，請重新登錄"
+  },
+  "validate": {
+    "alipay_name_range": "支付寶帳戶名稱長度應該介於 4-20 之間",
+    "alipay_account_range": "支付寶帳號長度應該介於 4-40 之間",
+    "card_holder_range": "銀行卡帳戶長度應該介於 4-20 之間",
+    "card_number_range": "銀行卡卡號長度應該介於 10-20 之間",
+    "address_label": "提現地址標籤應該介於2-16比特之間",
+    "max_length": "字數不得超過{0}"
   }
 }

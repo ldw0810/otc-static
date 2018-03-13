@@ -351,6 +351,7 @@
 </template>
 <script type="es6">
   import ValidateMixin from "@/components/mixins/validate-mixin";
+  import { VALI_AD_REMARK } from 'config/validator'
   import config from "@/config/config";
 
   export default {
@@ -518,6 +519,16 @@
             },
             {
               validator: validateMaxPriceCheck
+            }
+          ],
+          remark: [
+            {
+              min: VALI_AD_REMARK.min,
+              message: VALI_AD_REMARK.message
+            },
+            {
+              max: VALI_AD_REMARK.max,
+              message: VALI_AD_REMARK.message
             }
           ]
         },
