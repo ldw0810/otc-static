@@ -208,7 +208,7 @@ router.beforeEach((to, from, next) => {
   LoadingBar.start();
   Util.title(to.meta.title);
   if (localStorage.getItem("userToken")) {
-      store.dispatch("ajax_me");  //进入每个页面都调用me接口更新用户信息
+    store.dispatch("ajax_me");  //进入每个页面都调用me接口更新用户信息
     if (to.matched.some(r => r.meta.noUser)) {
       if (from.name === "home") {
         LoadingBar.finish();
