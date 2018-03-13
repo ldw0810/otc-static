@@ -21,8 +21,6 @@ const webpackConfig = merge(webpackBaseConfig, {
     publicPath: "/dist/",
     filename: "[name].[chunkhash:8].js",
     chunkFilename: "[name].[chunkhash:8].chunk.js",
-    assetsSubDirectory: 'assets',
-    assetsPublicPath: '/',
   },
   module: {
     rules: utils.styleLoaders({
@@ -69,7 +67,7 @@ const webpackConfig = merge(webpackBaseConfig, {
     new HtmlWebpackPlugin({
       filename: "../index_prod.html",
       template: "./src/template/index.ejs",
-      favicon: '/favicon.ico',
+      favicon: './src/static/favicon.ico',
       inject: false
     })
   ]
