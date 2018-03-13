@@ -204,17 +204,15 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  //地址栏进入的页面，from.name为空
   LoadingBar.start();
-  Util.title(to.meta.title);
-  if (localStorage.getItem("userToken")) {
-    store.dispatch("ajax_me");  //进入每个页面都调用me接口更新用户信息
+  const goFun = () => {
     if (to.matched.some(r => r.meta.noUser)) {
       if (from.name === "home") {
         LoadingBar.finish();
       }
       next({path: "/"});
     } else if (to.matched.some(r => r.meta.needEmail) && !store.state.userInfo.activated) {
+      //地址栏输入的from.name为空
       if (from.name && from.name.indexOf("/user/login") <= -1) {
         LoadingBar.finish();
         store.commit("showAuthEmail_setter", 1);
@@ -223,6 +221,24 @@ router.beforeEach((to, from, next) => {
       }
     } else {
       next();
+    }
+  };
+
+  Util.title(to.meta.title);
+  if (localStorage.getItem("userToken")) {
+    if (store.state.userInfo.id) {
+      store.dispatch("ajax_me");
+      goFun();
+    } else {
+      store.dispatch("ajax_me").then(res => {
+        if (res.data && +res.data.error === 0) {
+          goFun();
+        } else {
+          next({path: "/user/userCenter"});
+        }
+      }).catch(err => {
+        next({path: "/user/userCenter"});
+      });
     }
   } else {
     if (to.matched.some(r => r.meta.noLogin)) {

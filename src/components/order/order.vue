@@ -520,7 +520,7 @@ export default {
               // this.$Message.error(this.$t("order.order_pay_evaluate_fail"));
             });
           } else {
-            this.$Message.error(this.$t("order.order_pay_evaluate_required"));
+            // this.$Message.error(this.$t("order.order_pay_evaluate_required"));
           }
         } else if (operStr === "complete") {
           this.confirmFlag.complete = true;
@@ -539,10 +539,10 @@ export default {
               this.$Message.success(this.$t("order.order_pay_complete_success"));
               this.getOrderInfo();
             } else {
-              this.$Message.error(this.$t("order.order_pay_complete_fail"));
+              // this.$Message.error(this.$t("order.order_pay_complete_fail"));
             }
           }).catch(err => {
-            this.$Message.error(this.$t("order.order_pay_complete_fail"));
+            // this.$Message.error(this.$t("order.order_pay_complete_fail"));
           });
         } else if (operStr === "release") {
           let requestData = {
@@ -558,7 +558,7 @@ export default {
               this.$Message.success(this.$t("order.order_pay_release_success"));
               this.getOrderInfo();
             } else {
-              this.$Message.error(this.$t("order.order_pay_release_fail"));
+              // this.$Message.error(this.$t("order.order_pay_release_fail"));
             }
           }).catch(err => {
             if (err.sms || err.app) {
@@ -568,7 +568,7 @@ export default {
               });
               this.auth_two_flag = true;
             } else {
-              this.$Message.error(this.$t("order.order_pay_release_fail"));
+              // this.$Message.error(this.$t("order.order_pay_release_fail"));
             }
           });
         } else if (operStr === "complete") {
@@ -592,11 +592,11 @@ export default {
                 this.getOrderInfo();
               } else {
                 this.cancelFlag = false;
-                this.$Message.error(this.$t("order.order_pay_cancel_fail"));
+                // this.$Message.error(this.$t("order.order_pay_cancel_fail"));
               }
             }).catch(err => {
               this.cancelFlag = false;
-              this.$Message.error(this.$t("order.order_pay_cancel_fail"));
+              // this.$Message.error(this.$t("order.order_pay_cancel_fail"));
             });
         }
       }
