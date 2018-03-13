@@ -1,7 +1,7 @@
 import store from "./store/store";
 import Util from "./libs/util";
 import Vue from "vue";
-import { LoadingBar } from "iview";
+import {LoadingBar} from "iview";
 import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
@@ -204,54 +204,25 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  //地址栏进入的页面，from.name为空
   LoadingBar.start();
-  const goFun = () => {
+  Util.title(to.meta.title);
+  if (localStorage.getItem("userToken")) {
+      store.dispatch("ajax_me");  //进入每个页面都调用me接口更新用户信息
     if (to.matched.some(r => r.meta.noUser)) {
       if (from.name === "home") {
         LoadingBar.finish();
       }
-      next({
-        path: "/"
-      });
-    } else if (
-      to.matched.some(r => r.meta.needEmail) &&
-      !store.state.userInfo.activated
-    ) {
+      next({path: "/"});
+    } else if (to.matched.some(r => r.meta.needEmail) && !store.state.userInfo.activated) {
       if (from.name && from.name.indexOf("/user/login") <= -1) {
         LoadingBar.finish();
         store.commit("showAuthEmail_setter", 1);
       } else {
-        //地址栏输入的from.name为空name为空
-        next({
-          path: "/user/userCenter"
-        });
+        next({path: "/user/userCenter"});
       }
     } else {
       next();
-    }
-  };
-
-  Util.title(to.meta.title);
-  if (localStorage.getItem("userToken")) {
-    if (store.state.userInfo.id) {
-      goFun();
-    } else {
-      store
-        .dispatch("ajax_me")
-        .then(res => {
-          if (res.data && +res.data.error === 0) {
-            goFun();
-          } else {
-            next({
-              path: "/user/userCenter"
-            });
-          }
-        })
-        .catch(err => {
-          next({
-            path: "/user/userCenter"
-          });
-        });
     }
   } else {
     if (to.matched.some(r => r.meta.noLogin)) {
@@ -259,7 +230,7 @@ router.beforeEach((to, from, next) => {
     } else {
       next({
         path: "/user/login",
-        query: { redirect: to.fullPath }
+        query: {redirect: to.fullPath}
       });
       if (from.name === "/user/login") {
         LoadingBar.finish();

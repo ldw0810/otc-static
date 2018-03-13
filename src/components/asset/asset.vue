@@ -465,7 +465,6 @@
   import logoDiv from "../public/logo.vue";
   import auth_two from "../public/auth_two_pop.vue";
   import withdraw_confirm_pop from "./withdraw_confirm_pop.vue";
-  import store from "../../store/store";
   import sendCodeButton from "../public/sendCode"
   import ethereumAddress from "ethereum-address"
 
@@ -930,25 +929,13 @@
       },
       init() {
         this.$store.commit("header_index_setter", "8");
+        this.initFormData();
+        this.initSelectedValue();
         this.showInfo();
       }
     },
     mounted() {
       this.init();
-    },
-    beforeRouteEnter(to, from, next) {
-      if (from.name && from.name !== "/user/login") {
-        store.dispatch("ajax_me");
-      }
-      next();
-    },
-    beforeRouteUpdate(to, from, next) {
-      if (from.name && from.name.indexOf("/user/login") <= -1) {
-        store.dispatch("ajax_me");
-        this.initFormData();
-        this.initSelectedValue();
-      }
-      next();
     }
   };
 </script>
