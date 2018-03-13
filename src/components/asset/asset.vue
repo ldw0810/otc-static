@@ -151,9 +151,9 @@
                                   @on-change='get_address_id'
                                   v-model='setAddress'
                           >
-                           
+
                             <template v-if='withdraw.fund_sources.length'>
-                               <Option :value='1000' :label='$t("asset.asset_withdraw_add_new_address_down")'>
+                              <Option :value='1000' :label='$t("asset.asset_withdraw_add_new_address_down")'>
                                 <span class='withdraw-address-select-text u-ellipsis-1'>{{$t('asset.asset_withdraw_address_add')}}</span>
                               </Option>
                               <Option :value="item.id + '-' + item.uid" :label="item.extra + ' - ' + item.uid"
@@ -305,7 +305,7 @@
               </table>
               <Page class='m-ivu-pages' :current="deposit.page" :total="deposit.total_count"
                     :page-size="deposit.per_page"
-                    @on-change="showInfo"></Page>
+                    @on-change="changePage"></Page>
             </div>
             <div class='content-history'
                  v-else-if="+assetIndex === 1 && withdraw.withdraws.length && !(!userInfo.mobile && !userInfo.app_two_factor)">
@@ -351,7 +351,7 @@
                 </tbody>
               </table>
               <Page class='m-ivu-pages' :total="withdraw.total_count" :page-size="withdraw.per_page"
-                    @on-change="showInfo"></Page>
+                    @on-change="changePage"></Page>
             </div>
           </div>
           <emptyList
@@ -643,6 +643,9 @@
       },
       default_source_id() {
         return this.withdraw.default_source_id;
+      },
+      pageIndex(){
+        return this.$route.query.pageIndex || 1;
       }
     },
     watch: {
@@ -691,13 +694,18 @@
             // this.$Message.error(this.$t("asset.asset_address_request_fail"));
           });
       },
-      showInfo(index) {
+      changePage(pageIndex) {
+        this.$goRouter(this.$route.fullPath, {
+          pageIndex: pageIndex
+        });
+      },
+      showInfo() {
         if (this.assetIndex === 0) {
           this.$store
             .dispatch("ajax_get_deposit", {
               currency: this.currency,
               limit: this.deposit.per_page,
-              page: index ? +index : this.deposit.page
+              page: +this.pageIndex || this.deposit.page
             })
             .then(res => {
               if (res.data && +res.data.error === 0) {
@@ -714,7 +722,7 @@
             .dispatch("ajax_get_withdraw", {
               currency: this.currency,
               limit: this.withdraw.per_page,
-              page: index ? index : this.withdraw.page
+              page: +this.pageIndex || this.withdraw.page
             })
             .then(res => {
               if (res.data && +res.data.error === 0) {
