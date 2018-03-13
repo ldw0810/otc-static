@@ -111,7 +111,7 @@ export default {
       if (url && url.length) {
         this.$router.push({ path: url, query: query });
       } else {
-        this.$Message.error(this.$t("public.url_notFound"));
+        // this.$Message.error(this.$t("public.url_notFound"));
       }
     };
     Vue.prototype.$goBack = function() {

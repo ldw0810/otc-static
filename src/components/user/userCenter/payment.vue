@@ -99,7 +99,7 @@ export default {
     if (!this.collection || !this.collection.length) {
       this.getReceivingList();
     } else {
-      this.isLoading = false
+      this.isLoading = false;
       this.findDefaultIndex(this.collection)
     }
   },
@@ -116,19 +116,19 @@ export default {
       this.$store
         .dispatch("ajax_get_receiving")
         .then(res => {
-          this.isLoading = false
+          this.isLoading = false;
           if (res.data && +res.data.error === 0) {
             this.$store.commit("collection_setter", res.data.list || []);
             if (res.data.list.length) {
               this.findDefaultIndex(res.data.list)
             }
           } else {
-            this.$Message.error(this.$t("user.receivables_request_fail"));
+            // this.$Message.error(this.$t("user.receivables_request_fail"));
           }
         })
         .catch(err => {
-          this.isLoading = false
-          this.$Message.error(this.$t("user.receivables_request_fail"));
+          this.isLoading = false;
+          // this.$Message.error(this.$t("user.receivables_request_fail"));
         });
     },
     delReceiving(index) {
@@ -143,11 +143,11 @@ export default {
             list.splice(index, 1);
             this.$store.commit("collection_setter", list);
           } else {
-            this.$Message.error(this.$t("user.receivables_del_fail"));
+            // this.$Message.error(this.$t("user.receivables_del_fail"));
           }
         })
         .catch(err => {
-          this.$Message.error(this.$t("user.receivables_del_fail"));
+          // this.$Message.error(this.$t("user.receivables_del_fail"));
         });
     },
     setDefaultReceiving(index) {
@@ -168,11 +168,11 @@ export default {
             }
             this.$store.commit("collection_setter", list);
           } else {
-            this.$Message.error(this.$t("user.receivables_set_default_fail"));
+            // this.$Message.error(this.$t("user.receivables_set_default_fail"));
           }
         })
         .catch(err => {
-          this.$Message.error(this.$t("user.receivables_set_default_fail"));
+          // this.$Message.error(this.$t("user.receivables_set_default_fail"));
         });
     }
   },

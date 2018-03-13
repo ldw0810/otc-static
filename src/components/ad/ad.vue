@@ -316,11 +316,11 @@
                 <span slot="append">{{moneyText}}</span>
               </i-input>
             </i-col>
-            <i-col span='3' offset="1">
-              <i-button type='primary' long @click="sellAll">
-                {{$t("ad.ad_ceiling_sell_all")}}
-              </i-button>
-            </i-col>
+            <!--<i-col span='3' offset="1">-->
+              <!--<i-button type='primary' long @click="sellAll">-->
+                <!--{{$t("ad.ad_ceiling_sell_all")}}-->
+              <!--</i-button>-->
+            <!--</i-col>-->
           </Row>
         </FormItem>
         <FormItem prop="remark" class="form-item">
@@ -730,14 +730,14 @@
           });
         }
       },
-      sellAll() {
-        this.$nextTick(() => {
-          this.form.ceiling = this.$fixDeciamlAuto(
-            this.balanceObj[this.currency] * this.tradePrice * (1 - +config.poundage),
-            this.moneyText
-          );
-        });
-      },
+      // sellAll() {
+      //   this.$nextTick(() => {
+      //     this.form.ceiling = this.$fixDeciamlAuto(
+      //       this.balanceObj[this.currency] * this.tradePrice * (1 - +config.poundage),
+      //       this.moneyText
+      //     );
+      //   });
+      // },
       submit() {
         if (!this.userInfo.activated) {
           this.$store.commit("showAuthEmail_setter", 1);

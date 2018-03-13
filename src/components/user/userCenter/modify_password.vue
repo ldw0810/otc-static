@@ -126,17 +126,17 @@ export default {
             })
             .then(res => {
               this.submitLoading = false;
-              if (res.data && res.data.error == 0) {
+              if (res.data && +res.data.error === 0) {
                 this.$Message.success(this.$t("user.password_modify_success"));
                 this.$goRouter("/user/userCenter/securitySetting");
               } else {
-                this.$Message.error(this.$t("user.password_modify_fail"));
+                // this.$Message.error(this.$t("user.password_modify_fail"));
                 this.$refs["form"].resetFields();
               }
             })
             .catch(err => {
               this.submitLoading = false;
-              this.$Message.error(this.$t("user.password_modify_fail"));
+              // this.$Message.error(this.$t("user.password_modify_fail"));
               this.$refs["form"].resetFields();
             });
         } else {

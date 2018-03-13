@@ -242,10 +242,10 @@
                   this.$store.commit("userInfo_mobile_setter", false);
                   this.$emit('cancel');
                 } else {
-                  this.$Message.error(this.$t("user.auth_phone_unbind_fail"));
+                  // this.$Message.error(this.$t("user.auth_phone_unbind_fail"));
                 }
               }).catch(err => {
-                this.$Message.error(this.$t("user.auth_phone_unbind_fail"));
+                // this.$Message.error(this.$t("user.auth_phone_unbind_fail"));
               });
             } else {
               this.$Message.error(this.$t("user.auth_phone_notValid"));

@@ -276,13 +276,13 @@
               this.$emit("refresh");
               this.$emit("cancel");
             } else {
-              this.$Message.error(this.$t("user.receivables_add_fail"));
+              // this.$Message.error(this.$t("user.receivables_add_fail"));
             }
           })
           .catch(err => {
             this.alipayFormLoading = false;
             this.bankCardFormLoading = false;
-            this.$Message.error(this.$t("user.receivables_add_fail"));
+            // this.$Message.error(this.$t("user.receivables_add_fail"));
           });
       },
       getBankList() {
@@ -292,11 +292,11 @@
             if (res.data && +res.data.error === 0) {
               this.$store.commit("banks_setter", res.data.list || []);
             } else {
-              this.$Message.error(this.$t("user.banks_request_fail"));
+              // this.$Message.error(this.$t("user.banks_request_fail"));
             }
           })
           .catch(err => {
-            this.$Message.error(this.$t("user.banks_request_fail"));
+            // this.$Message.error(this.$t("user.banks_request_fail"));
           });
       }
     },
