@@ -413,7 +413,7 @@ export default {
           }
         })
         .catch(err => {
-          this.submitPlaceOrderLoading = false;
+          // this.submitPlaceOrderLoading = false;
           this.confirmFlag.placeOrder = false;
           this.$Message.error(this.$t("order.order_deal_request_fail"));
         });
