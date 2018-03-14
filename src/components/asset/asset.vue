@@ -469,6 +469,7 @@
   import withdraw_confirm_pop from "./withdraw_confirm_pop.vue";
   import sendCodeButton from "../public/sendCode"
   import ethereumAddress from "ethereum-address"
+  import {CONF_DIGITAL_CURRENCY_LIST} from "config/config";
 
   export default {
     name: "",
@@ -617,10 +618,10 @@
         return this.$route.query.withdraw_token;
       },
       currencyList() {
-        return this.$store.state.currencyList;
+        return CONF_DIGITAL_CURRENCY_LIST;
       },
       currency() {
-        return this.$route.query.currency || this.$store.state.currencyList[0];
+        return this.$route.query.currency || CONF_DIGITAL_CURRENCY_LIST[0];
       },
       account() {
         let index = 0;

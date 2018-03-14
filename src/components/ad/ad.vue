@@ -352,7 +352,7 @@
 <script type="es6">
   import ValidateMixin from "@/components/mixins/validate-mixin";
   import { VALI_AD_REMARK } from 'config/validator'
-  import config from "@/config/config";
+  import {CONF_DIGITAL_CURRENCY_LIST, CONF_PAYMENT_LIST} from "config/config";
 
   export default {
     mixins: [ValidateMixin("form", "form")],
@@ -547,10 +547,10 @@
         return this.$store.state.userInfo;
       },
       currency() {
-        return this.$route.query.currency || this.$store.state.currencyList[0];
+        return this.$route.query.currency || CONF_DIGITAL_CURRENCY_LIST[0];
       },
       currencyList() {
-        return this.$store.state.currencyList;
+        return CONF_DIGITAL_CURRENCY_LIST;
       },
       moneyText() {
         return this.$t("public['" + this.form.money + "']");
@@ -562,7 +562,7 @@
         return this.$store.state.collection_refresh;
       },
       paymentList() {
-        return this.$store.state.paymentList;
+        return CONF_PAYMENT_LIST;
       },
       balanceObj() {
         let obj = {};
@@ -709,10 +709,7 @@
         }
       },
       changeFloor() {
-        let tempBalance =
-          +this.balanceObj[this.currency] *
-          this.tradePrice *
-          (1 - +config.poundage);
+        let tempBalance = +this.balanceObj[this.currency] * this.tradePrice;
         if (this.currency === `dai` && +this.adType !== 1) {
         } else if (+this.form.floor > tempBalance) {
           this.$nextTick(() => {
@@ -721,10 +718,7 @@
         }
       },
       changeCeiling() {
-        let tempBalance =
-          +this.balanceObj[this.currency] *
-          this.tradePrice *
-          (1 - +config.poundage);
+        let tempBalance = +this.balanceObj[this.currency] * this.tradePrice;
         if (this.currency === `dai` && +this.adType !== 1) {
         } else if (+this.form.ceiling > tempBalance) {
           this.$nextTick(() => {
@@ -735,7 +729,7 @@
       // sellAll() {
       //   this.$nextTick(() => {
       //     this.form.ceiling = this.$fixDeciamlAuto(
-      //       this.balanceObj[this.currency] * this.tradePrice * (1 - +config.poundage),
+      //       this.balanceObj[this.currency] * this.tradePrice,
       //       this.moneyText
       //     );
       //   });

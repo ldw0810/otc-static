@@ -2,9 +2,6 @@ import Env from "./env";
 
 let config = {
   env: Env,
-  webSocketUrl: "wss://alpha.otcmaker.com:8080/",
-  poundage: 0.005,
-  limit: 500
 };
 
 export const CONF_PAYMENT_LIST = ["alipay", "bank"]; // 支付方式
@@ -29,6 +26,6 @@ export const CONF_MINERSFEE = [
     name: 'eth',
     fee: 0.005
   }
-]
-
+];
+// export const webSocketUrl = "wss://alpha.otcmaker.com:8080/";
 export default config;
