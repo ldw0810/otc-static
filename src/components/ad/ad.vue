@@ -619,9 +619,6 @@
               // this.$Message.error(this.$t("user.receivables_request_fail"));
             }
           })
-          .catch(err => {
-            // this.$Message.error(this.$t("user.receivables_request_fail"));
-          });
       },
       getCurrencyCode() {
         return new Promise(resolve => {
@@ -637,9 +634,6 @@
                 // this.$Message.error(this.$t("ad.ad_money_request_fail"));
               }
             })
-            .catch(err => {
-              // this.$Message.error(this.$t("ad.ad_money_request_fail"));
-            });
         });
       },
       getTradePrice() {
@@ -665,9 +659,6 @@
               // this.$Message.error(this.$t("ad.ad_reference_price_request_fail"));
             }
           })
-          .catch(err => {
-            // this.$Message.error(this.$t("ad.ad_reference_price_request_fail"));
-          });
         this.timer && clearTimeout(this.timer);
         this.timer = setTimeout(this.getTradePrice, 1000 * 60 * 10);
       },
@@ -794,7 +785,6 @@
                   })
                   .catch(err => {
                     this.submitLoading = false;
-                    this.$Message.error(this.$t("ad.ad_update_fail"));
                   });
               } else {
                 const requestData = {
@@ -828,12 +818,7 @@
                     }
                   })
                   .catch(err => {
-                    this.submitLoading = false;
-                    if (err.error === "100034") {
-                      this.$Message.error(this.$t("ad.ad_advertise_fail"));
-                    } else {
-                      this.$Message.error(this.$t("ad.ad_advertise_fail"));
-                    }
+                    this.submitLoading = false;                  
                   });
               }
             } else {
@@ -890,9 +875,6 @@
               // this.$Message.error(this.$t("ad.ad_data_request_fail"));
             }
           })
-          .catch(err => {
-            // this.$Message.error(this.$t("ad.ad_data_request_fail"));
-          });
       },
       examineAd() {
         for (let i = 0; i < this.opList.length; i++) {

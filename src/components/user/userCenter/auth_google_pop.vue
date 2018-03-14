@@ -94,7 +94,7 @@
                 }
               }).catch(err => {
                 this.submitLoading = false;
-                this.$Message.error(this.$t("user.auth_google_del_fail"));
+                // this.$Message.error(this.$t("user.auth_google_del_fail"));
               });
             } else {
               this.submitLoading = true;
@@ -112,7 +112,7 @@
                 }
               }).catch(err => {
                 this.submitLoading = false;
-                this.$Message.error(this.$t("user.auth_google_add_fail"));
+                // this.$Message.error(this.$t("user.auth_google_add_fail"));
               });
             }
           } else {

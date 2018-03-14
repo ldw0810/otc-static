@@ -309,7 +309,7 @@
                     })
                     .catch(err => {
                       this.submitLoading = false;
-                      this.$Message.error(this.$t("public.url_request_fail"));
+                      // this.$Message.error(this.$t("public.url_request_fail"));
                     });
                 });
               }
@@ -319,7 +319,7 @@
           }
         })
         .catch(err => {
-          this.$Message.error(this.$t("user.captcha_request_fail"));
+          // this.$Message.error(this.$t("user.captcha_request_fail"));
         });
     },
     destroyed() {

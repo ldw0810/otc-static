@@ -181,7 +181,7 @@
                 this.$Message.error(this.$t("user.auth_phone_code_send_fail"));
               }
             }).catch(err => {
-              this.$Message.error(this.$t(`request.${err.error}`));
+              // this.$Message.error(this.$t(`request.${err.error}`));
               this.$refs.sendButton.refresh();
             });
           } else {
@@ -198,7 +198,7 @@
               this.$Message.error(this.$t("user.auth_phone_code_send_fail"));
             }
           }).catch(err => {
-            this.$Message.error(this.$t("user.auth_phone_code_send_fail"));
+            // this.$Message.error(this.$t("user.auth_phone_code_send_fail"));
           });
         }
       },
@@ -224,7 +224,7 @@
                 }
               }).catch(err => {
                 this.submitloading = false;
-                this.$Message.error(this.$t("user.auth_phone_bind_fail"));
+                // this.$Message.error(this.$t("user.auth_phone_bind_fail"));
               });
             } else {
               this.$Message.error(this.$t("user.auth_phone_notValid"));

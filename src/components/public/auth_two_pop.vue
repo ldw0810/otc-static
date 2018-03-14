@@ -155,7 +155,7 @@
                 }
               }).catch(err => {
                 this.phoneLoading = false;
-                this.$Message.error(this.$t("user.auth_phone_fail"));
+                // this.$Message.error(this.$t("user.auth_phone_fail"));
                 this.$refs.sendCodeButton.refresh();
               });
             }
@@ -190,7 +190,7 @@
                 }
               }).catch(err => {
                 this.googleLoading = false;
-                this.$Message.error(this.$t("user.auth_google_fail"));
+                // this.$Message.error(this.$t("user.auth_google_fail"));
               });
             }
           } else {

@@ -133,7 +133,7 @@
                   })
                     .catch(err => {
                       this.submitLoading = false;
-                      this.$Message.error(this.$t("user.auth_email_send_fail"));
+                      // this.$Message.error(this.$t("user.auth_email_send_fail"));
                     });
                 });
               }
@@ -143,7 +143,7 @@
           }
         })
         .catch(err => {
-          this.$Message.error(this.$t("user.captcha_request_fail"));
+          // this.$Message.error(this.$t("user.captcha_request_fail"));
         });
     },
     components: {

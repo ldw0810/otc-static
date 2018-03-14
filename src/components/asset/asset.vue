@@ -826,7 +826,7 @@
                 });
                 this.auth_two_flag = true;
               } else {
-                this.$Message.error(this.$t("asset.asset_withdraw_fail"));
+                // this.$Message.error(this.$t("asset.asset_withdraw_fail"));
                 this.init();
               }
             });
@@ -864,9 +864,9 @@
             }
           })
           .catch(err => {
-            this.$Message.error(
-              this.$t("asset.asset_withdraw_address_set_default_fail")
-            );
+            // this.$Message.error(
+            //   this.$t("asset.asset_withdraw_address_set_default_fail")
+            // );
           });
       },
       address_del(id) {
@@ -887,7 +887,7 @@
             }
           })
           .catch(err => {
-            this.$Message.error(this.$t("asset.asset_withdraw_address_del_fail"));
+            // this.$Message.error(this.$t("asset.asset_withdraw_address_del_fail"));
           });
       },
       doWithdrawPop(val) {
@@ -936,7 +936,7 @@
             this.$Message.success(this.$t("asset.asset_withdraw_email_success"));
           })
           .catch(err => {
-            this.$Message.error(this.$t("public.fail"));
+            // this.$Message.error(this.$t("public.fail"));
           });
       },
       showAuthEmail() {

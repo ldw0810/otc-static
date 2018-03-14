@@ -90,7 +90,7 @@
             this.$goRouter("/user/login");
           }
         }).catch(err => {
-          this.$Message.error(this.$t("user.email_token_invalid"));
+          // this.$Message.error(this.$t("user.email_token_invalid"));
           this.$goRouter("/user/login");
         });
 

@@ -118,7 +118,7 @@
                         this.$Message.error(this.$t("user.userInfo_response_none"));
                       }
                     })).catch(err => {
-                      this.$Message.error(this.$t("user.userInfo_response_none"));
+                      // this.$Message.error(this.$t("user.userInfo_response_none"));
                     });
                   } else {
                     this.$Message.error(this.$t("user.login_error"));
@@ -140,7 +140,7 @@
                       this.$goRouter("/user/login/validate");
                     }
                   } else {
-                    this.$Message.error(this.$t("user.login_error"));
+                    // this.$Message.error(this.$t("user.login_error"));
                   }
                 });
               });
@@ -151,7 +151,7 @@
           this.$Message.error(this.$t("user.captcha_request_fail"));
         }
       }).catch(err => {
-        this.$Message.error(this.$t("user.captcha_request_fail"));
+        // this.$Message.error(this.$t("user.captcha_request_fail"));
       });
     },
     components: {

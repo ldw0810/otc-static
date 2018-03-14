@@ -179,7 +179,6 @@
           }
         }).catch(err => {
           this.loading = false;
-          // this.$Message.error(this.$t("order.order_list_request_fail"));
         });
       },
       deal(id) {
