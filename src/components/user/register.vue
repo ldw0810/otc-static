@@ -304,7 +304,10 @@
                         this.$Message.success(this.$t("user.register_success"));
                         this.$goRouter("/user/login");
                       } else {
-                        this.$Message.error(this.$t("user.register_error"));
+                        this.$modal.error({
+                          title: this.$t("public.error_title_default"),
+                          content: this.$t("user.register_error")
+                        })
                       }
                     })
                     .catch(err => {
@@ -315,7 +318,10 @@
               }
             );
           } else {
-            this.$Message.error(this.$t("user.captcha_request_fail"));
+            this.$modal.error({
+              title: this.$t("public.error_title_default"),
+              content: this.$t("user.captcha_request_fail")
+            })
           }
         })
         .catch(err => {
@@ -331,7 +337,10 @@
           if (valid) {
             this.captchaObj.verify();
           } else {
-            this.$Message.error(this.$t("user.register_error"));
+            this.$modal.error({
+              title: this.$t("public.error_title_default"),
+              content: this.$t("user.register_error")
+            })
           }
         });
       },

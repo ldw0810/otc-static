@@ -115,13 +115,19 @@
                         this.$Message.success(this.$t("user.login_success"));
                         this.$goRouter(this.$route.query.redirect || "/user/userCenter");
                       } else {
-                        this.$Message.error(this.$t("user.userInfo_response_none"));
+                        this.$modal.error({
+                          title: this.$t("public.error_title_default"),
+                          content: this.$t("user.userInfo_response_none")
+                        })
                       }
                     })).catch(err => {
                       // this.$Message.error(this.$t("user.userInfo_response_none"));
                     });
                   } else {
-                    this.$Message.error(this.$t("user.login_error"));
+                    this.$modal.error({
+                      title: this.$t("public.error_title_default"),
+                      content: this.$t("user.login_error")
+                    })
                   }
                 }).catch(err => {
                   this.submitLoading = false;
@@ -148,7 +154,10 @@
           );
 
         } else {
-          this.$Message.error(this.$t("user.captcha_request_fail"));
+          this.$modal.error({
+            title: this.$t("public.error_title_default"),
+            content: this.$t("user.captcha_request_fail")
+          })
         }
       }).catch(err => {
         // this.$Message.error(this.$t("user.captcha_request_fail"));

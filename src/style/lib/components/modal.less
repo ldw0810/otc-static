@@ -2,6 +2,8 @@
 @confirm-prefix-cls: ~"@{css-prefix}modal-confirm";
 
 .@{modal-prefix-cls} {
+    border-radius: @border-radius-base;
+    box-shadow: @base-box-shadow;
     width: auto;
     margin: 0 auto;
     position: relative;
@@ -79,31 +81,31 @@
 }
 
 .@{confirm-prefix-cls} {
-    padding: 0 4px;
+    padding: 40px - 16px 69px - 16px;
+    // 16px
     &-head {
-
+        text-align: center;
+        margin-bottom: 15px;
         &-title {
             display: inline-block;
-            font-size: @font-size-base;
+            font-size: 18px;
             color: @title-color;
-            font-weight: 700;
         }
     }
 
     &-body{
-        margin-top: 6px;
-        padding-left: 48px;
-        padding-top: 18px;
-        font-size: @font-size-small;
+        
+        font-size: 16px;
         color: @text-color;
         position: relative;
-
+        text-align: center;
+        margin-bottom: 20px;
         &-render{
             margin: 0;
             padding: 0;
         }
-
         &-icon {
+            display: none;
             font-size: 36px;
             position: absolute;
             top: 0;
@@ -128,9 +130,10 @@
     }
 
     &-footer{
-        margin-top: 40px;
-        text-align: right;
-
+        text-align: center;
+        .ivu-btn-primary {
+            width: 183px;
+        }
         button + button {
             margin-left: 8px;
             margin-bottom: 0;

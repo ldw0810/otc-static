@@ -353,7 +353,7 @@
   import ValidateMixin from "@/components/mixins/validate-mixin";
   import { VALI_AD_REMARK } from 'config/validator'
   import config from "@/config/config";
-
+  
   export default {
     mixins: [ValidateMixin("form", "form")],
     data() {
@@ -744,9 +744,15 @@
         if (!this.userInfo.activated) {
           this.$store.commit("showAuthEmail_setter", 1);
         } else if (!this.examineAdFlagList[+this.adType]) {
-          this.$Message.error(this.$t("ad.ad_publish_repeat"));
+          this.$modal.error({
+            title: this.$t("public.error_title_default"),
+            content: this.$t("ad.ad_publish_repeat")
+          })
         } else if (!this.balanceFlag) {
-          this.$Message.error(this.$t("ad.ad_credit_low"));
+          this.$modal.error({
+            title: this.$t("public.error_title_default"),
+            content: this.$t("ad.ad_credit_low")
+          })
         } else {
           const form_ref =
             +this.adType === 0 ? this.$refs["form_buy"] : this.$refs["form_sell"];
@@ -780,7 +786,10 @@
                         status: 1
                       });
                     } else {
-                      this.$Message.error(this.$t("ad.ad_update_fail"));
+                      this.$modal.error({
+                        title: this.$t("public.error_title_default"),
+                        content: this.$t("ad.ad_update_fail")
+                      })
                     }
                   })
                   .catch(err => {
@@ -814,7 +823,10 @@
                       this.$Message.success(this.$t("ad.ad_advertise_success"));
                       this.$goRouter("myAd");
                     } else {
-                      this.$Message.error(this.$t("ad.ad_advertise_fail"));
+                      this.$modal.error({
+                        title: this.$t("public.error_title_default"),
+                        content: this.$t("ad.ad_advertise_fail")
+                      })
                     }
                   })
                   .catch(err => {
@@ -822,7 +834,10 @@
                   });
               }
             } else {
-              this.$Message.error(this.$t("ad.ad_advertise_info_notValid"));
+              this.$modal.error({
+                title: this.$t("public.error_title_default"),
+                content: this.$t("ad.ad_advertise_info_notValid")
+              })
             }
           });
         }

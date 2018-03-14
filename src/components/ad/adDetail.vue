@@ -369,11 +369,17 @@ export default {
           if (valid) {
             this.confirmFlag.placeOrder = true;
           } else {
-            this.$Message.error(this.$t("order.order_info_notValid"));
+            this.$modal.error({
+              title: this.$t("public.error_title_default"),
+              content: this.$t("order.order_info_notValid")
+            })
           }
         });
       } else {
-        this.$Message.error(this.$t("order.order_join_own_otc_ad"));
+        this.$modal.error({
+          title: this.$t("public.error_title_default"),
+          content: this.$t("order.order_join_own_otc_ad")
+        })
       }
     },
     changeAmount() {
@@ -414,7 +420,10 @@ export default {
             this.$goBack()
           } else {
             this.confirmFlag.placeOrder = false;
-            this.$Message.error(this.$t("order.order_deal_request_fail"));
+            this.$modal.error({
+              title: this.$t("public.error_title_default"),
+              content: this.$t("order.order_deal_request_fail")
+            })            
           }
         })
         .catch(err => {

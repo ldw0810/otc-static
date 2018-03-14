@@ -86,7 +86,10 @@
           token: this.token
         }).then(res => {
           if (!res.data || +res.data.error !== 0) {
-            this.$Message.error(this.$t("user.email_token_invalid"));
+            this.$modal.error({
+              title: this.$t("public.error_title_default"),
+              content: this.$t("user.email_token_invalid")
+            })
             this.$goRouter("/user/login");
           }
         }).catch(err => {
@@ -117,7 +120,10 @@
             });
           } else {
             this.loading = false;
-            this.$Message.error(this.$t("user.password_modify_notValid"));
+            this.$modal.error({
+              title: this.$t("public.error_title_default"),
+              content: this.$t("user.password_modify_notValid")
+            })
           }
         });
       }

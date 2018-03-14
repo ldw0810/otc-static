@@ -54,7 +54,10 @@
             if (res.data && +res.data.error === 0) {
               this.$Message.success(this.$t("asset.asset_withdraw_confirm_success"));
             } else {
-              this.$Message.error(this.$t("asset.asset_withdraw_confirm_fail"));
+              this.$modal.error({
+                title: this.$t("public.error_title_default"),
+                content: this.$t("asset.asset_withdraw_confirm_fail")
+              })
             }
           }).catch(err => {
             // this.$Message.error(this.$t("asset.asset_withdraw_confirm_fail"));
@@ -71,10 +74,10 @@
                 // onClose: this.$goRouter("/"),
               });
             } else {
-              this.$Message.error({
-                content: this.$t('public.activation_link_notValid'),
-                // onClose: this.$goRouter("/"),
-              });
+              this.$modal.error({
+                title: this.$t("public.error_title_default"),
+                content: this.$t("public.activation_link_notValid")
+              })
             }
           }).catch(err => {
             // this.$Message.error({

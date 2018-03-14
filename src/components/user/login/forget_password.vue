@@ -124,11 +124,20 @@
                     if (result.data && +result.data.error === 0) {
                       this.$Message.success(this.$t("user.auth_email_send_success"));
                     } else if (result.data.error === "100031") {
-                      this.$Message.error(this.$t("user.email_not_activated"));
+                      this.$modal.error({
+                        title: this.$t("public.error_title_default"),
+                        content: this.$t("user.email_not_activated")
+                      })
                     } else if (result.data.error === "100040") {
-                      this.$Message.error(this.$t("user.email_not_reg"));
+                      this.$modal.error({
+                        title: this.$t("public.error_title_default"),
+                        content: this.$t("user.email_not_reg")
+                      })
                     } else {
-                      this.$Message.error(this.$t("user.auth_email_send_fail"));
+                      this.$modal.error({
+                        title: this.$t("public.error_title_default"),
+                        content: this.$t("user.auth_email_send_fail")
+                      })
                     }
                   })
                     .catch(err => {
@@ -139,7 +148,10 @@
               }
             );
           } else {
-            this.$Message.error(this.$t("user.captcha_request_fail"));
+            this.$modal.error({
+              title: this.$t("public.error_title_default"),
+              content: this.$t("user.captcha_request_fail")
+            })
           }
         })
         .catch(err => {

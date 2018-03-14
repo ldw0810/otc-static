@@ -53,7 +53,7 @@ const iview = {
   iCol: Col,
   iForm: Form,
   iInput: Input, // i开头的组件为iview自带的组件
-  cLoading: Loading // c开头的组件为自己定义的全局组件
+  cLoading: Loading, // c开头的组件为自己定义的全局组件
 };
 const install = function(Vue, options) {
   Object.keys(iview).forEach(key => {
