@@ -49,7 +49,9 @@
       <div class='publish-action'>
         <div ref="input" :contenteditable="readOnly" class='g-shadow publish-action-input' v-html="toEmotion(inputText)"
              @keydown="inputKey" @onclick="getRange" @keyup="getRange"
-             @focus="inputFocusFlag = true" @blur="inputFocusFlag = false"></div>
+             @focus="inputFocusFlag = true" @blur="inputFocusFlag = false"
+              @input='checkLengh'
+             ></div>
         <div class="publish-action-button">
           <i-button long type="primary" @click="sendInfo" :disabled="chatFlag">{{$t("public.send")}}
           </i-button>
@@ -69,9 +71,13 @@
   </div>
 </template>
 <script type="es6">
+  import { VALI_CHAT } from 'config/validator'
+  import { setCursorPosition } from 'utils/tools'
   import ScrollLoader from "./scrollLoader.vue";
   import Avator from "./avator.vue";
   import axios from "../../libs/ajax"
+
+
 
   export default {
     components: {
@@ -127,7 +133,7 @@
     watch: {
       inputFocusFlag(val) {
         if (!val) {
-          this.inputText = this.$refs.input.innerHTML;
+          this.inputText = this.setMaxLength(this.$refs.input.innerHTML);
         }
       }
     },
@@ -145,6 +151,16 @@
       }
     },
     methods: {
+      setMaxLength(str) {
+        return str.substr(0, VALI_CHAT.max)
+      },
+      checkLengh($event) {
+        const $el = $event.target
+        if ($el.innerHTML.length > VALI_CHAT.max) {
+          $el.innerHTML = this.setMaxLength($el.innerHTML)
+          setCursorPosition($el)
+        }
+      },
       scrollToBottom() {
         this.$nextTick(() => {
           if (this.$refs.scroll) {
@@ -248,7 +264,7 @@
             //ctrl + enter
             // this.showRange(document.createElement("br"));
           } else {
-            this.inputText = this.$refs.input.innerText.trim();
+            this.inputText = this.setMaxLength(this.$refs.input.innerText.trim())
             this.sendInfo();
           }
         } else {

@@ -99,7 +99,7 @@
     "invite_invited": "已邀請",
     "invite_omt": "已獲得OMT",
     "invite_rules": "活動細則",
-    "invite_rules_content": "1. 在本頁中「復制文字」分享給好友或朋友圈.<br>2. 好友通過您的邀請鏈接註冊並完成手機驗證，將會計入邀請人數.<br>3. 每邀請壹位好友，您將獲得200 OMT，後續將根據實際情況對獎勵比例進行調整?<br>4. 獎勵於3個工作日內發放；<br>5. 同壹用戶僅能被邀請壹次；<br>6. OTCMAKER 保留對本活動的最終修改解釋權。",
+    "invite_rules_content": "1. 在本頁中「復制文字」分享給好友或朋友圈。<br>2. 好友通過您的邀請鏈接註冊並完成手機驗證，將會計入邀請人數。<br>3. 每邀請壹位好友，您將獲得50 OMT，後續將根據實際情況對獎勵比例進行調整。<br>4. 獎勵於3個工作日內發放。<br>5. 同壹用戶僅能被邀請壹次。<br>6. OTCMAKER 保留對本活動的最終修改解釋權。",
     "invite_copy_success": "復制成功",
     "no_buy_dai_ad": "沒有購買 DAI 的廣告",
     "no_sell_dai_ad": "沒有出售 DAI 的廣告",
@@ -360,6 +360,7 @@
     "ad_type_select": "選擇廣告類型",
     "ad_type_select_tip": "您想要創建什麽樣的交易廣告？",
     "ad_type_select_required": "請選擇交易類型",
+    "ad_type_select_withdraw_address": "請選擇提現地址",
     "ad_collection": "收款方式",
     "ad_collection_select": "選擇收款方式",
     "ad_collection_select_tip": "您希望交易收款的支付方式",
@@ -588,5 +589,13 @@
     "100045": "該電話號碼已經被綁定",
     "888888": "校驗失敗",
     "999999": "鑒權失敗，請重新登錄"
+  },
+  "validate": {
+    "alipay_name_range": "支付寶帳戶名稱長度應該介於 4-20 之間",
+    "alipay_account_range": "支付寶帳號長度應該介於 4-40 之間",
+    "card_holder_range": "銀行卡帳戶長度應該介於 4-20 之間",
+    "card_number_range": "銀行卡卡號長度應該介於 10-20 之間",
+    "address_label": "必須2-16個字元",
+    "max_length": "字數不得超過{0}"
   }
 }

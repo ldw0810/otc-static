@@ -331,6 +331,7 @@
 <script type="es6">
 import config from '@/config/config'
 import ValidateMixin from "@/components/mixins/validate-mixin";
+import { VALI_PAYMENT_INFO } from 'config/validator'
 import logoDiv from "../public/logo.vue";
 import chat from "../public/chat.vue";
 import auth_two from "../public/auth_two_pop.vue";
@@ -360,7 +361,15 @@ export default {
           {
             required: true,
             message: this.$t("order.remark_required")
-          }
+          },
+          {
+            min: VALI_PAYMENT_INFO.min,
+            message: VALI_PAYMENT_INFO.message
+          },
+          {
+            max: VALI_PAYMENT_INFO.max,
+            message: VALI_PAYMENT_INFO.message
+          },
         ]
       },
       confirmRules: {

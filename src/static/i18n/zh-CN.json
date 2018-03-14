@@ -99,7 +99,7 @@
     "invite_invited": "已邀请",
     "invite_omt": "已获得OMT",
     "invite_rules": "活动细则",
-    "invite_rules_content": "1. 在本页中「复制文字」分享给好友或朋友圈.<br>2. 好友通过您的邀请链接注册并完成手机验证，将会计入邀请人数.<br>3. 每邀请一位好友，您将获得200 OMT，后续将根据实际情况对奖励比例进行调整?<br>4. 奖励于3个工作日内发放；<br>5. 同一用户仅能被邀请一次；<br>6. OTCMAKER 保留对本活动的最终修改解释权。",
+    "invite_rules_content": "1. 在本页中「复制文字」分享给好友或朋友圈。<br>2. 好友通过您的邀请链接注册并完成手机验证，将会计入邀请人数。<br>3. 每邀请一位好友，您将获得50 OMT，后续将根据实际情况对奖励比例进行调整。<br>4. 奖励于3个工作日内发放。<br>5. 同一用户仅能被邀请一次。<br>6. OTCMAKER 保留对本活动的最终修改解释权。",
     "invite_copy_success": "复制成功",
     "no_buy_dai_ad": "没有购买 DAI 的广告",
     "no_sell_dai_ad": "没有出售 DAI 的广告",
@@ -359,6 +359,7 @@
     "ad_type_select": "选择广告类型",
     "ad_type_select_tip": "您想要创建什么样的交易广告？",
     "ad_type_select_required": "请选择交易类型",
+    "ad_type_select_withdraw_address": "请选择提现地址",
     "ad_collection": "收款方式",
     "ad_collection_select": "选择收款方式",
     "ad_collection_select_tip": "您希望交易收款的支付方式",
@@ -589,5 +590,13 @@
     "100045": "该电话号码已经被绑定",
     "888888": "校验失败",
     "999999": "鉴权失败，请重新登录"
+  },
+  "validate": {
+    "alipay_name_range": "支付宝账户名称长度应该介于4-20之间",
+    "alipay_account_range": "支付宝账号长度应该介于4-40之间",
+    "card_holder_range": "银行卡账户长度应该介于4-20之间",
+    "card_number_range": "银行卡卡号长度应该介于10-20之间",
+    "address_label": "必须2-16个字符",
+    "max_length": "字数不得超过{0}"
   }
 }

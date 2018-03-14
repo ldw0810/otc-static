@@ -15,7 +15,7 @@ axios.defaults.baseURL = env === 'development' ? '/' : "https://apialpha.otcmake
 function languageSelectIndex() {
   let index = 0;
   for (let i = 0; i < languageData.length; i++) {
-    if (languageData[i].language === (window.localStorage.getItem("language") || "zh-CN")) {
+    if (languageData[i].language === (window.localStorage.getItem("language") || "zh-HK")) {
       index = i;
     }
   }
@@ -53,7 +53,7 @@ axios.interceptors.response.use(
         } else if (+error.response.data.error === 100031) {
           // store.commit("showAuthEmail_setter", 1);
         } else if ([100017, 100036, 100038].contains(+error.response.data.error)) {
-        } else if(errMsg){
+        } else if(errMsg && +error.response.data.error !== 100021){
           Message.error(errMsg);
         } else {
         }

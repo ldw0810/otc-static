@@ -122,6 +122,7 @@
 </template>
 <script type="es6">
   import validateMixin from "@/components/mixins/validate-mixin";
+  import { VALI_ALIPAY_NAME, VALI_ALIPAY_ACCOUNT, VALI_CARD_HOLDER, VALI_CARD_NUMBER } from 'config/validator'
   import debounce from "lodash/debounce";
   import logoDiv from "../../public/logo.vue";
 
@@ -191,14 +192,31 @@
           userName: [
             {
               required: true,
+              
               message: this.$t("user.alipay_userName_required")
+            },
+            {
+              min: VALI_ALIPAY_NAME.min,
+              message: VALI_ALIPAY_NAME.message
+            },
+            {
+              max: VALI_ALIPAY_NAME.max,
+              message: VALI_ALIPAY_NAME.message
             }
           ],
           account: [
             {
               required: true,
               message: this.$t("user.alipay_account_required")
-            }
+            },
+            {
+              min: VALI_ALIPAY_ACCOUNT.min,
+              message: VALI_ALIPAY_ACCOUNT.message
+            },
+            {
+              max: VALI_ALIPAY_ACCOUNT.max,
+              message: VALI_ALIPAY_ACCOUNT.message
+            },
           ],
           reAccount: [
             {
@@ -211,13 +229,29 @@
             {
               required: true,
               message: this.$t("user.bankCard_userName_required")
-            }
+            },
+            {
+              min: VALI_CARD_HOLDER.min,
+              message: VALI_CARD_HOLDER.message
+            },
+            {
+              max: VALI_CARD_HOLDER.max,
+              message: VALI_CARD_HOLDER.message
+            },
           ],
           bank: [
             {
               required: true,
               message: this.$t("user.bankCard_bank_required")
-            }
+            },
+            {
+              min: VALI_CARD_NUMBER.min,
+              message: VALI_CARD_NUMBER.message
+            },
+            {
+              max: VALI_CARD_NUMBER.max,
+              message: VALI_CARD_NUMBER.message
+            },
           ],
           number: [
             {

@@ -349,6 +349,7 @@ export default {
           id: this.id
         })
         .then(res => {
+          
           if (res.data && +res.data.error === 0) {
             this.ad = res.data.info;
             this.isSelfOrder = (this.ad.member.id === this.userInfo.id)
@@ -357,6 +358,9 @@ export default {
           }
         })
         .catch(err => {
+          if (err.error === '100021') {
+            this.$goBack()
+          }
           // this.$Message.error(this.$t("order.order_ad_info_request_fail"));
         });
     },
@@ -399,7 +403,7 @@ export default {
         })
         .then(res => {
           this.submitPlaceOrderLoading = false;
-          if (res.data && res.data.error === 0) {
+          if (res.data && +res.data.error === 0) {
             if (this.ad.currency === "dai") {
               this.$goRouter("/order", {
                 id: res.data.order_id
@@ -408,6 +412,8 @@ export default {
               this.confirmFlag.placeOrder = false;
               this.confirmFlag.complete = true;
             }
+          } else if (res.data && +res.data.error === 100052) {
+            this.$goBack()
           } else {
             this.confirmFlag.placeOrder = false;
             this.$Message.error(this.$t("order.order_deal_request_fail"));

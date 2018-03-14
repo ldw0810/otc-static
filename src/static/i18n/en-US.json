@@ -99,7 +99,7 @@
     "invite_invited": "Invited",
     "invite_omt": "OMT",
     "invite_rules": "Activity Rules",
-    "invite_rules_content": "1. Copy and share the link to your friends；<br>2. Referred friends that have signed up and verified phone using your referral link will be regarded as the invited friends of you；<br>3. After a invited friend complete phone verification, you will get 200 OMT , the reward quota might be updated in accordance with the reality in the future.<br>4. The reward will be released within 3 business days.<br>5. Each user can be only invited once.<br>6. OTCMAKER reserve the final right of amendment and explanation for this program.",
+    "invite_rules_content": "1. Copy and share the link to your friends.<br>2. Referred friends that have signed up and verified phone using your referral link will be regarded as the invited friends of you.<br>3. After a invited friend complete phone verification, you will get 50 OMT , the reward quota might be updated in accordance with the reality in the future.<br>4. The reward will be released within 3 business days.<br>5. Each user can be only invited once.<br>6. OTCMAKER reserve the final right of amendment and explanation for this program.",
     "invite_copy_success": "Copy success",
     "no_buy_dai_ad": "Currently no ad",
     "no_sell_dai_ad": "Currently no ad",
@@ -354,6 +354,7 @@
     "ad_type_select": "Select ads type",
     "ad_type_select_tip": "Which type of advertisement you want to create?",
     "ad_type_select_required": "Select type",
+    "ad_type_select_withdraw_address": "Please select withdraw address",
     "ad_collection": "Payment",
     "ad_collection_select": "Select payment method",
     "ad_collection_select_tip": "Select a payment method you like",
@@ -582,5 +583,13 @@
     "100045": "Phone number already exist",
     "888888": "Verify fail",
     "999999": "Please login again"
+  },
+  "validate": {
+    "alipay_name_range": "Must consists with 4-20 characters",
+    "alipay_account_range": "Must consists with 4-40 characters",
+    "card_holder_range": "Must consists with 4-20 characters",
+    "card_number_range": "Must consists with 10-20 numbers",
+    "address_label": "Must 2-16 characters",
+    "max_length": "Must consists with 0 - {0} characters"
   }
 }
