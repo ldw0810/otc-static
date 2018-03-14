@@ -369,14 +369,14 @@ export default {
           if (valid) {
             this.confirmFlag.placeOrder = true;
           } else {
-            this.$Modal.error({
+            this.$alert.error({
               title: this.$t("public.error_title_default"),
               content: this.$t("order.order_info_notValid")
             })
           }
         });
       } else {
-        this.$Modal.error({
+        this.$alert.error({
           title: this.$t("public.error_title_default"),
           content: this.$t("order.order_join_own_otc_ad")
         })
@@ -420,7 +420,7 @@ export default {
             this.$goBack()
           } else {
             this.confirmFlag.placeOrder = false;
-            this.$Modal.error({
+            this.$alert.error({
               title: this.$t("public.error_title_default"),
               content: this.$t("order.order_deal_request_fail")
             })            

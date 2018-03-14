@@ -3,16 +3,15 @@
         class='alert'
         width='auto'
         class-name='u-flex u-flex-center-middle'
-        v-model="open"
+        v-model="visible"
         :closable='false'
-        title=""
-        @on-ok="asyncOK">
+        title="">
         <header slot="header" class='alert-header'>{{title}}</header>
         <div class="alert-content">
           <p class='alert-content-msg'>{{content}}</p>
         </div>
         <div class="alert-footer" slot="footer">
-            <Button type="primary" class='alert-footer-btn' @click="del">{{okText}}</Button>
+            <Button type="primary" class='alert-footer-btn' @click='close'>{{okText}}</Button>
         </div>
     </Modal>
 </template>
@@ -20,23 +19,18 @@
 import {Modal} from 'iview'
 
 export default {
-  props: {
-    title: {
-      type: String,
-      default: '错误'
-    },
-    content: {
-      type: String,
-      required: true
-    },
-    okText: {
-      type: String,
-      default: '确定'
-    }
-  },
   data() {
     return {
-      open: false
+      type: '',
+      visible: false,
+      title: '错误',
+      content: '默认',
+      okText: '确定',
+    }
+  },
+  methods: {
+    close() {
+      this.visible = false
     }
   }
 }
@@ -69,9 +63,6 @@ export default {
     margin: 0;
     padding: 0;
     @extend %no-border;
-  }
-  &-header {
-
   }
   &-content {
     width: 342px;

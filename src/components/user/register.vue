@@ -304,7 +304,7 @@
                         this.$Message.success(this.$t("user.register_success"));
                         this.$goRouter("/user/login");
                       } else {
-                        this.$Modal.error({
+                        this.$alert.error({
                           title: this.$t("public.error_title_default"),
                           content: this.$t("user.register_error")
                         })
@@ -318,7 +318,7 @@
               }
             );
           } else {
-            this.$Modal.error({
+            this.$alert.error({
               title: this.$t("public.error_title_default"),
               content: this.$t("user.captcha_request_fail")
             })
@@ -337,7 +337,7 @@
           if (valid) {
             this.captchaObj.verify();
           } else {
-            this.$Modal.error({
+            this.$alert.error({
               title: this.$t("public.error_title_default"),
               content: this.$t("user.register_error")
             })

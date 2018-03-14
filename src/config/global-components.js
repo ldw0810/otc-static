@@ -20,6 +20,7 @@ import {
   Select,
   Option,
 } from "iview";
+import Alert from '@/components/public/alert'
 import Loading from '@/components/public/loading';
 import Form from '@/libs/iview/components/form';
 
@@ -61,6 +62,7 @@ const install = function(Vue, options) {
   });
   // import components
   // Vue.prototype.$Loading = LoadingBar;
+  Vue.prototype.$alert = Alert;
   Vue.prototype.$Message = Message;
   Vue.prototype.$Modal = Modal;
   Vue.prototype.$Notice = Notice;

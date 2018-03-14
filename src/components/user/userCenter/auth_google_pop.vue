@@ -90,7 +90,7 @@
                   this.$Message.success(this.$t("user.auth_google_del_success"));
                   this.$emit('close', 1);
                 } else {
-                  this.$Modal.error({
+                  this.$alert.error({
                     title: this.$t("public.error_title_default"),
                     content: this.$t("user.auth_google_del_fail")
                   })
@@ -111,7 +111,7 @@
                   this.$Message.success(this.$t("user.auth_google_add_success"));
                   this.$emit('close', 1);
                 } else {
-                  this.$Modal.error({
+                  this.$alert.error({
                     title: this.$t("public.error_title_default"),
                     content: this.$t("user.auth_google_add_fail")
                   })
@@ -122,7 +122,7 @@
               });
             }
           } else {
-            this.$Modal.error({
+            this.$alert.error({
               title: this.$t("public.error_title_default"),
               content: this.$t("user.auth_google_notValid")
             })

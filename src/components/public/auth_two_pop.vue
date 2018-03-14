@@ -150,7 +150,7 @@
                     code: this.phoneForm.pinCode,
                   });
                 } else {
-                  this.$Modal.error({
+                  this.$alert.error({
                     title: this.$t("public.error_title_default"),
                     content: this.$t("user.auth_phone_fail")
                   })
@@ -164,7 +164,7 @@
             }
 
           } else {
-            this.$Modal.error({
+            this.$alert.error({
               title: this.$t("public.error_title_default"),
               content: this.$t("user.auth_phone_notValid")
             })
@@ -192,7 +192,7 @@
                     code: this.googleForm.pinCode,
                   });
                 } else {
-                  this.$Modal.error({
+                  this.$alert.error({
                     title: this.$t("public.error_title_default"),
                     content: this.$t("user.auth_google_fail")
                   })
@@ -203,7 +203,7 @@
               });
             }
           } else {
-            this.$Modal.error({
+            this.$alert.error({
               title: this.$t("public.error_title_default"),
               content: this.$t("user.auth_google_notValid")
             })

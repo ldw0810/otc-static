@@ -816,7 +816,7 @@
                 this.initSelectedValue()
                 this.init();
               } else {
-                this.$Modal.error({
+                this.$alert.error({
                   title: this.$t("public.error_title_default"),
                   content: this.$t("asset.asset_withdraw_fail")
                 })
@@ -860,7 +860,7 @@
                 this.$t("asset.asset_withdraw_address_set_default_success")
               );
             } else {
-              this.$Modal.error({
+              this.$alert.error({
                 title: this.$t("public.error_title_default"),
                 content: this.$t("asset.asset_withdraw_address_set_default_fail")
               })

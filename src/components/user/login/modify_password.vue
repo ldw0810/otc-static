@@ -86,7 +86,7 @@
           token: this.token
         }).then(res => {
           if (!res.data || +res.data.error !== 0) {
-            this.$Modal.error({
+            this.$alert.error({
               title: this.$t("public.error_title_default"),
               content: this.$t("user.email_token_invalid")
             })
@@ -120,7 +120,7 @@
             });
           } else {
             this.loading = false;
-            this.$Modal.error({
+            this.$alert.error({
               title: this.$t("public.error_title_default"),
               content: this.$t("user.password_modify_notValid")
             })

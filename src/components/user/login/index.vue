@@ -115,7 +115,7 @@
                         this.$Message.success(this.$t("user.login_success"));
                         this.$goRouter(this.$route.query.redirect || "/user/userCenter");
                       } else {
-                        this.$Modal.error({
+                        this.$alert.error({
                           title: this.$t("public.error_title_default"),
                           content: this.$t("user.userInfo_response_none")
                         })
@@ -124,7 +124,7 @@
                       // this.$Message.error(this.$t("user.userInfo_response_none"));
                     });
                   } else {
-                    this.$Modal.error({
+                    this.$alert.error({
                       title: this.$t("public.error_title_default"),
                       content: this.$t("user.login_error")
                     })
@@ -154,7 +154,7 @@
           );
 
         } else {
-          this.$Modal.error({
+          this.$alert.error({
             title: this.$t("public.error_title_default"),
             content: this.$t("user.captcha_request_fail")
           })
