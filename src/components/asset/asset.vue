@@ -838,9 +838,7 @@
             if (valid) {
               resolve();
             } else {
-              this.$Message.error(
-                this.$t("asset.asset_withdraw_address_notValid")
-              );
+              // this.$Message.error(this.$t("asset.asset_withdraw_address_notValid"));
               reject();
             }
           });
@@ -882,7 +880,7 @@
               );
             } else {
               this.$Message.error(
-                this.$t("asset.asset_withdraw_address_del_fail")
+                // this.$t("asset.asset_withdraw_address_del_fail");
               );
             }
           })

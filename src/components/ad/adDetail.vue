@@ -380,7 +380,6 @@ export default {
       if (+this.form.moneyAmount || +this.form.moneyAmount === 0) {
         this.form.number = this.$fixDeciamlAuto(
           this.$dividedBy(+this.form.moneyAmount, +this.ad.current_price),
-          +this.form.moneyAmount / +this.ad.current_price,
           this.ad.currency
         );
       }
