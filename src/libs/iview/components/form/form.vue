@@ -69,7 +69,7 @@ export default {
       return valid;
     },
     monitorEvent() {
-      const result = this.validateStatus()
+      const result = this.validateStatus();
       this.$emit("checkValidate", result);
     },
     resetFields() {
@@ -106,6 +106,22 @@ export default {
       }
 
       field.validate("", cb);
+    },
+    /**
+     * @augments options { prop, message }
+     */
+    forcedError(options) {
+      if (!Array.isArray(options)) {
+        throw Error("Params must be array");
+      }
+      if (options.length) {
+        this.fields.forEach(field => {
+          const reslut = options.find(item => item.prop === field.prop)
+          if (reslut) {
+            field.forcedError(reslut.message)
+          }
+        });
+      }
     }
   },
   watch: {
@@ -114,13 +130,13 @@ export default {
     }
   },
   created() {
-    this.monitorEvent()
+    this.monitorEvent();
     this.$on("on-form-item-change", field => {
-      this.monitorEvent()
+      this.monitorEvent();
     });
     this.$on("on-form-item-add", field => {
       if (field) this.fields.push(field);
-      this.monitorEvent()
+      this.monitorEvent();
       return false;
     });
     this.$on("on-form-item-remove", field => {
