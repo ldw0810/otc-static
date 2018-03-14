@@ -165,6 +165,7 @@
 </template>
 <script>
   import isFunction from "lodash/isFunction";
+  import {CONF_DIGITAL_CURRENCY_LIST} from "config/config";
 
   export default {
     name: "headerBar",
@@ -274,7 +275,7 @@
         return this.$store.state.userInfo;
       },
       currencyList() {
-        return this.$store.state.currencyList;
+        return CONF_DIGITAL_CURRENCY_LIST;
       },
       header_index() {
         return +this.$store.state.header_index;

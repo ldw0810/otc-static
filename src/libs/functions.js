@@ -6,8 +6,7 @@ import {
   CONF_DECIMAL_ASSET,
   CONF_DECIMAL_BASE,
   CONF_DECIMAL_LEGAL,
-  CONF_DIGITAL_CURRENCY_LIST,
-  CONF_LEGAL_CURRENCY_LIST
+  CONF_DIGITAL_CURRENCY_LIST
 } from "config/config";
 
 /**
@@ -99,9 +98,8 @@ export default {
     /**
      * 根据参数定义显示资产位数
      */
-    Vue.prototype.$fixDeciamlAuto = function(value, curreny) {
-      const upCurrent = curreny ? curreny.toUpperCase() : undefined;
-      if (upCurrent && CONF_DIGITAL_CURRENCY_LIST.indexOf(upCurrent) === -1) {
+    Vue.prototype.$fixDeciamlAuto = function(value, currency) {
+      if (currency && CONF_DIGITAL_CURRENCY_LIST.indexOf(currency) === -1) {
         return fixDecimalsLegal(value);
       }
       return fixDecimalsBase(value);

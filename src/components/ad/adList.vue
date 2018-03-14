@@ -87,6 +87,7 @@
   import Avator from "@/components/public/avator";
   import Tab from '@/components/public/tab';
   import emptyList from "@/components/public/empty-list";
+  import {CONF_DIGITAL_CURRENCY_LIST} from "config/config";
 
   export default {
     components: {
@@ -127,10 +128,10 @@
         return text;
       },
       currency() {
-        return this.$route.query.currency || this.$store.state.currencyList[0];
+        return this.$route.query.currency || CONF_DIGITAL_CURRENCY_LIST[0];
       },
       currencyList() {
-        return this.$store.state.currencyList
+        return CONF_DIGITAL_CURRENCY_LIST;
       },
       pageIndex() {
         return this.$route.query.pageIndex || 1;
