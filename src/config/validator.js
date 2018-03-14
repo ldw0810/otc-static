@@ -47,7 +47,7 @@ export const VALI_AD_REMARK = {
 };
 // 聊天输入框
 export const VALI_CHAT = {
-  max: 10,
+  max: 200,
   message: language.validate.max_length.format(1000)
 };
 // 付款留言
