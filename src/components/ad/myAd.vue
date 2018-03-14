@@ -186,9 +186,6 @@
               this.$Message.error(this.$t("ad.ad_close_fail"));
             }
           })
-          .catch(err => {
-            this.$Message.error(this.$t("ad.ad_close_fail"));
-          });
       },
       openAd(id) {
         this.$store
@@ -204,9 +201,6 @@
               this.$Message.error(this.$t("ad.ad_open_fail"));
             }
           })
-          .catch(err => {
-            this.$Message.error(this.$t("ad.ad_open_fail"));
-          });
       },
       init() {
         this.$store.commit("header_index_setter", "92");

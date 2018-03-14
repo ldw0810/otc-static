@@ -317,9 +317,9 @@
               </i-input>
             </i-col>
             <!--<i-col span='3' offset="1">-->
-            <!--<i-button type='primary' long @click="sellAll">-->
-            <!--{{$t("ad.ad_ceiling_sell_all")}}-->
-            <!--</i-button>-->
+              <!--<i-button type='primary' long @click="sellAll">-->
+                <!--{{$t("ad.ad_ceiling_sell_all")}}-->
+              <!--</i-button>-->
             <!--</i-col>-->
           </Row>
         </FormItem>
@@ -351,8 +351,8 @@
 </template>
 <script type="es6">
   import ValidateMixin from "@/components/mixins/validate-mixin";
-  import {VALI_AD_REMARK} from 'config/validator';
-  import {CONF_PAYMENT_LIST, CONF_DIGITAL_CURRENCY_LIST} from 'config/config';
+  import { VALI_AD_REMARK } from 'config/validator'
+  import config from "@/config/config";
 
   export default {
     mixins: [ValidateMixin("form", "form")],
@@ -547,10 +547,10 @@
         return this.$store.state.userInfo;
       },
       currency() {
-        return this.$route.query.currency || CONF_DIGITAL_CURRENCY_LIST[0];
+        return this.$route.query.currency || this.$store.state.currencyList[0];
       },
       currencyList() {
-        return CONF_DIGITAL_CURRENCY_LIST;
+        return this.$store.state.currencyList;
       },
       moneyText() {
         return this.$t("public['" + this.form.money + "']");
@@ -560,6 +560,9 @@
       },
       collection_refresh() {
         return this.$store.state.collection_refresh;
+      },
+      paymentList() {
+        return this.$store.state.paymentList;
       },
       balanceObj() {
         let obj = {};
@@ -591,9 +594,6 @@
       },
       form() {
         return +this.adType === 0 ? this.form_buy : this.form_sell;
-      },
-      paymentList(){
-        return CONF_PAYMENT_LIST;
       }
     },
     watch: {
@@ -619,9 +619,6 @@
               // this.$Message.error(this.$t("user.receivables_request_fail"));
             }
           })
-          .catch(err => {
-            // this.$Message.error(this.$t("user.receivables_request_fail"));
-          });
       },
       getCurrencyCode() {
         return new Promise(resolve => {
@@ -637,35 +634,31 @@
                 // this.$Message.error(this.$t("ad.ad_money_request_fail"));
               }
             })
-            .catch(err => {
-              // this.$Message.error(this.$t("ad.ad_money_request_fail"));
-            });
         });
       },
       getTradePrice() {
-        this.$store.dispatch("ajax_trade_price", {
-          symbol: this.currency
-        }).then(res => {
-          if (res.data && a + res.data.error === 0) {
-            this.tradePrice = res.data.price;
-            if (!this.isUpdate) {
-              const moneyText = this.ad.target_currency;
-              this.form_buy.buyPrice = this.$fixDeciamlAuto(
-                +this.tradePrice,
-                this.moneyText
-              );
-              this.form_sell.sellPrice = this.$fixDeciamlAuto(
-                +this.tradePrice,
-                this.moneyText
-              );
+        this.$store
+          .dispatch("ajax_trade_price", {
+            symbol: this.currency
+          })
+          .then(res => {
+            if (res.data && +res.data.error === 0) {
+              this.tradePrice = res.data.price;
+              if (!this.isUpdate) {
+                const moneyText = this.ad.target_currency;
+                this.form_buy.buyPrice = this.$fixDeciamlAuto(
+                  +this.tradePrice,
+                  this.moneyText
+                );
+                this.form_sell.sellPrice = this.$fixDeciamlAuto(
+                  +this.tradePrice,
+                  this.moneyText
+                );
+              }
+            } else {
+              // this.$Message.error(this.$t("ad.ad_reference_price_request_fail"));
             }
-          } else {
-            // this.$Message.error(this.$t("ad.ad_reference_price_request_fail"));
-          }
-        })
-          .catch(err => {
-            // this.$Message.error(this.$t("ad.ad_reference_price_request_fail"));
-          });
+          })
         this.timer && clearTimeout(this.timer);
         this.timer = setTimeout(this.getTradePrice, 1000 * 60 * 10);
       },
@@ -716,7 +709,10 @@
         }
       },
       changeFloor() {
-        let tempBalance = +this.balanceObj[this.currency] * this.tradePrice;
+        let tempBalance =
+          +this.balanceObj[this.currency] *
+          this.tradePrice *
+          (1 - +config.poundage);
         if (this.currency === `dai` && +this.adType !== 1) {
         } else if (+this.form.floor > tempBalance) {
           this.$nextTick(() => {
@@ -725,7 +721,10 @@
         }
       },
       changeCeiling() {
-        let tempBalance = +this.balanceObj[this.currency] * this.tradePrice;
+        let tempBalance =
+          +this.balanceObj[this.currency] *
+          this.tradePrice *
+          (1 - +config.poundage);
         if (this.currency === `dai` && +this.adType !== 1) {
         } else if (+this.form.ceiling > tempBalance) {
           this.$nextTick(() => {
@@ -736,7 +735,7 @@
       // sellAll() {
       //   this.$nextTick(() => {
       //     this.form.ceiling = this.$fixDeciamlAuto(
-      //       this.balanceObj[this.currency] * this.tradePrice
+      //       this.balanceObj[this.currency] * this.tradePrice * (1 - +config.poundage),
       //       this.moneyText
       //     );
       //   });
@@ -786,7 +785,6 @@
                   })
                   .catch(err => {
                     this.submitLoading = false;
-                    this.$Message.error(this.$t("ad.ad_update_fail"));
                   });
               } else {
                 const requestData = {
@@ -820,12 +818,7 @@
                     }
                   })
                   .catch(err => {
-                    this.submitLoading = false;
-                    if (err.error === "100034") {
-                      this.$Message.error(this.$t("ad.ad_advertise_fail"));
-                    } else {
-                      this.$Message.error(this.$t("ad.ad_advertise_fail"));
-                    }
+                    this.submitLoading = false;                  
                   });
               }
             } else {
@@ -855,7 +848,7 @@
               this.form.remark = this.ad.remark;
               if (+this.adType === 0) {
                 this.form.payment = this.ad.pay_kind;
-                if (this.ad.price) {
+                if(this.ad.price) {
                   this.form.maxPrice = this.$fixDeciamlAuto(
                     +this.ad.price,
                     this.moneyText
@@ -867,7 +860,7 @@
                 );
               } else if (+this.adType === 1) {
                 this.form.collection = this.ad.pay_kind;
-                if (this.ad.price) {
+                if(this.ad.price) {
                   this.form.minPrice = this.$fixDeciamlAuto(
                     +this.ad.price,
                     this.moneyText
@@ -882,9 +875,6 @@
               // this.$Message.error(this.$t("ad.ad_data_request_fail"));
             }
           })
-          .catch(err => {
-            // this.$Message.error(this.$t("ad.ad_data_request_fail"));
-          });
       },
       examineAd() {
         for (let i = 0; i < this.opList.length; i++) {

@@ -57,7 +57,7 @@
               this.$Message.error(this.$t("asset.asset_withdraw_confirm_fail"));
             }
           }).catch(err => {
-            this.$Message.error(this.$t("asset.asset_withdraw_confirm_fail"));
+            // this.$Message.error(this.$t("asset.asset_withdraw_confirm_fail"));
           });
         } else if (this.$route.query.invitationCode) {
 //                    window.localStorage.setItem("invitationCode", this.$route.query.invitationCode);
@@ -77,10 +77,10 @@
               });
             }
           }).catch(err => {
-            this.$Message.error({
-              content: this.$t('public.activation_link_notValid'),
+            // this.$Message.error({
+              // content: this.$t('public.activation_link_notValid'),
               // onClose: this.$goRouter("/"),
-            });
+            // });
           });
         }
       }

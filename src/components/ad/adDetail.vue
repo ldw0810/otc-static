@@ -361,7 +361,6 @@ export default {
           if (err.error === '100021') {
             this.$goBack()
           }
-          // this.$Message.error(this.$t("order.order_ad_info_request_fail"));
         });
     },
     submit() {
@@ -421,7 +420,6 @@ export default {
         .catch(err => {
           // this.submitPlaceOrderLoading = false;
           this.confirmFlag.placeOrder = false;
-          this.$Message.error(this.$t("order.order_deal_request_fail"));
         });
     },
     init() {

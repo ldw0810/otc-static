@@ -172,7 +172,7 @@
                     this.$Message.error(this.$t("user.userInfo_response_none"));
                   }
                 })).catch(err => {
-                  this.$Message.error(this.$t("user.userInfo_response_none"));
+                  // this.$Message.error(this.$t("user.userInfo_response_none"));
                 });
               } else {
                 this.$Message.error(this.$t("user.auth_phone_fail"));
@@ -180,7 +180,7 @@
               }
             }).catch(err => {
               this.submitPhoneLoading = false;
-              this.$Message.error(this.$t("user.auth_phone_fail"));
+              // this.$Message.error(this.$t("user.auth_phone_fail"));
               this.$refs.sendCodeButton.refresh();
             });
           } else {
@@ -214,14 +214,14 @@
                     this.$Message.error(this.$t("user.userInfo_response_none"));
                   }
                 })).catch(err => {
-                  this.$Message.error(this.$t("user.userInfo_response_none"));
+                  // this.$Message.error(this.$t("user.userInfo_response_none"));
                 });
               } else {
                 this.$Message.error(this.$t("user.auth_google_fail"));
               }
             }).catch(err => {
               this.submitGoogleLoading = false;
-              this.$Message.error(this.$t("user.auth_google_fail"));
+              // this.$Message.error(this.$t("user.auth_google_fail"));
             });
           } else {
             this.$Message.error(this.$t("user.auth_google_notValid"));
