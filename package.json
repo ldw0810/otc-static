@@ -25,7 +25,7 @@
     "deepmerge": "^1.5.2",
     "element-resize-detector": "^1.1.13",
     "ethereum-address": "^0.0.4",
-    "iview": "^2.7.4",
+    "iview": "^2.10.1",
     "js-calendar": "^1.2.3",
     "lodash": "^4.17.5",
     "lodash.throttle": "^4.1.1",

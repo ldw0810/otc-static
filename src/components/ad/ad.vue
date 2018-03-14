@@ -900,7 +900,7 @@
             .dispatch("ajax_exam_ad", {
               op_type: this.opList[i],
               currency: this.currency,
-              target_currency: this.form.money
+              target_currency: this.currency === "dai" ? "cny" : (this.currency === "eth" ? "dai" : "")
             })
             .then(res => {
               if (res.data && +res.data.error === 0) {

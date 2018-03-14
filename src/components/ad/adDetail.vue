@@ -242,7 +242,7 @@ export default {
       }
     };
     const validBalanceSellCheck = (rule, value, callback) => {
-      if (this.ad && this.adType == 1) {
+      if (this.ad && +this.adType === 1) {
         if (this.balanceObj[this.ad.currency] < +value) {
           callback(new Error(this.$t("ad.ad_credit_low")));
         } else {
@@ -380,6 +380,7 @@ export default {
     changeAmount() {
       if (+this.form.moneyAmount || +this.form.moneyAmount === 0) {
         this.form.number = this.$fixDeciamlAuto(
+          this.$dividedBy(+this.form.moneyAmount, +this.ad.current_price),
           +this.form.moneyAmount / +this.ad.current_price,
           this.ad.currency
         );
@@ -388,7 +389,7 @@ export default {
     changeNumber() {
       if (+this.form.number || +this.form.number === 0) {
         this.form.moneyAmount = this.$fixDeciamlAuto(
-          +this.form.number * +this.ad.current_price,
+          this.$multipliedBy(+this.form.number, +this.ad.current_price),
           this.ad.target_currency
         );
       }
