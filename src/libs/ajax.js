@@ -2,7 +2,7 @@ import axios from 'axios'
 import env from '../config/env';
 import store from "../store/store"
 import router from "../router"
-import {Message} from 'iview';
+import {Modal} from 'iview';
 import languageData from '../locale'
 
 /**
@@ -46,15 +46,19 @@ axios.interceptors.response.use(
       if (error.response.data) {
         if (+error.response.data.error === 999999) {
           store.commit("delToken");
-          Message.error({
+          Modal.error({
+            title: languageData[index].data.public.error_title_default,
             content: languageData[index].data.request["" + error.response.data.error],
-            onClose: router.push("/user/login")
+            onCancel: router.push("/user/login")
           });
         } else if (+error.response.data.error === 100031) {
           // store.commit("showAuthEmail_setter", 1);
         } else if ([100017, 100036, 100038].contains(+error.response.data.error)) {
         } else if(errMsg && +error.response.data.error !== 100021){
-          Message.error(errMsg);
+          Modal.error({
+            title: languageData[index].data.public.error_title_default,
+            content: errMsg
+          });
         } else {
         }
       }
