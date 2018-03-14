@@ -738,12 +738,12 @@
         if (!this.userInfo.activated) {
           this.$store.commit("showAuthEmail_setter", 1);
         } else if (!this.examineAdFlagList[+this.adType]) {
-          this.$modal.error({
+          this.$Modal.error({
             title: this.$t("public.error_title_default"),
             content: this.$t("ad.ad_publish_repeat")
           })
         } else if (!this.balanceFlag) {
-          this.$modal.error({
+          this.$Modal.error({
             title: this.$t("public.error_title_default"),
             content: this.$t("ad.ad_credit_low")
           })
@@ -780,7 +780,7 @@
                         status: 1
                       });
                     } else {
-                      this.$modal.error({
+                      this.$Modal.error({
                         title: this.$t("public.error_title_default"),
                         content: this.$t("ad.ad_update_fail")
                       })
@@ -817,7 +817,7 @@
                       this.$Message.success(this.$t("ad.ad_advertise_success"));
                       this.$goRouter("myAd");
                     } else {
-                      this.$modal.error({
+                      this.$Modal.error({
                         title: this.$t("public.error_title_default"),
                         content: this.$t("ad.ad_advertise_fail")
                       })
@@ -828,7 +828,7 @@
                   });
               }
             } else {
-              this.$modal.error({
+              this.$Modal.error({
                 title: this.$t("public.error_title_default"),
                 content: this.$t("ad.ad_advertise_info_notValid")
               })

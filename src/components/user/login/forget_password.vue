@@ -124,17 +124,17 @@
                     if (result.data && +result.data.error === 0) {
                       this.$Message.success(this.$t("user.auth_email_send_success"));
                     } else if (result.data.error === "100031") {
-                      this.$modal.error({
+                      this.$Modal.error({
                         title: this.$t("public.error_title_default"),
                         content: this.$t("user.email_not_activated")
                       })
                     } else if (result.data.error === "100040") {
-                      this.$modal.error({
+                      this.$Modal.error({
                         title: this.$t("public.error_title_default"),
                         content: this.$t("user.email_not_reg")
                       })
                     } else {
-                      this.$modal.error({
+                      this.$Modal.error({
                         title: this.$t("public.error_title_default"),
                         content: this.$t("user.auth_email_send_fail")
                       })
@@ -148,7 +148,7 @@
               }
             );
           } else {
-            this.$modal.error({
+            this.$Modal.error({
               title: this.$t("public.error_title_default"),
               content: this.$t("user.captcha_request_fail")
             })
