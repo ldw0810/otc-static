@@ -6,8 +6,7 @@
         <div class="title-tip" v-html='$t("ad.ad_title_tip")'></div>
         <!--相同类型广告判断-->
         <div class="credit-low-tip" v-if="!isUpdate && (+adType === 0 ? !examineAdBuyFlag : !examineAdSellFlag)">
-          <span class='red'>{{$t("ad.ad_publish_repeat_tip").format($t("public['" +
-            (+adType === 0 ? "buy" : "sell") + "'])"), $t("public['" + currency + "']"))}}</span>
+          <span class='red'>{{$t("ad.ad_publish_repeat_tip").format( +adType === 0 ? $t('ad.ad_buying') : $t('ad.ad_selling'), currency.toUpperCase())}}</span>
         </div>
         <!-- 余额判断 -->
         <div class="credit-low-tip" v-if="form_buy.targetCurrency && !balanceFlag && +adType !== 1">
@@ -761,9 +760,7 @@
         } else if (!this.examineAdBuyFlag || !this.examineAdSellFlag) {
           this.$alert.error({
             title: this.$t("public.error_title_default"),
-            content: this.$t("ad.ad_publish_repeat").format(
-              this.$t("public['" + (+this.adType === 0 ? "buy" : "sell") + "'])"),
-              this.$t("public['" + this.currency + "']"))
+            content: this.$t("ad.ad_publish_repeat")
           })
         } else if (!this.balanceFlag) {
           this.$alert.error({

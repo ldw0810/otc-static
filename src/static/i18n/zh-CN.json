@@ -433,7 +433,9 @@
     "ad_update_fail": "修改失败",
     "ad_asset_deficiency": "资产不足",
     "ad_max_price_limit": "最大限额9999999999",
-    "ad_deal_with_self": "您不可以和自己交易"
+    "ad_deal_with_self": "您不可以和自己交易",
+    "ad_buying": "买",
+    "ad_selling": "卖"
   },
   "order": {
     "remark_required": "请输入订单相关内容",
