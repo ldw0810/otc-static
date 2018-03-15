@@ -275,6 +275,7 @@
     "email_not_reg": "Email not registered"
   },
   "asset": {
+    "asset_resend_email": "Resend",
     "asset_miners_fee": "Network transfer fees",
     "asset_amount": "Total",
     "asset_balance": "Available",
@@ -302,7 +303,8 @@
     "asset_withdraw_status_accepted": "Accepted",
     "asset_withdraw_status_suspect": "Suspect",
     "asset_withdraw_status_processing": "Processing",
-    "asset_withdraw_status_done": "Done",
+    "asset_withdraw_status_done": "Completed",
+    "asset_withdraw_status_underway": "Processing",
     "asset_withdraw_status_almost_done": "Sending",
     "asset_withdraw_status_canceled": "Cancelled",
     "asset_withdraw_status_failed": "Failed",

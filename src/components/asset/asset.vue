@@ -200,65 +200,11 @@
                       </i-button>
                     </FormItem>
                   </Form>
-                  <!-- begin -->
-                  <!-- <Form class="form" ref="form" @checkValidate='checkValidate_form' :model="form" -->
-                  <!-- :rules="rules"> -->
-                  <!-- <FormItem prop="address" class="formItem">
-                    <Row :gutter='16' class='form-item'>
-                      <i-col span='3' class="left">
-                        <div>{{$t("asset.asset_withdraw_address")}}:</div>
-                      </i-col>
-                      <i-col span='14' class="center">
-                        <Select class="input" v-model="form.address"
-                                v-if="withdraw.fund_sources && withdraw.fund_sources.length"
-                                @on-change="get_address_id">
-                          <Option v-for="(item, index) in withdraw.fund_sources"
-                                  :value="item.id"
-                                  :key="index" :disabled="item.is_locked"
-                                  v-text="'(' + item.extra + ')' + item.uid">
-                          </Option>
-                        </Select>
-                        <a @click="addressPop = true" v-else>
-                          {{$t("asset.asset_withdraw_address_add")}}
-                        </a>
-                      </i-col>
-                      <i-col span='6' class="right">
-                        <a @click="addressPop = true"
-                           v-if="withdraw.fund_sources && withdraw.fund_sources.length">
-                          {{$t("asset.asset_withdraw_address_manage")}}
-                        </a>
-                      </i-col>
-                    </Row>
-                  </FormItem> -->
-                  <!-- <FormItem prop="number" class="formItem">
-                    <Row class='form-item'>
-                      <i-col span='3' class='left'>
-                        <div>{{$t("asset.asset_withdraw_number")}}:</div>
-                      </i-col>
-                      <i-col span='14' class='center'>
-                        <i-input class="input" v-model="form.number" type="text"
-                                 @on-enter="submit"
-                                 :placeholder="$t('asset.asset_withdraw_number_info')">
-                        </i-input>
-                      </i-col>
-                    </Row>
-                  </FormItem> -->
-                  <!-- <FormItem class="formItem ">
-                    <Row class='form-item'>
-                      <i-col span='14' offset='3'>
-                        <i-button class="submit-button-type-2" long
-                                  :disabled='!validate.form'
-                                  type="primary" @click="submit">
-                          {{$t('public.submit')}}
-                        </i-button>
-                      </i-col>
-                    </Row>
-                  </FormItem> -->
-                  <!-- </Form> -->
                 </div>
               </div>
               <!-- widthdraw end -->
             </div>
+
             <div class='content-history' v-if="+assetIndex === 0 && deposit.deposits_history.length">
               <table class='g-shadow content-history-table'>
                 <thead class='content-history-table-head'>
@@ -308,6 +254,7 @@
                     :page-size="deposit.per_page"
                     @on-change="changePage"></Page>
             </div>
+
             <div class='content-history'
                  v-else-if="+assetIndex === 1 && withdraw.withdraws.length && !(!userInfo.mobile && !userInfo.app_two_factor)">
               <table class='g-shadow content-history-table'>
@@ -345,7 +292,29 @@
                   </td>
                   <td class='content-history-table-body-td'>
                     <div class="status">
-                      {{$t("asset['asset_withdraw_status_" + item["aasm_state"] + "']")}}
+                      <template v-if="['submitting'].indexOf(item.aasm_state) > -1">
+                        <a href="javascript:;" @click='resendOrder(item, index)'>{{$t('asset.asset_resend_email')}}</a>
+                        &nbsp;&nbsp;
+                        <a href="javascript:;" @click='cancelOrder(item, index)'>{{$t('public.cancel')}}</a>
+                      </template>
+                      <template v-else-if="['submitted', 'accepted'].indexOf(item.aasm_state) > -1">
+                        <a href="javascript:;" @click='cancelOrder(item, index)'>{{$t('public.cancel')}}</a>
+                      </template>
+                      <template v-else-if="['suspect', 'processing', 'almost_done', 'failed'].indexOf(item.aasm_state) > -1">
+                        {{$t('asset.asset_withdraw_status_underway')}}
+                      </template>
+                      <!-- <template v-if="['done'].indexOf(item.aasm_state) > -1">
+                        已完成
+                      </template>
+                      <template v-if="['canceled'].indexOf(item.aasm_state) > -1">
+                        已取消
+                      </template>
+                      <template v-if="['rejected'].indexOf(item.aasm_state) > -1">
+                        系统驳回
+                      </template> -->
+                      <template v-else>
+                        {{$t("asset['asset_withdraw_status_" + item["aasm_state"] + "']")}}
+                      </template>
                     </div>
                   </td>
                 </tr>
@@ -360,69 +329,7 @@
               :loading="loading"
               :text="+assetIndex === 0 ? $t('public.no_asset_recharge') : $t('public.no_asset_withdraw')"
           />
-          <!-- 模态框 -->
-          <!-- <Modal v-model="addressPop" class-name="m-ivu-modal"
-                 width='710'
-                 :mask-closable="true" :closable="false">
-            <logoDiv/>
-            <div class="asset-model">
-              <h3 class='asset-model-title'>{{$t("asset.asset_withdraw_address_manage")}}</h3>
-              <div class='asset-model-content'>
-                <div v-for="(item, index) in withdraw.fund_sources" :value="item.id"
-                     :key="index" v-if="withdraw.fund_sources && withdraw.fund_sources.length">
-                  <Row :gutter="20">
-                    <i-col span="6">{{item.extra}}</i-col>
-                    <i-col span="14">{{item.uid}}</i-col>
-                    <i-col span="2">
-                      <Checkbox v-model="item.id === default_source_id"
-                                :disabled="item.id === default_source_id"
-                                @on-change="setDefaultAddress(item.id)">
-                      </Checkbox>
-                    </i-col>
-                    <i-col span="2">
-                      <Poptip confirm :title="$t('public.confirm_delete')"
-                              @on-ok="address_del(item.id)">
-                        <img src="../../static/images/icon/Trash-666666.svg"
-                             v-if="item.id == default_source_id">
-                        <img src="../../static/images/icon/Trash-DDDDDD.svg" v-else>
-                      </Poptip>
-                    </i-col>
-                  </Row>
-                </div>
-              </div>
-              <div class='asset-model-content'>
-                <Form ref="addForm" :model="addForm" @checkValidate='checkValidate_addForm'
-                      v-if="!withdraw.fund_sources || (withdraw.fund_sources && withdraw.fund_sources.length < 5)">
-                  <Row :gutter="16">
-                    <i-col span="6">
-                      <FormItem prop="label" class="formItem">
-                        <i-input v-model="addForm.label"
-                                 :placeholder="$t('public.label')"></i-input>
-                      </FormItem>
-                    </i-col>
-                    <i-col span="14">
-                      <FormItem prop="address" class="formItem">
-                        <i-input v-model="addForm.address"
-                                 :placeholder="$t('asset.asset_withdraw_address')"></i-input>
-                      </FormItem>
-                    </i-col>
-                    <i-col span="4">
-                      <FormItem class="formItem">
-                        <i-button type="primary" :loading='addressAddLoading' :disabled='!validate.addForm'
-                                  @click="address_add">{{$t("public.add")}}
-                        </i-button>
-                      </FormItem>
-                    </i-col>
-                  </Row>
-                </Form>
-                <div class="submit u-flex u-flex-center-middle">
-                  <i-button class='submit-button' type='primary' v-text="$t('public.confirm')"
-                            @click="addressPop=false"></i-button>
-                </div>
-              </div>
-            </div>
-            <div slot="footer"></div>
-          </Modal> -->
+          <!-- <Spin size="large" fix ></Spin> -->
           <Modal v-model="withdraw_confirm" width='580' class-name="m-ivu-modal" :mask-closable="true"
                  :closable="false">
             <logoDiv/>
@@ -674,6 +581,31 @@
       }
     },
     methods: {
+      getUserInfo() {
+        this.$store.dispatch('ajax_me')
+      },
+      resendOrder(item) {
+        this.remainTime = 120;
+        this.withdraw_email = true;
+        this.withdraw_id = item.id
+        if (this.$refs.sendCodeButton.subTime >= this.remainTime) {
+          this.$refs.sendCodeButton.refresh()
+        }
+      },
+      cancelOrder(item) {
+        this.$store.dispatch('ajax_withdraw_cancel', {
+          id: item.id
+        })
+          .then(res => {
+            if (res.data && +res.data.error === 0) {
+              // 成功
+              this.initFormData();
+              this.getUserInfo()
+              this.initSelectedValue()
+              this.init();
+            }
+          })
+      },
       initFormData() {
         Object.keys(this.form).map(item => {
           this.form[item] = ''
@@ -817,6 +749,7 @@
                 // this.$Message.success(this.$t("asset.asset_withdraw_success"));
                 this.initFormData();
                 this.initSelectedValue()
+                this.getUserInfo()
                 this.init();
               } else {
                 this.$alert.error({
@@ -928,14 +861,28 @@
           }
         }
       },
+      sendListEmail(item) {
+        // if (this.$refs.sendCodeButton.subTime >= this.remainTime) {
+          // this.$store
+          // .dispatch("ajax_resend_confirm", {
+          //   id: item.id
+          // })
+          // .then(res => {
+            
+          // })
+          // .catch(err => {
+          //   // this.$alert.error(this.$t("public.fail"));
+          // });
+        // }
+      },
       sendEmail() {
+        
         this.$store
           .dispatch("ajax_resend_confirm", {
             id: this.withdraw_id
           })
           .then(res => {
             this.$refs.sendCodeButton.init();
-            this.$Message.success(this.$t("asset.asset_withdraw_email_success"));
           })
           .catch(err => {
             // this.$Message.error(this.$t("public.fail"));
