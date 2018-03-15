@@ -316,8 +316,8 @@
         return this.$route.query.id;
       },
       targetCurrency() {
-        for(let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
-          if(CONF_DIGITAL_CURRENCY_LIST[i].currency === this.ad.currency) {
+        for (let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
+          if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.ad.currency) {
             return CONF_DIGITAL_CURRENCY_LIST[i].targetCurrency;
           }
         }
@@ -349,7 +349,7 @@
       },
       balanceFlag() {
         if (this.adType !== 1) {
-          if(!this.balanceObj[this.ad.target_currency]) {
+          if (!this.balanceObj[this.ad.target_currency]) {
             return true;
           } else {
             return +this.balanceObj[this.ad.target_currency] >= this.currencyBuyLimit;
