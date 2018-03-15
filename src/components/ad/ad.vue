@@ -97,7 +97,7 @@
               <div class='premium-example'>
                 <span class='premium-example-desc'>{{$t("ad.ad_reference_price")}}:</span>
                 <span
-                    class='premium-example-number'>{{$fixDecimalAuto(tradePrice, targetCurrencyText)}}&nbsp;&nbsp;{{targetCurrencyText}}</span>
+                    class='premium-example-number'>{{$fixDecimalAuto(tradePrice, targetCurrency)}}&nbsp;&nbsp;{{targetCurrencyText}}</span>
               </div>
             </i-col>
           </Row>
@@ -263,7 +263,7 @@
               <div class='premium-example'>
                 <span class='premium-example-desc'>{{$t("ad.ad_reference_price")}}:</span>
                 <span
-                    class='premium-example-number'>{{$fixDecimalAuto(tradePrice, targetCurrencyText)}}&nbsp;&nbsp;{{targetCurrencyText}}</span>
+                    class='premium-example-number'>{{$fixDecimalAuto(tradePrice, targetCurrency)}}&nbsp;&nbsp;{{targetCurrencyText}}</span>
               </div>
             </i-col>
           </Row>
@@ -683,7 +683,7 @@
                     this.$plus(+this.form.premium || 0, 1),
                     100),
                   this.tradePrice),
-                this.targetCurrencyText
+                this.targetCurrency
               );
               this.form_sell.sellPrice = this.$fixDecimalAuto(
                 this.$multipliedBy(
@@ -691,7 +691,7 @@
                     this.$plus(+this.form.premium || 0, 1),
                     100),
                   this.tradePrice),
-                this.targetCurrencyText
+                this.targetCurrency
               );
             }
           } else {
@@ -716,7 +716,7 @@
                   this.$plus(+this.form.premium || 0, 1),
                   100),
                 this.tradePrice),
-              this.targetCurrencyText
+              this.targetCurrency
             );
           });
         } else if (+this.adType === 1) {
@@ -727,7 +727,7 @@
                   this.$plus(+this.form.premium || 0, 1),
                   100),
                 this.tradePrice),
-              this.targetCurrencyText
+              this.targetCurrency
             );
           });
         }
@@ -762,7 +762,7 @@
         // if (this.currency === `dai` && +this.adType !== 1) {
         // } else if (+this.form.floor > tempBalance) {
         //   this.$nextTick(() => {
-        //     this.form.floor = this.$fixDecimalAuto(tempBalance, this.targetCurrencyText);
+        //     this.form.floor = this.$fixDecimalAuto(tempBalance, this.targetCurrency);
         //   });
         // }
       },
@@ -771,7 +771,7 @@
         // if (this.currency === `dai` && +this.adType !== 1) {
         // } else if (+this.form.ceiling > tempBalance) {
         //   this.$nextTick(() => {
-        //     this.form.ceiling = this.$fixDecimalAuto(tempBalance, this.targetCurrencyText);
+        //     this.form.ceiling = this.$fixDecimalAuto(tempBalance, this.targetCurrency);
         //   });
         // }
       },
@@ -785,7 +785,7 @@
       //   this.$nextTick(() => {
       //     this.form.ceiling = this.$fixDecimalAuto(
       //       this.$multipliedBy(this.balanceObj[this.currency], this.tradePrice),
-      //       this.targetCurrencyText
+      //       this.targetCurrency
       //     );
       //   });
       // },
@@ -913,24 +913,24 @@
               if (this.ad.price) {
                 this.form.maxPrice = this.$fixDecimalAuto(
                   +this.ad.price,
-                  this.targetCurrencyText
+                  this.targetCurrency
                 );
               }
               this.form.buyPrice = this.$fixDecimalAuto(
                 +this.ad.current_price,
-                this.targetCurrencyText
+                this.targetCurrency
               );
             } else if (+this.adType === 1) {
               this.form.collection = this.ad.pay_kind;
               if (this.ad.price) {
                 this.form.minPrice = this.$fixDecimalAuto(
                   +this.ad.price,
-                  this.targetCurrencyText
+                  this.targetCurrency
                 );
               }
               this.form.sellPrice = this.$fixDecimalAuto(
                 +this.ad.current_price,
-                this.targetCurrencyText
+                this.targetCurrency
               );
             }
           } else {
