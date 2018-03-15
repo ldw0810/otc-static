@@ -1,5 +1,6 @@
 //公共方法(注意加$以区分)
 import ajax from "./ajax";
+import store from "../store/store";
 import queryString from "querystring"; //解决post请求跨域问题
 import { BigNumber } from "bignumber.js";
 import {
@@ -99,8 +100,7 @@ export default {
      * 根据参数定义显示资产位数
      */
     Vue.prototype.$fixDecimalAuto = function(value, currency) {
-      let tempCurrencyList = CONF_DIGITAL_CURRENCY_LIST.map(item => item.currency);
-      if (currency && tempCurrencyList.indexOf(currency) === -1) {
+      if (currency && store.state.code.payable.indexOf(currency) === -1) {
         return fixDecimalsLegal(value);
       }
       return fixDecimalsBase(value);

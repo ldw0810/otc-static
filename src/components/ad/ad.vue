@@ -97,7 +97,7 @@
               <div class='premium-example'>
                 <span class='premium-example-desc'>{{$t("ad.ad_reference_price")}}:</span>
                 <span
-                    class='premium-example-number'>{{$fixDecimalAuto(tradePrice, targetCurrencyText)}}&nbsp;&nbsp;{{targetCurrencyText}}</span>
+                    class='premium-example-number'>{{$fixDecimalAuto(tradePrice, targetCurrency)}}&nbsp;&nbsp;{{targetCurrencyText}}</span>
               </div>
             </i-col>
           </Row>
@@ -174,10 +174,10 @@
         <FormItem class="formItem submit">
           <Row>
             <i-col span='10'>
-              <i-button type='primary' long 
-                  :loading='submitLoading' 
-                  :disabled='disabledStatus'
-                  @click="submit">
+              <i-button type='primary' long
+                        :loading='submitLoading'
+                        :disabled='disabledStatus'
+                        @click="submit">
                 {{isUpdate ? $t('ad.ad_update') : $t('ad.ad_advertise')}}
               </i-button>
             </i-col>
@@ -263,7 +263,7 @@
               <div class='premium-example'>
                 <span class='premium-example-desc'>{{$t("ad.ad_reference_price")}}:</span>
                 <span
-                    class='premium-example-number'>{{$fixDecimalAuto(tradePrice, targetCurrencyText)}}&nbsp;&nbsp;{{targetCurrencyText}}</span>
+                    class='premium-example-number'>{{$fixDecimalAuto(tradePrice, targetCurrency)}}&nbsp;&nbsp;{{targetCurrencyText}}</span>
               </div>
             </i-col>
           </Row>
@@ -345,8 +345,8 @@
         <FormItem class="formItem submit">
           <Row>
             <i-col span='10'>
-              <i-button type='primary' 
-                        long 
+              <i-button type='primary'
+                        long
                         :loading='submitLoading'
                         :disabled='disabledStatus'
                         @click="submit">
@@ -678,12 +678,20 @@
             this.tradePrice = res.data.price;
             if (!this.isUpdate) {
               this.form_buy.buyPrice = this.$fixDecimalAuto(
-                this.tradePrice * (1 + (+this.form.premium || 0) / 100),
-                this.targetCurrencyText
+                this.$multipliedBy(
+                  this.$dividedBy(
+                    this.$plus(+this.form.premium || 0, 1),
+                    100),
+                  this.tradePrice),
+                this.targetCurrency
               );
               this.form_sell.sellPrice = this.$fixDecimalAuto(
-                this.tradePrice * (1 + (+this.form.premium || 0) / 100),
-                this.targetCurrencyText
+                this.$multipliedBy(
+                  this.$dividedBy(
+                    this.$plus(+this.form.premium || 0, 1),
+                    100),
+                  this.tradePrice),
+                this.targetCurrency
               );
             }
           } else {
@@ -703,15 +711,23 @@
         if (+this.adType === 0) {
           this.$nextTick(() => {
             this.form.buyPrice = this.$fixDecimalAuto(
-              this.tradePrice * (1 + (+this.form.premium || 0) / 100),
-              this.targetCurrencyText
+              this.$multipliedBy(
+                this.$dividedBy(
+                  this.$plus(+this.form.premium || 0, 1),
+                  100),
+                this.tradePrice),
+              this.targetCurrency
             );
           });
         } else if (+this.adType === 1) {
           this.$nextTick(() => {
             this.form.sellPrice = this.$fixDecimalAuto(
-              this.tradePrice * (1 + (+this.form.premium || 0) / 100),
-              this.targetCurrencyText
+              this.$multipliedBy(
+                this.$dividedBy(
+                  this.$plus(+this.form.premium || 0, 1),
+                  100),
+                this.tradePrice),
+              this.targetCurrency
             );
           });
         }
@@ -720,36 +736,47 @@
         if (+this.adType === 0) {
           this.$nextTick(() => {
             this.form.premium = (
-              (+this.form.buyPrice / this.tradePrice - 1) * 100
+              this.$multipliedBy(
+                this.$minus(
+                  this.$dividedBy(
+                    +this.form.buyPrice,
+                    this.tradePrice
+                  ), 1), 100)
             ).toFixed(3);
           });
         } else if (+this.adType === 1) {
           this.$nextTick(() => {
             this.form.premium = (
-              (+this.form.sellPrice / this.tradePrice - 1) * 100
+              this.$multipliedBy(
+                this.$minus(
+                  this.$dividedBy(
+                    +this.form.buyPrice,
+                    this.tradePrice
+                  ), 1), 100)
             ).toFixed(3);
           });
         }
       },
       changeFloor() {
-        // let tempBalance = +this.balanceObj[this.currency] * this.tradePrice;
+        // let tempBalance = this.$multipliedBy(+this.balanceObj[this.currency], this.tradePrice);
         // if (this.currency === `dai` && +this.adType !== 1) {
         // } else if (+this.form.floor > tempBalance) {
         //   this.$nextTick(() => {
-        //     this.form.floor = this.$fixDecimalAuto(tempBalance, this.targetCurrencyText);
+        //     this.form.floor = this.$fixDecimalAuto(tempBalance, this.targetCurrency);
         //   });
         // }
       },
       changeCeiling() {
-        // let tempBalance = +this.balanceObj[this.currency] * this.tradePrice;
+        // let tempBalance = this.$multipliedBy(+this.balanceObj[this.currency], this.tradePrice);
         // if (this.currency === `dai` && +this.adType !== 1) {
         // } else if (+this.form.ceiling > tempBalance) {
         //   this.$nextTick(() => {
-        //     this.form.ceiling = this.$fixDecimalAuto(tempBalance, this.targetCurrencyText);
+        //     this.form.ceiling = this.$fixDecimalAuto(tempBalance, this.targetCurrency);
         //   });
         // }
       },
       changeTargetCurrency(val) {
+        //tod 初始化时，调用2次接口了
         this.targetCurrency = val;
         this.getTradePrice();
         this.examineAd();
@@ -757,8 +784,8 @@
       // sellAll() {
       //   this.$nextTick(() => {
       //     this.form.ceiling = this.$fixDecimalAuto(
-      //       this.balanceObj[this.currency] * this.tradePrice,
-      //       this.targetCurrencyText
+      //       this.$multipliedBy(this.balanceObj[this.currency], this.tradePrice),
+      //       this.targetCurrency
       //     );
       //   });
       // },
@@ -886,24 +913,24 @@
               if (this.ad.price) {
                 this.form.maxPrice = this.$fixDecimalAuto(
                   +this.ad.price,
-                  this.targetCurrencyText
+                  this.targetCurrency
                 );
               }
               this.form.buyPrice = this.$fixDecimalAuto(
                 +this.ad.current_price,
-                this.targetCurrencyText
+                this.targetCurrency
               );
             } else if (+this.adType === 1) {
               this.form.collection = this.ad.pay_kind;
               if (this.ad.price) {
                 this.form.minPrice = this.$fixDecimalAuto(
                   +this.ad.price,
-                  this.targetCurrencyText
+                  this.targetCurrency
                 );
               }
               this.form.sellPrice = this.$fixDecimalAuto(
                 +this.ad.current_price,
-                this.targetCurrencyText
+                this.targetCurrency
               );
             }
           } else {
@@ -947,10 +974,11 @@
         if (!this.userInfo.activated) {
           this.$store.commit("showAuthEmail_setter", 1);
         }
-        
+
         this.initTargetCurrency();
         this.getPayCollections();
         this.getTradePrice();
+        this.examineAd();
         if (this.isUpdate && this.adId) {
           this.getAdById(this.adId);
         }
@@ -958,9 +986,6 @@
     },
     mounted() {
       this.init();
-    },
-    updated() {
-      this.examineAd()
     },
     destroyed() {
       this.timer && clearTimeout(this.timer);

@@ -343,7 +343,7 @@
         for (let i = 0; i < this.userInfo.valid_account.length; i++) {
           obj[
           "" + this.userInfo.valid_account[i].currency
-            ] = this.userInfo.valid_account[i].balance;
+            ] = +this.userInfo.valid_account[i].balance;
         }
         return obj;
       },
