@@ -679,17 +679,15 @@
             if (!this.isUpdate) {
               this.form_buy.buyPrice = this.$fixDecimalAuto(
                 this.$multipliedBy(
-                  this.$dividedBy(
-                    this.$plus(+this.form.premium || 0, 1),
-                    100),
+                  this.$plus(
+                    this.$dividedBy(+this.form.premium || 0, 100), 1),
                   this.tradePrice),
                 this.targetCurrency
               );
               this.form_sell.sellPrice = this.$fixDecimalAuto(
                 this.$multipliedBy(
-                  this.$dividedBy(
-                    this.$plus(+this.form.premium || 0, 1),
-                    100),
+                  this.$plus(
+                    this.$dividedBy(+this.form.premium || 0, 100), 1),
                   this.tradePrice),
                 this.targetCurrency
               );
@@ -712,9 +710,8 @@
           this.$nextTick(() => {
             this.form.buyPrice = this.$fixDecimalAuto(
               this.$multipliedBy(
-                this.$dividedBy(
-                  this.$plus(+this.form.premium || 0, 1),
-                  100),
+                this.$plus(
+                  this.$dividedBy(+this.form.premium || 0, 100), 1),
                 this.tradePrice),
               this.targetCurrency
             );
@@ -723,9 +720,8 @@
           this.$nextTick(() => {
             this.form.sellPrice = this.$fixDecimalAuto(
               this.$multipliedBy(
-                this.$dividedBy(
-                  this.$plus(+this.form.premium || 0, 1),
-                  100),
+                this.$plus(
+                  this.$dividedBy(+this.form.premium || 0, 100), 1),
                 this.tradePrice),
               this.targetCurrency
             );
