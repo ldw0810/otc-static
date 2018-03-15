@@ -742,6 +742,7 @@
         // }
       },
       changeTargetCurrency(val) {
+        //tod 初始化时，调用2次接口了
         this.targetCurrency = val;
         this.getTradePrice();
         this.examineAd();
@@ -942,6 +943,7 @@
         this.initTargetCurrency();
         this.getPayCollections();
         this.getTradePrice();
+        this.examineAd();
         if (this.isUpdate && this.adId) {
           this.getAdById(this.adId);
         }
