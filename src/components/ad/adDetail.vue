@@ -189,7 +189,7 @@
                 v-html='$t("order.order_complete_info").format(formNumber, $t("public[\"" + ad.currency + "\"]"))'></span>
           <a @click="$goRouter('/myOrder', {status: 1})">{{$t("order.order_show_order")}}</a>
           <span v-html='$t("public.or")'></span>
-          <a @click="$goRouter('/asset')">{{$t("order.order_show_asset")}}</a>
+          <a @click="$goRouter('/asset??currency=' + routerQuery)">{{$t("order.order_show_asset")}}</a>
         </div>
         <span>
           <i-button class="submit-button-2" type="primary" @click="doOper">
@@ -300,6 +300,10 @@
     },
     watch: {},
     computed: {
+      routerQuery() {
+        const path = this.$route.path.indexOf('sell') > -1
+        return path ? 'eth' : 'dai'
+      },
       formMoneyAmount() {
         return this.$fixDecimalAuto(this.form.moneyAmount || 0, this.ad.target_currency)
       },
@@ -360,6 +364,9 @@
       }
     },
     methods: {
+      resetActionState() {
+        this.submitPlaceOrderLoading = false
+      },
       doOper() {
         this.confirmFlag.complete = false;
         this.$router.go(-1);
