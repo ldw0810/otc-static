@@ -2,11 +2,12 @@
   <div class="g-container">
     <div class='g-shadow ad'>
       <div class='ad-header'>
-        <div class="g-title ad-title">{{$t("ad.ad_title").format($t("public['" + this.currency + "']"))}}</div>
+        <div class="g-title ad-title">{{$t("ad.ad_title").format($t("public['" + currency + "']"))}}</div>
         <div class="title-tip" v-html='$t("ad.ad_title_tip")'></div>
         <!--相同类型广告判断-->
         <div class="credit-low-tip" v-if="!isUpdate && (+adType === 0 ? !examineAdBuyFlag : !examineAdSellFlag)">
-          <span class='red'>{{$t("ad.ad_publish_repeat_tip")}}</span>
+          <span class='red'>{{$t("ad.ad_publish_repeat_tip").format($t("public['" +
+            (+adType === 0 ? "buy" : "sell") + "'])"), $t("public['" + currency + "']"))}}</span>
         </div>
         <!-- 余额判断 -->
         <div class="credit-low-tip" v-if="form_buy.targetCurrency && !balanceFlag && +adType !== 1">
@@ -760,7 +761,9 @@
         } else if (!this.examineAdBuyFlag || !this.examineAdSellFlag) {
           this.$alert.error({
             title: this.$t("public.error_title_default"),
-            content: this.$t("ad.ad_publish_repeat")
+            content: this.$t("ad.ad_publish_repeat").format(
+              this.$t("public['" + (+this.adType === 0 ? "buy" : "sell") + "'])"),
+              this.$t("public['" + this.currency + "']"))
           })
         } else if (!this.balanceFlag) {
           this.$alert.error({
