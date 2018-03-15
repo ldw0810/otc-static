@@ -41,7 +41,7 @@
                 </i-col>
                 <i-col span="4" class='g-list-content-item-col'>
                   <div>
-                    {{$fixDeciamlAuto(item.current_price, item.target_currency)}}
+                    {{$fixDecimalAuto(item.current_price, item.target_currency)}}
 
                     {{$t("public['" + item.target_currency + "']")}}
                   </div>

@@ -275,13 +275,16 @@
         return this.$store.state.userInfo;
       },
       currencyList() {
-        return CONF_DIGITAL_CURRENCY_LIST;
+        return this.$store.state.code.sellable;
       },
       header_index() {
         return +this.$store.state.header_index;
       },
       ajax_source() {
         return this.$store.state.ajax_source.me;
+      },
+      code(){
+        return this.$store.state.code;
       },
       timeout: {
         set(val) {
@@ -290,6 +293,11 @@
         get() {
           return this.$store.state.timeout.notice;
         }
+      }
+    },
+    watch:{
+      code(val) {
+        val && this.init();
       }
     },
     methods: {
@@ -314,7 +322,7 @@
         this.ajax_source && this.ajax_source.cancel({cancel: 1});
       },
       getNotice() {
-        if(this.userToken) {
+        if (this.userToken) {
           this.$store.dispatch("ajax_notice").then(res => {
             if (res.data && +res.data.error === 0) {
               this.$store.commit("userInfo_notice_setter", +res.data.notice);
@@ -335,67 +343,77 @@
             query: item.query
           });
         }
+      },
+      init() {
+        const makeArray = type => {
+          const arr = {
+            buy: 11,
+            sell: 21,
+            ad: 30
+          };
+          return this.currencyList.map((item, index) => {
+            const obj = {};
+            obj.title = this.$t(`public.${item}`);
+            obj.url = `/${type}`;
+            obj.index = arr[type] + index;
+            obj.query = {
+              currency: item
+            };
+            return obj;
+          });
+        };
+        this.menus = [
+          {
+            title: this.$t("public.homePage"),
+            url: "/",
+            index: [0],
+            children: [],
+            visible: false
+          },
+          {
+            title: this.$t("public.buy"),
+            url: "/buy",
+            index: [11, 12],
+            visible: false,
+            children: makeArray("buy")
+          },
+          {
+            title: this.$t("public.sell"),
+            url: "/sell",
+            index: [21, 22],
+            visible: false,
+            children: makeArray("sell")
+          },
+          {
+            title: this.$t("public.ad"),
+            url: "/ad",
+            index: [30, 31],
+            visible: false,
+            children: makeArray("ad")
+          },
+          {
+            title: this.$t("public.invite"),
+            url: "/invite",
+            index: [4],
+            visible: false,
+            children: []
+          }
+        ];
+        this.timeout && clearTimeout(this.timeout);
+        // this.timeout = setTimeout(this.getNotice, 30 * 1000);
       }
     },
     created() {
-      const makeArray = type => {
-        const arr = {
-          buy: 11,
-          sell: 21,
-          ad: 30
-        };
-        return this.currencyList.map((item, index) => {
-          const obj = {};
-          obj.title = this.$t(`public.${item}`);
-          obj.url = `/${type}`;
-          obj.index = arr[type] + index;
-          obj.query = {
-            currency: item
-          };
-          return obj;
-        });
-      };
-      this.menus = [
-        {
-          title: this.$t("public.homePage"),
-          url: "/",
-          index: [0],
-          children: [],
-          visible: false
-        },
-        {
-          title: this.$t("public.buy"),
-          url: "/buy",
-          index: [11, 12],
-          visible: false,
-          children: makeArray("buy")
-        },
-        {
-          title: this.$t("public.sell"),
-          url: "/sell",
-          index: [21, 22],
-          visible: false,
-          children: makeArray("sell")
-        },
-        {
-          title: this.$t("public.ad"),
-          url: "/ad",
-          index: [30, 31],
-          visible: false,
-          children: makeArray("ad")
-        },
-        {
-          title: this.$t("public.invite"),
-          url: "/invite",
-          index: [4],
-          visible: false,
-          children: []
+      this.$store.dispatch("ajax_currency_code").then(res => {
+        if(res.data && +res.data.error === 0) {
+          this.$store.commit("code_setter", res.data);
+        } else {
         }
-      ];
-      this.timeout && clearTimeout(this.timeout);
-      this.timeout = setTimeout(this.getNotice, 30 * 1000);
+      }).catch(err => {
+      });
+      this.init();
     },
-    destroyed(){
+    destroyed() {
       this.timeout && clearTimeout(this.timeout);
     }
   };
@@ -403,12 +421,14 @@
 
 <style lang="scss" scoped>
   @import "~style/variables";
+
   .header-navbar-item {
     & /deep/ .ivu-select-dropdown {
       margin: 0;
       z-index: -1;
     }
   }
+
   $height: 76px;
   .header {
     width: 100%;

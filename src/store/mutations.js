@@ -51,6 +51,9 @@ export default {
   banks_setter(state, value) {
     state.banks = value;
   },
+  code_setter(state, value) {
+    state.code = value;
+  },
   showAuthEmail_setter(state, value) {
     if (value) {
       state.showAuthEmail = !value;

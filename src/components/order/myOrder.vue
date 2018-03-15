@@ -50,14 +50,14 @@
                 </i-col>
                 <i-col span="3" class='g-list-content-item-col'>
                   <div>
-                    {{$fixDeciamlAuto(order.price_sum, order.target_currency)}}
+                    {{$fixDecimalAuto(order.price_sum, order.target_currency)}}
                                       
                     {{$t("public['" + order.target_currency + "']")}}
                   </div>
                 </i-col>
                 <i-col span="3" class='g-list-content-item-col'>
                   <div>
-                    {{$fixDeciamlAuto(order.amount)}}
+                    {{$fixDecimalAuto(order.amount)}}
                   </div>
                 </i-col>
                 <i-col span="4" class='g-list-content-item-col'>

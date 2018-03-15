@@ -98,8 +98,9 @@ export default {
     /**
      * 根据参数定义显示资产位数
      */
-    Vue.prototype.$fixDeciamlAuto = function(value, currency) {
-      if (currency && CONF_DIGITAL_CURRENCY_LIST.indexOf(currency) === -1) {
+    Vue.prototype.$fixDecimalAuto = function(value, currency) {
+      let tempCurrencyList = CONF_DIGITAL_CURRENCY_LIST.map(item => item.currency);
+      if (currency && tempCurrencyList.indexOf(currency) === -1) {
         return fixDecimalsLegal(value);
       }
       return fixDecimalsBase(value);
