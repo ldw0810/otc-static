@@ -97,7 +97,7 @@
             </p>
           </section>
           <section class='info-section info-action'>
-            <div v-if="['timeout','over', 'cancel'].contains(order.status)">
+            <div v-if="['timeout','over', 'cancel', 'judge_seller'].contains(order.status)">
               <div class='flex'>
                 <img v-if="order.status === 'over'" class='pay-status-icon'
                      src="../../static/images/order/Deal-Icon-Finish.png">
@@ -105,7 +105,7 @@
                 <div v-if="order.status === 'timeout'">
                   {{$t('order.order_deal_timeout')}}
                 </div>
-                <div v-else-if="order.status === 'cancel'">
+                <div v-else-if="['cancel', 'judge_seller'].contains(order.status)">
                   {{$t('order.order_deal_cancel')}}
                 </div>
                 <div v-else>
@@ -434,7 +434,7 @@ export default {
           status: 1
         }
       ];
-      if (["timeout", "cancel"].contains(this.order.status)) {
+      if (["timeout", "cancel", "judge_seller"].contains(this.order.status)) {
         this.stepList.push({
           img: require("../../static/images/order/Deal-IconCancel.png"),
           title:
@@ -535,6 +535,7 @@ export default {
           this.confirmFlag.complete = true;
         } else if (operStr === "cancel") {
           this.confirmFlag.cancel = true;
+        } else {
         }
       },
       doOper(operStr, authJson) {
@@ -616,9 +617,6 @@ export default {
         if (time) {
           if (time > 1000 * 60 * 60) {
             this.stepTip = this.$t("order.order_info_timeout");
-            this.cancelFlag &&
-              this.order.op_type === "buy" &&
-              this.doOper("cancel");
           } else {
             let minute = Math.floor((1000 * 60 * 60 - time) / (1000 * 60));
             let second = Math.floor(

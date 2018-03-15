@@ -5,7 +5,7 @@
         <div class="g-title ad-title">{{$t("ad.ad_title").format($t("public['" + this.currency + "']"))}}</div>
         <div class="title-tip" v-html='$t("ad.ad_title_tip")'></div>
         <!--相同类型广告判断-->
-        <div class="credit-low-tip" v-if="+adType === 0 ? !examineAdBuyFlag : !examineAdSellFlag">
+        <div class="credit-low-tip" v-if="!isUpdate && (+adType === 0 ? !examineAdBuyFlag : !examineAdSellFlag)">
           <span class='red'>{{$t("ad.ad_publish_repeat_tip")}}</span>
         </div>
         <!-- 余额判断 -->
@@ -724,22 +724,22 @@
         }
       },
       changeFloor() {
-        let tempBalance = +this.balanceObj[this.currency] * this.tradePrice;
-        if (this.currency === `dai` && +this.adType !== 1) {
-        } else if (+this.form.floor > tempBalance) {
-          this.$nextTick(() => {
-            this.form.floor = this.$fixDecimalAuto(tempBalance, this.targetCurrencyText);
-          });
-        }
+        // let tempBalance = +this.balanceObj[this.currency] * this.tradePrice;
+        // if (this.currency === `dai` && +this.adType !== 1) {
+        // } else if (+this.form.floor > tempBalance) {
+        //   this.$nextTick(() => {
+        //     this.form.floor = this.$fixDecimalAuto(tempBalance, this.targetCurrencyText);
+        //   });
+        // }
       },
       changeCeiling() {
-        let tempBalance = +this.balanceObj[this.currency] * this.tradePrice;
-        if (this.currency === `dai` && +this.adType !== 1) {
-        } else if (+this.form.ceiling > tempBalance) {
-          this.$nextTick(() => {
-            this.form.ceiling = this.$fixDecimalAuto(tempBalance, this.targetCurrencyText);
-          });
-        }
+        // let tempBalance = +this.balanceObj[this.currency] * this.tradePrice;
+        // if (this.currency === `dai` && +this.adType !== 1) {
+        // } else if (+this.form.ceiling > tempBalance) {
+        //   this.$nextTick(() => {
+        //     this.form.ceiling = this.$fixDecimalAuto(tempBalance, this.targetCurrencyText);
+        //   });
+        // }
       },
       changeTargetCurrency(val) {
         this.targetCurrency = val;
@@ -758,9 +758,15 @@
         if (!this.userInfo.activated) {
           this.$store.commit("showAuthEmail_setter", 1);
         } else if (!this.examineAdBuyFlag || !this.examineAdSellFlag) {
-          this.$Message.error(this.$t("ad.ad_publish_repeat"));
+          this.$alert.error({
+            title: this.$t("public.error_title_default"),
+            content: this.$t("ad.ad_publish_repeat")
+          })
         } else if (!this.balanceFlag) {
-          this.$Message.error(this.$t("ad.ad_credit_low"));
+          this.$alert.error({
+            title: this.$t("public.error_title_default"),
+            content: this.$t("ad.ad_credit_low")
+          })
         } else {
           const form_ref =
             +this.adType === 0 ? this.$refs["form_buy"] : this.$refs["form_sell"];
@@ -794,7 +800,10 @@
                         status: 1
                       });
                     } else {
-                      this.$Message.error(this.$t("ad.ad_update_fail"));
+                      this.$alert.error({
+                        title: this.$t("public.error_title_default"),
+                        content: this.$t("ad.ad_update_fail")
+                      })
                     }
                   })
                   .catch(err => {
@@ -828,7 +837,10 @@
                       this.$Message.success(this.$t("ad.ad_advertise_success"));
                       this.$goRouter("myAd");
                     } else {
-                      this.$Message.error(this.$t("ad.ad_advertise_fail"));
+                      this.$alert.error({
+                        title: this.$t("public.error_title_default"),
+                        content: this.$t("ad.ad_advertise_fail")
+                      })
                     }
                   })
                   .catch(err => {
@@ -836,7 +848,10 @@
                   });
               }
             } else {
-              this.$Message.error(this.$t("ad.ad_advertise_info_notValid"));
+              this.$alert.error({
+                title: this.$t("public.error_title_default"),
+                content: this.$t("ad.ad_advertise_info_notValid")
+              })
             }
           });
         }
