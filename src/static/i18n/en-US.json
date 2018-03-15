@@ -409,7 +409,7 @@
     "ad_advertise_info_notValid": "Ad information invalid",
     "ad_advertise_success": "Create success",
     "ad_advertise_fail": "Create fail",
-    "ad_publish_repeat_tip": "*You already have an ad for {0} {1} , You can not create more than one same Ad",
+    "ad_publish_repeat_tip": "*You already have an ad for {0} {1} , you can not create more than one same Ad",
     "ad_publish_repeat": "You can not create more than one same Ad",
     "ad_data_request_fail": "Ad data request fail",
     "ad_ongoing": "Ongoing",
