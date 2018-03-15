@@ -144,8 +144,8 @@
       };
     },
     watch:{
-      pop_phone_show(val){
-        if(val) {
+      pop_phone_show(val) {
+        if(val && !this.userInfo.mobile) {
           this.$store.dispatch("ajax_national_list").then(res => {
             if (res && +res.data.error === 0) {
               let resList = res.data.country || [];
