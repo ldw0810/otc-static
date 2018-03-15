@@ -108,7 +108,8 @@
     "no_complete_order": "Currently no order",
     "no_unfinished_order": "Currently no order",
     "no_underway_ad": "Currently no ad",
-    "no_off_ad": "Currently no ad"
+    "no_off_ad": "Currently no ad",
+    "error_title_default": "Error"
   },
   "user": {
     "register_error": "Enter valid email address",
@@ -345,8 +346,7 @@
     "asset_withdraw_add_new_address_down": "Please enter new withdraw address",
     "asset_add_balance": "Balance",
     "asset_withdraw_all": "Withdraw all",
-    "asset_add_new_withdraw_address": "Add new withdraw address",
-    "error_title_default": "Error"
+    "asset_add_new_withdraw_address": "Add new withdraw address"
   },
   "ad": {
     "ad_title": "Create a trading advertisement for {0}",
