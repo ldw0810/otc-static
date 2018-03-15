@@ -368,7 +368,7 @@
             const obj = {};
             obj.title = this.$t(`public.${item}`);
             obj.url = `/${type}`;
-            obj.index = arr[type] + index;
+            obj.index = +arr[type] + index;
             obj.query = {
               currency: item
             };

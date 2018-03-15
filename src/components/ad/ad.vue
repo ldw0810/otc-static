@@ -2,11 +2,11 @@
   <div class="g-container">
     <div class='g-shadow ad'>
       <div class='ad-header'>
-        <div class="g-title ad-title">{{$t("ad.ad_title").format($t("public['" + this.currency + "']"))}}</div>
+        <div class="g-title ad-title">{{$t("ad.ad_title").format($t("public['" + currency + "']"))}}</div>
         <div class="title-tip" v-html='$t("ad.ad_title_tip")'></div>
         <!--相同类型广告判断-->
         <div class="credit-low-tip" v-if="!isUpdate && (+adType === 0 ? !examineAdBuyFlag : !examineAdSellFlag)">
-          <span class='red'>{{$t("ad.ad_publish_repeat_tip").format( +adType === 0 ? $t('ad.ad_buying') : $t('ad.ad_selling'), currency.toUpperCase())}}</span>
+          <span class='red'>{{$t("ad.ad_publish_repeat_tip").format( +adType === 0 ? $t('ad.ad_buying') : $t('ad.ad_selling'), $t("public['" + currency + "']"))}}</span>
         </div>
         <!-- 余额判断 -->
         <div class="credit-low-tip" v-if="form_buy.targetCurrency && !balanceFlag && +adType !== 1">
@@ -174,8 +174,10 @@
         <FormItem class="formItem submit">
           <Row>
             <i-col span='10'>
-              <i-button type='primary' long :loading='submitLoading' :disabled='!validate'
-                        @click="submit">
+              <i-button type='primary' long 
+                  :loading='submitLoading' 
+                  :disabled='disabledStatus'
+                  @click="submit">
                 {{isUpdate ? $t('ad.ad_update') : $t('ad.ad_advertise')}}
               </i-button>
             </i-col>
@@ -343,7 +345,10 @@
         <FormItem class="formItem submit">
           <Row>
             <i-col span='10'>
-              <i-button type='primary' long :loading='submitLoading' :disabled='!validate'
+              <i-button type='primary' 
+                        long 
+                        :loading='submitLoading'
+                        :disabled='disabledStatus'
                         @click="submit">
                 {{isUpdate ? $t('ad.ad_update') : $t('ad.ad_advertise')}}
               </i-button>
@@ -551,6 +556,9 @@
       };
     },
     computed: {
+      disabledStatus() {
+        return !this.validate || (+this.adType === 0 ? !this.examineAdBuyFlag : !this.examineAdSellFlag) || !this.balanceFlag
+      },
       userInfo() {
         return this.$store.state.userInfo;
       },
@@ -928,10 +936,6 @@
         });
       },
       init() {
-        this.$store.commit("header_index_setter", "3" + index);
-        if (!this.userInfo.activated) {
-          this.$store.commit("showAuthEmail_setter", 1);
-        }
         let index = -1;
         for (let i = 0; i < this.currencyList.length; i++) {
           if (this.currencyList[i] === this.currency) {
@@ -939,6 +943,11 @@
             break;
           }
         }
+        this.$store.commit("header_index_setter", "3" + index);
+        if (!this.userInfo.activated) {
+          this.$store.commit("showAuthEmail_setter", 1);
+        }
+        
         this.initTargetCurrency();
         this.getPayCollections();
         this.getTradePrice();
@@ -949,6 +958,9 @@
     },
     mounted() {
       this.init();
+    },
+    updated() {
+      this.examineAd()
     },
     destroyed() {
       this.timer && clearTimeout(this.timer);
