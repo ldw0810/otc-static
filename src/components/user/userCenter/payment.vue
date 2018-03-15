@@ -45,7 +45,6 @@
                   </Poptip>
                 </div>
               </div>
-              
             </div>
         </RadioGroup>
         <div class='payment-btn-wrapper'>
