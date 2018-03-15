@@ -120,6 +120,7 @@
 
     <Modal v-model="confirmFlag.placeOrder" class-name="m-ivu-modal"
            width='480'
+           @on-visible-change = 'resetActionState'
            :mask-closable="true" :closable="false"
            v-if="ad.id">
       <logoDiv style="margin: 0"/>
@@ -339,6 +340,9 @@ export default {
     }
   },
   methods: {
+    resetActionState() {
+      this.submitPlaceOrderLoading = false
+    },
     doOper() {
       this.confirmFlag.complete = false;
       this.$router.go(-1);
