@@ -94,14 +94,16 @@
                     </i-button>
                   </div>
                   <div class="tip" v-if="currency === 'dai'">
-                    {{$t("asset.asset_recharge_address_tip_DAI").format($t("public['" +
-                    this.currency +
-                    "']"))}}
+                    {{$t("asset.asset_recharge_address_tip_DAI").format(
+                    +deposit.deposit_channels.max_confirm,
+
+                    )}}
                   </div>
                   <div class="tip" v-else>
-                    {{$t("asset.asset_recharge_address_tip_ETH").format($t("public['" +
-                    this.currency +
-                    "']"))}}
+                    {{$t("asset.asset_recharge_address_tip_ETH").format(
+                    +deposit.deposit_channels.max_confirm,
+
+                    )}}
                   </div>
                 </div>
                 <div class='content-recharge-right' v-if="deposit.account.length && deposit.account[0].deposit_address">
@@ -243,7 +245,9 @@
                   <td class='content-history-table-body-td'>
                     <div class="status">
                       {{$t("asset['asset_recharge_status_" + item["aasm_state"] + "']")}}
-                      {{item.confirmations < 12 ? '&nbsp;&nbsp;' + item.confirmations + '/' + 12 : '' }}
+                      {{item.confirmations < +deposit.deposit_channels.max_confirm
+                      ? '&nbsp;&nbsp;' + item.confirmations + '/' + +deposit.deposit_channels.max_confirm
+                      : '' }}
                     </div>
                   </td>
                 </tr>
@@ -300,7 +304,8 @@
                       <template v-else-if="['submitted', 'accepted'].indexOf(item.aasm_state) > -1">
                         <a href="javascript:;" @click='cancelOrder(item, index)'>{{$t('public.cancel')}}</a>
                       </template>
-                      <template v-else-if="['suspect', 'processing', 'almost_done', 'failed'].indexOf(item.aasm_state) > -1">
+                      <template
+                          v-else-if="['suspect', 'processing', 'almost_done', 'failed'].indexOf(item.aasm_state) > -1">
                         {{$t('asset.asset_withdraw_status_underway')}}
                       </template>
                       <!-- <template v-if="['done'].indexOf(item.aasm_state) > -1">
@@ -370,7 +375,7 @@
   import validateMixin from "@/components/mixins/validate-mixin";
   import emptyList from "@/components/public/empty-list";
   import QrcodeVue from "qrcode.vue";
-  import { VALI_ADDRESS_LABEL } from 'config/validator'
+  import {VALI_ADDRESS_LABEL} from 'config/validator'
   import logoDiv from "../public/logo.vue";
   import auth_two from "../public/auth_two_pop.vue";
   import withdraw_confirm_pop from "./withdraw_confirm_pop.vue";
@@ -526,9 +531,9 @@
       currency() {
         return this.$route.query.currency || CONF_DIGITAL_CURRENCY_LIST[0].currency;
       },
-      currencySellLimit(){
-        for(let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
-          if(CONF_DIGITAL_CURRENCY_LIST[i].currency === this.currency) {
+      currencySellLimit() {
+        for (let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
+          if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.currency) {
             return CONF_DIGITAL_CURRENCY_LIST[i].sellLimit;
           }
         }
@@ -565,7 +570,7 @@
       default_source_id() {
         return this.withdraw.default_source_id;
       },
-      pageIndex(){
+      pageIndex() {
         return this.$route.query.pageIndex || 1;
       }
     },
@@ -587,7 +592,7 @@
       resendOrder(item) {
         this.remainTime = 120;
         this.withdraw_email = true;
-        this.withdraw_id = item.id
+        this.withdraw_id = item.id;
         if (this.$refs.sendCodeButton.subTime >= this.remainTime) {
           this.$refs.sendCodeButton.refresh()
         }
@@ -748,14 +753,14 @@
                 this.$refs.sendCodeButton.init();
                 // this.$Message.success(this.$t("asset.asset_withdraw_success"));
                 this.initFormData();
-                this.initSelectedValue()
-                this.getUserInfo()
+                this.initSelectedValue();
+                this.getUserInfo();
                 this.init();
               } else {
                 this.$alert.error({
                   title: this.$t("public.error_title_default"),
                   content: this.$t("asset.asset_withdraw_fail")
-                })
+                });
                 this.init();
               }
             })
@@ -863,20 +868,20 @@
       },
       sendListEmail(item) {
         // if (this.$refs.sendCodeButton.subTime >= this.remainTime) {
-          // this.$store
-          // .dispatch("ajax_resend_confirm", {
-          //   id: item.id
-          // })
-          // .then(res => {
-            
-          // })
-          // .catch(err => {
-          //   // this.$alert.error(this.$t("public.fail"));
-          // });
+        // this.$store
+        // .dispatch("ajax_resend_confirm", {
+        //   id: item.id
+        // })
+        // .then(res => {
+
+        // })
+        // .catch(err => {
+        //   // this.$alert.error(this.$t("public.fail"));
+        // });
         // }
       },
       sendEmail() {
-        
+
         this.$store
           .dispatch("ajax_resend_confirm", {
             id: this.withdraw_id

@@ -283,7 +283,7 @@
     "asset_locked": "Locked",
     "asset_recharge_address_get": "Get withdraw address",
     "asset_recharge_address": "Receive address",
-    "asset_recharge_address_tip_ETH": "Reminder：Send only ETH to the deposit address. Sending any other currency to the ETH address will result in the loss of your deposit.  Receive ETH on a ETH network need some time. We will deposit your ETH after we have received 12 confirmation(s) from the ETH Network. The minimum deposit amount is 0.01 ETH, we will not handle any deposit request that is less than this amount. Please do not send your fund with smart contract, or it won't be accepted.",
+    "asset_recharge_address_tip_ETH": "Reminder：Send only ETH to the deposit address. Sending any other currency to the ETH address will result in the loss of your deposit.  Receive ETH on a ETH network need some time. We will deposit your ETH after we have received {0} confirmation(s) from the ETH Network. The minimum deposit amount is 0.01 ETH, we will not handle any deposit request that is less than this amount. Please do not send your fund with smart contract, or it won't be accepted.",
     "asset_recharge_address_tip_DAI": "Reminder: Send only DAI to the deposit address. Sending any other currency to the DAI address will result in the loss of your deposit.  Receive DAI on a DAI network need some time. The minimum deposit amount is 100 DAI , we will not handle any deposit request that is less than this amount. ",
     "asset_recharge_time": "Deposit time",
     "asset_withdraw_time": "Withdraw time",
