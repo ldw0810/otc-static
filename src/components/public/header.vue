@@ -413,7 +413,7 @@
           }
         ];
         this.timeout && clearTimeout(this.timeout);
-        // this.timeout = setTimeout(this.getNotice, 30 * 1000);
+        this.timeout = setTimeout(this.getNotice, 30 * 1000);
       }
     },
     created() {
