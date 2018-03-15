@@ -961,9 +961,6 @@
     mounted() {
       this.init();
     },
-    updated() {
-      this.examineAd()
-    },
     destroyed() {
       this.timer && clearTimeout(this.timer);
     }
