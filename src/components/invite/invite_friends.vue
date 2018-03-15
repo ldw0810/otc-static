@@ -7,7 +7,7 @@
                 <div class='invite-target-desc'>
                     {{$t('public.invite_title')}}
                     <a class='invite-target-desc-sub'
-                       href='https://otcmakersupporthelp.zendesk.com/hc/zh-tw/articles/360000615892' target="_blank">{{$t('public.invite_question')}}</a>
+                       href='https://otcmaker.zendesk.com/hc/zh-cn/articles/360001929553' target="_blank">{{$t('public.invite_question')}}</a>
                 </div>
                 <div class='copy-area'>
                     <div class='copy-input-wrapper'>

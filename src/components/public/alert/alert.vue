@@ -23,9 +23,9 @@ export default {
     return {
       type: '',
       visible: false,
-      title: '错误',
-      content: '默认',
-      okText: '确定',
+      title: this.$t('public.error_title_default'),
+      content: '',
+      okText: this.$t('public.confirm')
     }
   },
   methods: {
