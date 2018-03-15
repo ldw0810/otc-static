@@ -324,14 +324,16 @@
       },
       currencyBuyLimit() {
         for (let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
-          if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.ad.currency) {
+          if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.currency &&
+            CONF_DIGITAL_CURRENCY_LIST[i].targetCurrency === this.targetCurrency) {
             return CONF_DIGITAL_CURRENCY_LIST[i].buyLimit;
           }
         }
       },
       currencySellLimit() {
         for (let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
-          if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.ad.currency) {
+          if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.currency &&
+            CONF_DIGITAL_CURRENCY_LIST[i].targetCurrency === this.targetCurrency) {
             return CONF_DIGITAL_CURRENCY_LIST[i].sellLimit;
           }
         }
