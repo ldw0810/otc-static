@@ -119,7 +119,7 @@
         return this.$store.state.userInfo.app_two_factor;
       },
       tipText() {
-        return this.$t('user.auth_phone_code_will_send').format(this.$store.state.loginInfo.mobile || "");
+        return this.$t('user.auth_phone_code_will_send').format(this.$store.state.userInfo.phone_number || "");
       },
       loginInfo() {
         return this.$store.state.loginInfo;
