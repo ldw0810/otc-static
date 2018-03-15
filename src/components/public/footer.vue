@@ -43,7 +43,7 @@
           {
             name: this.$t("public.about"),
             url:
-              "https://otcmakersupporthelp.zendesk.com/hc/zh-tw/articles/360000582731-什么是OTCMAKER"
+              "https://otcmaker.zendesk.com/hc/zh-cn/articles/360001934074"
           },
           {
             name: "|"
@@ -51,7 +51,7 @@
           {
             name: this.$t("public.explain"),
             url:
-              "https://otcmakersupporthelp.zendesk.com/hc/zh-tw/articles/360000613612-费率说明"
+              "https://otcmaker.zendesk.com/hc/zh-cn/articles/360001929453"
           },
           {
             name: "|"
@@ -59,7 +59,7 @@
           {
             name: this.$t("public.helpCenter"),
             url:
-              "https://otcmakersupporthelp.zendesk.com/hc/zh-tw/categories/360000058352-常见问题"
+              "https://otcmaker.zendesk.com/hc/zh-cn/categories/360000187674"
           },
           {
             name: "|"
@@ -131,8 +131,8 @@
               (window.localStorage.getItem("language") || "zh-CN")
                 .toLowerCase()
                 .indexOf("zh") > -1
-                ? "https://otcmakersupporthelp.zendesk.com"
-                : "https://otcmakersupporthelp.zendesk.com/hc/en-us";
+                ? "https://otcmaker.zendesk.com"
+                : "https://otcmaker.zendesk.com/hc/en-us";
           }
         } else if (this.footerList[index].url) {
           window.location.href = this.footerList[index].url;
