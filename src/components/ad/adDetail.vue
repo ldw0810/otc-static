@@ -102,8 +102,7 @@
           </Row>
           <FormItem class="formItem submit">
             <i-button class="deal-exchange-btn" type='primary' :disabled='!validate || isSelfOrder' @click="submit">
-              {{isSelfOrder ? $t('order.order_join_own_otc_ad') : +adType === 0 ? $t('order.order_buy_confirm') :
-              $t('order.order_sell_confirm')}}
+              {{isSelfOrder ? $t('order.order_join_own_otc_ad') : +adType === 0 ? $t('order.order_buy_confirm') : $t('order.order_sell_confirm')}}
             </i-button>
 
           </FormItem>
@@ -121,6 +120,7 @@
 
     <Modal v-model="confirmFlag.placeOrder" class-name="m-ivu-modal"
            width='480'
+           @on-visible-change = 'resetActionState'
            :mask-closable="true" :closable="false"
            v-if="ad.id">
       <logoDiv style="margin: 0"/>
@@ -390,11 +390,17 @@
             if (valid) {
               this.confirmFlag.placeOrder = true;
             } else {
-              this.$Message.error(this.$t("order.order_info_notValid"));
+              this.$alert.error({
+                title: this.$t("public.error_title_default"),
+                content: this.$t("order.order_info_notValid")
+              });
             }
           });
         } else {
-          this.$Message.error(this.$t("order.order_join_own_otc_ad"));
+          this.$alert.error({
+            title: this.$t("public.error_title_default"),
+            content: this.$t("order.order_join_own_otc_ad")
+          });
         }
       },
       changeAmount() {
@@ -435,7 +441,10 @@
               this.$goBack()
             } else {
               this.confirmFlag.placeOrder = false;
-              this.$Message.error(this.$t("order.order_deal_request_fail"));
+              this.$alert.error({
+                title: this.$t("public.error_title_default"),
+                content: this.$t("order.order_deal_request_fail")
+              });
             }
           })
           .catch(err => {
