@@ -6,7 +6,7 @@
         <div class="title-tip" v-html='$t("ad.ad_title_tip")'></div>
         <!--相同类型广告判断-->
         <div class="credit-low-tip" v-if="!isUpdate && (+adType === 0 ? !examineAdBuyFlag : !examineAdSellFlag)">
-          <span class='red'>{{$t("ad.ad_publish_repeat_tip")}}</span>
+          <span class='red'>{{$t("ad.ad_publish_repeat_tip").format( +adType === 0 ? $t('ad.ad_buying') : $t('ad.ad_selling'), currency.toUpperCase())}}</span>
         </div>
         <!-- 余额判断 -->
         <div class="credit-low-tip" v-if="form_buy.targetCurrency && !balanceFlag && +adType !== 1">

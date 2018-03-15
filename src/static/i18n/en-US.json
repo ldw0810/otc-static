@@ -407,7 +407,7 @@
     "ad_advertise_info_notValid": "Ad information invalid",
     "ad_advertise_success": "Create success",
     "ad_advertise_fail": "Create fail",
-    "ad_publish_repeat_tip": "* You can not create more than one same Ad",
+    "ad_publish_repeat_tip": "*You already have an ad for {0} {1} , You can not create more than one same Ad",
     "ad_publish_repeat": "You can not create more than one same Ad",
     "ad_data_request_fail": "Ad data request fail",
     "ad_ongoing": "Ongoing",
@@ -426,7 +426,9 @@
     "ad_update_fail": "Edit fail",
     "ad_asset_deficiency": "Asset deficiency",
     "ad_max_price_limit": "Max 9999999999",
-    "ad_deal_with_self": "You can not trade with yourself"
+    "ad_deal_with_self": "You can not trade with yourself",
+    "ad_buying": "buying",
+    "ad_selling": "selling"
   },
   "order": {
     "remark_required": "Please enter the order related content",
