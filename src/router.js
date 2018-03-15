@@ -128,6 +128,9 @@ const routers = [
       {
         path: "/myOrder",
         name: "/myOrder",
+        meta: {
+          freeze: true
+        },
         component: resolve =>
           require(["./components/order/myOrder.vue"], resolve)
       },
@@ -135,7 +138,8 @@ const routers = [
         path: "/buy",
         name: "/buy",
         meta: {
-          noLogin: true
+          noLogin: true,
+          freeze: true
         },
         component: resolve => require(["./components/ad/adList.vue"], resolve)
       },
@@ -143,7 +147,8 @@ const routers = [
         path: "/sell",
         name: "/sell",
         meta: {
-          noLogin: true
+          noLogin: true,
+          freeze: true
         },
         component: resolve => require(["./components/ad/adList.vue"], resolve)
       },
@@ -151,7 +156,8 @@ const routers = [
         path: "/detail",
         name: "/detail",
         meta: {
-          needEmail: true
+          needEmail: true,
+          freeze: true
         },
         component: resolve => require(["./components/ad/adDetail.vue"], resolve)
       },
@@ -159,7 +165,8 @@ const routers = [
         path: "/order",
         name: "/order",
         meta: {
-          needEmail: true
+          needEmail: true,
+          freeze: true
         },
         component: resolve => require(["./components/order/order.vue"], resolve)
       },
@@ -175,18 +182,25 @@ const routers = [
         path: "/ad",
         name: "/ad",
         meta: {
-          needEmail: true
+          needEmail: true,
+          freeze: true
         },
         component: resolve => require(["./components/ad/ad.vue"], resolve)
       },
       {
         path: "/myAd",
         name: "/myAd",
+        meta: {
+          freeze: true
+        },
         component: resolve => require(["./components/ad/myAd.vue"], resolve)
       },
       {
         path: "/invite",
         name: "/invite",
+        meta: {
+          freeze: true
+        },
         component: resolve =>
           require(["./components/invite/invite_friends.vue"], resolve)
       }
@@ -205,13 +219,18 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   LoadingBar.start();
-  const goFun = () => {
-    if (to.matched.some(r => r.meta.noUser)) {
+  const goFun = () => { //登陆状态跳转
+    if (to.matched.some(r => r.meta.noUser)) {  //登陆注册页面
       if (from.name === "home") {
         LoadingBar.finish();
       }
       next({path: "/"});
-    } else if (to.matched.some(r => r.meta.needEmail) && !store.state.userInfo.activated) {
+    } else if (to.matched.some(r => r.meta.freeze) && store.state.userInfo.soft_disabled) { //账户软冻结
+      if (from.name === "home") {
+        LoadingBar.finish();
+      }
+      next({path: "/"});
+    } else if (to.matched.some(r => r.meta.needEmail) && !store.state.userInfo.activated) { //邮箱未验证
       //地址栏输入的from.name为空
       if (from.name && from.name.indexOf("/user/login") <= -1) {
         LoadingBar.finish();
