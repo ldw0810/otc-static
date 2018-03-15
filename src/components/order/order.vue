@@ -53,7 +53,7 @@
                 {{$t("order.order_money_amount")}}:
               </i-col>
               <i-col span='16'>
-                {{$fixDeciamlAuto(order.price_sum, order.target_currency)}}
+                {{$fixDecimalAuto(order.price_sum, order.target_currency)}}
                 {{$t("public['" + order.target_currency + "']")}}
               </i-col>
             </Row>
@@ -63,7 +63,7 @@
                 {{$t("order.order_price")}}:
               </i-col>
               <i-col span='16'>
-                {{$fixDeciamlAuto(order.price, order.target_currency)}}
+                {{$fixDecimalAuto(order.price, order.target_currency)}}
                 {{$t("public['" + order.target_currency + "']")}}
                 &nbsp;/&nbsp;
                 {{$t("public['" + order.currency + "']")}}
@@ -75,7 +75,7 @@
                 {{$t("order.order_number")}}:
               </i-col>
               <i-col span='16'>
-                {{$fixDeciamlAuto(order.amount, order.currency)}}
+                {{$fixDecimalAuto(order.amount, order.currency)}}
                 {{$t("public['" + order.currency + "']")}}
               </i-col>
             </Row>
@@ -389,10 +389,10 @@ export default {
   },
   computed: {
     orderAmount() {
-      return this.$fixDeciamlAuto(this.order.amount, this.order.currency)
+      return this.$fixDecimalAuto(this.order.amount, this.order.currency)
     },
     orderPriceSum() {
-      return this.$fixDeciamlAuto(this.order.price_sum, this.order.target_currency)
+      return this.$fixDecimalAuto(this.order.price_sum, this.order.target_currency)
     },
     id() {
       return this.$route.query.id;

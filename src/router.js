@@ -223,7 +223,6 @@ router.beforeEach((to, from, next) => {
       next();
     }
   };
-
   Util.title(to.meta.title);
   if (localStorage.getItem("userToken")) {
     if (store.state.userInfo.id) {
@@ -237,7 +236,7 @@ router.beforeEach((to, from, next) => {
           next({path: "/user/userCenter"});
         }
       }).catch(err => {
-        next({path: "/user/userCenter"});
+        LoadingBar.finish();
       });
     }
   } else {

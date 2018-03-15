@@ -260,5 +260,5 @@ export default {
   },
   ajax_del_fund_sources({commit}, requestData = {}) {
     return http.delete("/api/v1/fund_sources.json", requestData);
-  },
+  }
 }

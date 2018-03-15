@@ -395,13 +395,9 @@
           callback(new Error(this.$t("public.input_number_required")));
         } else if (+value > +this.$fixDecimalsAsset(this.account["balance"])) {
           callback(new Error(this.$t("public.balance_insufficient")));
-        } else if (this.currency === "eth" && +value < 0.01) {
+        } else if (+value < this.currencySellLimit) {
           callback(
-            new Error(this.$t("asset.asset_withdraw_eth_number_required"))
-          );
-        } else if (this.currency === "dai" && +value < 100) {
-          callback(
-            new Error(this.$t("asset.asset_withdraw_dai_number_required"))
+            new Error(this.$t("asset.asset_withdraw_" + this.currency + "_number_required"))
           );
         } else {
           callback();
@@ -525,10 +521,17 @@
         return this.$route.query.withdraw_token;
       },
       currencyList() {
-        return CONF_DIGITAL_CURRENCY_LIST;
+        return this.$store.state.code.sellable;
       },
       currency() {
-        return this.$route.query.currency || CONF_DIGITAL_CURRENCY_LIST[0];
+        return this.$route.query.currency || CONF_DIGITAL_CURRENCY_LIST[0].currency;
+      },
+      currencySellLimit(){
+        for(let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
+          if(CONF_DIGITAL_CURRENCY_LIST[i].currency === this.currency) {
+            return CONF_DIGITAL_CURRENCY_LIST[i].sellLimit;
+          }
+        }
       },
       account() {
         let index = 0;

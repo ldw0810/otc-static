@@ -49,16 +49,16 @@
               </i-col>
               <i-col span="4" class='g-list-content-item-col'>
                 <div>
-                  {{$fixDeciamlAuto(ad.min_limit, ad.target_currency)}}
+                  {{$fixDecimalAuto(ad.min_limit, ad.target_currency)}}
                   &nbsp;-&nbsp;
-                  {{$fixDeciamlAuto(ad.order_limit, ad.target_currency)}}
+                  {{$fixDecimalAuto(ad.order_limit, ad.target_currency)}}
 
                   {{$t("public['" + ad.target_currency + "']")}}
                 </div>
               </i-col>
               <i-col span="4" class='g-list-content-item-col'>
                 <div class='pay'>
-                  {{$fixDeciamlAuto(ad.current_price, ad.target_currency)}}
+                  {{$fixDecimalAuto(ad.current_price, ad.target_currency)}}
                   {{$t("public['" + ad.target_currency + "']")}}
                 </div>
               </i-col>
@@ -128,10 +128,10 @@
         return text;
       },
       currency() {
-        return this.$route.query.currency || CONF_DIGITAL_CURRENCY_LIST[0];
+        return this.$route.query.currency || CONF_DIGITAL_CURRENCY_LIST[0].currency;
       },
       currencyList() {
-        return CONF_DIGITAL_CURRENCY_LIST;
+        return this.$store.state.code.sellable;
       },
       pageIndex() {
         return this.$route.query.pageIndex || 1;

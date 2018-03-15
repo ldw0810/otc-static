@@ -38,7 +38,7 @@
             {{$t("order.order_offer")}}：
           </div>
           <div class="deal-info-item-desc">
-            {{$fixDeciamlAuto(ad.current_price, ad.target_currency)}}
+            {{$fixDecimalAuto(ad.current_price, ad.target_currency)}}
             {{$t("public['" + ad.target_currency + "']")}}
             &nbsp;/&nbsp;
             {{$t("public['" + ad.currency + "']")}}
@@ -49,10 +49,10 @@
             {{$t("order.order_trade_limit")}}：
           </div>
           <div class="deal-info-item-desc">
-            {{$fixDeciamlAuto(ad.min_limit, ad.target_currency)}}
+            {{$fixDecimalAuto(ad.min_limit, ad.target_currency)}}
             &nbsp;-&nbsp;
-            {{$fixDeciamlAuto(ad.order_limit, ad.target_currency)}}
-            
+            {{$fixDecimalAuto(ad.order_limit, ad.target_currency)}}
+
             {{$t("public['" + ad.target_currency + "']")}}
           </div>
         </div>
@@ -102,9 +102,10 @@
           </Row>
           <FormItem class="formItem submit">
             <i-button class="deal-exchange-btn" type='primary' :disabled='!validate || isSelfOrder' @click="submit">
-              {{isSelfOrder ? $t('order.order_join_own_otc_ad') : +adType === 0 ? $t('order.order_buy_confirm') : $t('order.order_sell_confirm')}}
+              {{isSelfOrder ? $t('order.order_join_own_otc_ad') : +adType === 0 ? $t('order.order_buy_confirm') :
+              $t('order.order_sell_confirm')}}
             </i-button>
-                        
+
           </FormItem>
         </Form>
       </div>
@@ -120,7 +121,6 @@
 
     <Modal v-model="confirmFlag.placeOrder" class-name="m-ivu-modal"
            width='480'
-           @on-visible-change = 'resetActionState'
            :mask-closable="true" :closable="false"
            v-if="ad.id">
       <logoDiv style="margin: 0"/>
@@ -133,7 +133,7 @@
               {{+adType === 0 ? $t("ad.ad_buy_price") : $t("ad.ad_sell_price")}}:
             </i-col>
             <i-col class='text-left' span="116">
-              {{$fixDeciamlAuto(+ad.current_price, ad.target_currency)}}
+              {{$fixDecimalAuto(+ad.current_price, ad.target_currency)}}
               {{$t("public['" + ad.target_currency + "']")}}
               &nbsp;/&nbsp;
               {{$t("public['" + ad.currency + "']")}}
@@ -144,7 +144,7 @@
               {{+adType === 0 ? $t("ad.ad_buy_money_amount") : $t("ad.ad_sell_money_amount")}}:
             </i-col>
             <i-col class='text-left' span="16">
-              {{$fixDeciamlAuto(+form.moneyAmount, ad.target_currency)}}
+              {{$fixDecimalAuto(+form.moneyAmount, ad.target_currency)}}
               {{$t("public['" + ad.target_currency + "']")}}
             </i-col>
           </Row>
@@ -153,7 +153,7 @@
               {{+adType === 0 ? $t("order.order_buy_number_title") : $t("order.order_sell_number_title")}}:
             </i-col>
             <i-col class='text-left' span="16">
-              {{$fixDeciamlAuto(+form.number, ad.currency)}}
+              {{$fixDecimalAuto(+form.number, ad.currency)}}
               {{$t("public['" + ad.currency + "']")}}
             </i-col>
           </Row>
@@ -202,383 +202,389 @@
   </div>
 </template>
 <script type="es6">
-import validateMixin from "@/components/mixins/validate-mixin";
-import logoDiv from "../public/logo.vue";
-import Avator from "@/components/public/avator";
+  import {CONF_DIGITAL_CURRENCY_LIST} from "config/config";
+  import validateMixin from "@/components/mixins/validate-mixin";
+  import logoDiv from "../public/logo.vue";
+  import Avator from "@/components/public/avator";
 
-export default {
-  mixins: [validateMixin("form")],
-  data() {
-    const validateNumberCheck = (rule, value, callback) => {
-      if (!+value || +value <= 0) {
-        callback(new Error(this.$t("public.input_number_required")));
-      } else {
-        callback();
-      }
-    };
-    const validateNumberLimitCheck = (rule, value, callback) => {
-      if (+this.ad.min_limit > +this.ad.order_limit) {
-        callback(new Error(this.$t("ad.ad_ceiling_number_notValid")));
-      } else if (+value < this.ad.min_limit) {
-        callback(new Error(this.$t("ad.ad_floor_limit")));
-      } else if (+value > this.ad.order_limit) {
-        callback(new Error(this.$t("ad.ad_ceiling_limit")));
-      } else {
-        callback();
-      }
-    };
-    const validBalanceBuyCheck = (rule, value, callback) => {
-      if (this.ad && +this.adType === 0) {
-        if (this.ad.currency === `dai`) {
-          callback();
+  export default {
+    mixins: [validateMixin("form")],
+    data() {
+      const validateNumberCheck = (rule, value, callback) => {
+        if (!+value || +value <= 0) {
+          callback(new Error(this.$t("public.input_number_required")));
         } else {
-          if (this.balanceObj[this.ad.target_currency] < +value) {
+          callback();
+        }
+      };
+      const validateNumberLimitCheck = (rule, value, callback) => {
+        if (+this.ad.min_limit > +this.ad.order_limit) {
+          callback(new Error(this.$t("ad.ad_ceiling_number_notValid")));
+        } else if (+value < this.ad.min_limit) {
+          callback(new Error(this.$t("ad.ad_floor_limit")));
+        } else if (+value > this.ad.order_limit) {
+          callback(new Error(this.$t("ad.ad_ceiling_limit")));
+        } else {
+          callback();
+        }
+      };
+      const validBalanceBuyCheck = (rule, value, callback) => {
+        if (this.ad && +this.adType === 0) {
+          if (this.ad.currency === `dai`) {
+            callback();
+          } else {
+            if (this.balanceObj[this.ad.target_currency] < +value) {
+              callback(new Error(this.$t("ad.ad_credit_low")));
+            } else {
+              callback();
+            }
+          }
+        } else {
+          callback();
+        }
+      };
+      const validBalanceSellCheck = (rule, value, callback) => {
+        if (this.ad && +this.adType === 1) {
+          if (this.balanceObj[this.ad.currency] < +value) {
             callback(new Error(this.$t("ad.ad_credit_low")));
           } else {
             callback();
           }
-        }
-      } else {
-        callback();
-      }
-    };
-    const validBalanceSellCheck = (rule, value, callback) => {
-      if (this.ad && +this.adType === 1) {
-        if (this.balanceObj[this.ad.currency] < +value) {
-          callback(new Error(this.$t("ad.ad_credit_low")));
         } else {
           callback();
         }
-      } else {
-        callback();
-      }
-    };
-    return {
-      isSelfOrder: false,
-      submitPlaceOrderLoading: false,
-      showModal: true,
-      ad: {},
-      form: {
-        moneyAmount: "",
-        number: ""
+      };
+      return {
+        isSelfOrder: false,
+        submitPlaceOrderLoading: false,
+        showModal: true,
+        ad: {},
+        form: {
+          moneyAmount: "",
+          number: ""
+        },
+        rules: {
+          moneyAmount: [
+            {
+              required: true,
+              message: this.$t("order.order_buy_money_amount")
+            },
+            {
+              validator: validateNumberCheck
+            },
+            {
+              validator: validateNumberLimitCheck
+            },
+            {
+              validator: validBalanceBuyCheck
+            }
+          ],
+          number: [
+            {
+              required: true,
+              message: this.$t("order.order_buy_number")
+            },
+            {
+              validator: validateNumberCheck
+            },
+            {
+              validator: validBalanceSellCheck
+            }
+          ]
+        },
+        confirmFlag: {
+          placeOrder: false,
+          complete: false
+        }
+      };
+    },
+    watch: {},
+    computed: {
+      formMoneyAmount() {
+        return this.$fixDecimalAuto(this.form.moneyAmount || 0, this.ad.target_currency)
       },
-      rules: {
-        moneyAmount: [
-          {
-            required: true,
-            message: this.$t("order.order_buy_money_amount")
-          },
-          {
-            validator: validateNumberCheck
-          },
-          {
-            validator: validateNumberLimitCheck
-          },
-          {
-            validator: validBalanceBuyCheck
-          }
-        ],
-        number: [
-          {
-            required: true,
-            message: this.$t("order.order_buy_number")
-          },
-          {
-            validator: validateNumberCheck
-          },
-          {
-            validator: validBalanceSellCheck
-          }
-        ]
+      formNumber() {
+        return this.$fixDecimalAuto(this.form.number || 0, this.ad.currency)
       },
-      confirmFlag: {
-        placeOrder: false,
-        complete: false
-      }
-    };
-  },
-  watch: {},
-  computed: {
-    formMoneyAmount() {
-      return this.$fixDeciamlAuto(this.form.moneyAmount || 0, this.ad.target_currency)
-    },
-    formNumber() {
-      return this.$fixDeciamlAuto(this.form.number || 0, this.ad.currency)
-    },
-    userInfo() {
-      return this.$store.state.userInfo;
-    },
-    adType() {
-      return +(this.$route.query.adType || 0);
-    },
-    id() {
-      return this.$route.query.id;
-    },
-    balanceObj() {
-      let obj = {};
-      for (let i = 0; i < this.userInfo.valid_account.length; i++) {
-        obj[
+      userInfo() {
+        return this.$store.state.userInfo;
+      },
+      adType() {
+        return +(this.$route.query.adType || 0);
+      },
+      id() {
+        return this.$route.query.id;
+      },
+      targetCurrency() {
+        for(let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
+          if(CONF_DIGITAL_CURRENCY_LIST[i].currency === this.ad.currency) {
+            return CONF_DIGITAL_CURRENCY_LIST[i].targetCurrency;
+          }
+        }
+      },
+      currencyBuyLimit() {
+        for (let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
+          if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.ad.currency) {
+            return CONF_DIGITAL_CURRENCY_LIST[i].buyLimit;
+          }
+        }
+      },
+      currencySellLimit() {
+        for (let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
+          if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.ad.currency) {
+            return CONF_DIGITAL_CURRENCY_LIST[i].sellLimit;
+          }
+        }
+      },
+      balanceObj() {
+        let obj = {};
+        for (let i = 0; i < this.userInfo.valid_account.length; i++) {
+          obj[
           "" + this.userInfo.valid_account[i].currency
-        ] = this.userInfo.valid_account[i].balance;
-      }
-      return obj;
-    },
-    balanceFlag() {
-      if (this.adType !== 1) {
-        if (this.ad.currency === "dai") {
-          return true;
-        } else if (this.ad.currency === "eth") {
-          return this.balanceObj["dai"] >= 100;
+            ] = this.userInfo.valid_account[i].balance;
         }
-      } else {
-        if (this.ad.currency === "dai") {
-          return this.balanceObj["dai"] >= 100;
-        } else if (this.ad.currency === "eth") {
-          return this.balanceObj["eth"] >= 0.01;
+        return obj;
+      },
+      balanceFlag() {
+        if (this.adType !== 1) {
+          if(!this.balanceObj[this.ad.target_currency]) {
+            return true;
+          } else {
+            return +this.balanceObj[this.ad.target_currency] >= this.currencyBuyLimit;
+          }
+        } else {
+          return this.balanceObj[this.ad.currency] >= this.currencySellLimit;
         }
       }
-    }
-  },
-  methods: {
-    resetActionState() {
-      this.submitPlaceOrderLoading = false
     },
-    doOper() {
-      this.confirmFlag.complete = false;
-      this.$router.go(-1);
-    },
-    getInfo() {
-      this.$store
-        .dispatch("ajax_get_ad", {
-          id: this.id
-        })
-        .then(res => {
-          
-          if (res.data && +res.data.error === 0) {
-            this.ad = res.data.info;
-            this.isSelfOrder = (this.ad.member.id === this.userInfo.id)
-          } else {
-            // this.$Message.error(this.$t("order.order_ad_info_request_fail"));
-          }
-        })
-        .catch(err => {
-          if (err.error === '100021') {
-            this.$goBack()
-          }
-        });
-    },
-    submit() {
-      if (this.ad.member.id !== this.userInfo.id) {
-        this.$refs["form"].validate(valid => {
-          if (valid) {
-            this.confirmFlag.placeOrder = true;
-          } else {
-            this.$alert.error({
-              title: this.$t("public.error_title_default"),
-              content: this.$t("order.order_info_notValid")
-            })
-          }
-        });
-      } else {
-        this.$alert.error({
-          title: this.$t("public.error_title_default"),
-          content: this.$t("order.order_join_own_otc_ad")
-        })
-      }
-    },
-    changeAmount() {
-      if (+this.form.moneyAmount || +this.form.moneyAmount === 0) {
-        this.form.number = this.$fixDeciamlAuto(
-          this.$dividedBy(+this.form.moneyAmount, +this.ad.current_price),
-          this.ad.currency
-        );
-      }
-    },
-    changeNumber() {
-      if (+this.form.number || +this.form.number === 0) {
-        this.form.moneyAmount = this.$fixDeciamlAuto(
-          this.$multipliedBy(+this.form.number, +this.ad.current_price),
-          this.ad.target_currency
-        );
-      }
-    },
-    placeOrder_submit() {
-      this.submitPlaceOrderLoading = true;
-      this.$store
-        .dispatch("ajax_order_buy", {
-          id: this.ad.id,
-          price_sum: +this.form.moneyAmount
-        })
-        .then(res => {
-          this.submitPlaceOrderLoading = false;
-          if (res.data && +res.data.error === 0) {
-            if (this.ad.currency === "dai") {
-              this.$goRouter("/order", {
-                id: res.data.order_id
-              });
+    methods: {
+      doOper() {
+        this.confirmFlag.complete = false;
+        this.$router.go(-1);
+      },
+      getInfo() {
+        this.$store
+          .dispatch("ajax_get_ad", {
+            id: this.id
+          })
+          .then(res => {
+
+            if (res.data && +res.data.error === 0) {
+              this.ad = res.data.info;
+              this.isSelfOrder = (this.ad.member.id === this.userInfo.id)
+            } else {
+              // this.$Message.error(this.$t("order.order_ad_info_request_fail"));
+            }
+          })
+          .catch(err => {
+            if (err.error === '100021') {
+              this.$goBack()
+            }
+          });
+      },
+      submit() {
+        if (this.ad.member.id !== this.userInfo.id) {
+          this.$refs["form"].validate(valid => {
+            if (valid) {
+              this.confirmFlag.placeOrder = true;
+            } else {
+              this.$Message.error(this.$t("order.order_info_notValid"));
+            }
+          });
+        } else {
+          this.$Message.error(this.$t("order.order_join_own_otc_ad"));
+        }
+      },
+      changeAmount() {
+        if (+this.form.moneyAmount || +this.form.moneyAmount === 0) {
+          this.form.number = this.$fixDecimalAuto(
+            this.$dividedBy(+this.form.moneyAmount, +this.ad.current_price),
+            this.ad.currency
+          );
+        }
+      },
+      changeNumber() {
+        if (+this.form.number || +this.form.number === 0) {
+          this.form.moneyAmount = this.$fixDecimalAuto(
+            this.$multipliedBy(+this.form.number, +this.ad.current_price),
+            this.ad.target_currency
+          );
+        }
+      },
+      placeOrder_submit() {
+        this.submitPlaceOrderLoading = true;
+        this.$store
+          .dispatch("ajax_order_buy", {
+            id: this.ad.id,
+            price_sum: +this.form.moneyAmount
+          })
+          .then(res => {
+            this.submitPlaceOrderLoading = false;
+            if (res.data && +res.data.error === 0) {
+              if (this.ad.currency === "dai") {
+                this.$goRouter("/order", {
+                  id: res.data.order_id
+                });
+              } else {
+                this.confirmFlag.placeOrder = false;
+                this.confirmFlag.complete = true;
+              }
+            } else if (res.data && +res.data.error === 100052) {
+              this.$goBack()
             } else {
               this.confirmFlag.placeOrder = false;
-              this.confirmFlag.complete = true;
+              this.$Message.error(this.$t("order.order_deal_request_fail"));
             }
-          } else if (res.data && +res.data.error === 100052) {
-            this.$goBack()
-          } else {
+          })
+          .catch(err => {
+            // this.submitPlaceOrderLoading = false;
             this.confirmFlag.placeOrder = false;
-            this.$alert.error({
-              title: this.$t("public.error_title_default"),
-              content: this.$t("order.order_deal_request_fail")
-            })            
-          }
-        })
-        .catch(err => {
-          // this.submitPlaceOrderLoading = false;
-          this.confirmFlag.placeOrder = false;
-        });
+          });
+      },
+      init() {
+        this.$store.commit("header_index_setter", "-1"); //清除header的按钮位置标识
+        this.getInfo();
+      }
     },
-    init() {
-      this.$store.commit("header_index_setter", "-1"); //清除header的按钮位置标识
-      this.getInfo();
+    mounted() {
+      this.init();
+    },
+    components: {
+      logoDiv,
+      Avator
     }
-  },
-  mounted() {
-    this.init();
-  },
-  components: {
-    logoDiv,
-    Avator
-  }
-};
+  };
 </script>
 <style lang='scss' scoped>
-.text-left {
-  text-align: left;
-}
-
-.detail {
-  padding-top: 30px;
-  &-model {
-    padding: 52px 94px 54px;
-    &-title {
-      font-size: 24px;
-      color: #666666;
-      line-height: 28px;
-      font-weight: normal;
-      margin-bottom: 16px;
-    }
-    &-content {
-      font-size: 16px;
-      color: #666666;
-      line-height: 28px;
-      margin-bottom: 28px;
-    }
-    &-warn {
-      font-size: 16px;
-      color: #ed1c24;
-      line-height: 20px;
-      margin-bottom: 37px;
-    }
+  .text-left {
+    text-align: left;
   }
-}
 
-.submit-button {
-  width: 182px;
-  margin-right: 10px;
-}
-
-.submit-button-2 {
-  width: 100%;
-}
-
-.cancel-button {
-  width: 100px;
-}
-
-.header {
-  background-color: #fff;
-  display: flex;
-  align-items: center;
-  height: 150px;
-  margin-bottom: 20px;
-  &-avator {
-    width: 60px;
-    height: 60px;
-    margin-left: 40px;
-    margin-right: 32px;
-  }
-  &-content {
-    &-name {
-      font-size: 22px;
-      line-height: 26px;
-      margin-bottom: 14px;
-    }
-    &-list {
-      display: flex;
-    }
-    &-item {
-      font-size: 16px;
-      margin-right: 26px;
-    }
-  }
-}
-
-.deal {
-  background-color: #fff;
-  padding: 60px 0 60px 40px;
-  &-common {
-    width: 1169px - 484px;
-    border-bottom: 1px solid #eee;
-    &-title {
-      font-size: 16px;
-      font-weight: normal;
-      line-height: 19px;
-    }
-    &:last-child {
-      border-bottom: 0;
-    }
-  }
-  &-info {
-    padding-bottom: 40px - 15px;
-    &-item {
-      display: flex;
-      font-size: 16px;
-      line-height: 19px;
-      margin-bottom: 15px;
+  .detail {
+    padding-top: 30px;
+    &-model {
+      padding: 52px 94px 54px;
       &-title {
-        width: 92px;
-        flex-shrink: 0;
-        margin-right: 22px;
+        font-size: 24px;
+        color: #666666;
+        line-height: 28px;
+        font-weight: normal;
+        margin-bottom: 16px;
+      }
+      &-content {
+        font-size: 16px;
+        color: #666666;
+        line-height: 28px;
+        margin-bottom: 28px;
+      }
+      &-warn {
+        font-size: 16px;
+        color: #ed1c24;
+        line-height: 20px;
+        margin-bottom: 37px;
       }
     }
   }
-  &-exchange {
-    padding-top: 58px;
-    padding-bottom: 40px;
-    &-title {
-      margin-bottom: 12px;
-    }
-    .submit {
-      margin-top: 10px;
-    }
-    .input {
-      width: 100%;
-    }
-    .arrow {
-      margin-top: -24px;
-    }
-    &-btn {
-      width: 100%;
-    }
+
+  .submit-button {
+    width: 182px;
+    margin-right: 10px;
   }
-  &-rules {
-    font-size: 16px;
-    line-height: 19px;
-    &-title {
-      margin-top: 28px;
-      margin-bottom: 22px;
+
+  .submit-button-2 {
+    width: 100%;
+  }
+
+  .cancel-button {
+    width: 100px;
+  }
+
+  .header {
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    height: 150px;
+    margin-bottom: 20px;
+    &-avator {
+      width: 60px;
+      height: 60px;
+      margin-left: 40px;
+      margin-right: 32px;
     }
     &-content {
-      line-height: 22px;
+      &-name {
+        font-size: 22px;
+        line-height: 26px;
+        margin-bottom: 14px;
+      }
+      &-list {
+        display: flex;
+      }
+      &-item {
+        font-size: 16px;
+        margin-right: 26px;
+      }
     }
   }
-}
+
+  .deal {
+    background-color: #fff;
+    padding: 60px 0 60px 40px;
+    &-common {
+      width: 1169px - 484px;
+      border-bottom: 1px solid #eee;
+      &-title {
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 19px;
+      }
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+    &-info {
+      padding-bottom: 40px - 15px;
+      &-item {
+        display: flex;
+        font-size: 16px;
+        line-height: 19px;
+        margin-bottom: 15px;
+        &-title {
+          width: 92px;
+          flex-shrink: 0;
+          margin-right: 22px;
+        }
+      }
+    }
+    &-exchange {
+      padding-top: 58px;
+      padding-bottom: 40px;
+      &-title {
+        margin-bottom: 12px;
+      }
+      .submit {
+        margin-top: 10px;
+      }
+      .input {
+        width: 100%;
+      }
+      .arrow {
+        margin-top: -24px;
+      }
+      &-btn {
+        width: 100%;
+      }
+    }
+    &-rules {
+      font-size: 16px;
+      line-height: 19px;
+      &-title {
+        margin-top: 28px;
+        margin-bottom: 22px;
+      }
+      &-content {
+        line-height: 22px;
+      }
+    }
+  }
 </style>

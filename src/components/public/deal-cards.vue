@@ -18,18 +18,18 @@
         <div class="card-content">
             <div class="card-content-item">
               {{$t("order.order_order_price")}}：
-              {{$fixDeciamlAuto(ad.current_price, ad.target_currency)}}
+              {{$fixDecimalAuto(ad.current_price, ad.target_currency)}}
               {{$t("public['" + ad.target_currency + "']")}}
                 <!-- <p class='desc'>{{$t("order.order_order_price")}}:</p>
                 <p class='number'>
-                  {{$fixDeciamlAuto(ad.current_price, ad.target_currency)}}
+                  {{$fixDecimalAuto(ad.current_price, ad.target_currency)}}
                 <p class='currency-type'>{{$t("public['" + ad.target_currency + "']")}}</p> -->
             </div>
             <div class="card-content-item">
               {{$t("order.order_trade_limit")}}：
-              {{$fixDeciamlAuto(ad.min_limit, ad.target_currency)}}
+              {{$fixDecimalAuto(ad.min_limit, ad.target_currency)}}
               -
-              {{$fixDeciamlAuto(ad.order_limit, ad.target_currency)}}
+              {{$fixDecimalAuto(ad.order_limit, ad.target_currency)}}
               {{$t("public['" + ad.target_currency + "']")}}
             </div>
             <div class="card-content-item">
