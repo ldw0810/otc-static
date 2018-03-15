@@ -110,7 +110,8 @@
     "no_underway_ad": "您沒有進行中的廣告",
     "no_off_ad": "您沒有已下架的廣告",
     "no_asset_recharge": "沒有充值的信息",
-    "no_asset_withdraw": "沒有提現的信息"
+    "no_asset_withdraw": "沒有提現的信息",
+    "error_title_default": "錯誤"
   },
   "user": {
     "register_error": "請輸入正確的註冊信息",

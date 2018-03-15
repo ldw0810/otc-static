@@ -150,7 +150,10 @@
                     code: this.phoneForm.pinCode,
                   });
                 } else {
-                  this.$Message.error(this.$t("user.auth_phone_fail"));
+                  this.$alert.error({
+                    title: this.$t("public.error_title_default"),
+                    content: this.$t("user.auth_phone_fail")
+                  })
                   this.$refs.sendCodeButton.refresh();
                 }
               }).catch(err => {
@@ -161,7 +164,10 @@
             }
 
           } else {
-            this.$Message.error(this.$t("user.auth_phone_notValid"));
+            this.$alert.error({
+              title: this.$t("public.error_title_default"),
+              content: this.$t("user.auth_phone_notValid")
+            })
           }
         });
       },
@@ -186,7 +192,10 @@
                     code: this.googleForm.pinCode,
                   });
                 } else {
-                  this.$Message.error(this.$t("user.auth_google_fail"));
+                  this.$alert.error({
+                    title: this.$t("public.error_title_default"),
+                    content: this.$t("user.auth_google_fail")
+                  })
                 }
               }).catch(err => {
                 this.googleLoading = false;
@@ -194,7 +203,10 @@
               });
             }
           } else {
-            this.$Message.error(this.$t("user.auth_google_notValid"));
+            this.$alert.error({
+              title: this.$t("public.error_title_default"),
+              content: this.$t("user.auth_google_notValid")
+            })
           }
         });
       },

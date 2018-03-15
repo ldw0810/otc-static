@@ -169,13 +169,19 @@
                     this.$Message.success(this.$t("user.login_success"));
                     this.$goRouter(this.$route.query.redirect || "/user/userCenter");
                   } else {
-                    this.$Message.error(this.$t("user.userInfo_response_none"));
+                    this.$alert.error({
+                      title: this.$t("public.error_title_default"),
+                      content: this.$t("user.userInfo_response_none")
+                    })
                   }
                 })).catch(err => {
                   // this.$Message.error(this.$t("user.userInfo_response_none"));
                 });
               } else {
-                this.$Message.error(this.$t("user.auth_phone_fail"));
+                this.$alert.error({
+                  title: this.$t("public.error_title_default"),
+                  content: this.$t("user.auth_phone_fail")
+                })
                 this.$refs.sendCodeButton.refresh();
               }
             }).catch(err => {
@@ -184,7 +190,10 @@
               this.$refs.sendCodeButton.refresh();
             });
           } else {
-            this.$Message.error(this.$t("user.auth_phone_notValid"));
+            this.$alert.error({
+              title: this.$t("public.error_title_default"),
+              content: this.$t("user.auth_phone_notValid")
+            })
           }
         });
       },
@@ -211,20 +220,29 @@
                     this.$Message.success(this.$t("user.login_success"));
                     this.$goRouter(this.$route.query.redirect || "/user/userCenter");
                   } else {
-                    this.$Message.error(this.$t("user.userInfo_response_none"));
+                    this.$alert.error({
+                      title: this.$t("public.error_title_default"),
+                      content: this.$t("user.userInfo_response_none")
+                    })
                   }
                 })).catch(err => {
                   // this.$Message.error(this.$t("user.userInfo_response_none"));
                 });
               } else {
-                this.$Message.error(this.$t("user.auth_google_fail"));
+                this.$alert.error({
+                  title: this.$t("public.error_title_default"),
+                  content: this.$t("user.auth_google_fail")
+                })
               }
             }).catch(err => {
               this.submitGoogleLoading = false;
               // this.$Message.error(this.$t("user.auth_google_fail"));
             });
           } else {
-            this.$Message.error(this.$t("user.auth_google_notValid"));
+            this.$alert.error({
+              title: this.$t("public.error_title_default"),
+              content: this.$t("user.auth_google_notValid")
+            })
           }
         });
       },

@@ -819,7 +819,10 @@
                 this.initSelectedValue()
                 this.init();
               } else {
-                this.$Message.error(this.$t("asset.asset_withdraw_fail"));
+                this.$alert.error({
+                  title: this.$t("public.error_title_default"),
+                  content: this.$t("asset.asset_withdraw_fail")
+                })
                 this.init();
               }
             })
@@ -860,9 +863,10 @@
                 this.$t("asset.asset_withdraw_address_set_default_success")
               );
             } else {
-              this.$Message.error(
-                this.$t("asset.asset_withdraw_address_set_default_fail")
-              );
+              this.$alert.error({
+                title: this.$t("public.error_title_default"),
+                content: this.$t("asset.asset_withdraw_address_set_default_fail")
+              })
             }
           })
           .catch(err => {
@@ -881,10 +885,6 @@
               this.showInfo();
               this.$Message.success(
                 this.$t("asset.asset_withdraw_address_del_success")
-              );
-            } else {
-              this.$Message.error(
-                // this.$t("asset.asset_withdraw_address_del_fail");
               );
             }
           })

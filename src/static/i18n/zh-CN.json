@@ -110,7 +110,8 @@
     "no_underway_ad": "您没有进行中的广告",
     "no_off_ad": "您没有已下架的广告",
     "no_asset_recharge": "没有充值的信息",
-    "no_asset_withdraw": "没有提现的信息"
+    "no_asset_withdraw": "没有提现的信息",
+    "error_title_default": "错误"
   },
   "user": {
     "register_error": "请输入正确的注册信息",

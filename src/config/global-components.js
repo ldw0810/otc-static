@@ -20,6 +20,7 @@ import {
   Select,
   Option,
 } from "iview";
+import Alert from '@/components/public/alert'
 import Loading from '@/components/public/loading';
 import Form from '@/libs/iview/components/form';
 
@@ -53,7 +54,7 @@ const iview = {
   iCol: Col,
   iForm: Form,
   iInput: Input, // i开头的组件为iview自带的组件
-  cLoading: Loading // c开头的组件为自己定义的全局组件
+  cLoading: Loading, // c开头的组件为自己定义的全局组件
 };
 const install = function(Vue, options) {
   Object.keys(iview).forEach(key => {
@@ -61,6 +62,7 @@ const install = function(Vue, options) {
   });
   // import components
   // Vue.prototype.$Loading = LoadingBar;
+  Vue.prototype.$alert = Alert;
   Vue.prototype.$Message = Message;
   Vue.prototype.$Modal = Modal;
   Vue.prototype.$Notice = Notice;

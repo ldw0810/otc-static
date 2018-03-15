@@ -183,7 +183,10 @@
               this.$Message.success(this.$t("ad.ad_close_success"));
               this.showMyAds();
             } else {
-              this.$Message.error(this.$t("ad.ad_close_fail"));
+              this.$alert.error({
+                title: this.$t("public.error_title_default"),
+                content: this.$t("ad.ad_close_fail")
+              })               
             }
           })
       },
@@ -198,7 +201,10 @@
               this.$Message.success(this.$t("ad.ad_open_success"));
               this.showMyAds();
             } else {
-              this.$Message.error(this.$t("ad.ad_open_fail"));
+              this.$alert.error({
+                title: this.$t("public.error_title_default"),
+                content: this.$t("ad.ad_open_fail")
+              })               
             }
           })
       },

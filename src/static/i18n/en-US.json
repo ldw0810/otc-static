@@ -343,7 +343,8 @@
     "asset_withdraw_add_new_address_down": "Please enter new withdraw address",
     "asset_add_balance": "Balance",
     "asset_withdraw_all": "Withdraw all",
-    "asset_add_new_withdraw_address": "Add new withdraw address"
+    "asset_add_new_withdraw_address": "Add new withdraw address",
+    "error_title_default": "Error"
   },
   "ad": {
     "ad_title": "Create a trading advertisement for {0}",

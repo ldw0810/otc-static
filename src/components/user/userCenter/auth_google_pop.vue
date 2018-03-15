@@ -90,7 +90,10 @@
                   this.$Message.success(this.$t("user.auth_google_del_success"));
                   this.$emit('close', 1);
                 } else {
-                  this.$Message.error(this.$t("user.auth_google_del_fail"));
+                  this.$alert.error({
+                    title: this.$t("public.error_title_default"),
+                    content: this.$t("user.auth_google_del_fail")
+                  })
                 }
               }).catch(err => {
                 this.submitLoading = false;
@@ -108,7 +111,10 @@
                   this.$Message.success(this.$t("user.auth_google_add_success"));
                   this.$emit('close', 1);
                 } else {
-                  this.$Message.error(this.$t("user.auth_google_add_fail"));
+                  this.$alert.error({
+                    title: this.$t("public.error_title_default"),
+                    content: this.$t("user.auth_google_add_fail")
+                  })
                 }
               }).catch(err => {
                 this.submitLoading = false;
@@ -116,7 +122,10 @@
               });
             }
           } else {
-            this.$Message.error(this.$t("user.auth_google_notValid"));
+            this.$alert.error({
+              title: this.$t("public.error_title_default"),
+              content: this.$t("user.auth_google_notValid")
+            })
           }
         });
       },
