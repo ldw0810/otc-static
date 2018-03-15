@@ -31,7 +31,7 @@ export default (form) => {
       },
       methods: {
         checkValidate(bool) {
-          this.validate = bool
+          this.validate = bool;
         },
       }
     };
