@@ -253,7 +253,7 @@ export default {
         number: [
           {
             validator: validateBank
-          }
+          },
         ],
         reNumber: [
           {
