@@ -100,7 +100,7 @@ export default {
      * 根据参数定义显示资产位数
      */
     Vue.prototype.$fixDecimalAuto = function(value, currency) {
-      if (currency && store.state.code.payable.indexOf(currency) === -1) {
+      if (currency && store.state.code.payable.indexOf(currency) > -1) {
         return fixDecimalsLegal(value);
       }
       return fixDecimalsBase(value);
