@@ -256,7 +256,7 @@
             </div>
 
             <div class='content-history'
-                 v-else-if="+assetIndex === 1 && withdraw.withdraws.length && !(!userInfo.mobile && !userInfo.app_two_factor)">
+                 v-else-if="+assetIndex === 1 && withdraw.withdraws.length ">
               <table class='g-shadow content-history-table'>
                 <thead class='content-history-table-head'>
                 <tr class='content-history-table-head-tr'>
