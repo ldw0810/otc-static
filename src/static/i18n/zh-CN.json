@@ -159,7 +159,7 @@
     "pinCode_different": "您输入的验证码不正确，请重新输入",
     "captcha_request_fail": "验证码数据获取失败",
     "terms_allowed": "我已阅读并接受",
-    "terms_name": "《OtcMaker 产品服务条款》",
+    "terms_name": "《OtcMaker 用户协议》",
     "terms_text": "条款内容",
     "login_noUser": "没有账号？注册",
     "login_error": "用户名或者密码不正确，请重新输入",

@@ -201,6 +201,10 @@ export default {
       this.validateDisabled = false;
       this.dispatch("iForm", "on-form-item-change", this);
     },
+    resetFieldHint() {
+      this.validateState = "";
+      this.validateMessage = "";
+    },
     resetField() {
       this.validateState = "";
       this.validateMessage = "";

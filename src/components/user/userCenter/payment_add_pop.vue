@@ -155,6 +155,19 @@ export default {
         callback();
       }
     };
+    const validateReBank = (rule, value, callback) => {
+      if (!value || !value.length) {
+        callback(new Error(this.$t("user.bankCard_reNumber_required")));
+      } else if (value !== this.bankCardForm.reNumber && this.bankCardForm.reNumber !== '') {
+        callback(new Error(this.$t("user.bankCard_number_different")));
+      } else {
+        if (value === this.bankCardForm.reNumber && this.bankCardForm.reNumber !== 0) {
+          this.$refs.bankCardForm.resetField('reNumber')
+        }
+        callback();
+      }
+    };
+
     const validateBank = (rule, value, callback) => {
       let tvalue = Number(value).toString();
       let verify = true;
@@ -254,6 +267,9 @@ export default {
           {
             validator: validateBank
           },
+          {
+            validator: validateReBank
+          }
         ],
         reNumber: [
           {

@@ -77,6 +77,13 @@ export default {
         field.resetField();
       });
     },
+    resetField(prop) {
+      this.fields.forEach(field => {
+        if (field.prop === prop) {
+          field.resetFieldHint()
+        }
+      });     
+    },
     validate(callback) {
       return new Promise(resolve => {
         let valid = true;
