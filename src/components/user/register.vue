@@ -59,7 +59,8 @@
             </CheckboxGroup>
           </FormItem>
           <FormItem class="formItem submit">
-            <i-button class="submitButton" type='primary' :disabled='!validate' :loading='submitLoading' @click="submit('form')">
+            <i-button class="submitButton" type='primary' :disabled='!validate' :loading='submitLoading'
+                      @click="submit('form')">
               {{$t('public.register')}}
             </i-button>
           </FormItem>
@@ -82,9 +83,11 @@
 </template>
 
 <script type="es6">
-  import { VALI_NICKNAME } from 'config/validator'
+  import {VALI_NICKNAME} from 'config/validator'
   import validateMixin from "@/components/mixins/validate-mixin";
   import {gt} from "../../libs/gt";
+  import languageData from "../../locale";
+  import {DEFAULT_LANGUAGE} from "config/config";
 
   export default {
     mixins: [validateMixin("form")],
@@ -93,7 +96,6 @@
         if (!value || !value.length) {
           this.validFlag.userName = false;
           callback(new Error(this.$t("user.userName_required")));
-          
         } else if (!new RegExp(`^[a-zA-Z0-9_-]{${VALI_NICKNAME.min},${VALI_NICKNAME.max}}$`).test(value)) {
           //4到16位（字母，数字，下划线，减号）
           this.validFlag.userName = false;
@@ -193,7 +195,6 @@
           callback(new Error(this.$t("user.invitationCode_required")));
           callback();
         } else if (!/^.{1,}$/.test(value)) {
-          //todo 邀请码检验
           this.validFlag.invitationCode = false;
           callback(new Error(this.$t("user.invitationCode_notValid")));
         } else {
@@ -285,14 +286,20 @@
                 this.captchaObj = captchaObj;
                 captchaObj.onSuccess(() => {
                   let result = this.captchaObj.getValidate();
+                  let ln = DEFAULT_LANGUAGE;
+                  if (["zh-HK", "zh-TW"].contains(ln)) {
+                    ln = "zh-TW";
+                  } else if (ln !== "zh-CN") {
+                    ln = "en";
+                  }
                   this.submitLoading = true;
-                  this.$store
-                    .dispatch("ajax_register", {
+                  this.$store.dispatch("ajax_register", {
                       email: this.form.email,
                       password: this.form.password,
                       password_confirmation: this.form.rePassword,
                       invite_code: this.form.invitationCode,
                       nickname: this.form.userName,
+                      ln: ln,
                       geetest_challenge: result.geetest_challenge,
                       geetest_validate: result.geetest_validate,
                       geetest_seccode: result.geetest_seccode,
