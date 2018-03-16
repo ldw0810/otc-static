@@ -75,6 +75,7 @@
 </template>
 
 <script type="es6">
+  import { VALI_NUMBER_CALLBACK } from 'config/validator'
   import logoDiv from "../public/logo.vue"
   import sendCodeButton from "../public/sendCode.vue"
 
@@ -98,6 +99,9 @@
             {
               required: true,
               message: this.$t("user.auth_phone_code_required")
+            },
+            {
+              validator: VALI_NUMBER_CALLBACK
             }
           ],
         },
@@ -106,6 +110,9 @@
             {
               required: true,
               message: this.$t("user.auth_google_code_required")
+            },
+            {
+              validator: VALI_NUMBER_CALLBACK
             }
           ],
         },

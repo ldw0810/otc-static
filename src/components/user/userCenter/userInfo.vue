@@ -42,7 +42,7 @@
         <span v-text="userInfo.omt.amount"></span>
       </div>
       <div class="info">
-        <span class="text" style="color: red;">** 注册后将实名信息和手机号发给内测群主，才可以获得积分 **</span>
+        <!-- <span class="text" style="color: red;">** 注册后将实名信息和手机号发给内测群主，才可以获得积分 **</span> -->
         <!--<span v-text="userInfo.omt.amount"></span>-->
       </div>
     </div>

@@ -34,6 +34,16 @@ const routers = [
         component: resolve =>
           require(["./components/policy/index.vue"], resolve)
       },
+      // 用户协议
+      {
+        path: "/user-agreement",
+        name: "/user-agreement",
+        meta: {
+          noLogin: true
+        },
+        component: resolve =>
+          require(["./components/policy/user-agreement.vue"], resolve)
+      },
       {
         path: "/user/login",
         meta: {

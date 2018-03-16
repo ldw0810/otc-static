@@ -794,7 +794,7 @@
       submit() {
         if (!this.userInfo.activated) {
           this.$store.commit("showAuthEmail_setter", 1);
-        } else if (!this.examineAdBuyFlag || !this.examineAdSellFlag) {
+        } else if (!this.isUpdate && !this.examineAdBuyFlag || !this.examineAdSellFlag) {
           this.$alert.error({
             title: this.$t("public.error_title_default"),
             content: this.$t("ad.ad_publish_repeat")
