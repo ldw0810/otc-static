@@ -8,14 +8,14 @@ const language = {};
 language[
   "zh-CN"
 ] = `<h1 class='title'>用户协议</h1><p>https://www.otcmaker.com（以下称“本网站”或“网站”），是一个专门供用户进行数字资产交易和提供相关服务（以下称“该服务”或“服务”）的平台。为了本协议表述之方便，该网站在本协议中使用“我们”或其他第一人称称呼。只要登陆该网站的自然人或其他主体均为本网站的用户，本协议表述之便利，以下使用“您”或其他第二人称。为了本协议表述之便利，我们和您在本协议中合称为“双方”，我们或您单称为“一方”。</p>
-	<p>重要提示：</p>
+	<p class='sub-title'>重要提示：</p>
 	<p>我们在此特别提醒您：</p>
 	<p>1 数字资产本身不由任何金融机构或公司或本网站发行；</p>
 	<p>2 数字资产市场是全新的、未经确认的，而且可能不会增长；</p>
 	<p>3 数字资产主要由投机者大量使用，零售和商业市场使用相对较少，数字资产交易存在极高风险，其全天不间断交易，没有涨跌限制，价格容易受庄家、全球政府政策的影响而大幅波动；</p>
 	<p>4 因各国法律、法规和规范性文件的制定或者修改，数字资产交易随时可能被暂停或被禁止。</p>
 	<p>数字资产交易有极高风险，并不适合绝大部分人士。您了解和理解此投资有可能导致部分损失或全部损失，所以您应该以能承受的损失程度来决定投资的金额。您了解和理解数字资产会产生衍生风险，所以如有任何疑问，建议先寻求理财顾问的协助。此外，除了上述提及过的风险以外，还会有未能预测的风险存在。您应慎重考虑并用清晰的判断能力去评估自己的财政状况及上述各项风险而作出任何买卖数字资产的决定，并承担由此产生的全部损失，我们对此不承担任何责任。</p>
-	<p>敬告您：</p>
+	<p class='sub-title'>敬告您：</p>
 	<p>1 您了解本网站仅作为您获取数字资产信息、寻找交易方、就数字资产的交易进行协商及开展交易的场所，本网站不参与您的任何交易，故您应自行谨慎判断确定相关数字资产及/或信息的真实性、合法性和有效性，并自行承担因此产生的责任与损失。</p>
 	<p>2 本网站的任何意见、消息、探讨、分析、价格、建议和其他资讯均是一般的市场评论，并不构成投资建议。我们不承担任何因依赖该资讯直接或间接而产生的损失，包括但不限于任何利润损失。</p>
 	<p>3 本网站的内容会随时更改并不作另行通知，我们已采取合理措施确保网站资讯的准确性，但并不能保证其准确性程度，亦不会承担任何因本网站上的资讯或因未能链结互联网、传送或接收任何通知和信息时的延误或失败而直接或间接产生的损失。</p>
@@ -23,7 +23,7 @@ language[
 	<p>5 https://www.otcmaker.com/为本网站唯一官方对外信息公布平台；</p>
 	<p>6 本网站任何服务均不接受信用卡支付；</p>
 	<p>7 禁止使用本网站从事洗钱、走私、商业贿赂等一切非法交易活动，若发现此类事件，本站将采取各种可使用之手段，包括但不限于冻结账户，通知相关权力机关等，我们不承担由此产生的所有责任并保留向相关人士追究责任的权利。</p>
-	<p>一、总则</p>
+	<p class='sub-title'>一、总则</p>
 	<p>1.1 《用户协议》（以下称“本协议”或“本条款及条件”），由正文、《隐私条款》、《了解你的客户和反洗钱政策》以及本网站已经发布的或将来可能发布的各类规则、声明、说明等构成。</p>
 	<p>1.2 您在使用本网站提供的各项服务之前，应仔细阅读本协议，如有不理解之处或其他必要，请咨询专业律师。如您不同意本协议及/或随时对其的修改，请您立即停止使用本网站提供的服务或不再登陆本网站。您一旦登陆本网站、使用本网站的任何服务或任何其他类似行为即表示您已了解并完全同意本协议各项内容，包括本网站对本协议随时所做的任何修改。</p>
 	<p>1.3 您通过按照本网站的要求填写相关信息，并经过其他相关程序后成功注册可以成为本网站的会员（以下称“会员”），在进行注册过程中点击“同意”按钮即表示您以电子签署的形式与公司达成协议；或您在使用本网站过程中点击任何标有“同意”或类似意思的按钮的行为或以其他本网站允许的方式实际使用本网站提供的服务时，均表示您完全了解、同意且接受本协议项下的全部条款的约束，无您手写的书面签字就本协议对您的法律约束力无任何影响。</p>
@@ -37,9 +37,9 @@ language[
 	<p>1.6.5 您确认注册时提供的信息是真实和准确的。</p>
 	<p>1.6.6 您同意遵守任何有关法律的规定，就税务目的而言，包括报告任何交易利润。</p>
 	<p>1.6.7 本协议只是就您与我们之间达成的权利义务关系进行约束，而并不涉及本网站用户之间与其他网站和您之间因数字资产交易而产生的法律关系及法律纠纷。</p>
-	<p>二、协议修订</p>
+	<p class='sub-title'>二、协议修订</p>
 	<p>我们保留不时修订本协议、并以网站公示的方式进行公告、不再单独通知您的权利，变更后的协议会在本协议首页标注变更时间，一经在网站公布，立即自动生效。您应不时浏览及关注本协议的更新变更时间及更新内容，如您不同意相关变更，应当立即停止使用本网站服务；您继续使用本网站服务，即表示您接受并同意经修订的协议的约束。</p>
-	<p>三、注册</p>
+	<p class='sub-title'>三、注册</p>
 	<p>3.1 注册资格</p>
 	<p>您确认并承诺：在您完成注册程序或以其他本网站允许的方式实际使用本网站提供的服务时，您应当是具备可适用的法律规定的可签署本协议及使用本网站服务应具有的能力的自然人、法人或其他组织。您一旦点击同意注册按钮，即表示您自身或您的有权代理人已经同意该协议内容并由其代理注册及使用本网站服务。若您不具备前述主体资格，则您及您的有权代理人应承担因此而导致的一切后果，且公司保留注销或永久冻结您账户，并向您及您的有权代理人追究责任的权利。</p>
 	<p>3.2 注册目的</p>
@@ -48,7 +48,7 @@ language[
 	<p>3.3.1 您同意根据本网站用户注册页面的要求提供有效电子邮箱等信息，您可以使用您提供或确认的邮箱或者本网站允许的其它方式作为登陆手段进入本网站。如有必要，按照不同法域相关法律法规的规定，您必须提供您的真实姓名、身份证件等法律法规及隐私条款及反洗钱条款规定的相关信息并不断更新注册资料，符合及时、详尽、准确的要求。所有原始键入的资料将引用为注册资料。您应对该等信息的真实性、完整性和准确性负责，并承担因此产生的任何直接或间接损失及不利后果。</p>
 	<p>3.3.2 您合法、完整并有效提供注册所需信息并经验证，有权获得本网站账号和密码，您获得本网站账号及密码时视为注册成功，可在本网站进行会员登陆。</p>
 	<p>3.3.3 您同意接收本网站发送的与本网站管理、运营相关的电子邮件和/或短消息。</p>
-	<p>四、服务</p>
+	<p class='sub-title'>四、服务</p>
 	<p>本网站只为您通过本网站进行数字资产交易活动（包括但不限于数字资产交易等服务）提供网络交易平台服务，本网站并不作为买家或卖家参与买卖数字资产行为本身；本网站不提供任何国家法定货币充入和提取的相关服务。</p>
 	<p>4.1 服务内容</p>
 	<p>4.1.1 您有权在本网站浏览数字资产各项产品的交易信息、有权通过本网站提交数字资产交易请求并完成数字资产交易。</p>
@@ -64,7 +64,7 @@ language[
 	<p>4.2.5 如您因网上交易与其他用户产生纠纷的，不得通过司法或行政以外的途径要求本网站提供相关资料。</p>
 	<p>4.2.6 您在使用本网站提供的服务过程中，所产生的应纳税赋，以及一切硬件、软件、服务及其它方面的费用，均由您独自承担。</p>
 	<p>4.2.7 您应当遵守本网站不时发布和更新的本协议以及其他服务条款和操作规则，有权随时终止使用本网站提供的服务。</p>
-	<p> 五、本网站的权利和义务</p>
+	<p class='sub-title'> 五、本网站的权利和义务</p>
 	<p>5.1 如您不具备本协议约定的注册资格，则本网站有权拒绝您进行注册，对已注册的，本网站有权注销您的会员账号，本网站保留向您或您的有权代理人追究责任的权利。同时，本网站保留其他任何情况下决定是否接受您注册的权利。</p>
 	<p>5.2 本网站发现账户使用者并非账户初始注册人时，有权中止或终止该账户的使用。</p>
 	<p>5.3 本网站通过技术检测、人工抽检等检测方式合理怀疑您提供的信息错误、不实、失效或不完整时，有权通知您更正、更新信息或中止、终止为其提供本网站服务。</p>
@@ -75,12 +75,12 @@ language[
 	<p>5.8 本网站通过加强技术投入、提升安全防范等措施保障您的数字资产的安全，有义务在您账户出现可以预见的安全风险时提前通知您。</p>
 	<p>5.9 本网站有权随时删除本网站内各类不符合法律法规或本网站规定等的内容信息，本网站行使该等权利不需提前通知您。</p>
 	<p>5.10 本网站有权根据您所属主权国家或地区的法律法规、规则、命令等规范的要求，向您要求提供更多的信息或资料等，并采取合理的措施，以符合当地的规范之要求，您有义务配合；本网站有权根据您所属主权国家或地区的法律法规、规则、命令等规范的要求，暂停或永久停止对您的开放本网站及其部分或全部服务。</p>
-	<p>六、赔偿</p>
+	<p class='sub-title'>六、赔偿</p>
 	<p>6.1 在任何情况下，我们对您的直接损害的赔偿责任均不会超过您从使用本网站服务产生的为期三（ 3）个月的总费用。</p>
 	<p>6.2 如您发生违反本协议或其他法律法规等情况，您须向我们至少赔偿200万美元及承担由此产生的全部费用（包括律师费等），如不够弥补实际损失，您须补全。</p>
-	<p>七、寻求禁令救济的权利</p>
+	<p class='sub-title'>七、寻求禁令救济的权利</p>
 	<p>我们和您均承认普通法对违约或可能违约情况的救济措施是可能是不足以弥补我们遭受的全部损失的，故非违约方有权在违约或可能违约情况下寻求禁令救济以及普通法或衡平法允许的其他所有的补救措施。</p>
-	<p>八、责任限制与免责</p>
+	<p class='sub-title'>八、责任限制与免责</p>
 	<p>8.1 您了解并同意，在任何情况下，我们不就以下各事项承担责任：</p>
 	<p>8.1.1 收入的损失；</p>
 	<p>8.1.2 交易利润或合同损失；</p>
@@ -105,18 +105,18 @@ language[
 	<p>8.7 本协议中规定的我们的保证和承诺是由我们就本协议和本网站提供的服务的唯一保证和陈述，并取代任何其他途径和方式产生的保证和承诺，无论是书面的或口头的， 明示的或暗示的。所有这些保证和陈述仅仅代表我们自身的承诺和保证，并不保证任何第三方遵守本协议中的保证和承诺。</p>
 	<p>8.8 我们并不放弃本协议中未提及的在法律适用的最大范围内我们享有的限制、免除或抵销我们损害赔偿责任的任何权利。</p>
 	<p>8.9 您注册后即表示认可我们按照本协议中规定的规则进行的任何操作，产生的任何风险均由您承担。</p>
-	<p>九、协议的终止</p>
+	<p class='sub-title'>九、协议的终止</p>
 	<p>9.1 本网站有权依据本协议约定注销您的本网站账号，本协议于账号注销之日终止。</p>
 	<p>9.2 本网站有权依据本协议约定终止全部本网站服务，本协议于本网站全部服务终止之日终止。</p>
 	<p>9.3 本协议终止后，您无权要求本网站继续向其提供任何服务或履行任何其他义务，包括但不限于要求本网站为您保留或向您披露其原本网站账号中的任何信息， 向您或第三方转发任何其未曾阅读或发送过的信息等。</p>
 	<p>9.4 本协议的终止不影响守约方向违约方要求其他责任的承担。</p>
-	<p>十、知识产权</p>
+	<p class='sub-title'>十、知识产权</p>
 	<p>10.1 本网站所包含的全部智力成果包括但不限于网站标志、数据库、网站设计、文字和图表、软件、照片、录像、音乐、声音及其前述组合，软件编译、相关源代码和软件 (包括小应用程序和脚本) 的知识产权权利均归本网站所有。您不得为商业目的复制、更改、拷贝、发送或使用前述任何材料或内容。</p>
 	<p>10.2 本网站名称中包含的所有权利 (包括但不限于商誉和商标、标志) 均归公司所有。</p>
 	<p>10.3 您接受本协议即视为您主动将其在本网站发表的任何形式的信息的著作权， 包括但不限于：复制权、发行权、出租权、展览权、表演权、放映权、广播权、信息网络传播权、摄制权、改编权、翻译权、汇编权 以及应当由著作权人享有的其他可转让权利无偿独家转让给本网站所有，本网站有权利就任何主体侵权单独提起诉讼并获得全部赔偿。 本协议效力及于您在本网站发布的任何受著作权法保护的作品内容， 无论该内容形成于本协议签订前还是本协议签订后。</p>
 	<p>10.4 您在使用本网站服务过程中不得非法使用或处分本网站或他人的知识产权权利。您不得将已发表于本网站的信息以任何形式发布或授权其它网站（及媒体）使用。</p>
 	<p>10.5 您登陆本网站或使用本网站提供的任何服务均不视为我们向您转让任何知识产权。</p>
-	<p>十一、信息保护</p>
+	<p class='sub-title'>十一、信息保护</p>
 	<p>11.1 适用范围</p>
 	<p>11.1.1 在您注册网站账号或者使用账户时，您根据本网站要求提供的个人注册信息，包括但不限于电话号码、邮箱信息、身份证件信息。</p>
 	<p>11.1.2 在您使用本网站服务时，或访问本网站网页时，本网站自动接收并记录的您浏览器上的服务器数值，包括但不限于IP地址等数据及您要求取用的网页记录。</p>
@@ -136,26 +136,26 @@ language[
 	<p>11.2.1.10 用作其他一切合法目的以及经您授权的其他用途。</p>
 	<p>11.2.2 本网站不会向其他任何人出售或出借您的个人信息，除非事先得到您的许可。本网站也不允许任何第三方以任何手段收集、编辑、出售或者无偿传播您的个人信息。</p>
 	<p>11.3 本网站对所获得的客户身份资料和交易信息等进行保密，不得向任何单位和个人提供客户身份资料和交易信息，应相关主权国家或地区法律法规、政令、命令等规定要求本网站提供的除外。</p>
-	<p>十二、计算</p>
+	<p class='sub-title'>十二、计算</p>
 	<p>所有的交易计算结果都经过我们的核实，所有的计算方法都已经在网站上公示，但是我们不能保证网站的使用不会受到干扰或没有误差。</p>
-	<p>十三、转让</p>
+	<p class='sub-title'>十三、转让</p>
 	<p>本协议中约定的权利及义务同样约束从该权利义务中获取到利益的各方的受让人，继承人，遗嘱执行人和管理员。您不得在我们不同意的前提下转让给任何第三人，但我们可随时将我们在本协议中的权利和义务转让给任何第三人，并给予您提前30天的通知。</p>
-	<p>十四、可分割性</p>
+	<p class='sub-title'>十四、可分割性</p>
 	<p>如本协议中的任何条款被任何有管辖权的法院认定为不可执行的，无效的或非法的，并不影响本协议的其余条款的效力。</p>
-	<p>十五、非代理关系</p>
+	<p class='sub-title'>十五、非代理关系</p>
 	<p>本协议中的任何规定均不可被认为创造了、暗示了或以其他方式将我们视为您的代理人、受托人或其他代表人，本协议有其他规定的除外。</p>
-	<p>十六、弃权</p>
+	<p class='sub-title'>十六、弃权</p>
 	<p>我们或您任何一方对追究本协议约定的违约责任或其他责任的弃权并不能认定或解释为对其他违约责任的弃权；未行使任何权利或救济不得以任何方式被解释为对该等权利或救济的放弃。</p>
-	<p>十七、标题</p>
+	<p class='sub-title'>十七、标题</p>
 	<p>所有标题仅供协议表述方便，并不用于扩大或限制该协议条款的内容或范围。</p>
-	<p>十八、协议的生效和解释</p>
+	<p class='sub-title'>十八、协议的生效和解释</p>
 	<p>18.1 本协议于您点击本网站注册页面的同意注册并完成注册程序、获得本网站账号和密码时生效，对本网站和您均具有约束力。</p>
 	<p>18.2 本协议的最终解释权归本网站所有。</p>
-	<p>了解你的客户和反洗钱政策</p>
-	<p>一、导言</p>
+	<h2 class='title'>了解你的客户和反洗钱政策</h2>
+	<p class='sub-title'>一、导言</p>
 	<p>1.1 我们保证审慎遵守“了解你的客户”和反洗钱相关的法律法规且不得故意违反该《了解你的客户和反洗钱政策》。在我们合理控制的范围内我们将采取必要的措施和技术为您提供安全的服务，尽可能使您免于遭受犯罪嫌疑人的洗钱行为带来的损失。</p>
 	<p>1.2 我们的了解你的客户和反洗钱政策是一个综合性的国际政策体系，包括您隶属的不同法律辖区的了解你的客户和反洗钱政策。我们健全合规的框架确保我们在本地和全球层面均符合监管要求和监管水平，并确保本网站持续性运行。</p>
-	<p>二、了解你的客户和反洗钱政策如下：</p>
+	<p class='sub-title'>二、了解你的客户和反洗钱政策如下：</p>
 	<p>2.1 颁布了解你的客户和反洗钱政策并时时更新以满足相应的法律法规规定的标准；</p>
 	<p>2.2 颁布和更新运行本网站的一些指导原则和规则，且我们的员工将按照该原则和规则的指导提供服务；</p>
 	<p>2.3 设计并完成内部监测和控制交易的程序，如以严格的手段验证身份，安排组建专业团队专门负责反洗钱工作；</p>
@@ -164,7 +164,7 @@ language[
 	<p>2.6 向主管当局报告可疑交易;</p>
 	<p>2.7身份证明文件、地址证明文件和交易记录的证明文件将会维持至少六年，如被提交给监管部门，恕不另行通知您。</p>
 	<p>2.8 整个交易过程中，信用卡被禁止使用；</p>
-	<p>三、身份信息与核实确认</p>
+	<p class='sub-title'>三、身份信息与核实确认</p>
 	<p>3.1 身份信息</p>
 	<p>3.1.1 根据不同的司法管辖区的不同规定及不同的实体类型，我们收集的您的信息内容可能不一致，原则上将向注册的个人收集以下信息：</p>
 	<p>个人基本信息：您的姓名，住址（及永久地址，如果不同） ，出生日期及国籍等可获得的其他情况。身份验证应该是根据官方或其他类似权威机构发放的文件，比如护照，身份证或其他不同的辖区要求的和引发的身份证明文件。您提供的地址将使用适当的方法进行验证，比如检查乘用交通工具的票据或利率票据或检查选民登记册等。</p>
@@ -179,21 +179,21 @@ language[
 	<p>3.2.2 我们要求您提供您将您的身份证明文件放在您胸前的照片。</p>
 	<p>3.2.3 证明文件的副本一般应核和原始凭证进行核对。然而，如果某个可信赖的合适的认证人可证明该副本文件是原始文件准确而全面的复制的，该副本可接受。这样的认证人包括大使、司法委员、地方治安官等。</p>
 	<p>3.2.4 对识别最终受益人和账户控制权的要求是确定哪些个人最终所有或控制直接客户，和/或确定正在进行的交易是由他人代为执行。如果是企业，则大股东的身份（例如那些持有10％或以上的投票权益）应被验证。一般，持股25 ％会被认定为正常风险内，其股东身份须验证；持股10%或拥有更多的投票权或股票时被认定为高风险的情况，股东身份须加以验证。</p>
-	<p>四、监控交易</p>
+	<p class='sub-title'>四、监控交易</p>
 	<p>4.1 我们根据安全性和实际交易情况时时设置和调整日常交易和提币最高限额;</p>
 	<p>4.2 如果交易频繁集中发生在某个注册用户或存在超乎合理的情况，我们的专业团队将评估并决定他们是否可疑;</p>
 	<p>4.3 我们凭借自身的判断认定为可疑交易的情况，我们可能会采取暂停该交易、拒绝该交易等限制性措施，甚至如果可能将尽快逆转该交易，同时向主管部门报告，但不会通知您;</p>
-    <p>4.4 我们保留拒绝来自于不符合国际反洗钱标准辖区的人或可被视为政治公众人物的人的注册申请，我们保留随时暂停或终止根据我们自身判断为可疑交易的交易，但我们这样做并不违反对您的任何义务和责任。</p>`;
+  <p>4.4 我们保留拒绝来自于不符合国际反洗钱标准辖区的人或可被视为政治公众人物的人的注册申请，我们保留随时暂停或终止根据我们自身判断为可疑交易的交易，但我们这样做并不违反对您的任何义务和责任。</p>`;
 
 language["zh-HK"] = `<h1 class='title'>用戶協議</h1><p>https://www.otcmaker.com（以下稱“本網站”或“網站”），是壹個專門供用戶進行數字資產交易和提供相關服務（以下稱“該服務”或“服務”）的平臺。為了本協議表述之方便，該網站在本協議中使用“我們”或其他第壹人稱稱呼。只要登陸該網站的自然人或其他主體均為本網站的用戶，本協議表述之便利，以下使用“您”或其他第二人稱。為了本協議表述之便利，我們和您在本協議中合稱為“雙方”，我們或您單稱為“壹方”。</p>
 	<p>重要提示：</p>
-	<p>我們在此特別提醒您：</p>
+	<p class='sub-title'>我們在此特別提醒您：</p>
 	<p>1 數字資產本身不由任何金融機構或公司或本網站發行；</p>
 	<p>2 數字資產市場是全新的、未經確認的，而且可能不會增長；</p>
 	<p>3 數字資產主要由投機者大量使用，零售和商業市場使用相對較少，數字資產交易存在極高風險，其全天不間斷交易，沒有漲跌限制，價格容易受莊家、全球政府政策的影響而大幅波動；</p>
 	<p>4 因各國法律、法規和規範性文件的制定或者修改，數字資產交易隨時可能被暫停或被禁止。</p>
 	<p>數字資產交易有極高風險，並不適合絕大部分人士。您了解和理解此投資有可能導致部分損失或全部損失，所以您應該以能承受的損失程度來決定投資的金額。您了解和理解數字資產會產生衍生風險，所以如有任何疑問，建議先尋求理財顧問的協助。此外，除了上述提及過的風險以外，還會有未能預測的風險存在。您應慎重考慮並用清晰的判斷能力去評估自己的財政狀況及上述各項風險而作出任何買賣數字資產的決定，並承擔由此產生的全部損失，我們對此不承擔任何責任。</p>
-	<p>敬告您：</p>
+	<p class='sub-title'>敬告您：</p>
 	<p>1 您了解本網站僅作為您獲取數字資產信息、尋找交易方、就數字資產的交易進行協商及開展交易的場所，本網站不參與您的任何交易，故您應自行謹慎判斷確定相關數字資產及/或信息的真實性、合法性和有效性，並自行承擔因此產生的責任與損失。</p>
 	<p>2 本網站的任何意見、消息、探討、分析、價格、建議和其他資訊均是壹般的市場評論，並不構成投資建議。我們不承擔任何因依賴該資訊直接或間接而產生的損失，包括但不限於任何利潤損失。</p>
 	<p>3 本網站的內容會隨時更改並不作另行通知，我們已采取合理措施確保網站資訊的準確性，但並不能保證其準確性程度，亦不會承擔任何因本網站上的資訊或因未能鏈結互聯網、傳送或接收任何通知和信息時的延誤或失敗而直接或間接產生的損失。</p>
@@ -201,7 +201,7 @@ language["zh-HK"] = `<h1 class='title'>用戶協議</h1><p>https://www.otcmaker.
 	<p>5 https://www.otcmaker.com/為本網站唯壹官方對外信息公布平臺；</p>
 	<p>6 本網站任何服務均不接受信用卡支付；</p>
 	<p>7 禁止使用本網站從事洗錢、走私、商業賄賂等壹切非法交易活動，若發現此類事件，本站將采取各種可使用之手段，包括但不限於凍結賬戶，通知相關權力機關等，我們不承擔由此產生的所有責任並保留向相關人士追究責任的權利。</p>
-	<p>壹、總則</p>
+	<p class='sub-title'>壹、總則</p>
 	<p>1.1 《用戶協議》（以下稱“本協議”或“本條款及條件”），由正文、《隱私條款》、《了解妳的客戶和反洗錢政策》以及本網站已經發布的或將來可能發布的各類規則、聲明、說明等構成。</p>
 	<p>1.2 您在使用本網站提供的各項服務之前，應仔細閱讀本協議，如有不理解之處或其他必要，請咨詢專業律師。如您不同意本協議及/或隨時對其的修改，請您立即停止使用本網站提供的服務或不再登陸本網站。您壹旦登陸本網站、使用本網站的任何服務或任何其他類似行為即表示您已了解並完全同意本協議各項內容，包括本網站對本協議隨時所做的任何修改。</p>
 	<p>1.3 您通過按照本網站的要求填寫相關信息，並經過其他相關程序後成功註冊可以成為本網站的會員（以下稱“會員”），在進行註冊過程中點擊“同意”按鈕即表示您以電子簽署的形式與公司達成協議；或您在使用本網站過程中點擊任何標有“同意”或類似意思的按鈕的行為或以其他本網站允許的方式實際使用本網站提供的服務時，均表示您完全了解、同意且接受本協議項下的全部條款的約束，無您手寫的書面簽字就本協議對您的法律約束力無任何影響。</p>
@@ -215,9 +215,9 @@ language["zh-HK"] = `<h1 class='title'>用戶協議</h1><p>https://www.otcmaker.
 	<p>1.6.5 您確認註冊時提供的信息是真實和準確的。</p>
 	<p>1.6.6 您同意遵守任何有關法律的規定，就稅務目的而言，包括報告任何交易利潤。</p>
 	<p>1.6.7 本協議只是就您與我們之間達成的權利義務關系進行約束，而並不涉及本網站用戶之間與其他網站和您之間因數字資產交易而產生的法律關系及法律糾紛。</p>
-	<p>二、協議修訂</p>
+	<p class='sub-title'>二、協議修訂</p>
 	<p>我們保留不時修訂本協議、並以網站公示的方式進行公告、不再單獨通知您的權利，變更後的協議會在本協議首頁標註變更時間，壹經在網站公布，立即自動生效。您應不時瀏覽及關註本協議的更新變更時間及更新內容，如您不同意相關變更，應當立即停止使用本網站服務；您繼續使用本網站服務，即表示您接受並同意經修訂的協議的約束。</p>
-	<p>三、註冊</p>
+	<p class='sub-title'>三、註冊</p>
 	<p>3.1 註冊資格</p>
 	<p>您確認並承諾：在您完成註冊程序或以其他本網站允許的方式實際使用本網站提供的服務時，您應當是具備可適用的法律規定的可簽署本協議及使用本網站服務應具有的能力的自然人、法人或其他組織。您壹旦點擊同意註冊按鈕，即表示您自身或您的有權代理人已經同意該協議內容並由其代理註冊及使用本網站服務。若您不具備前述主體資格，則您及您的有權代理人應承擔因此而導致的壹切後果，且公司保留註銷或永久凍結您賬戶，並向您及您的有權代理人追究責任的權利。</p>
 	<p>3.2 註冊目的</p>
@@ -226,7 +226,7 @@ language["zh-HK"] = `<h1 class='title'>用戶協議</h1><p>https://www.otcmaker.
 	<p>3.3.1 您同意根據本網站用戶註冊頁面的要求提供有效電子郵箱等信息，您可以使用您提供或確認的郵箱或者本網站允許的其它方式作為登陸手段進入本網站。如有必要，按照不同法域相關法律法規的規定，您必須提供您的真實姓名、身份證件等法律法規及隱私條款及反洗錢條款規定的相關信息並不斷更新註冊資料，符合及時、詳盡、準確的要求。所有原始鍵入的資料將引用為註冊資料。您應對該等信息的真實性、完整性和準確性負責，並承擔因此產生的任何直接或間接損失及不利後果。</p>
 	<p>3.3.2您合法、完整並有效提供註冊所需信息並經驗證，有權獲得本網站賬號和密碼，您獲得本網站賬號及密碼時視為註冊成功，可在本網站進行會員登陸。</p>
 	<p>3.3.3 您同意接收本網站發送的與本網站管理、運營相關的電子郵件和/或短消息。</p>
-	<p>四、服務</p>
+	<p class='sub-title'>四、服務</p>
 	<p>本網站只為您通過本網站進行數字資產交易活動（包括但不限於數字資產交易等服務）提供網絡交易平臺服務，本網站並不作為買家或賣家參與買賣數字資產行為本身；本網站不提供任何國家法定貨幣充入和提取的相關服務。</p>
 	<p>4.1 服務內容</p>
 	<p>4.1.1 您有權在本網站瀏覽數字資產各項產品的交易信息、有權通過本網站提交數字資產交易請求並完成數字資產交易。</p>
@@ -242,7 +242,7 @@ language["zh-HK"] = `<h1 class='title'>用戶協議</h1><p>https://www.otcmaker.
 	<p>4.2.5 如您因網上交易與其他用戶產生糾紛的，不得通過司法或行政以外的途徑要求本網站提供相關資料。</p>
 	<p>4.2.6 您在使用本網站提供的服務過程中，所產生的應納稅賦，以及壹切硬件、軟件、服務及其它方面的費用，均由您獨自承擔。</p>
 	<p>4.2.7 您應當遵守本網站不時發布和更新的本協議以及其他服務條款和操作規則，有權隨時終止使用本網站提供的服務。</p>
-	<p> 五、本網站的權利和義務</p>
+	<p class='sub-title'> 五、本網站的權利和義務</p>
 	<p>5.1 如您不具備本協議約定的註冊資格，則本網站有權拒絕您進行註冊，對已註冊的，本網站有權註銷您的會員賬號，本網站保留向您或您的有權代理人追究責任的權利。同時，本網站保留其他任何情況下決定是否接受您註冊的權利。</p>
 	<p>5.2 本網站發現賬戶使用者並非賬戶初始註冊人時，有權中止或終止該賬戶的使用。</p>
 	<p>5.3 本網站通過技術檢測、人工抽檢等檢測方式合理懷疑您提供的信息錯誤、不實、失效或不完整時，有權通知您更正、更新信息或中止、終止為其提供本網站服務。</p>
@@ -253,12 +253,12 @@ language["zh-HK"] = `<h1 class='title'>用戶協議</h1><p>https://www.otcmaker.
 	<p>5.8 本網站通過加強技術投入、提升安全防範等措施保障您的數字資產的安全，有義務在您賬戶出現可以預見的安全風險時提前通知您。</p>
 	<p>5.9 本網站有權隨時刪除本網站內各類不符合法律法規或本網站規定等的內容信息，本網站行使該等權利不需提前通知您。</p>
 	<p>5.10 本網站有權根據您所屬主權國家或地區的法律法規、規則、命令等規範的要求，向您要求提供更多的信息或資料等，並采取合理的措施，以符合當地的規範之要求，您有義務配合；本網站有權根據您所屬主權國家或地區的法律法規、規則、命令等規範的要求，暫停或永久停止對您的開放本網站及其部分或全部服務。</p>
-	<p>六、賠償</p>
+	<p class='sub-title'>六、賠償</p>
 	<p>6.1 在任何情況下，我們對您的直接損害的賠償責任均不會超過您從使用本網站服務產生的為期三（ 3）個月的總費用。</p>
 	<p>6.2 如您發生違反本協議或其他法律法規等情況，您須向我們至少賠償200萬美元及承擔由此產生的全部費用（包括律師費等），如不夠彌補實際損失，您須補全。</p>
-	<p>七、尋求禁令救濟的權利</p>
+	<p class='sub-title'>七、尋求禁令救濟的權利</p>
 	<p>我們和您均承認普通法對違約或可能違約情況的救濟措施是可能是不足以彌補我們遭受的全部損失的，故非違約方有權在違約或可能違約情況下尋求禁令救濟以及普通法或衡平法允許的其他所有的補救措施。</p>
-	<p>八、責任限制與免責</p>
+	<p class='sub-title'>八、責任限制與免責</p>
 	<p>8.1 您了解並同意，在任何情況下，我們不就以下各事項承擔責任：</p>
 	<p>8.1.1 收入的損失；</p>
 	<p>8.1.2 交易利潤或合同損失；</p>
@@ -283,18 +283,18 @@ language["zh-HK"] = `<h1 class='title'>用戶協議</h1><p>https://www.otcmaker.
 	<p>8.7 本協議中規定的我們的保證和承諾是由我們就本協議和本網站提供的服務的唯壹保證和陳述，並取代任何其他途徑和方式產生的保證和承諾，無論是書面的或口頭的， 明示的或暗示的。所有這些保證和陳述僅僅代表我們自身的承諾和保證，並不保證任何第三方遵守本協議中的保證和承諾。</p>
 	<p>8.8 我們並不放棄本協議中未提及的在法律適用的最大範圍內我們享有的限制、免除或抵銷我們損害賠償責任的任何權利。</p>
 	<p>8.9 您註冊後即表示認可我們按照本協議中規定的規則進行的任何操作，產生的任何風險均由您承擔。</p>
-	<p>九、協議的終止</p>
+	<p class='sub-title'>九、協議的終止</p>
 	<p>9.1 本網站有權依據本協議約定註銷您的本網站賬號，本協議於賬號註銷之日終止。</p>
 	<p>9.2 本網站有權依據本協議約定終止全部本網站服務，本協議於本網站全部服務終止之日終止。</p>
 	<p>9.3 本協議終止後，您無權要求本網站繼續向其提供任何服務或履行任何其他義務，包括但不限於要求本網站為您保留或向您披露其原本網站賬號中的任何信息， 向您或第三方轉發任何其未曾閱讀或發送過的信息等。</p>
 	<p>9.4 本協議的終止不影響守約方向違約方要求其他責任的承擔。</p>
-	<p>十、知識產權</p>
+	<p class='sub-title'>十、知識產權</p>
 	<p>10.1 本網站所包含的全部智力成果包括但不限於網站標誌、數據庫、網站設計、文字和圖表、軟件、照片、錄像、音樂、聲音及其前述組合，軟件編譯、相關源代碼和軟件 (包括小應用程序和腳本) 的知識產權權利均歸本網站所有。您不得為商業目的復制、更改、拷貝、發送或使用前述任何材料或內容。</p>
 	<p>10.2 本網站名稱中包含的所有權利 (包括但不限於商譽和商標、標誌) 均歸公司所有。</p>
 	<p>10.3 您接受本協議即視為您主動將其在本網站發表的任何形式的信息的著作權， 包括但不限於：復制權、發行權、出租權、展覽權、表演權、放映權、廣播權、信息網絡傳播權、攝制權、改編權、翻譯權、匯編權 以及應當由著作權人享有的其他可轉讓權利無償獨家轉讓給本網站所有，本網站有權利就任何主體侵權單獨提起訴訟並獲得全部賠償。 本協議效力及於您在本網站發布的任何受著作權法保護的作品內容， 無論該內容形成於本協議簽訂前還是本協議簽訂後。</p>
 	<p>10.4 您在使用本網站服務過程中不得非法使用或處分本網站或他人的知識產權權利。您不得將已發表於本網站的信息以任何形式發布或授權其它網站（及媒體）使用。</p>
 	<p>10.5 您登陸本網站或使用本網站提供的任何服務均不視為我們向您轉讓任何知識產權。</p>
-	<p>十壹、信息保護</p>
+	<p class='sub-title'>十壹、信息保護</p>
 	<p>11.1 適用範圍</p>
 	<p>11.1.1 在您註冊網站賬號或者使用賬戶時，您根據本網站要求提供的個人註冊信息，包括但不限於電話號碼、郵箱信息、身份證件信息。</p>
 	<p>11.1.2 在您使用本網站服務時，或訪問本網站網頁時，本網站自動接收並記錄的您瀏覽器上的服務器數值，包括但不限於IP地址等數據及您要求取用的網頁記錄。</p>
@@ -314,26 +314,26 @@ language["zh-HK"] = `<h1 class='title'>用戶協議</h1><p>https://www.otcmaker.
 	<p>11.2.1.10 用作其他壹切合法目的以及經您授權的其他用途。</p>
 	<p>11.2.2 本網站不會向其他任何人出售或出借您的個人信息，除非事先得到您的許可。本網站也不允許任何第三方以任何手段收集、編輯、出售或者無償傳播您的個人信息。</p>
 	<p>11.3 本網站對所獲得的客戶身份資料和交易信息等進行保密，不得向任何單位和個人提供客戶身份資料和交易信息，應相關主權國家或地區法律法規、政令、命令等規定要求本網站提供的除外。</p>
-	<p>十二、計算</p>
+	<p class='sub-title'>十二、計算</p>
 	<p>所有的交易計算結果都經過我們的核實，所有的計算方法都已經在網站上公示，但是我們不能保證網站的使用不會受到幹擾或沒有誤差。</p>
-	<p>十三、轉讓</p>
+	<p class='sub-title'>十三、轉讓</p>
 	<p>本協議中約定的權利及義務同樣約束從該權利義務中獲取到利益的各方的受讓人，繼承人，遺囑執行人和管理員。您不得在我們不同意的前提下轉讓給任何第三人，但我們可隨時將我們在本協議中的權利和義務轉讓給任何第三人，並給予您提前30天的通知。</p>
-	<p>十四、可分割性</p>
+	<p class='sub-title'>十四、可分割性</p>
 	<p>如本協議中的任何條款被任何有管轄權的法院認定為不可執行的，無效的或非法的，並不影響本協議的其余條款的效力。</p>
-	<p>十五、非代理關系</p>
+	<p class='sub-title'>十五、非代理關系</p>
 	<p>本協議中的任何規定均不可被認為創造了、暗示了或以其他方式將我們視為您的代理人、受托人或其他代表人，本協議有其他規定的除外。</p>
-	<p>十六、棄權</p>
+	<p class='sub-title'>十六、棄權</p>
 	<p>我們或您任何壹方對追究本協議約定的違約責任或其他責任的棄權並不能認定或解釋為對其他違約責任的棄權；未行使任何權利或救濟不得以任何方式被解釋為對該等權利或救濟的放棄。</p>
-	<p>十七、標題</p>
+	<p class='sub-title'>十七、標題</p>
 	<p>所有標題僅供協議表述方便，並不用於擴大或限制該協議條款的內容或範圍。</p>
-	<p>十八、協議的生效和解釋</p>
+	<p class='sub-title'>十八、協議的生效和解釋</p>
 	<p>18.1 本協議於您點擊本網站註冊頁面的同意註冊並完成註冊程序、獲得本網站賬號和密碼時生效，對本網站和您均具有約束力。</p>
 	<p>18.2 本協議的最終解釋權歸本網站所有。</p>
-	<p>了解妳的客戶和反洗錢政策</p>
-	<p>壹、導言</p>
+	<h2  class='title'>了解妳的客戶和反洗錢政策</h2>
+	<p class='sub-title'>壹、導言</p>
 	<p>1.1我們保證審慎遵守“了解妳的客戶”和反洗錢相關的法律法規且不得故意違反該《了解妳的客戶和反洗錢政策》。在我們合理控制的範圍內我們將采取必要的措施和技術為您提供安全的服務，盡可能使您免於遭受犯罪嫌疑人的洗錢行為帶來的損失。</p>
 	<p>1.2我們的了解妳的客戶和反洗錢政策是壹個綜合性的國際政策體系，包括您隸屬的不同法律轄區的了解妳的客戶和反洗錢政策。我們健全合規的框架確保我們在本地和全球層面均符合監管要求和監管水平，並確保本網站持續性運行。</p>
-	<p>二、了解妳的客戶和反洗錢政策如下：</p>
+	<p class='sub-title'>二、了解妳的客戶和反洗錢政策如下：</p>
 	<p>2.1頒布了解妳的客戶和反洗錢政策並時時更新以滿足相應的法律法規規定的標準；</p>
 	<p>2.2頒布和更新運行本網站的壹些指導原則和規則，且我們的員工將按照該原則和規則的指導提供服務；</p>
 	<p>2.3 設計並完成內部監測和控制交易的程序，如以嚴格的手段驗證身份，安排組建專業團隊專門負責反洗錢工作；</p>
@@ -342,7 +342,7 @@ language["zh-HK"] = `<h1 class='title'>用戶協議</h1><p>https://www.otcmaker.
 	<p>2.6 向主管當局報告可疑交易;</p>
 	<p>2.7身份證明文件、地址證明文件和交易記錄的證明文件將會維持至少六年，如被提交給監管部門，恕不另行通知您。</p>
 	<p>2.8 整個交易過程中，信用卡被禁止使用；</p>
-	<p>三、身份信息與核實確認</p>
+	<p class='sub-title'>三、身份信息與核實確認</p>
 	<p>3.1 身份信息</p>
 	<p>3.1.1 根據不同的司法管轄區的不同規定及不同的實體類型，我們收集的您的信息內容可能不壹致，原則上將向註冊的個人收集以下信息：</p>
 	<p>個人基本信息：您的姓名，住址（及永久地址，如果不同） ，出生日期及國籍等可獲得的其他情況。身份驗證應該是根據官方或其他類似權威機構發放的文件，比如護照，身份證或其他不同的轄區要求的和引發的身份證明文件。您提供的地址將使用適當的方法進行驗證，比如檢查乘用交通工具的票據或利率票據或檢查選民登記冊等。</p>
@@ -357,7 +357,7 @@ language["zh-HK"] = `<h1 class='title'>用戶協議</h1><p>https://www.otcmaker.
 	<p>3.2.2 我們要求您提供您將您的身份證明文件放在您胸前的照片。</p>
 	<p>3.2.3證明文件的副本壹般應核和原始憑證進行核對。然而，如果某個可信賴的合適的認證人可證明該副本文件是原始文件準確而全面的復制的，該副本可接受。這樣的認證人包括大使、司法委員、地方治安官等。</p>
 	<p>3.2.4 對識別最終受益人和賬戶控制權的要求是確定哪些個人最終所有或控制直接客戶，和/或確定正在進行的交易是由他人代為執行。如果是企業，則大股東的身份（例如那些持有10％或以上的投票權益）應被驗證。壹般，持股25 ％會被認定為正常風險內，其股東身份須驗證；持股10%或擁有更多的投票權或股票時被認定為高風險的情況，股東身份須加以驗證。</p>
-	<p>四、監控交易</p>
+	<p class='sub-title'>四、監控交易</p>
 	<p>4.1 我們根據安全性和實際交易情況時時設置和調整日常交易和提幣最高限額;</p>
 	<p>4.2如果交易頻繁集中發生在某個註冊用戶或存在超乎合理的情況，我們的專業團隊將評估並決定他們是否可疑;</p>
 	<p>4.3我們憑借自身的判斷認定為可疑交易的情況，我們可能會采取暫停該交易、拒絕該交易等限制性措施，甚至如果可能將盡快逆轉該交易，同時向主管部門報告，但不會通知您;</p>
@@ -366,13 +366,13 @@ language[
   "en-US"
 ] = `<h1 class='title'>User Agreement</h1><p>https://www.otcmaker.com (hereinafter referred to as 'this Website' or 'the Website'), which is a platform dedicated to the transaction of digital assets and the provision of related services (hereinafter referred to as 'the Service'). For the convenience of wording in this Agreement, the Website is referred to as 'We' or other applicable forms of first person pronouns in this Agreement. All natural persons or other subjects who log onto this Website shall be users of this Website. For the convenience of wording in this Agreement, the users are referred to as 'You' or any other applicable forms of the second-person pronouns. For the convenience of wording in this Agreement, you and us are collectively referred to as “both parties”, and individually as “one party”.</p>
 <p>Important reminder:</p>
-<p>We hereby remind you that:</p>
+<p class='sub-title'>We hereby remind you that:</p>
 <p>1. The digital assets themselves are not offered by any financial institution, corporation or this Website;</p>
 <p>2. The digital asset market is new and unconfirmed, and will not necessarily expand;</p>
 <p>3. Digital assets are primarily used by speculators, and are used relatively less on retail and commercial markets; digital asset transactions are highly risky, due to the fact that they are traded throughout 24-hour a day without limits on the rise or fall in price, and market makers and global government policies may cause major fluctuations in their prices;</p>
 <p>4. Digital asset transactions may be suspended or prohibited at any time due to the enactment or modification of national laws, regulations and regulatory documents.</p>
 <p>Digital assets trading is highly risky and therefore not suitable for the vast majority of people. You acknowledge and understand that investment in digital assets may result in partial or total loss of your investment and therefore you are advised to decide the amount of your investment on the basis of your loss-bearing capacity. You acknowledge and understand that digital assets may generate derivative risks. Therefore, if you have any doubt, you are advised to seek assistance from a financial adviser first. Furthermore, aside from the above-mentioned risks, there may also be unpredictable risks. Therefore, you are advised to carefully consider and use clear judgment to assess your financial position and the abovementioned risks before making any decisions on buying and selling digital assets; any and all losses arising therefrom will be borne by you and we shall not be held liable in any manner whatsoever.</p>
-<p>You are hereby informed that:</p>
+<p class='sub-title'>You are hereby informed that:</p>
 <p>1. You understand that this Website is only intended to serve as a venue for you to obtain digital asset information, find trading counterparties, hold negotiations on and effect transactions of digital assets. This Website does not participate in any of your transactions, and therefore you shall, at your sole discretion, carefully assess the authenticity, legality and validity of relevant digital assets and/or information, and solely bear the responsibilities and losses that may arise therefrom.</p>
 <p>2. All opinions, information, discussions, analyses, prices, advice and other information on this Website are general market reviews and do not constitute any investment advice. We do not bear any loss arising directly or indirectly from reliance on the abovementioned information, including but not limited to, any loss of profits.</p>
 <p>3. The content of this Website may be changed from time to time and at any time without notice, and we have taken reasonable measures to ensure the accuracy of the information on the Website; however, we do not guarantee the degree of such accuracy, or bear any loss arising directly or indirectly from the information on this Website or from any delay or failure caused by failure to link up with the internet, transmit or receive any notice and information.</p>
@@ -380,7 +380,7 @@ language[
 <p>5. https://www.otcmaker.com/ is the sole official external information release platform for this Website;</p>
 <p>6. No service on this Website may be paid for by credit card;</p>
 <p>7. It is prohibited to use this Website for any illegal activities, such as money-laundering, smuggling and commercial bribery. Upon uncovering any of such illegal activities, this Website will adopt all available measures, including but not limited to freezing accounts, notifying the relevant authorities and so on, and in this case, we shall not assume any of the responsibilities arising therefrom, and reserve the right to hold the relevant persons accountable.</p>
-<p>1. General Provisions</p>
+<p class='sub-title'>1. General Provisions</p>
 <p>1.1 The User Agreement (hereinafter referred to as 'this Agreement' or 'these Terms and Conditions') consists of the main body, Terms of Privacy, Understanding Your client and Anti-money-laundering Policy, as well as any rules, statements, instructions, etc. that this Website has published or may publish in the future.</p>
 <p>1.2 Before using any service offered by this Website, you shall read this Agreement carefully, and consult a professional lawyer if you have any doubt or as may be otherwise necessary. If you do not agree to the Terms and Conditions of this Agreement and/or any change made thereto from time to time and at any time, please immediately stop using the service provided by this Website or stop logging into this Website. Upon your logging into this Website or using any service offered by this Website or engaging in any other similar activity, it shall be deemed as You have understood and fully agreeing to all terms and conditions of this Agreement, including any and all changes, modifications or alterations that this Website may make to this Agreement from time to time and at any time.</p>
 <p>1.3 After filling in the relevant information in accordance with the requirements of this Website, and going through other relevant procedures, you will successfully register yourself as a member of this Website (hereinafter referred to as 'Member'); in the process of registration, if you click on the 'I Agree', it shall be deemed that you have reached an agreement with the Company by way of electronic signature; or when you use this Website, you click on the “I Agree” button or a similar button, or if you use the services offered by this Website in any of the ways allowed by this Website, it shall be deemed that you fully understand, agree to and accept all the Terms and Conditions under this Agreement, and in this case, the absence of your handwritten signature will not affect the legal binding force that this Agreement may have on you.</p>
@@ -394,9 +394,9 @@ language[
 <p>1.6.5 You confirm that the information provided at the time of registration is true and accurate.</p>
 <p>1.6.6 You agree to comply with any and all relevant laws, including the reporting of any transaction profits for tax purposes.</p>
 <p>1.6.7 This Agreement is only binding on the rights and obligations between You and us, and does not involve any legal relations and legal disputes arising from and relating to the transaction of digital assets between the users of this Website, and between other websites and You.</p>
-<p>2. Amendment of this Agreement</p>
+<p class='sub-title'>2. Amendment of this Agreement</p>
 <p>We reserve the right to amend this Agreement from time to time, and disclose such amendment by way of announcement on the Website without sending a separate notice to You on your rights. The date when the amendment is made will be indicated on the first page of the amended agreement. The amended agreement will take effect immediately upon announcement on the Website. You shall browse this Website from time to time and follow information on the time and content of amendments, if any, made to this Agreement. If You do not agree with the amendments, you shall stop using the services offered by this Website immediately; if You continue to use the services offered by this Website, it shall be deemed that You accept and agree to be bound by the amended agreement.</p>
-<p>3. Registration</p>
+<p class='sub-title'>3. Registration</p>
 <p>3.1 Eligibility for Registration</p>
 <p>You confirm and promise that: you shall be a natural person, legal person or other organization with the ability to sign this Agreement and the ability to use the services of this Website, as is provided by applicable laws, when you complete the registration process or when you use the services offered by this Website in any other manner as is otherwise permitted by this Website. Upon clicking on the button indicating that you agree to register, it shall be deemed that you yourself or your authorized agent agrees to the content of this Agreement and your authorized agent will register with this Website and use the services offered by this Website on your behalf. If you are not a natural person, legal person or organization with the abovementioned ability, you and your authorized agent shall bear all the consequences of that, and the company reserves the right to cancel or permanently freeze your account and to hold you and your authorized agent accountable.</p>
 <p>3.2 Purpose of Registration</p>
@@ -405,7 +405,7 @@ language[
 <p>3.3.1 You agree to provide a valid email address, a mobile phone number and other information in accordance with the requirements on the user registration page of this Website. You can use the email address, mobile phone number or any other manner permitted by this Website to log in to this Website. Where it is necessary and in accordance with the requirements of applicable laws and regulations of relevant jurisdictions, you shall provide your real name, identity card and other information required by applicable laws, regulations, the Terms of Privacy, and anti-money-laundering terms, and constantly update your registration data so that they will be timely, detailed and accurate as is required. All of the original typed data will be referenced as registration information. You shall be responsible for the authenticity, integrity and accuracy of such information and bear any direct or indirect loss and adverse consequences arising out of it.</p>
 <p>3.3.2 After you provide the required registration information in a legal, complete and valid manner and such information passes relevant verification, you shall have the right to obtain an account and a password of this Website. Upon obtaining such account and password, your registration shall be deemed as successful and you can log into this Website as a member thereof.</p>
 <p>3.3.3 You agree to receive emails and/or short messages sent by this Website related to the management and operation thereof.</p>
-<p>4. Services</p>
+<p class='sub-title'>4. Services</p>
 <p>This Website only provides online transaction platform services for you to engage in digital asset trading activities through this Website (including but not limited to the digital asset transactions etc.). This Website does not participate in the transaction of digital assets as a buyer or seller; This Website does not provide any services relating to the replenishment and withdrawal of the legal currency of any country.</p>
 <p>4.1 Content of Services</p>
 <p>4.1.1 You have the right to browse the transaction information of digital asset products on this Website, to submit digital asset transaction request and to complete the digital asset transaction through this Website.</p>
@@ -421,7 +421,7 @@ language[
 <p>4.2.5 If any dispute arises between you and any other user in connection with online transaction, you may not resort to any means other than judicial or governmental means to request this Website to provide relevant information.</p>
 <p>4.2.6 All taxes payable as well as all fees relating to hardware, software and services that are incurred by you in the course of using the services provided by this Website shall be solely borne by you.</p>
 <p>4.2.7 You shall abide by this Agreement and other terms of service and operating rules that this Website may release from time to time, and you have the right to terminate your use of the services provided by this Website at any time.</p>
-<p>5. Rights and Obligations of this Website</p>
+<p class='sub-title'>5. Rights and Obligations of this Website</p>
 <p>5.1 If you do not have the registration qualifications agreed on in this Agreement, this Website shall have the right to refuse to allow you to register; if you have already registered, this Website shall have the right to revoke your member account, and this Website reserves the right to hold you or your authorized agent accountable. Furthermore, this Website reserves the right to decide whether to accept your application for registration under any other circumstances.</p>
 <p>5.2 When this Website finds out that the user of an Account is not the initial registrant of that Account, it shall have the right to suspend or terminate the user’s access to that Account.</p>
 <p>5.3 Where by means of technical testing or manual sampling, among others, this Website reasonably suspects that the information you provide is wrong, untrue, invalid or incomplete, this Website shall have the right to notify you to correct or update the information, or suspend or terminate its supply of the services to you.</p>
@@ -432,12 +432,12 @@ language[
 <p>5.8 This Website shall ensure the security of your digital assets by strengthening technical input and enhancing security precautions, and is under the obligation to notify you in advance of the foreseeable security risks in your account.</p>
 <p>5.9 This Website shall have the right to delete all kinds of content and information which does not conform to laws and regulations or the rules of this Website at any time, and exercise of this right by this Website is not subject to a prior notice to you.</p>
 <p>5.10 This Website shall have the right to, in accordance with the applicable laws, administrative regulations, rules, orders and other regulatory documents of the sovereign country or region where you are based, request to you for more information or data, and to take reasonable measures to meet the requirements of the local standards, and you have the obligation to provide proper assistance to such measures; this Website shall have the right to suspend or permanently terminate your access to this Website as well as part or all of the services offered by this Website.</p>
-<p>6. Indemnity</p>
+<p class='sub-title'>6. Indemnity</p>
 <p>6.1 Under any circumstance, our liability for your direct damage will not exceed the total cost incurred by your three (3) months’ use of services offered by this Website.</p>
 <p>6.2 If you breach this Agreement or any applicable law or administrative regulation, you shall pay to us at least US$ Two million in compensation and bear all the expenses in connection with such breach (including attorney's fees, among others). If such compensation cannot cover the actual loss, you shall make up for the difference.</p>
-<p>7. The Right to Injunctive Relief</p>
+<p class='sub-title'>7. The Right to Injunctive Relief</p>
 <p>Both you and we acknowledge that common law remedies for breach of agreement or possible breach of contract may be insufficient to cover all the losses that we sustain; therefore, in the event of a breach of contract or a possible breach of contract, the non-breaching party shall have the right to seek injunctive relief as well as all other remedies that are permitted under common law or equity.</p>
-<p>8. Limitation and Exemption of Liability</p>
+<p class='sub-title'>8. Limitation and Exemption of Liability</p>
 <p>8.1 You understand and agree that under no circumstance will we be held liable for any of the following events:</p>
 <p>8.1.1 loss of income;</p>
 <p>8.1.2 loss of transaction profits or contractual losses;</p>
@@ -462,18 +462,18 @@ language[
 <p>8.7 The guarantees and undertakings specified in this Agreement shall be the only guarantee and statements that we make in connection with the Services provided by us under this Agreement and through this Website, and shall supersede any and all the warranties and commitments arising in any other way and manner, whether in writing or in words, express or implied. All these guarantees and statements represent only our own commitments and undertakings and do not guarantee any third party's compliance with the guarantees and commitments contained in this Agreement.</p>
 <p>8.8 We do not waive any of the rights not mentioned in this Agreement and to the maximum extent permitted by the applicable law, to limit, exempt or offset our liability for damages.</p>
 <p>8.9 Upon your registration of your account with this Website, it shall be deemed that you approve any and all operations performed by us in accordance with the rules set forth in this Agreement, and any and all risks arising from such operations shall be assumed by you.</p>
-<p>9. Termination of this Agreement</p>
+<p class='sub-title'>9. Termination of this Agreement</p>
 <p>9.1 This Website shall have the right to cancel your account with this Website in accordance with this Agreement, and this Agreement shall be terminated on the date of the cancellation of your account.</p>
 <p>9.2 This Website shall have the right to terminate all Service offered by this Website to you in accordance with this Agreement, and this Agreement shall terminate on the date of termination of all services offered by this Website to you.</p>
 <p>9.3 After the termination of this Agreement, you do not have the right to require this Website to continue to provide you with any service or perform any other obligation, including, but not limited to, requesting this Website to keep or disclose to you any information in your former original account, or to forward to you or any third party any information therein that is not read or sent.</p>
 <p>9.4 The termination of this Agreement shall not prevent the observant party from demanding the breaching party to assume other liabilities.</p>
-<p>10. Intellectual Property</p>
+<p class='sub-title'>10. Intellectual Property</p>
 <p>10.1 All intellectual achievements included in this Website, including, but not limited to, website logos, databases, website design, text and graphics, software, photos, videos, music, sounds and any combinations of the aforementioned files, and the intellectual property rights of software compilation, associated source code and software (including small applications and scripts) shall be owned by this Website. You may not copy, modify, copy, transmit or use any of the foregoing materials or content for commercial purposes.</p>
 <p>10.2 All rights contained in the name of this Website (including but not limited to business goodwill and trademarks, logos) shall be owned by the Company.</p>
 <p>10.3 Upon accepting this Agreement, it shall be deemed that you, on the basis of your own free will, have transferred and assigned exclusively and free of charge to this Website all copyright of any form of information that you publish on this Website, including, but not limited to copyrights, distribution rights, lease rights, exhibition rights, performance rights, projection rights, broadcasting rights, information network dissemination rights, shooting rights, adaptation rights, translation rights, compilation rights and other transferable rights that copyright owners are entitled to, and this Website shall have the right to sue for any infringement on such copyright and obtain full compensation for such infringement. This Agreement shall apply to any content that is published by you on this Website and is protected by copyright law, regardless of whether the content is generated before or after the signing of this Agreement.</p>
 <p>10.4 You shall not illegally use or dispose of the intellectual property rights of this Website or any other person during your use of the services offered by this Website. For any information that you publish on this Website, you may not publish or authorize other websites (or media) to use such information in any manner whatsoever.</p>
 <p>10.5 Your log into this Website or use of any of the services offered by this Website shall not be seemed as our transfer of any intellectual property to you.</p>
-<p>11. Information protection</p>
+<p class='sub-title'>11. Information protection</p>
 <p>11.1. Scope of Application</p>
 <p>11.1.1 When you register your account with this Website or use your account with this Website, you shall provide personal registration information in accordance with the requirements of this Website, including but not limited to your telephone number, email address, and identity card information.</p>
 <p>11.1.2 When you use the services offered by this Website, or visit this Website, this Website will automatically receive and record the server information of your web browser, including but not limited to the IP address and records on the web pages that you request to access.</p>
@@ -493,25 +493,26 @@ language[
 <p>11.2.1.10 For all other legal purposes as well as other purposes authorized by you.</p>
 <p>11.2.2 This Website will not sell or lend your personal information to any other person unless your permission is obtained in advance. This Website also does not allow any third party to collect, edit, sell or gratuitously spread your personal information in any manner whatsoever.</p>
 <p>11.3 This Website shall keep confidential the customer identity information and transaction information that it obtains, and shall not provide any entity or individual with customer identification information or transaction information, except where any of the applicable laws, regulations, decrees, orders, etc., of relevant sovereign states or regions requires this Website to provide such information.</p>
-<p>12. Calculation</p>
+<p class='sub-title'>12. Calculation</p>
 <p>All the transaction calculations are verified by us, and all the calculation methods have been posted on the Website, but we can not ensure that your use of this Website will not be disturbed or free from errors.</p>
-<p>13. Transfer</p>
+<p class='sub-title'>13. Transfer</p>
 <p>The rights and obligations agreed in this Agreement shall be equally binding on the assignees, the heirs, executors and administrators of the parties hereto who benefit from the rights and obligations. Without our consent, you may not transfer to any third party any of your rights or obligations hereunder, provided, however, we may, at any time, assign our rights and obligations under this Agreement to any third party with thirty (30) days' notice to you.</p>
-<p>14. Severability</p>
+<p class='sub-title'>14. Severability</p>
 <p>If any provision of this Agreement is found unenforceable, invalid or illegal by any court of competent jurisdiction, validity of the remaining provisions of this Agreement shall not be affected.</p>
-<p>15. No Agency</p>
+<p class='sub-title'>15. No Agency</p>
 <p>Nothing in this Agreement shall be deemed to have created, implied or otherwise treated us as your agent, trustee or other representative, unless it is provided otherwise in this Agreement.</p>
-<p>16. Waiver</p>
+<p class='sub-title'>16. Waiver</p>
 <p>Our or your waiver of the right to hold the other party liable for breaches of agreement or any other liability as is agreed upon in this Agreement shall not be construed or deemed as a waiver of the right to hold the other party for other breaches of contract; a failure to exercise any right or remedy shall not be construed in any way as a waiver of such right or remedy.</p>
-<p>17. Headings</p>
+<p class='sub-title'>17. Headings</p>
 <p>All headings herein are exclusively for the convenience of wording and are not intended to to expand or limit the content or scope of the terms and conditions of this Agreement.</p>
-<p>18. Entry into Force and Interpretation of the Agreement</p>
+<p class='sub-title'>18. Entry into Force and Interpretation of the Agreement</p>
 <p>18.1 This Agreement shall enter into force when you click through the registration page of this Website, complete the registration procedures, obtain your account number and password of this Website, and shall be binding on you and this Website.</p>
 <p>18.2 The ultimate power of interpretation of this Agreement shall be vested in this Website.</p>
-<p>Know-your-customer and Anti-Money Laundering Policies1. Preamble</p>
+<h2  class='title'>Know-your-customer and Anti-Money Laundering Policies</h2>
+<p class='sub-title'>1. Preamble</p>
 <p>1.1 We ensure that we comply with know-your-customer and anti-money-laundering laws and regulations, and will not knowingly violate know-your-customers and anti-money-laundering policies. To the extent of our reasonable control, we will adopt necessary measures and technology to provide you with Services that are safe and secure, so as to protect you against the loss caused by money laundering to the greatest extent possible.</p>
 <p>1.2 Our know-your-customer and anti-money-laundering policies are a comprehensive system of international policies, including the know-your-customer and anti-money-laundering policies of the jurisdictions to which you are subject to. Our robust compliance framework ensures that we meet regulatory requirements and regulatory standards on both the local and global levels, and ensure the operational sustainability of our website.</p>
-<p>2. Content of Our Know-Your-Customer and Anti-Money-Laundering Policies</p>
+<p class='sub-title'>2. Content of Our Know-Your-Customer and Anti-Money-Laundering Policies</p>
 <p>2.1 We promulgate and update know-your-customers and anti-money-laundering policies to meet the standards set by relevant laws and regulations;</p>
 <p>2.2 We promulgate and update some of the guidelines and rules in connection with the operation of this Website, and our staff will provide you whole-process service in accordance with the guidelines and rules;</p>
 <p>2.3 We design and complete the procedures for internal monitoring and transaction control, such as rigorous identity authentication procedures, and form a professional team responsible for anti-money laundering;</p>
@@ -520,7 +521,7 @@ language[
 <p>2.6 To report suspicious transactions to the competent authorities;</p>
 <p>2.7 Proof documents of identity documents, address certificates and transaction records will be maintained for at least six(6) years; if they are submitted to the regulatory authorities, let it be understood that a separate notice will not be provided to you;</p>
 <p>2.8 Credit cards are prohibited throughout the course of the transaction;</p>
-<p>3. Identity Information and the Verification and Confirmation Thereof</p>
+<p class='sub-title'>3. Identity Information and the Verification and Confirmation Thereof</p>
 <p>3.1 Identity Information</p>
 <p>3.1.1 In accordance with the laws and regulations of relevant jurisdictions and in light of the nature of entities concerned, the content of your information as is collected by us may vary, and in principle, we will collect the following information of yours if you register as an individual:</p>
 <p>Basic personal information: your name, address (and permanent address, if the two are different), date of birth and nationality, and other information available. Identity authentication shall be based on documents issued by the official or other similar authorities, such as passports, identity cards or other identity documents as are required and issued by relevant jurisdictions. The address you provide will be validated in an appropriate manner, such as checking the fare ticket of means of transportation you use, your interest rate bills, or voter register.</p>
@@ -535,7 +536,7 @@ language[
 <p>3.2.2 You are required to provide us with a photograph showing you holding your identity documents in front of your chest.</p>
 <p>3.2.3 Copies of certification documents shall be checked against the originals thereof. Nonetheless, if a trusted and suitable certifier person can prove that such copies are accurate and comprehensive duplicates of the originals thereof, such copies shall be deemed as acceptable. Such certifiers include ambassadors, members of the judiciary, magistrates, etc.</p>
 <p>3.2.4 The identification the ultimate beneficiary and controller of the account shall be based on the determination of which individuals ultimately own or control the direct customer and/or to determining that the ongoing transaction is performed by another person. If you are a business enterprise, the identity of major shareholders thereof (for example, those holding 10 % or more of the voting equity in such business enterprise) shall be verified. Generally, a shareholder holding 25 % of the shares of the company will be deemed as involving an average level of risk, and the identity of the shareholder shall be verified; a shareholder holding 10 % or more of the voting rights or shares is deemed to be involving a high level of risk, and the identity of the shareholder shall be verified.</p>
-<p>4. Transaction Supervision</p>
+<p class='sub-title'>4. Transaction Supervision</p>
 <p>4.1 We constantly set and adjust daily trading and cash withdrawal limits based on security requirement and actual state of transactions;</p>
 <p>4.2 If the transaction occurs frequently in an account registered by you or is beyond reasonable circumstances, our professional team will assess and determine whether such transaction is suspicious;</p>
 <p>4.3 If we identify a specific transaction as suspicious on the basis of our assessment, we may adopt such restrictive measures as suspending the transaction or denying the transaction, and if it is possible, we may even reverse the transaction as soon as possible, and report to the competent authorities, without, however, notifying you;</p>
@@ -548,20 +549,7 @@ export default {
 		}
 	},
   created() {
-    // 自动设置语言
-    const navLang = navigator.language || navigator.userLanguage;
-    const langs = ["zh-CN", "zh-HK", "en-US"];
-    const localLang = langs.indexOf(navLang) > -1 ? navLang : "zh-HK";
-    const currentLanguage = window.localStorage.getItem("language");
-    let lang;
-    if (currentLanguage) {
-      lang = currentLanguage;
-    } else {
-      window.localStorage.setItem("language", localLang);
-      lang = localLang;
-		}
-		
-    this.text = language[lang]
+    this.text = language[window.localStorage.getItem("language")]
   }
 };
 </script>
@@ -574,6 +562,12 @@ export default {
 	/deep/ .title {
 		text-align: center;
 		margin-bottom: 20px;
+	}
+	/deep/ .sub-title {
+		font-size: 18px;
+		margin-bottom: 15px;
+		margin-top: 20px;
+		font-weight: 600;
 	}
   /deep/ p {
     margin-bottom: 10px;

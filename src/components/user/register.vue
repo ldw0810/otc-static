@@ -346,7 +346,8 @@
       },
       showTerms() {
         // this.$Message.info(this.$t("user.terms_text"));
-        this.$router.push("/policy");
+        // this.$router.push("/policy");
+        this.$router.push("/user-agreement");
       }
     },
     components: {
