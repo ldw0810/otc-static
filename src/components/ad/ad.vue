@@ -557,6 +557,9 @@
     },
     computed: {
       disabledStatus() {
+        if (this.isUpdate) {
+          return !this.validate || !this.balanceFlag
+        }
         return !this.validate || (+this.adType === 0 ? !this.examineAdBuyFlag : !this.examineAdSellFlag) || !this.balanceFlag
       },
       userInfo() {
@@ -788,7 +791,7 @@
       submit() {
         if (!this.userInfo.activated) {
           this.$store.commit("showAuthEmail_setter", 1);
-        } else if (!this.examineAdBuyFlag || !this.examineAdSellFlag) {
+        } else if (!this.isUpdate && !this.examineAdBuyFlag || !this.examineAdSellFlag) {
           this.$alert.error({
             title: this.$t("public.error_title_default"),
             content: this.$t("ad.ad_publish_repeat")

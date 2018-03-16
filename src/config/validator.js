@@ -3,6 +3,7 @@ const language = languageData.find(
   item => item.language === (window.localStorage.getItem("language") || "zh-HK")
 ).data;
 
+console.log(language)
 // 昵称
 export const VALI_NICKNAME = {
   min: 6,
@@ -55,3 +56,19 @@ export const VALI_PAYMENT_INFO = {
   max: 200,
   message: language.validate.max_length.format(200)
 };
+// 
+export const VALI_NUMBER = {
+  regexp: (value) => {
+    return new RegExp('^[0-9]+$', 'g').test(value)
+  },
+  message: '不是有效的数值'
+}
+
+export const VALI_NUMBER_CALLBACK = (rule, value, callback) => {
+  if (value && !VALI_NUMBER.regexp(value)) {
+    callback(new Error(VALI_NUMBER.message))
+  } else {
+    callback();
+  }
+}
+

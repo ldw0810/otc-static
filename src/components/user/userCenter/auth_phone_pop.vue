@@ -89,9 +89,11 @@
 </template>
 <script type="es6">
   import validateMixin from '@/components/mixins/validate-mixin'
+  import { VALI_NUMBER_CALLBACK } from 'config/validator'
   import logoDiv from "../../public/logo.vue"
   import sendCodeButton from "../../public/sendCode.vue"
 
+  
   export default {
     mixins: [validateMixin(['addForm', 'delForm'])],
     props: {
@@ -118,12 +120,18 @@
             {
               required: true,
               message: this.$t("user.password_required"),
+            },
+            {
+              validator: VALI_NUMBER_CALLBACK
             }
           ],
           pinCode: [
             {
               required: true,
               message: this.$t("user.auth_phone_code_required"),
+            },
+            {
+              validator: VALI_NUMBER_CALLBACK
             }
           ],
         },
@@ -138,6 +146,9 @@
             {
               required: true,
               message: this.$t("user.auth_phone_code_required"),
+            },
+            {
+              validator: VALI_NUMBER_CALLBACK,
             }
           ],
         }
