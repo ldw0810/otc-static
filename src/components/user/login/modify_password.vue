@@ -38,10 +38,15 @@
     mixins: [validateMixin('form')],
     data() {
       const validatePassword = (rule, value, callback) => {
+        // let reg = /^(([a-z]+[0-9]+)|([0-9]+[a-z]+))[a-z0-9]*$/i;
+        let reg = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,20}$/;
         if (!value || !value.length) {
           callback(new Error(this.$t("user.password_required")));
-        } else if (!/^.{6,}$/.test(value)) {   //6位以上的密码
+        } else if (!/^.{6,20}$/.test(value) || !reg.test(value)) {
+          //6位以上的密码
           callback(new Error(this.$t("user.password_minLength")));
+        } else if (this.form.rePassword && value !== this.form.rePassword) {
+          callback(new Error(this.$t("user.password_different")));
         } else {
           callback();
         }
@@ -49,7 +54,8 @@
       const validateRePassword = (rule, value, callback) => {
         if (!value || !value.length) {
           callback(new Error(this.$t("user.rePassword_required")));
-        } else if (!/^.{6,}$/.test(value)) {   //6位以上的密码
+        } else if (!/^.{6,16}$/.test(value)) {
+          //6位以上的密码
           callback(new Error(this.$t("user.password_minLength")));
         } else if (value !== this.form.password) {
           callback(new Error(this.$t("user.password_different")));

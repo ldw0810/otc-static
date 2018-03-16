@@ -179,6 +179,9 @@
           //6位以上的密码
           this.validFlag.password = false;
           callback(new Error(this.$t("user.password_minLength")));
+        } else if (this.form.rePassword && value !== this.form.rePassword) {
+          this.validFlag.password = false;
+          callback(new Error(this.$t("user.password_different")));
         } else {
           this.validFlag.password = true;
           callback();
