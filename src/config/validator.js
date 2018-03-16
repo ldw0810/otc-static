@@ -1,4 +1,5 @@
 import languageData from "../locale";
+import isString from "lodash/isString";
 import {DEFAULT_LANGUAGE} from "config/config";
 
 const language = languageData.find(
@@ -57,20 +58,36 @@ export const VALI_PAYMENT_INFO = {
   max: 200,
   message: language.validate.max_length.format(200)
 };
-// 
+//
 export const VALI_NUMBER = {
-  regexp: (value) => {
-    return new RegExp('^[0-9\.\-]+$', 'g').test(value)
-    // return !!+value || 
+  regexp: value => {
+    return new RegExp("^[0-9.-]+$", "g").test(value);
+    // return !!+value ||
   },
   message: language.validate.must_be_number
-}
+};
 
 export const VALI_NUMBER_CALLBACK = (rule, value, callback) => {
   if (value && !VALI_NUMBER.regexp(value)) {
-    callback(new Error(VALI_NUMBER.message))
+    callback(new Error(VALI_NUMBER.message));
   } else {
     callback();
   }
-}
+};
 
+// export const SET_RANGE_RULE = (value, min = 0, max, message) => {
+//   if (!isString(value)) return new Error("value must be string");
+//   let len = 0;
+//   for (let i of value) {
+//     var c = value.charCodeAt(i);
+//     //单字节加1
+//     if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
+//       len += 1;
+//     } else {
+//       len += 2;
+//     }
+//   }
+//   if (len < min && len >= max) {
+
+//   }
+// };
