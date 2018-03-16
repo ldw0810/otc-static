@@ -607,6 +607,7 @@
     "card_holder_range": "Must consists with 4-20 characters",
     "card_number_range": "Must consists with 10-20 numbers",
     "address_label": "Must 2-16 characters",
-    "max_length": "Must consists with 0 - {0} characters"
+    "max_length": "Must consists with 0 - {0} characters",
+    "must_be_number": "Must be numbers"
   }
 }
