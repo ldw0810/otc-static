@@ -434,7 +434,7 @@
             price_sum: +this.form.moneyAmount
           })
           .then(res => {
-            this.submitPlaceOrderLoading = false;
+            // this.submitPlaceOrderLoading = false;
             if (res.data && +res.data.error === 0) {
               if (this.ad.currency === "dai") {
                 this.$goRouter("/order", {
