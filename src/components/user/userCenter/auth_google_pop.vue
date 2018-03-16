@@ -42,6 +42,7 @@
   </div>
 </template>
 <script type="es6">
+  import { VALI_NUMBER_CALLBACK } from 'config/validator'
   import validateMixin from '@/components/mixins/validate-mixin'
   import logoDiv from "../../public/logo.vue"
 
@@ -65,6 +66,9 @@
             {
               required: true,
               message: this.$t("user.auth_google_code_required"),
+            },
+            {
+              validator: VALI_NUMBER_CALLBACK,
             }
           ],
         }
