@@ -109,6 +109,8 @@
     "no_unfinished_order": "Currently no order",
     "no_underway_ad": "Currently no ad",
     "no_off_ad": "Currently no ad",
+    "no_asset_recharge": "No recharge information",
+    "no_asset_withdraw": "No withdraw information",
     "error_title_default": "Error"
   },
   "user": {
@@ -299,6 +301,7 @@
     "asset_recharge_status_rejected": "Rejected",
     "asset_recharge_status_checked": "Checked",
     "asset_recharge_status_warning": "Error",
+    "asset_address_request_fail": "Address information request fail",
     "asset_recharge_request_fail": "Deposit data request fail",
     "asset_withdraw_status_submitting": "Submitting",
     "asset_withdraw_status_submitted": "Submitted",
@@ -345,6 +348,9 @@
     "asset_withdraw_address_invalid": "Invalid withdraw address",
     "asset_withdraw_email": "Please confirm the withdraw request by clicking link in email",
     "asset_withdraw_email_success": "Resend success",
+    "asset_recharge_email_no_Auth": "You have not yet verified the mailbox and cannot recharge the {0}",
+    "asset_withdraw_email_no_Auth": "You have not yet verified the mailbox and cannot withdraw the {0}",
+    "asset_go_email_auth": "Go to verification",
     "asset_withdraw_add_new_address_down": "Please enter new withdraw address",
     "asset_add_balance": "Balance",
     "asset_withdraw_all": "Withdraw all",
@@ -518,7 +524,7 @@
     "order_pay_evaluate_fail": "Comment fail",
     "order_pay_evaluate_success": "Comment success",
     "order_deal_complete": "Transaction completed",
-    "order_deal_timeout": "Transaction timeout",
+    "order_deal_timeout": "Transaction cancelled",
     "order_deal_cancel": "Transaction cancelled",
     "order_info_request_fail": "Order information request fail",
     "order_confirm_pay_title": "Confirm your payment",
@@ -541,6 +547,7 @@
     "order_chat_no_info": "Chat history missing",
     "order_chat_loading": "Loading...",
     "order_chat_img": "Chat image",
+    "order_chat_send_msg_fail": "Message sending failure",
     "order_chat_type_nonsupport": "Unsupport message type",
     "order_data_request_fail": "Oder data request fail"
   },
