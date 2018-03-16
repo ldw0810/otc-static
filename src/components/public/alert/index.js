@@ -16,6 +16,9 @@ let alertInstance = function(options) {
   if (options.okText) {
     instance.okText = options.okText
   }
+  if (options.onClose) {
+    instance.onClose = options.onClose
+  }
   return instance
 }
 

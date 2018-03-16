@@ -29,9 +29,11 @@ export default {
     }
   },
   methods: {
-    close() {
+    close($event, callback) {
+      this.onClose()
       this.visible = false
-    }
+    },
+    onClose() {}
   }
 }
 </script>
