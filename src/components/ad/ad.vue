@@ -361,7 +361,7 @@
 </template>
 <script type="es6">
   import ValidateMixin from "@/components/mixins/validate-mixin";
-  import {VALI_AD_REMARK} from 'config/validator'
+  import {VALI_AD_REMARK, VALI_NUMBER_CALLBACK} from 'config/validator'
   import {
     CONF_DIGITAL_CURRENCY_LIST,
     CONF_PAYMENT_LIST
@@ -480,6 +480,9 @@
             },
             {
               validator: validatePercentCheck
+            },
+            {
+              validator: VALI_NUMBER_CALLBACK
             }
           ],
           buyPrice: [
@@ -489,7 +492,7 @@
             },
             {
               validator: validateNumberCheck
-            }
+            },
           ],
           sellPrice: [
             {
@@ -498,16 +501,25 @@
             },
             {
               validator: validateNumberCheck
+            },
+            {
+              validator: VALI_NUMBER_CALLBACK
             }
           ],
           maxPrice: [
             {
               validator: validatePriceCheck
+            },
+            {
+              validator: VALI_NUMBER_CALLBACK
             }
           ],
           minPrice: [
             {
               validator: validatePriceCheck
+            },
+            {
+              validator: VALI_NUMBER_CALLBACK
             }
           ],
           floor: [
@@ -520,7 +532,7 @@
             },
             {
               validator: validateNumberLimitCheck
-            }
+            },
           ],
           ceiling: [
             {
@@ -532,6 +544,9 @@
             },
             {
               validator: validateMaxPriceCheck
+            },
+            {
+              validator: VALI_NUMBER_CALLBACK
             }
           ],
           remark: [
