@@ -58,8 +58,8 @@ export const VALI_PAYMENT_INFO = {
 // 
 export const VALI_NUMBER = {
   regexp: (value) => {
-    // return new RegExp('^[0-9]+$', 'g').test(value)
-    return !!+value
+    return new RegExp('^[0-9\.]+$', 'g').test(value)
+    // return !!+value || 
   },
   message: language.validate.must_be_number
 }
