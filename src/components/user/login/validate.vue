@@ -92,6 +92,7 @@
   import logoDiv from "../../public/logo.vue";
   import sendCodeButton from "../../public/sendCode.vue";
   import ajax from "../../../libs/ajax";
+  import {DEFAULT_LANGUAGE} from "config/config";
 
   export default {
     mixins: [
@@ -156,13 +157,18 @@
               login_token: this.loginInfo.login_token
             }).then(res => {
               this.submitPhoneLoading = false;
+              let ln = DEFAULT_LANGUAGE;
+              if (["zh-HK", "zh-TW"].contains(ln)) {
+                ln = "zh-TW";
+              } else if (ln !== "zh-CN") {
+                ln = "en";
+              }
               if (res.data && +res.data.error === 0) {
                 this.$store.commit("saveToken", res.data.token);
                 ajax.all([
                   this.$store.dispatch("ajax_me"),
                   this.$store.dispatch("ajax_language", {
-                    ln: localStorage.getItem("language") === "zh-CN" ? "zh-CN" :
-                      ["zh-HK", "zh-TW"].contains(localStorage.getItem("language")) ? "zh-TW" : "en"
+                    ln: ln
                   })]).then(ajax.spread((res_me, res_lan) => {
                   if (res_me.data && +res_me.data.error === 0 &&
                     res_lan.data && +res_lan.data.error === 0) {
@@ -207,13 +213,18 @@
               login_token: this.loginInfo.login_token
             }).then(res => {
               this.submitGoogleLoading = false;
+              let ln = DEFAULT_LANGUAGE;
+              if (["zh-HK", "zh-TW"].contains(ln)) {
+                ln = "zh-TW";
+              } else if (ln !== "zh-CN") {
+                ln = "en";
+              }
               if (res.data && +res.data.error === 0) {
                 this.$store.commit("saveToken", res.data.token);
                 ajax.all([
                   this.$store.dispatch("ajax_me"),
                   this.$store.dispatch("ajax_language", {
-                    ln: localStorage.getItem("language") === "zh-CN" ? "zh-CN" :
-                      ["zh-HK", "zh-TW"].contains(localStorage.getItem("language")) ? "zh-TW" : "en"
+                    ln: ln
                   })]).then(ajax.spread((res_me, res_lan) => {
                   if (res_me.data && +res_me.data.error === 0 &&
                     res_lan.data && +res_lan.data.error === 0) {

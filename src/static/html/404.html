@@ -92,9 +92,9 @@
                 text: 'Strange, pages seem to disappear',
                 btn: 'Return to home page'
             }
-        }
+        };
 
-        var currentLang = 'zh-hk'
+        var currentLang = 'zh-hk';
 
         for (var key in langjSON) {
             if (key === getQueryStringByName('lang')) {
@@ -111,13 +111,13 @@
                 obj[key].innerHTML = langjSON[currentLang][key]
             }
         }
-        render({ text: text, btn: btn })
+        render({ text: text, btn: btn });
 
 
         var html = document.documentElement;
-        html.lang = currentLang
+        html.lang = currentLang;
 
-        var title = html.querySelector('title')
+        var title = html.querySelector('title');
         title.innerHTML = langjSON[currentLang].text
     </script>
 </body>

@@ -3,7 +3,8 @@ import env from '../config/env';
 import store from "../store/store"
 import router from "../router"
 import Alert from '@/components/public/alert';
-import languageData from '../locale'
+import languageData from '../locale';
+import {DEFAULT_LANGUAGE} from "config/config";
 
 /**
  * Responsible for all HTTP requests.
@@ -15,7 +16,7 @@ axios.defaults.baseURL = env === 'development' ? '/' : "https://apialpha.otcmake
 function languageSelectIndex() {
   let index = 0;
   for (let i = 0; i < languageData.length; i++) {
-    if (languageData[i].language === (window.localStorage.getItem("language") || "zh-HK")) {
+    if (languageData[i].language === (window.localStorage.getItem("language") || DEFAULT_LANGUAGE)) {
       index = i;
     }
   }

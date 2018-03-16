@@ -92,9 +92,9 @@
         text: 'Server is down for maintenance, please visit later',
         btn: 'Refresh try'
       }
-    }
+    };
 
-    var currentLang = 'zh-hk'
+    var currentLang = 'zh-hk';
 
     for (var key in langjSON) {
       if (key === getQueryStringByName('lang')) {
@@ -117,7 +117,7 @@
     var html = document.documentElement;
     html.lang = currentLang
 
-    var title = html.querySelector('title')
+    var title = html.querySelector('title');
     title.innerHTML = langjSON[currentLang].text
   </script>
 </body>

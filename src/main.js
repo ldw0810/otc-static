@@ -1,5 +1,6 @@
 import Vue from "vue";
-import globalComponents from '@/config/global-components'
+import globalComponents from '@/config/global-components';
+import {DEFAULT_LANGUAGE} from "config/config";
 import router from "./router";
 import Vuex from "vuex";
 import App from "./app.vue";
@@ -21,14 +22,14 @@ Vue.use(VueClipboard);
 
 // 自动设置语言
 const navLang = navigator.language || navigator.userLanguage;
-const langs = ['zh-CN', 'zh-HK', 'en-US']
-const localLang = langs.indexOf(navLang) > -1 ? navLang : 'zh-HK'
-const currentLanguage = window.localStorage.getItem("language")
-let lang
+const langs = ['zh-CN', 'zh-HK', 'en-US'];
+const localLang = langs.indexOf(navLang) > -1 ? navLang : DEFAULT_LANGUAGE;
+const currentLanguage = window.localStorage.getItem("language");
+let lang;
 if (currentLanguage) {
   lang = currentLanguage
 } else {
-  window.localStorage.setItem('language', localLang)
+  window.localStorage.setItem('language', localLang);
   lang = localLang
 }
 Vue.config.lang = lang;

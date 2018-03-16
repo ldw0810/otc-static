@@ -809,6 +809,7 @@
       //   });
       // },
       submit() {
+        let tempFlag = false;
         if (!this.userInfo.activated) {
           this.$store.commit("showAuthEmail_setter", 1);
         } else if (!this.isUpdate) {
@@ -823,6 +824,7 @@
               content: this.$t("ad.ad_publish_repeat")
             });
           } else {
+            tempFlag = true;
           }
         } else if (!this.balanceFlag) {
           this.$alert.error({
@@ -830,8 +832,10 @@
             content: this.$t("ad.ad_credit_low")
           });
         } else {
-          const form_ref =
-            +this.adType === 0 ? this.$refs["form_buy"] : this.$refs["form_sell"];
+          tempFlag = true;
+        }
+        if (tempFlag) {
+          const form_ref = +this.adType === 0 ? this.$refs["form_buy"] : this.$refs["form_sell"];
           form_ref.validate(valid => {
             if (valid) {
               this.submitLoading = true;

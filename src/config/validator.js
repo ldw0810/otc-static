@@ -1,8 +1,9 @@
 import languageData from "../locale";
 import isString from "lodash/isString";
+import {DEFAULT_LANGUAGE} from "config/config";
 
 const language = languageData.find(
-  item => item.language === (window.localStorage.getItem("language") || "zh-HK")
+  item => item.language === (window.localStorage.getItem("language") || DEFAULT_LANGUAGE)
 ).data;
 
 // 昵称

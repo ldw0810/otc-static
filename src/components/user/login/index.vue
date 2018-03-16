@@ -41,6 +41,7 @@
   import logoDiv from "../../public/logo.vue";
   import {gt} from "../../../libs/gt";
   import ajax from "../../../libs/ajax";
+  import {DEFAULT_LANGUAGE} from "config/config";
 
   export default {
     mixins: [validateMixin("form")],
@@ -104,11 +105,16 @@
                   this.submitLoading = false;
                   if (result.data && +result.data.error === 0) {
                     this.$store.commit("saveToken", result.data.token);
+                    let ln = DEFAULT_LANGUAGE;
+                    if (["zh-HK", "zh-TW"].contains(ln)) {
+                      ln = "zh-TW";
+                    } else if (ln !== "zh-CN") {
+                      ln = "en";
+                    }
                     ajax.all([
                       this.$store.dispatch("ajax_me"),
                       this.$store.dispatch("ajax_language", {
-                        ln: localStorage.getItem("language") === "zh-CN" ? "zh-CN" :
-                          ["zh-HK", "zh-TW"].contains(localStorage.getItem("language")) ? "zh-TW" : "en"
+                        ln: ln
                       })]).then(ajax.spread((res_me, res_lan) => {
                       if (res_me.data && +res_me.data.error === 0 &&
                         res_lan.data && +res_lan.data.error === 0) {

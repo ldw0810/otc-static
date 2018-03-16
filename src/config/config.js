@@ -46,5 +46,7 @@ export const CONF_MINERSFEE = [
     fee: 0.005
   }
 ];
+export const DEFAULT_LANGUAGE = "zh-HK";  //默认语言
+
 // export const webSocketUrl = "wss://alpha.otcmaker.com:8080/";
 export default config;

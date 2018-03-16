@@ -605,6 +605,7 @@
     "100051": "ad has unfinished order",
     "100052": "ad has close",
     "100053": "withdraw cancel failed",
+    "100054": "Min limit should less than your balance",
     "888888": "Verify fail",
     "999999": "Login timeout, please login again"
   },
