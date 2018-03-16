@@ -683,7 +683,7 @@
       initTargetCurrency() {
         for (let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
           if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.currency) {
-            this.targetCurrency = CONF_DIGITAL_CURRENCY_LIST[i].targetCurrency;
+            this.form.targetCurrency = CONF_DIGITAL_CURRENCY_LIST[i].targetCurrency;
             return;
           }
         }
@@ -791,11 +791,13 @@
         // }
       },
       changeTargetCurrency(val) {
-        //tod 初始化时，调用2次接口了
+        const flag = this.form_buy.targetCurrency && this.form_sell.targetCurrency;
         this.targetCurrency = val;
-        this.getTradePrice();
-        if (!this.isUpdate) {
-          this.examineAd();
+        if (flag) {
+          this.getTradePrice();
+          if (!this.isUpdate) {
+            this.examineAd();
+          }
         }
       },
       // sellAll() {
@@ -880,9 +882,7 @@
                   //nft_id: "",
                   pay_default:
                     this.collection_default &&
-                    this.collection_default.id === this.form.collection
-                      ? 1
-                      : 0,
+                    this.collection_default.id === this.form.collection ? 1 : 0,
                   remark: this.form.remark
                 };
                 this.$store
@@ -995,13 +995,13 @@
         if (!this.userInfo.activated) {
           this.$store.commit("showAuthEmail_setter", 1);
         }
-
         this.initTargetCurrency();
         this.getPayCollections();
         this.getTradePrice();
-        this.examineAd();
-        if (this.isUpdate && this.adId) {
-          this.getAdById(this.adId);
+        if (this.isUpdate) {
+          this.adId && this.getAdById(this.adId);
+        } else {
+          this.examineAd();
         }
       }
     },
