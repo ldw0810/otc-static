@@ -301,7 +301,10 @@
     watch: {},
     computed: {
       routerQuery() {
-        const path = this.$route.query.currency.indexOf('eth') > -1
+        let path
+        if (this.$route.query.currency) {
+          path = this.$route.query.currency.indexOf('eth') > -1
+        }
         return path ? this.ad.target_currency : ''
       },
       formMoneyAmount() {
