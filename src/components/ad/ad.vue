@@ -809,11 +809,19 @@
       submit() {
         if (!this.userInfo.activated) {
           this.$store.commit("showAuthEmail_setter", 1);
-        } else if (!this.isUpdate && !this.examineAdBuyFlag || !this.examineAdSellFlag) {
-          this.$alert.error({
-            title: this.$t("public.error_title_default"),
-            content: this.$t("ad.ad_publish_repeat")
-          })
+        } else if (!this.isUpdate) {
+          if (+this.adType === 0 && !this.examineAdBuyFlag) {
+            this.$alert.error({
+              title: this.$t("public.error_title_default"),
+              content: this.$t("ad.ad_publish_repeat")
+            });
+          } else if (+this.adType === 1 && !this.examineAdSellFlag) {
+            this.$alert.error({
+              title: this.$t("public.error_title_default"),
+              content: this.$t("ad.ad_publish_repeat")
+            });
+          } else {
+          }
         } else if (!this.balanceFlag) {
           this.$alert.error({
             title: this.$t("public.error_title_default"),
