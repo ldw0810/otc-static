@@ -12,7 +12,7 @@ export const VALI_NICKNAME = {
 
 // 支付宝名称
 export const VALI_ALIPAY_NAME = {
-  min: 4,
+  min: 2,
   max: 20,
   message: language.validate.alipay_name_range
 };
@@ -24,7 +24,7 @@ export const VALI_ALIPAY_ACCOUNT = {
 };
 // 银行卡姓名
 export const VALI_CARD_HOLDER = {
-  min: 4,
+  min: 2,
   max: 20,
   message: language.validate.card_holder_range
 };
