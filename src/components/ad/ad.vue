@@ -557,10 +557,11 @@
     },
     computed: {
       disabledStatus() {
-        if (this.isUpdate) {
+        if(!this.isUpdate) {
+          return !this.validate || (+this.adType === 0 ? !this.examineAdBuyFlag : !this.examineAdSellFlag) || !this.balanceFlag
+        } else {
           return !this.validate || !this.balanceFlag
         }
-        return !this.validate || (+this.adType === 0 ? !this.examineAdBuyFlag : !this.examineAdSellFlag) || !this.balanceFlag
       },
       userInfo() {
         return this.$store.state.userInfo;
@@ -778,7 +779,9 @@
         //tod 初始化时，调用2次接口了
         this.targetCurrency = val;
         this.getTradePrice();
-        this.examineAd();
+        if(!this.isUpdate) {
+          this.examineAd();
+        }
       },
       // sellAll() {
       //   this.$nextTick(() => {
