@@ -377,10 +377,12 @@
             id: this.id
           })
           .then(res => {
-
             if (res.data && +res.data.error === 0) {
               this.ad = res.data.info;
               this.isSelfOrder = (this.ad.member.id === this.userInfo.id)
+              if (res.data.info.status === 'closed')  {
+                this.$goBack()
+              }
             } else {
               // this.$Message.error(this.$t("order.order_ad_info_request_fail"));
             }
