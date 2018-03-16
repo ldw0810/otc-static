@@ -85,7 +85,9 @@
   import { VALI_NICKNAME } from 'config/validator'
   import validateMixin from "@/components/mixins/validate-mixin";
   import {gt} from "../../libs/gt";
-
+  
+  let isValidNickName = false
+  let isValidEmail = false
   export default {
     mixins: [validateMixin("form")],
     data() {
@@ -99,25 +101,29 @@
           this.validFlag.userName = false;
           callback(new Error(VALI_NICKNAME.message));
         } else {
-          this.$store.dispatch("ajax_verified_nickname", {
-            nickname: value
-          }).then(res => {
-            if (res.data && +res.data.error === 0) {
-              if (!res.data.exist) {
-                this.validFlag.userName = true;
-                callback();
+          if (!isValidNickName) {
+            this.$store.dispatch("ajax_verified_nickname", {
+              nickname: value
+            }).then(res => {
+              if (res.data && +res.data.error === 0) {
+                if (!res.data.exist) {
+                  this.validFlag.userName = true;
+                  isValidNickName = true
+                  callback();
+                } else {
+                  this.validFlag.userName = false;
+                  callback(new Error(this.$t("user.userName_repeat")));
+                }
               } else {
                 this.validFlag.userName = false;
-                callback(new Error(this.$t("user.userName_repeat")));
+                callback(new Error(this.$t("user.url_request_fail")));
               }
-            } else {
+            }).catch(err => {
               this.validFlag.userName = false;
-              callback(new Error(this.$t("user.url_request_fail")));
-            }
-          }).catch(err => {
-            this.validFlag.userName = false;
-            callback(new Error(this.$t("public.url_request_fail")));
-          });
+              callback(new Error(this.$t("public.url_request_fail")));
+            });
+          }
+          callback()
         }
       };
       const validateEmail = (rule, value, callback) => {
@@ -132,6 +138,7 @@
           this.validFlag.email = false;
           callback(new Error(this.$t("user.email_notValid")));
         } else {
+          if (!isValidEmail) {
           this.$store
             .dispatch("ajax_verified_email", {
               email: value
@@ -139,6 +146,7 @@
             .then(res => {
               if (res.data && +res.data.error === 0) {
                 if (!res.data.exist) {
+                  isValidEmail = true
                   this.validFlag.email = true;
                   callback();
                 } else {
@@ -154,6 +162,8 @@
               this.validFlag.email = false;
               callback(new Error(this.$t("public.url_request_fail")));
             });
+          }
+          callback()
         }
       };
       const validatePassword = (rule, value, callback) => {
