@@ -683,7 +683,7 @@
       initTargetCurrency() {
         for (let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
           if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.currency) {
-            this.form.targetCurrency = CONF_DIGITAL_CURRENCY_LIST[i].targetCurrency;
+            this.targetCurrency = CONF_DIGITAL_CURRENCY_LIST[i].targetCurrency;
             return;
           }
         }
@@ -791,13 +791,10 @@
         // }
       },
       changeTargetCurrency(val) {
-        const flag = this.form_buy.targetCurrency && this.form_sell.targetCurrency;
         this.targetCurrency = val;
-        if (flag) {
-          this.getTradePrice();
-          if (!this.isUpdate) {
-            this.examineAd();
-          }
+        this.getTradePrice();
+        if (!this.isUpdate) {
+          this.examineAd();
         }
       },
       // sellAll() {
@@ -831,10 +828,10 @@
             title: this.$t("public.error_title_default"),
             content: this.$t("ad.ad_credit_low")
           });
-        } else {
+        }  else {
           tempFlag = true;
         }
-        if (tempFlag) {
+        if(tempFlag) {
           const form_ref = +this.adType === 0 ? this.$refs["form_buy"] : this.$refs["form_sell"];
           form_ref.validate(valid => {
             if (valid) {
