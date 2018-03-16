@@ -65,7 +65,7 @@
           <Row>
             <i-col span='10'>
               <Select class="input" v-model="form_buy.targetCurrency" :placeholder='$t("public.select")'
-                      @on-change="changeTargetCurrency" v-if="+adType === 0">
+                      @on-change="changeTargetCurrency" :disabled="isUpdate" v-if="+adType === 0">
                 <Option v-for="item in targetCurrencyList" :value="item" :key="item">
                   {{$t("public['" + item + "']")}}&nbsp;&nbsp;{{$t("public['" + item + "_text']")}}
                 </Option>
@@ -231,7 +231,7 @@
           <Row>
             <i-col span='10'>
               <Select class="input" v-model="form_sell.targetCurrency" @on-change="changeTargetCurrency"
-                      v-if="+adType === 1">
+                      :disabled="isUpdate" v-if="+adType === 1">
                 <Option v-for="item in targetCurrencyList" :value="item" :key="item">
                   {{$t("public['" + item + "']")}}&nbsp;&nbsp;{{$t("public['" + item + "_text']")}}
                 </Option>
@@ -809,11 +809,19 @@
       submit() {
         if (!this.userInfo.activated) {
           this.$store.commit("showAuthEmail_setter", 1);
-        } else if (!this.isUpdate && !this.examineAdBuyFlag || !this.examineAdSellFlag) {
-          this.$alert.error({
-            title: this.$t("public.error_title_default"),
-            content: this.$t("ad.ad_publish_repeat")
-          })
+        } else if (!this.isUpdate) {
+          if (+this.adType === 0 && !this.examineAdBuyFlag) {
+            this.$alert.error({
+              title: this.$t("public.error_title_default"),
+              content: this.$t("ad.ad_publish_repeat")
+            });
+          } else if (+this.adType === 1 && !this.examineAdSellFlag) {
+            this.$alert.error({
+              title: this.$t("public.error_title_default"),
+              content: this.$t("ad.ad_publish_repeat")
+            });
+          } else {
+          }
         } else if (!this.balanceFlag) {
           this.$alert.error({
             title: this.$t("public.error_title_default"),
@@ -830,16 +838,12 @@
                   id: this.adId,
                   max: this.form.ceiling,
                   min: this.form.floor,
-                  price:
-                    +this.adType === 0 ? this.form.maxPrice : this.form.minPrice,
+                  price: +this.adType === 0 ? this.form.maxPrice : this.form.minPrice,
                   margin: this.form.premium,
-                  pay_kind:
-                    +this.adType === 0 ? this.form.payment : this.form.collection,
+                  pay_kind: +this.adType === 0 ? this.form.payment : this.form.collection,
                   pay_default:
                     this.collection_default &&
-                    this.collection_default.id === this.form.collection
-                      ? 1
-                      : 0,
+                    this.collection_default.id === this.form.collection ? 1 : 0,
                   remark: this.form.remark
                 };
                 this.$store
