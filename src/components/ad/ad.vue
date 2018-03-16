@@ -791,13 +791,10 @@
         // }
       },
       changeTargetCurrency(val) {
-        const flag = this.form_buy.targetCurrency && this.form_sell.targetCurrency;
         this.targetCurrency = val;
-        if (flag) {
-          this.getTradePrice();
-          if (!this.isUpdate) {
-            this.examineAd();
-          }
+        this.getTradePrice();
+        if (!this.isUpdate) {
+          this.examineAd();
         }
       },
       // sellAll() {
