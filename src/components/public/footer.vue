@@ -33,162 +33,171 @@
   </div>
 </template>
 <script type="es6">
-  import languageData from "../../locale";
+import languageData from "../../locale";
 
-  export default {
-    name: "footerBar",
-    data() {
-      return {
-        footerList: [
-          {
-            name: this.$t("public.about"),
-            url:
-              "https://otcmaker.zendesk.com/hc/zh-cn/articles/360001934074"
-          },
-          {
-            name: "|"
-          },
-          {
-            name: this.$t("public.explain"),
-            url:
-              "https://otcmaker.zendesk.com/hc/zh-cn/articles/360001929453"
-          },
-          {
-            name: "|"
-          },
-          {
-            name: this.$t("public.helpCenter"),
-            url:
-              "https://otcmaker.zendesk.com/hc/zh-cn/categories/360000187674"
-          },
-          {
-            name: "|"
-          }
-        ],
-        languageList: languageData,
-        isFooter: false,
-        screenWidth: document.body.clientWidth
-      };
-    },
-    computed: {
-      languageSelectIndex: function () {
-        let index = 0;
-        for (let i = 0; i < this.languageList.length; i++) {
-          if (
-            this.languageList[i].language ===
-            (window.localStorage.getItem("language") || "zh-HK")
-          ) {
-            index = i;
-          }
+const domain = `https://otcmaker.zendesk.com/hc/${(window.localStorage.getItem("language") || "zh-TW").replace('HK', 'TW')
+    .toLowerCase()}`
+
+export default {
+  name: "footerBar",
+  data() {
+    return {
+      footerList: [
+        {
+          name: this.$t("public.about"),
+          url:  `${domain}/articles/360001934074`
+        },
+        {
+          name: "|"
+        },
+        {
+          name: this.$t("public.explain"),
+          url: `${domain}/articles/360001929453`
+        },
+        {
+          name: "|"
+        },
+        {
+          name: this.$t("public.helpCenter"),
+          url: `${domain}/categories/360000187674`
+        },
+        {
+          name: "|"
         }
-        return index;
-      },
-      footer_is_login() {
-        return this.$store.state.footer_is_login;
-      },
+      ],
+      languageList: languageData,
+      isFooter: false,
+      screenWidth: document.body.clientWidth
+    };
+  },
+  computed: {
+    languageSelectIndex: function() {
+      let index = 0;
+      for (let i = 0; i < this.languageList.length; i++) {
+        if (
+          this.languageList[i].language ===
+          (window.localStorage.getItem("language") || "zh-HK")
+        ) {
+          index = i;
+        }
+      }
+      return index;
     },
-    watch: {},
-    methods: {
-      changeLanguage(index) {
-        if (index === this.languageSelectIndex) {
-          return false;
-        } else {
-          if (this.$store.state.userToken) {
-            this.$store.dispatch("ajax_language", {
-              ln: this.languageList[index].language === "zh-CN" ? "zh-CN" :
-                ["zh-HK", "zh-TW"].contains(this.languageList[index].language) ? "zh-TW" : "en"
-            }).then(res => {
+    footer_is_login() {
+      return this.$store.state.footer_is_login;
+    }
+  },
+  watch: {},
+  methods: {
+    changeLanguage(index) {
+      if (index === this.languageSelectIndex) {
+        return false;
+      } else {
+        if (this.$store.state.userToken) {
+          this.$store
+            .dispatch("ajax_language", {
+              ln:
+                this.languageList[index].language === "zh-CN"
+                  ? "zh-CN"
+                  : ["zh-HK", "zh-TW"].contains(
+                      this.languageList[index].language
+                    )
+                    ? "zh-TW"
+                    : "en"
+            })
+            .then(res => {
               if (res.data && +res.data.error === 0) {
-                window.localStorage.setItem("language", this.languageList[index].language);
+                window.localStorage.setItem(
+                  "language",
+                  this.languageList[index].language
+                );
                 this.$goRefresh();
               } else {
                 return false;
               }
-            }).catch(err => {
+            })
+            .catch(err => {
               return false;
             });
-          } else {
-            window.localStorage.setItem("language", this.languageList[index].language);
-            this.$goRefresh();
-          }
-        }
-      },
-      goFooter(index) {
-        if (+index === 4) {
-          if (this.$store.state.userToken) {
-            this.$store
-              .dispatch("ajax_zendesk")
-              .then(res => {
-                if (res.data && +res.data.error === 0) {
-                  window.location.href = res.data.path;
-                } else {
-                }
-              })
-              .catch(err => {
-              });
-          } else {
-            window.location.href =
-              (window.localStorage.getItem("language") || "zh-CN")
-                .toLowerCase()
-                .indexOf("zh") > -1
-                ? "https://otcmaker.zendesk.com"
-                : "https://otcmaker.zendesk.com/hc/en-us";
-          }
-        } else if (this.footerList[index].url) {
-          window.location.href = this.footerList[index].url;
+        } else {
+          window.localStorage.setItem(
+            "language",
+            this.languageList[index].language
+          );
+          this.$goRefresh();
         }
       }
+    },
+    goFooter(index) {
+      if (+index === 4) {
+        if (this.$store.state.userToken) {
+          this.$store
+            .dispatch("ajax_zendesk")
+            .then(res => {
+              if (res.data && +res.data.error === 0) {
+                window.location.href = res.data.path;
+              } else {
+              }
+            })
+            .catch(err => {});
+        } else {
+          window.location.href = `${domain}`
+        }
+      } else if (this.footerList[index].url) {
+        window.location.href = this.footerList[index].url;
+      }
     }
-  };
+  }
+};
 </script>
 <style lang='scss' scoped>
-  .footerBar {
-    min-width: 1200px;
-    width: 100%;
-    background: #2b2b30;
-    color: #999999;
-  }
+.footerBar {
+  min-width: 1200px;
+  width: 100%;
+  background: #2b2b30;
+  color: #999999;
+}
 
-  .footer-inner {
-    width: 1170px;
-    margin: 0 auto;
-  }
+.footer-inner {
+  width: 1170px;
+  margin: 0 auto;
+}
 
-  .login {
-    background: transparent;
-    color: #ffffff;
-  }
+.login {
+  background: transparent;
+  color: #ffffff;
+}
 
-  .copyright {
-    height: 60px;
-    line-height: 60px;
-    font-size: 14px;
-    float: left;
-  }
+.copyright {
+  height: 60px;
+  line-height: 60px;
+  font-size: 14px;
+  float: left;
+}
 
-  .footerMenuBar {
-    float: right;
-  }
+.footerMenuBar {
+  float: right;
+}
 
-  .footerMenuDiv {
-    display: block;
-    min-width: 35px;
-    float: left;
-    height: 60px;
-    line-height: 60px;
-    font-size: 14px;
-    text-align: center;
-    padding-right: 20px;
-  }
+.footerMenuDiv {
+  display: block;
+  min-width: 35px;
+  float: left;
+  height: 60px;
+  line-height: 60px;
+  font-size: 14px;
+  text-align: center;
+  padding-right: 20px;
+}
 
-  .footerMenu {
-    cursor: pointer;
-  }
+.footerMenu {
+  cursor: pointer;
+}
 
-  .footerMenu:hover,
-  .footerMenu:active,
-  .footerMenu:visited {
-    /* background-image: -webkit-gradient(
+.footerMenu:hover,
+.footerMenu:active,
+.footerMenu:visited {
+  /* background-image: -webkit-gradient(
                   linear,
                   left top,
                   right bottom,
@@ -197,81 +206,81 @@
                 );
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent; */
-    color: #fff;
-  }
+  color: #fff;
+}
 
-  .footerMenu:hover:after,
-  .footerMenu:active:after,
-  .footerMenu:visited:after {
-    display: block;
-    content: "";
-    left: 3px;
-    right: 3px;
-    margin-top: -3px;
-    height: 2px;
-    /* background-image: linear-gradient(-134deg, #0bbfd5 0%, #6dd7b2 100%); */
-    background-color: #fff;
-  }
+.footerMenu:hover:after,
+.footerMenu:active:after,
+.footerMenu:visited:after {
+  display: block;
+  content: "";
+  left: 3px;
+  right: 3px;
+  margin-top: -3px;
+  height: 2px;
+  /* background-image: linear-gradient(-134deg, #0bbfd5 0%, #6dd7b2 100%); */
+  background-color: #fff;
+}
 
-  .language {
-    float: right;
-    height: 60px;
-    line-height: 60px;
-    font-size: 14px;
-    min-width: 35px;
-    text-align: center;
-    padding: 0 0 25px 0;
-    display: inline-block;
-    position: relative;
-  }
+.language {
+  float: right;
+  height: 60px;
+  line-height: 60px;
+  font-size: 14px;
+  min-width: 35px;
+  text-align: center;
+  padding: 0 0 25px 0;
+  display: inline-block;
+  position: relative;
+}
 
-  .language div {
-    float: left;
-  }
+.language div {
+  float: left;
+}
 
-  .language div:first-of-type {
-    padding-right: 5px;
-  }
+.language div:first-of-type {
+  padding-right: 5px;
+}
 
-  .languageText,
-  .languagePullDown {
-    cursor: pointer;
-  }
+.languageText,
+.languagePullDown {
+  cursor: pointer;
+}
 
-  .languageIcon {
-    /* margin-top: 3px; */
-    float: left;
-    img {
-      vertical-align: middle;
-    }
+.languageIcon {
+  /* margin-top: 3px; */
+  float: left;
+  img {
+    vertical-align: middle;
   }
+}
 
-  .footer {
-    &-navbar {
-      &-dropdown {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 48px;
-        font-size: 14px !important;
-        &:last-of-type {
-          &::after {
-            display: none;
-          }
+.footer {
+  &-navbar {
+    &-dropdown {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 48px;
+      font-size: 14px !important;
+      &:last-of-type {
+        &::after {
+          display: none;
         }
-        &:after {
-          content: "";
-          position: absolute;
-          bottom: 0;
-          left: 5px;
-          width: 80%;
-          height: 1px;
-          left: 50%;
-          transform: translateX(-50%);
-          background-color: #e9edf1;
-        }
+      }
+      &:after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 5px;
+        width: 80%;
+        height: 1px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #e9edf1;
       }
     }
   }
+}
 </style>
