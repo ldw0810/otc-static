@@ -7,7 +7,6 @@
        overflow: auto; 
        overflow-x: hidden; 
        padding: 0;
-       @extend %scrollbar;
    }
    .loading{ width: 100%; height: 40px; position: relative; overflow: hidden; text-align: center; margin: 5px 0 ; color: #999; font-size: 13px;}
    .loading-icon{color: #707070;};
@@ -80,7 +79,7 @@
             <div class="loader">加载中...</div>
         </div>
 
-        <div :style="'min-height:' + realMinHeight + 'px; overflow-x:hidden'">
+        <div >
             <slot></slot>
         </div>
 

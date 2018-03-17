@@ -1,9 +1,9 @@
 <template>
   <div class="wxchat-container" :style="{backgroundColor: wrapBg}">
-    <div class="window" id="window-view-container" :style="{maxHeight: maxHeight + 'px', width: 'auto'}">
+    <div class="window" id="window-view-container" ref="scroll" :style="{height: maxHeight + 'px', width: 'auto'}">
       <!-- main -->
-      <ScrollLoader ref="scroll" :minHeight="minHeight" class="container-main"
-                    :style="{maxHeight: maxHeight-50 + 'px'}">
+      <ScrollLoader class="container-main"
+                    >
         <div class="message" ref="message">
           <ul>
             <li v-for="(chat, index) in msgList" :key="index" :class="{'an-move-right': +chat.type === 0,
@@ -16,7 +16,6 @@
                 <p class="time" v-if="chat.timeFlag">
                   <span v-text="new Date(chat.time).format('yyyy/MM/dd hh:mm:ss')"></span>
                 </p>
-                <!--<img class="avatar" width="45" height="45" :src="chat.type == 0 ? owner.avatar : contact.avatar">-->
                 <div class="avatar">
                   <Avator :size='45' :isStatus='false'/>
                 </div>
@@ -27,17 +26,12 @@
                     <Icon type="alert"></Icon>
                   </span>
                 </span>
-                <!-- <img class="avatar" width="45" height="45" src="../../static/images/DefaultHead.jpg"> -->
                 <!-- 文本 -->
-
                 <div class="text" v-html="toEmotion(chat.data)"></div>
                 <!-- 图片 -->
                 <div class="text" v-if="+chat.type === 3">
                   <img :src="chat.data" class="image" :alt="$t('order.order_chat_img')">
                 </div>
-                <!--&lt;!&ndash; 其他 &ndash;&gt;-->
-                <!--<div class="text" v-text="'[$t(\'order_chat_type_nonsupport\'):'+ chat.type +']\n\r' + chat.data" v-else>-->
-                <!--</div>-->
               </div>
             </li>
           </ul>
@@ -164,7 +158,7 @@
       scrollToBottom() {
         this.$nextTick(() => {
           if (this.$refs.scroll) {
-            this.$refs.scroll.$el.scrollTop = this.$refs.scroll.$el.scrollHeight;
+            this.$refs.scroll.scrollTop = this.$refs.scroll.scrollHeight;
           }
         });
       },
@@ -340,7 +334,8 @@
       htmlEncode(str) {
         let ele = document.createElement("span");
         ele.appendChild(document.createTextNode(str));
-        return ele.innerHTML;
+        // 正则匹配所有的html tags，并删除
+        return ele.innerHTML.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '');
       },
       //解析
       htmlDecode(str) {
@@ -484,15 +479,8 @@
   }
 </style>
 
-<style scoped>
+<style lang='scss' scoped>
   .wxchat-container {
-    /*width: 100%;*/
-    /*height: 100%;*/
-    /*z-index: 100;*/
-    /*position: fixed;*/
-    /*left: 0;*/
-    /*top: 0;*/
-    /*overflow: hidden;*/
   }
 
   .shadow {
@@ -513,7 +501,8 @@
     box-shadow: inset 0 0 5px 0 rgba(0, 0, 0, 0.1);
     border-radius: 2px;
     margin: 0 auto;
-    overflow: hidden;
+    overflow: auto;
+    @extend %scrollbar;
     padding: 0;
     height: 100%;
     position: relative;
@@ -578,10 +567,7 @@
   }
 
   .message {
-    height: 100%;
     padding: 10px 15px;
-    overflow-y: auto;
-    min-height: 730px;
   }
 
   .message li {
