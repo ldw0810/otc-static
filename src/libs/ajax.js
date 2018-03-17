@@ -10,7 +10,7 @@ import {DEFAULT_LANGUAGE} from "config/config";
  * Responsible for all HTTP requests.
  */
 
-axios.defaults.timeout = 15000;
+axios.defaults.timeout = 30000;
 axios.defaults.baseURL = env === 'development' ? '/' : "https://apialpha.otcmaker.com";
 
 function languageSelectIndex() {

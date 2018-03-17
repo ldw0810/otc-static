@@ -5,6 +5,8 @@
         class-name='u-flex u-flex-center-middle'
         v-model="visible"
         :closable='false'
+        :mask-closable="false"
+        :transition-names="transition"
         title="">
         <header slot="header" class='alert-header'>{{title}}</header>
         <div class="alert-content">
@@ -25,7 +27,9 @@ export default {
       visible: false,
       title: this.$t('public.error_title_default'),
       content: '',
-      okText: this.$t('public.confirm')
+      okText: this.$t('public.confirm'),
+      transition: ['ease', 'fade'],
+      callback: () =>{}
     }
   },
   methods: {
@@ -48,7 +52,7 @@ export default {
     border: 0;
     margin: 0;
   }
-  /deep/ .ivu-modal-header, {
+  /deep/ .ivu-modal-header {
     margin-bottom: 15px;
     padding: 0;
     text-align: center;

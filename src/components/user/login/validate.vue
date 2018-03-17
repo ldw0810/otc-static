@@ -191,9 +191,13 @@
                 this.$refs.sendCodeButton.refresh();
               }
             }).catch(err => {
-              this.submitPhoneLoading = false;
-              // this.$Message.error(this.$t("user.auth_phone_fail"));
-              this.$refs.sendCodeButton.refresh();
+              if (+err.error === 100036) {
+                this.$goRouter("/user/login");
+              } else {
+                this.submitPhoneLoading = false;
+                // this.$Message.error(this.$t("user.auth_phone_fail"));
+                this.$refs.sendCodeButton.refresh();
+              }
             });
           } else {
             this.$alert.error({

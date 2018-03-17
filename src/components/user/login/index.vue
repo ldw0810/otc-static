@@ -133,7 +133,7 @@
                     this.$alert.error({
                       title: this.$t("public.error_title_default"),
                       content: this.$t("user.login_error")
-                    })
+                    });
                   }
                 }).catch(err => {
                   this.submitLoading = false;

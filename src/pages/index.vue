@@ -57,10 +57,19 @@
               this.$alert.error({
                 title: this.$t("public.error_title_default"),
                 content: this.$t("asset.asset_withdraw_confirm_fail")
-              })
+              });
             }
           }).catch(err => {
             // this.$Message.error(this.$t("asset.asset_withdraw_confirm_fail"));
+            let tempData = this.$route.query;
+            console.log(JSON.stringify(tempData));
+            delete tempData.withdraw_token;
+            console.log(JSON.stringify(tempData));
+            this.$goRouter(this.$route, tempData);
+            this.$alert.error({
+              title: this.$t("public.error_title_default"),
+              content: this.$t("asset.asset_withdraw_confirm_fail"),
+            });
           });
         } else if (this.$route.query.invitationCode) {
 //                    window.localStorage.setItem("invitationCode", this.$route.query.invitationCode);
