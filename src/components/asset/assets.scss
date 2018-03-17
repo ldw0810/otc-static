@@ -103,40 +103,14 @@
     background-color: #fff;
     margin-bottom: 20px;
   }
-  &-tabs {
-    height: 64px;
-    background-color: #f4f6f9;
-    display: flex;
-    &-item {
-      padding: 20px 70px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      .bottom-border{
-        display: none;
-        flex-shrink: 0;
-      }
-      .link{
-        display: inline-block;
-        font-size: 16px;
-        color: #333333;
-        margin-bottom: 4px;
-      }
-    }
-    &-item-active {
-      background-color: #fff;
-      .bottom-border {
-        display: block;
-        background-image: linear-gradient(-134deg, #0BBFD5 0%, #6DD7B2 100%);
-        width: 32px;
-        height: 2px;
-      }
+  .assets-tab {
+    /deep/ .tab-bar {
+      box-shadow: none;
     }
   }
   &-recharge {   
     padding: 56px 70px 42px 50px;
+    min-height: 248px;
     display: flex;
     &-left {
       flex:1;
