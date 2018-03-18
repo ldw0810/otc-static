@@ -32,13 +32,18 @@
           </li>
         </ul>
       </nav>
+      <nav class="header-frozen" v-else>
+        <div class="header-frozen-text">
+          {{$t("user.user_frozen")}}
+        </div>
+      </nav>
       <nav class='header-nav header-login' v-if='!userToken'>
         <ul class='header-navbar'>
           <li class='header-navbar-item' :class="{'active': item.index === header_index}"
               v-for='(item, index) in logins' :key='index'>
             <Dropdown>
-              <div class='header-navbar-item-wrapper' @click='goMenu(item)'>
-                <a class='header-navbar-item-link' href="javascript:void(0)">
+              <div class='header-navbar-item-wrapper' @click='goMenu(item)' v-if="item.url">
+                <a class='header-navbar-item-link' href="javascript:void(0)" v-if="item.url">
                   {{item.title}}
                 </a>
                 <Icon class='header-navbar-item-icon header-navbar-item-icon-append' type="arrow-down-b"
@@ -152,20 +157,20 @@
                   <template v-for='(childItem, i) in item.children'>
                     <template v-if='i === 1'>
                       <DropdownItem :class="{'active': childItem.index === header_index}"
-                                  :key='i'
-                                  v-if='!$store.state.userInfo.soft_disabled'
-                                  >
-                      <a @click='goMenu(childItem)'>{{childItem.title}}</a>
-                    </DropdownItem>
-                    </template>
-                    <template v-else>
-                      <DropdownItem :class="{'active': childItem.index === header_index}"
-                                  :key='i'
-                                  >
+                                    :key='i'
+                                    v-if='!$store.state.userInfo.soft_disabled'
+                      >
                         <a @click='goMenu(childItem)'>{{childItem.title}}</a>
                       </DropdownItem>
                     </template>
-                  </template>                 
+                    <template v-else>
+                      <DropdownItem :class="{'active': childItem.index === header_index}"
+                                    :key='i'
+                      >
+                        <a @click='goMenu(childItem)'>{{childItem.title}}</a>
+                      </DropdownItem>
+                    </template>
+                  </template>
                 </DropdownMenu>
               </Dropdown>
             </li>
@@ -296,7 +301,7 @@
       ajax_source() {
         return this.$store.state.ajax_source.me;
       },
-      code(){
+      code() {
         return this.$store.state.code;
       },
       timeout: {
@@ -308,7 +313,7 @@
         }
       }
     },
-    watch:{
+    watch: {
       code(val) {
         val && this.init();
       }
@@ -416,7 +421,7 @@
     },
     created() {
       this.$store.dispatch("ajax_currency_code").then(res => {
-        if(res.data && +res.data.error === 0) {
+        if (res.data && +res.data.error === 0) {
           this.$store.commit("code_setter", res.data);
         } else {
         }
@@ -467,6 +472,16 @@
     &-nav {
       float: left;
       font-size: 16px;
+    }
+    &-frozen {
+      float: left;
+      font-size: 16px;
+      &-text {
+        display: flex;
+        height: $height;
+        color: red;
+        align-items: center;
+      }
     }
     &-login {
       float: right;
