@@ -296,6 +296,7 @@
     "asset_status": "Status",
     "asset_recharge_status_submitted": "Submitted",
     "asset_recharge_status_submitting": "Submitting",
+    "asset_recharge_status_accept": "Accept",
     "asset_recharge_status_accepted": "Accepted",
     "asset_recharge_status_cancelled": "Cancelled",
     "asset_recharge_status_rejected": "Rejected",
