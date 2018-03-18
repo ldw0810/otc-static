@@ -42,10 +42,8 @@
           <li class='header-navbar-item' :class="{'active': item.index === header_index}"
               v-for='(item, index) in logins' :key='index'>
             <Dropdown>
-              <div class='header-navbar-item-wrapper' @click='goMenu(item)' v-if="item.url">
-                <a class='header-navbar-item-link' href="javascript:void(0)" v-if="item.url">
-                  {{item.title}}
-                </a>
+              <div :class="{'header-navbar-item-wrapper': item.url}" @click="goMenu(item)">
+                <div class="header-navbar-item-link">{{item.title}}</div>
                 <Icon class='header-navbar-item-icon header-navbar-item-icon-append' type="arrow-down-b"
                       v-if='item.children.length'></Icon>
               </div>
