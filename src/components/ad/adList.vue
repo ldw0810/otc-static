@@ -191,7 +191,6 @@
           this.$store.commit("showAuthEmail_setter", 1);
         } else {
           this.$goRouter("/detail", {
-            adType: this.adType,
             id: id
           });
         }

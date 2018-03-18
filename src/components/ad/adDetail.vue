@@ -102,7 +102,8 @@
           </Row>
           <FormItem class="formItem submit">
             <i-button class="deal-exchange-btn" type='primary' :disabled='!validate || isSelfOrder' @click="submit">
-              {{isSelfOrder ? $t('order.order_join_own_otc_ad') : +adType === 0 ? $t('order.order_buy_confirm') : $t('order.order_sell_confirm')}}
+              {{isSelfOrder ? $t('order.order_join_own_otc_ad') : +adType === 0 ? $t('order.order_buy_confirm') :
+              $t('order.order_sell_confirm')}}
             </i-button>
 
           </FormItem>
@@ -120,7 +121,7 @@
 
     <Modal v-model="confirmFlag.placeOrder" class-name="m-ivu-modal"
            width='480'
-           @on-visible-change = 'resetActionState'
+           @on-visible-change='resetActionState'
            :mask-closable="true" :closable="false"
            v-if="ad.id">
       <logoDiv style="margin: 0"/>
@@ -189,7 +190,7 @@
                 v-html='$t("order.order_complete_info").format(formNumber, $t("public[\"" + ad.currency + "\"]"))'></span>
           <a @click="$goRouter('/myOrder', {status: 1})">{{$t("order.order_show_order")}}</a>
           <span v-html='$t("public.or")'></span>
-          <a @click="$goRouter('/asset??currency=' + routerQuery)">{{$t("order.order_show_asset")}}</a>
+          <a @click="$goRouter('/asset?currency=' + routerCurrency)">{{$t("order.order_show_asset")}}</a>
         </div>
         <span>
           <i-button class="submit-button-2" type="primary" @click="doOper">
@@ -300,10 +301,6 @@
     },
     watch: {},
     computed: {
-      routerQuery() {
-        const type = this.$route.query.adType
-        return type === 1 ? 'dai' : 'eth'
-      },
       formMoneyAmount() {
         return this.$fixDecimalAuto(this.form.moneyAmount || 0, this.ad.target_currency)
       },
@@ -314,7 +311,10 @@
         return this.$store.state.userInfo;
       },
       adType() {
-        return +(this.$route.query.adType || 0);
+        return this.ad.op_type === "sell" ? 0 : 1;
+      },
+      routerCurrency() {
+        return this.adType === 1 ? 'dai' : 'eth';
       },
       id() {
         return this.$route.query.id;
@@ -372,26 +372,23 @@
         this.$router.go(-1);
       },
       getInfo() {
-        this.$store
-          .dispatch("ajax_get_ad", {
-            id: this.id
-          })
-          .then(res => {
-            if (res.data && +res.data.error === 0) {
-              this.ad = res.data.info;
-              this.isSelfOrder = (this.ad.member.id === this.userInfo.id)
-              if (res.data.info.status === 'closed')  {
-                this.$goBack()
-              }
-            } else {
-              // this.$Message.error(this.$t("order.order_ad_info_request_fail"));
+        this.$store.dispatch("ajax_get_ad", {
+          id: this.id
+        }).then(res => {
+          if (res.data && +res.data.error === 0) {
+            this.ad = res.data.info;
+            this.isSelfOrder = (this.ad.member.id === this.userInfo.id);
+            if (res.data.info.status === 'closed') {
+              this.$goBack();
             }
-          })
-          .catch(err => {
-            if (err.error === '100021') {
-              this.$goBack()
-            }
-          });
+          } else {
+            // this.$Message.error(this.$t("order.order_ad_info_request_fail"));
+          }
+        }).catch(err => {
+          if (err.error === '100021') {
+            this.$goBack();
+          }
+        });
       },
       submit() {
         if (this.ad.member.id !== this.userInfo.id) {
