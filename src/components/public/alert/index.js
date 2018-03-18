@@ -20,7 +20,7 @@ let alertInstance = function(options) {
     instance.onClose = options.onClose
   }
   return instance
-}
+};
 
 alertInstance.error = function(options) {
   const instance = alertInstance(options);

@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     close($event, callback) {
-      this.onClose()
+      this.onClose();
       this.visible = false
     },
     onClose() {}

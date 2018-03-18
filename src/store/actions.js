@@ -1,6 +1,7 @@
 import ajax from "../libs/ajax"
 import queryString from 'querystring'   //post请求转码
 import store from "../store/store"
+import {CHAT_URL} from "config/config"
 
 const http = {
   get: function (url, requestJson, config) {
@@ -133,7 +134,7 @@ export default {
     store.commit("ajax_source_setter", {
       chat: source
     });
-    return http.get("https://notice.otcmaker.com/chat", requestData, {
+    return http.get(CHAT_URL, requestData, {
       timeout: 90000,
       cancelToken: source.token
     });

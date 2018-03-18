@@ -48,5 +48,5 @@ export const CONF_MINERSFEE = [
 ];
 export const DEFAULT_LANGUAGE = "zh-HK";  //默认语言
 
-// export const webSocketUrl = "wss://alpha.otcmaker.com:8080/";
+export const CHAT_URL = "https://notice.otcmaker.com/chat"; //聊天接口URL
 export default config;
