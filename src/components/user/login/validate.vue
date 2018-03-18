@@ -183,11 +183,16 @@
                 })).catch(err => {
                   // this.$Message.error(this.$t("user.userInfo_response_none"));
                 });
+              } else if (res.data && +res.data.error === 100049) {
+                this.$alert.error({
+                  title: this.$t("public.error_title_default"),
+                  content: this.$t("user.user_frozen")
+                });
               } else {
                 this.$alert.error({
                   title: this.$t("public.error_title_default"),
                   content: this.$t("user.auth_phone_fail")
-                })
+                });
                 this.$refs.sendCodeButton.refresh();
               }
             }).catch(err => {

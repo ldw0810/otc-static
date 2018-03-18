@@ -54,13 +54,12 @@ axios.interceptors.response.use(
           });
         } else if (+error.response.data.error === 100031) {
           // store.commit("showAuthEmail_setter", 1);
-        } else if ([100017, 100036, 100038].contains(+error.response.data.error)) {
-        } else if(errMsg && +error.response.data.error !== 100021){
+        } else if ([100017, 100021, 100036, 100038].contains(+error.response.data.error)) {
+        } else {
           Alert.error({
             title: languageData[index].data.public.error_title_default,
             content: errMsg
           });
-        } else {
         }
       }
     } else if(error.message) {

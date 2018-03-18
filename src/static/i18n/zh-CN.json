@@ -277,7 +277,8 @@
     "passwordSetting": "密码相关",
     "authSetting": "二次验证",
     "email_not_activated": "邮箱未验证",
-    "email_not_reg": "邮箱未注册"
+    "email_not_reg": "邮箱未注册",
+    "user_frozen": "您的账号已被冻结，如需帮助，请联系客服"
   },
   "asset": {
     "asset_resend_email": "重发邮件",

@@ -277,7 +277,8 @@
     "passwordSetting": "密碼相關",
     "authSetting": "二次驗證",
     "email_not_activated": "郵箱未驗證",
-    "email_not_reg": "郵箱未註冊"
+    "email_not_reg": "郵箱未註冊",
+    "user_frozen": "您的賬號已被凍結，如需幫助，請聯繫客服"
   },
   "asset": {
     "asset_resend_email": "重發郵件",
