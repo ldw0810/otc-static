@@ -294,7 +294,7 @@
     "asset_number": "數量",
     "asset_hashcode": "交易哈希",
     "asset_status": "狀態",
-    "asset_recharge_status_submitted": "受理中",
+    "asset_recharge_status_submitted": "待確認",
     "asset_recharge_status_submitting": "待提交",
     "asset_recharge_status_accept": "待確認",
     "asset_recharge_status_accepted": "已到賬",

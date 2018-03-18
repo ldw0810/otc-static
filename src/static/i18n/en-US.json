@@ -294,7 +294,7 @@
     "asset_number": "Amount",
     "asset_hashcode": "Txid",
     "asset_status": "Status",
-    "asset_recharge_status_submitted": "Submitted",
+    "asset_recharge_status_submitted": "Accept",
     "asset_recharge_status_submitting": "Submitting",
     "asset_recharge_status_accept": "Accept",
     "asset_recharge_status_accepted": "Accepted",
