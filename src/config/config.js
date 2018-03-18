@@ -11,7 +11,6 @@ export const CONF_PAYMENT_LIST = ["alipay", "bank"]; // 支付方式
 export const CONF_DECIMAL_ASSET = 8; // 资产显示统一保留8位小数
 export const CONF_DECIMAL_BASE = 4; // 基本资产保留4位小数
 export const CONF_DECIMAL_LEGAL = 2; // 法币保留2位
-
 export const CONF_DIGITAL_CURRENCY_LIST = [ // 当前平台支持的数字币
   {
     currency: "dai",  //货币
@@ -47,6 +46,7 @@ export const CONF_MINERSFEE = [
   }
 ];
 export const DEFAULT_LANGUAGE = "zh-HK";  //默认语言
-
 export const CHAT_URL = "https://notice.otcmaker.com/chat"; //聊天接口URL
+export const OMT_SHOW = false;  //是否展示注册送omt
+
 export default config;

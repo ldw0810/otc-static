@@ -41,9 +41,9 @@
         <span class="text">{{$t('user.integral')}}:</span>
         <span v-text="userInfo.omt.amount"></span>
       </div>
-      <div class="info">
-        <!-- <span class="text" style="color: red;">** 注册后将实名信息和手机号发给内测群主，才可以获得积分 **</span> -->
-        <!--<span v-text="userInfo.omt.amount"></span>-->
+      <div class="info" :class="{'omt-hide': !omt_show}">
+         <span class="text" style="color: red;">** 注册后将实名信息和手机号发给内测群主，才可以获得积分 **</span>
+        <span v-text="userInfo.omt.amount"></span>
       </div>
     </div>
     <Modal v-model="pop_email" class-name="m-ivu-modal" width='480' :mask-closable="true"
@@ -64,6 +64,7 @@
   import auth_email_send from "./auth_email_send_pop.vue";
   import auth_phone_pop from "./auth_phone_pop.vue";
   import BreadCrumb from "./breadcrumb";
+  import {OMT_SHOW} from "config/config";
 
   export default {
     data() {
@@ -95,6 +96,9 @@
         } else {
           return "";
         }
+      },
+      omt_show(){
+        return OMT_SHOW;
       }
     },
     methods: {
@@ -198,5 +202,8 @@
   #content .info .link {
     color: #4a90e2;
     cursor: pointer;
+  }
+  #content .omt-hide {
+    display: none;
   }
 </style>

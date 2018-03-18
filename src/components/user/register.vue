@@ -68,7 +68,7 @@
         </Form>
         <div id="captcha"></div>
       </div>
-      <div class='banner'>
+      <div class='banner' :class="{'omt-hide': !omt_show}">
         <span class='banner-text'>{{$t('user.register_ad_info')}}</span>
         <span class='banner-arrow banner-left'>
                     <img src="../../static/images/register/left.svg" alt="">
@@ -87,10 +87,10 @@
   import validateMixin from "@/components/mixins/validate-mixin";
   import {gt} from "../../libs/gt";
   import languageData from "../../locale";
-  import {DEFAULT_LANGUAGE} from "config/config";
-  
-  let isValidNickName = false
-  let isValidEmail = false
+  import {DEFAULT_LANGUAGE, OMT_SHOW} from "config/config";
+
+  let isValidNickName = false;
+  let isValidEmail = false;
 
   export default {
     mixins: [validateMixin("form")],
@@ -111,7 +111,7 @@
               if (res.data && +res.data.error === 0) {
                 if (!res.data.exist) {
                   this.validFlag.userName = true;
-                  isValidNickName = true
+                  isValidNickName = true;
                   callback();
                 } else {
                   this.validFlag.userName = false;
@@ -142,29 +142,29 @@
           callback(new Error(this.$t("user.email_notValid")));
         } else {
           if (!isValidEmail) {
-          this.$store
-            .dispatch("ajax_verified_email", {
-              email: value
-            })
-            .then(res => {
-              if (res.data && +res.data.error === 0) {
-                if (!res.data.exist) {
-                  isValidEmail = true
-                  this.validFlag.email = true;
-                  callback();
+            this.$store
+              .dispatch("ajax_verified_email", {
+                email: value
+              })
+              .then(res => {
+                if (res.data && +res.data.error === 0) {
+                  if (!res.data.exist) {
+                    isValidEmail = true;
+                    this.validFlag.email = true;
+                    callback();
+                  } else {
+                    this.validFlag.email = false;
+                    callback(new Error(this.$t("user.email_repeat")));
+                  }
                 } else {
                   this.validFlag.email = false;
                   callback(new Error(this.$t("user.email_repeat")));
                 }
-              } else {
+              })
+              .catch(err => {
                 this.validFlag.email = false;
-                callback(new Error(this.$t("user.email_repeat")));
-              }
-            })
-            .catch(err => {
-              this.validFlag.email = false;
-              callback(new Error(this.$t("public.url_request_fail")));
-            });
+                callback(new Error(this.$t("public.url_request_fail")));
+              });
           }
           callback()
         }
@@ -277,6 +277,11 @@
         captchaObj: ""
       };
     },
+    computed:{
+      omt_show(){
+        return OMT_SHOW;
+      }
+    },
     mounted() {
       this.$store.commit("footer_is_login_setter", true);
       this.$store.commit("header_index_setter", "5");
@@ -308,17 +313,17 @@
                   }
                   this.submitLoading = true;
                   this.$store.dispatch("ajax_register", {
-                      email: this.form.email,
-                      password: this.form.password,
-                      password_confirmation: this.form.rePassword,
-                      invite_code: this.form.invitationCode,
-                      nickname: this.form.userName,
-                      ln: ln,
-                      geetest_challenge: result.geetest_challenge,
-                      geetest_validate: result.geetest_validate,
-                      geetest_seccode: result.geetest_seccode,
-                      check_captcha: 1
-                    })
+                    email: this.form.email,
+                    password: this.form.password,
+                    password_confirmation: this.form.rePassword,
+                    invite_code: this.form.invitationCode,
+                    nickname: this.form.userName,
+                    ln: ln,
+                    geetest_challenge: result.geetest_challenge,
+                    geetest_validate: result.geetest_validate,
+                    geetest_seccode: result.geetest_seccode,
+                    check_captcha: 1
+                  })
                     .then(result => {
                       this.submitLoading = false;
                       if (result.data && +result.data.error === 0) {
@@ -419,6 +424,10 @@
     justify-content: center;
     align-items: center;
     background: #ed343b;
+  }
+
+  .omt-hide {
+    display: none;
   }
 
   .banner-arrow {
