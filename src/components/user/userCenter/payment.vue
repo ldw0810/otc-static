@@ -31,8 +31,7 @@
                 </Radio>
                 <div class="payment-item-del">
                   <Poptip v-model="item.visible" trigger='click' class='del'>
-                    <img src="../../../static/images/icon/Trash-666666.svg" class='del-icon hover'>
-                    <img src="../../../static/images/icon/Trash-DDDDDD.svg" class='del-icon no-hover'>
+                    <i class='icon-trash del-icon'></i>
                     <div slot='content'>
                       <div class='del-content'>
                         <h3 class='del-content-title'>{{$t('public.confirm_delete')}}</h3>
@@ -274,20 +273,13 @@ export default {
       line-height: 28px;
     }
   }
-  &:hover {
-    .hover {
-      display: block;
-    }
-    .no-hover {
-      display: none;
-    }
-  }
 }
 
 .del-icon {
-  display: none;
-  &.no-hover {
-    display: block;
+  font-size: 16px;
+  color: #ccc;
+  &:hover {
+    color: #666
   }
 }
 </style>

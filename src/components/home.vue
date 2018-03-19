@@ -191,10 +191,6 @@
 </style>
 
 <style scoped>
-  .home {
-    /* background-color: #ffffff; */
-  }
-
   .home img {
     object-fit: cover;
     object-position: 0 0;
