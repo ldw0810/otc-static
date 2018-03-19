@@ -94,27 +94,22 @@
       Card
     },
     methods: {
-      setData(dataList) {
-        this.ads = dataList;
-      }
-    },
-    beforeRouteEnter(to, from, next) {
-      let tempList = [];
-      window.store.dispatch("ajax_ads_main").then(res => {
-        if (res.data && +res.data.error === 0) {
-          tempList = res.data.sell_ads.concat(res.data.buy_ads);
-        } else {
+      getAds() {
+        this.$store.dispatch("ajax_ads_main").then(res => {
+          if (res.data && +res.data.error === 0) {
+            this.ads = res.data.sell_ads.concat(res.data.buy_ads);
+          } else {
+            // this.$Message.error(this.$t("public.ads_request_fail"));
+          }
+        }).catch(err => {
           // this.$Message.error(this.$t("public.ads_request_fail"));
-        }
-        next(vm => vm.setData(tempList));
-      }).catch(err => {
-        // this.$Message.error(this.$t("public.ads_request_fail"));
-        next(vm => vm.setData(tempList));
-      });
+        });
+      }
     },
     mounted() {
       this.$store.commit("header_index_setter", 0);
-    },
+      this.getAds();
+    }
   };
 </script>
 <style lang="scss" scoped>
