@@ -50,10 +50,6 @@
 </script>
 
 <style scoped>
-  div {
-    font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;
-  }
-
   .bg {
     height: 89px;
     width: 100%;
