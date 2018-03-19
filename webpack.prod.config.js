@@ -33,9 +33,9 @@ const webpackConfig = merge(webpackBaseConfig, {
       filename: "[name].[hash].css",
       allChunks: true
     }),
-    // new OptimizeCSSPlugin({
-    //   cssProcessorOptions: { discardComments: { removeAll: true } },
-    // }),
+    new OptimizeCSSPlugin({
+      cssProcessorOptions: { discardComments: { removeAll: true } },
+    }),
     new WebpackMd5Hash(),
     new webpack.optimize.CommonsChunkPlugin({
       name: "vendors",
