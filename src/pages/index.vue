@@ -126,10 +126,15 @@
   }
 </script>
 <style>
-  .container, .mainLayer {
+  html, body, .container, .mainLayer {
     min-height: 100vh;
   }
-
+ .mainLayer {
+    display: flex;
+    flex-direction: column;
+    background-color: #fafbfd;
+    display: block\0;
+  }
   .popLayer {
     position: fixed;
     left: 0;
@@ -140,11 +145,7 @@
     z-index: 99;
   }
 
-  .mainLayer {
-    display: flex;
-    flex-direction: column;
-    background-color: #fafbfd;
-  }
+ 
 
   #header {
     height: 76px;
