@@ -54,7 +54,7 @@ axios.interceptors.response.use(
           });
         } else if (+error.response.data.error === 100031) {
           // store.commit("showAuthEmail_setter", 1);
-        } else if ([100017, 100021, 100036, 100038, 100039].contains(+error.response.data.error)) {
+        } else if ([100017, 100021, 100033, 100036, 100038, 100039].contains(+error.response.data.error)) {
         } else {
           Alert.error({
             title: languageData[index].data.public.error_title_default,
