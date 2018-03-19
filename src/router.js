@@ -229,7 +229,8 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   LoadingBar.start();
-  const goFun = () => { //登陆状态跳转
+  Util.title(to.meta.title);
+  if (localStorage.getItem("userToken")) {
     if (to.matched.some(r => r.meta.noUser)) {  //登陆注册页面
       if (from.name === "home") {
         LoadingBar.finish();
@@ -250,23 +251,6 @@ router.beforeEach((to, from, next) => {
       }
     } else {
       next();
-    }
-  };
-  Util.title(to.meta.title);
-  if (localStorage.getItem("userToken")) {
-    if (store.state.userInfo.id) {
-      store.dispatch("ajax_me");
-      goFun();
-    } else {
-      store.dispatch("ajax_me").then(res => {
-        if (res.data && +res.data.error === 0) {
-          goFun();
-        } else {
-          next({path: "/user/userCenter"});
-        }
-      }).catch(err => {
-        LoadingBar.finish();
-      });
     }
   } else {
     if (to.matched.some(r => r.meta.noLogin)) {

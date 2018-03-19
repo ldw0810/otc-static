@@ -113,6 +113,22 @@
         }
       }
     },
+    beforeRouteEnter(to, from, next) {
+      if (localStorage.getItem("userToken")) {
+        window.store.dispatch("ajax_me");
+      }
+      window.store.dispatch("ajax_currency_code").then(res => {
+        if (res.data && +res.data.error === 0) {
+          window.store.commit("code_setter", res.data);
+        } else {
+          // this.$Message.error(this.$t("public.ads_request_fail"));
+        }
+        next();
+      }).catch(err => {
+        // this.$Message.error(this.$t("public.ads_request_fail"));
+        next();
+      });
+    },
     components: {
       headerBar,
       footerBar,

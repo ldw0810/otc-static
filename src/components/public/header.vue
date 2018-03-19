@@ -415,13 +415,6 @@
       }
     },
     created() {
-      this.$store.dispatch("ajax_currency_code").then(res => {
-        if (res.data && +res.data.error === 0) {
-          this.$store.commit("code_setter", res.data);
-        } else {
-        }
-      }).catch(err => {
-      });
       this.timeout && clearTimeout(this.timeout);
       this.timeout = setTimeout(this.getNotice, 30 * 1000);
       this.init();
