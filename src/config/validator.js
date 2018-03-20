@@ -33,8 +33,8 @@ export const VALI_CARD_HOLDER = {
 };
 // 银行卡卡号
 export const VALI_CARD_NUMBER = {
-  min: 10,
-  max: 20,
+  min: 16,
+  max: 19,
   message: language.validate.card_number_range
 };
 // 提现地址标签
