@@ -426,13 +426,6 @@
         ];
       }
     },
-    created() {
-      this.timeout && clearTimeout(this.timeout);
-      if(!this.soft_disabled) {
-        this.timeout = setTimeout(this.getNotice, 30 * 1000);
-        this.init();
-      }
-    },
     destroyed() {
       this.timeout && clearTimeout(this.timeout);
     }
