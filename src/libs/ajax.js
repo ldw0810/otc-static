@@ -4,14 +4,14 @@ import store from "../store/store";
 import router from "../router";
 import Alert from '@/components/public/alert';
 import languageData from '../locale';
-import {DEFAULT_LANGUAGE} from "config/config";
+import {DEFAULT_LANGUAGE, AJAX_BASEURL_DEV, AJAX_BASEURL_PRO} from "config/config";
 
 /**
  * Responsible for all HTTP requests.
  */
 
 axios.defaults.timeout = 20000;
-axios.defaults.baseURL = env === 'development' ? '/' : "https://alpha.otcmaker.com";
+axios.defaults.baseURL = env === 'development' ? AJAX_BASEURL_DEV : AJAX_BASEURL_PRO;
 
 function languageSelectIndex() {
   let index = 0;
@@ -62,7 +62,7 @@ axios.interceptors.response.use(
           });
         }
       }
-    } else if(error.message) {
+    } else if (error.message) {
       error.response = {
         data: error.message
       }
