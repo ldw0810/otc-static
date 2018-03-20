@@ -95,14 +95,8 @@
           return false;
         } else {
           if (this.$store.state.userToken) {
-            let ln = DEFAULT_LANGUAGE;
-            if (["zh-HK", "zh-TW"].contains(ln)) {
-              ln = "zh-TW";
-            } else if (ln !== "zh-CN") {
-              ln = "en";
-            }
             this.$store.dispatch("ajax_language", {
-              ln: ln
+              ln: window.localStorage.getItem("language") || DEFAULT_LANGUAGE
             }).then(res => {
               if (res.data && +res.data.error === 0) {
                 window.localStorage.setItem(
