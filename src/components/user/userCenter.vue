@@ -121,14 +121,6 @@
     word-wrap: break-word;
   }
 
-  .fade-enter-active {
-    animation: fade-in .5s;
-  }
-
-  .fade-leave-active {
-    animation: fade-out .5s;
-  }
-
   @keyframes fade-out {
     0% {
       opacity: 1;

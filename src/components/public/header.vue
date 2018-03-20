@@ -6,7 +6,7 @@
           <img class='header-logo-asset' src="../../static/images/LOGO.png">
         </router-link>
       </div>
-      <nav class="header-nav" v-if='!$store.state.userInfo.soft_disabled'>
+      <nav class="header-nav" v-if='!soft_disabled'>
         <ul class='header-navbar'>
           <li
               class='header-navbar-item'
@@ -61,7 +61,7 @@
         <ul class='header-navbar'>
           <template v-for='(item, index) in user'>
             <li class='header-navbar-item' :key='index' :class="{'active': item.index === header_index}"
-                v-if='index === 0 && !$store.state.userInfo.soft_disabled'>
+                v-if='index === 0 && !soft_disabled'>
               <div class='header-navbar-item-wrapper' @click='goMenu(item)'>
                 <i class='header-navbar-item-icon header-navbar-item-icon-prepend icon-document'></i>
                 <a class='header-navbar-item-link' href="javascript:void(0)">
@@ -156,7 +156,7 @@
                     <template v-if='i === 1'>
                       <DropdownItem :class="{'active': childItem.index === header_index}"
                                     :key='i'
-                                    v-if='!$store.state.userInfo.soft_disabled'
+                                    v-if='!soft_disabled'
                       >
                         <a @click='goMenu(childItem)'>{{childItem.title}}</a>
                       </DropdownItem>
@@ -290,6 +290,9 @@
       userInfo() {
         return this.$store.state.userInfo;
       },
+      soft_disabled(){
+        return this.$store.state.userInfo.soft_disabled;
+      },
       currencyList() {
         return this.$store.state.code.sellable;
       },
@@ -314,6 +317,15 @@
     watch: {
       code(val) {
         val && this.init();
+      },
+      soft_disabled(val) {
+        if(val) {
+          this.timeout && clearTimeout(this.timeout);
+        } else {
+          this.timeout && clearTimeout(this.timeout);
+          this.timeout = setTimeout(this.getNotice, 30 * 1000);
+          this.init();
+        }
       }
     },
     methods: {
@@ -354,10 +366,7 @@
         if (item.action && isFunction(item.action)) {
           item.action();
         } else {
-          this.$router.push({
-            path: item.url,
-            query: item.query
-          });
+          this.$goRouter(item.url,item.query);
         }
       },
       init() {
@@ -418,16 +427,11 @@
       }
     },
     created() {
-      this.$store.dispatch("ajax_currency_code").then(res => {
-        if (res.data && +res.data.error === 0) {
-          this.$store.commit("code_setter", res.data);
-        } else {
-        }
-      }).catch(err => {
-      });
       this.timeout && clearTimeout(this.timeout);
-      this.timeout = setTimeout(this.getNotice, 30 * 1000);
-      this.init();
+      if(!this.soft_disabled) {
+        this.timeout = setTimeout(this.getNotice, 30 * 1000);
+        this.init();
+      }
     },
     destroyed() {
       this.timeout && clearTimeout(this.timeout);

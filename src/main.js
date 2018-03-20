@@ -20,6 +20,7 @@ Vue.use(Functions);
 Vue.use(Filters);
 Vue.use(VueClipboard);
 
+window.store = store;
 // 自动设置语言
 const navLang = navigator.language || navigator.userLanguage;
 const langs = ['zh-CN', 'zh-HK', 'en-US'];

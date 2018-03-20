@@ -563,7 +563,7 @@
         collection_default: {
           id: ""
         },
-        tradePrice: 0,
+        tradePriceObj: {},
         ad: {},
         examineAdBuyFlag: true,
         examineAdSellFlag: true,
@@ -601,6 +601,9 @@
       },
       targetCurrencyText() {
         return this.$t("public['" + this.targetCurrency + "']");
+      },
+      tradePrice() {
+        return this.targetCurrency ? +(this.tradePriceObj[this.targetCurrency] || 0) : 0;
       },
       currencyBuyLimit() {
         for (let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
@@ -694,7 +697,7 @@
           target: this.targetCurrency
         }).then(res => {
           if (res.data && +res.data.error === 0) {
-            this.tradePrice = res.data.price;
+            this.$set(this.tradePriceObj, this.targetCurrency, res.data.price);
             if (!this.isUpdate) {
               this.form_buy.buyPrice = this.$fixDecimalAuto(
                 this.$multipliedBy(
@@ -828,10 +831,10 @@
             title: this.$t("public.error_title_default"),
             content: this.$t("ad.ad_credit_low")
           });
-        }  else {
+        } else {
           tempFlag = true;
         }
-        if(tempFlag) {
+        if (tempFlag) {
           const form_ref = +this.adType === 0 ? this.$refs["form_buy"] : this.$refs["form_sell"];
           form_ref.validate(valid => {
             if (valid) {
@@ -849,22 +852,20 @@
                     this.collection_default.id === this.form.collection ? 1 : 0,
                   remark: this.form.remark
                 };
-                this.$store
-                  .dispatch("ajax_update_ad", requestData)
-                  .then(res => {
-                    this.submitLoading = false;
-                    if (res.data && +res.data.error === 0) {
-                      this.$Message.success(this.$t("ad.ad_update_success"));
-                      this.$goRouter("myAd", {
-                        status: 1
-                      });
-                    } else {
-                      this.$alert.error({
-                        title: this.$t("public.error_title_default"),
-                        content: this.$t("ad.ad_update_fail")
-                      });
-                    }
-                  })
+                this.$store.dispatch("ajax_update_ad", requestData).then(res => {
+                  this.submitLoading = false;
+                  if (res.data && +res.data.error === 0) {
+                    this.$Message.success(this.$t("ad.ad_update_success"));
+                    this.$goRouter("myAd", {
+                      status: 1
+                    });
+                  } else {
+                    this.$alert.error({
+                      title: this.$t("public.error_title_default"),
+                      content: this.$t("ad.ad_update_fail")
+                    });
+                  }
+                })
                   .catch(err => {
                     this.submitLoading = false;
                   });
@@ -886,20 +887,18 @@
                     this.collection_default.id === this.form.collection ? 1 : 0,
                   remark: this.form.remark
                 };
-                this.$store
-                  .dispatch("ajax_add_ad", requestData)
-                  .then(res => {
-                    this.submitLoading = false;
-                    if (res.data && +res.data.error === 0) {
-                      this.$Message.success(this.$t("ad.ad_advertise_success"));
-                      this.$goRouter("myAd");
-                    } else {
-                      this.$alert.error({
-                        title: this.$t("public.error_title_default"),
-                        content: this.$t("ad.ad_advertise_fail")
-                      })
-                    }
-                  })
+                this.$store.dispatch("ajax_add_ad", requestData).then(res => {
+                  this.submitLoading = false;
+                  if (res.data && +res.data.error === 0) {
+                    this.$Message.success(this.$t("ad.ad_advertise_success"));
+                    this.$goRouter("myAd");
+                  } else {
+                    this.$alert.error({
+                      title: this.$t("public.error_title_default"),
+                      content: this.$t("ad.ad_advertise_fail")
+                    })
+                  }
+                })
                   .catch(err => {
                     this.submitLoading = false;
                   });

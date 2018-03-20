@@ -1,7 +1,7 @@
 import ajax from "../libs/ajax"
-import queryString from 'querystring'   //post请求转码
-import store from "../store/store"
-import {CHAT_URL} from "config/config"
+import queryString from 'querystring';   //post请求转码
+import store from "../store/store";
+import {CHAT_URL} from "config/config";
 
 const http = {
   get: function (url, requestJson, config) {

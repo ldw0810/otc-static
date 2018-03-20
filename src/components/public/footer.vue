@@ -95,7 +95,7 @@
           return false;
         } else {
           if (this.$store.state.userToken) {
-            let ln = DEFAULT_LANGUAGE;
+            let ln = this.languageList[this.languageSelectIndex].name;
             if (["zh-HK", "zh-TW"].contains(ln)) {
               ln = "zh-TW";
             } else if (ln !== "zh-CN") {

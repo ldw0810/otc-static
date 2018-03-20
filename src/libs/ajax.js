@@ -1,7 +1,7 @@
 import axios from 'axios'
 import env from '../config/env';
-import store from "../store/store"
-import router from "../router"
+import store from "../store/store";
+import router from "../router";
 import Alert from '@/components/public/alert';
 import languageData from '../locale';
 import {DEFAULT_LANGUAGE} from "config/config";
@@ -10,8 +10,8 @@ import {DEFAULT_LANGUAGE} from "config/config";
  * Responsible for all HTTP requests.
  */
 
-axios.defaults.timeout = 30000;
-axios.defaults.baseURL = env === 'development' ? '/' : "https://apialpha.otcmaker.com";
+axios.defaults.timeout = 20000;
+axios.defaults.baseURL = env === 'development' ? '/' : "https://alpha.otcmaker.com";
 
 function languageSelectIndex() {
   let index = 0;
@@ -54,7 +54,7 @@ axios.interceptors.response.use(
           });
         } else if (+error.response.data.error === 100031) {
           // store.commit("showAuthEmail_setter", 1);
-        } else if ([100017, 100021, 100036, 100038, 100039].contains(+error.response.data.error)) {
+        } else if ([100017, 100021, 100033, 100036, 100038, 100039].contains(+error.response.data.error)) {
         } else {
           errMsg && Alert.error({
             title: languageData[index].data.public.error_title_default,

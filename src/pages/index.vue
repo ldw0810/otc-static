@@ -61,11 +61,6 @@
             }
           }).catch(err => {
             // this.$Message.error(this.$t("asset.asset_withdraw_confirm_fail"));
-            let tempData = this.$route.query;
-            console.log(JSON.stringify(tempData));
-            delete tempData.withdraw_token;
-            console.log(JSON.stringify(tempData));
-            this.$goRouter(this.$route, tempData);
             this.$alert.error({
               title: this.$t("public.error_title_default"),
               content: this.$t("asset.asset_withdraw_confirm_fail"),
@@ -117,6 +112,22 @@
           this.$store.commit("showAuthEmail_setter", 0);
         }
       }
+    },
+    beforeRouteEnter(to, from, next) {
+      if (localStorage.getItem("userToken")) {
+        window.store.dispatch("ajax_me");
+      }
+      window.store.dispatch("ajax_currency_code").then(res => {
+        if (res.data && +res.data.error === 0) {
+          window.store.commit("code_setter", res.data);
+        } else {
+          // this.$Message.error(this.$t("public.ads_request_fail"));
+        }
+        next();
+      }).catch(err => {
+        // this.$Message.error(this.$t("public.ads_request_fail"));
+        next();
+      });
     },
     components: {
       headerBar,

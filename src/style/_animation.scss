@@ -1,9 +1,9 @@
 .fade-enter-active {
-  animation: fade-in 167ms;
+  animation: fade-in 100ms;
 }
 
 .fade-leave-active {
-  animation: fade-out 167ms;
+  animation: fade-out 100ms;
 }
 
 @keyframes fade-out {

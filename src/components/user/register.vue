@@ -305,12 +305,6 @@
                 this.captchaObj = captchaObj;
                 captchaObj.onSuccess(() => {
                   let result = this.captchaObj.getValidate();
-                  let ln = DEFAULT_LANGUAGE;
-                  if (["zh-HK", "zh-TW"].contains(ln)) {
-                    ln = "zh-TW";
-                  } else if (ln !== "zh-CN") {
-                    ln = "en";
-                  }
                   this.submitLoading = true;
                   this.$store.dispatch("ajax_register", {
                     email: this.form.email,
@@ -318,7 +312,7 @@
                     password_confirmation: this.form.rePassword,
                     invite_code: this.form.invitationCode,
                     nickname: this.form.userName,
-                    ln: ln,
+                    ln: this.$getLanguage(),
                     geetest_challenge: result.geetest_challenge,
                     geetest_validate: result.geetest_validate,
                     geetest_seccode: result.geetest_seccode,
@@ -371,9 +365,7 @@
         });
       },
       showTerms() {
-        // this.$Message.info(this.$t("user.terms_text"));
-        // this.$router.push("/policy");
-        this.$router.push("/user-agreement");
+        this.$goRouter("/user-agreement");
       }
     },
     components: {
