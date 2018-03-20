@@ -1,5 +1,6 @@
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const utils = require("./utils");
 const WebpackMd5Hash = require("webpack-md5-hash");
@@ -69,7 +70,10 @@ const webpackConfig = merge(webpackBaseConfig, {
       template: "./src/template/index.ejs",
       favicon: './src/static/favicon.ico',
       inject: false
-    })
+    }),
+    new CleanWebpackPlugin(path.join(__dirname, "../public/dist"), {
+      allowExternal: true
+    }),
   ]
 });
 
