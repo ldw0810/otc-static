@@ -18,7 +18,7 @@ fs.open("./src/config/env.js", "w", function(err, fd) {
 
 const webpackConfig = merge(webpackBaseConfig, {
   output: {
-    path: path.join(__dirname, "../public/dist"),
+    path: path.join(__dirname, "../otcmaker-html/dist"),
     publicPath: "/dist/",
     filename: "[name].[chunkhash:8].js",
     chunkFilename: "[name].[chunkhash:8].chunk.js",
@@ -71,7 +71,7 @@ const webpackConfig = merge(webpackBaseConfig, {
       favicon: './src/static/favicon.ico',
       inject: false
     }),
-    new CleanWebpackPlugin(path.join(__dirname, "../public/dist"), {
+    new CleanWebpackPlugin(path.join(__dirname, "../otcmaker-html/dist"), {
       allowExternal: true
     }),
   ]
