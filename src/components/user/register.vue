@@ -312,7 +312,7 @@
                     password_confirmation: this.form.rePassword,
                     invite_code: this.form.invitationCode,
                     nickname: this.form.userName,
-                    ln: this.$getLanguage,
+                    ln: this.$getLanguage(),
                     geetest_challenge: result.geetest_challenge,
                     geetest_validate: result.geetest_validate,
                     geetest_seccode: result.geetest_seccode,
