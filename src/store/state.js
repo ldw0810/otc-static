@@ -20,7 +20,7 @@ export default {
     email: "",
     phone_number: "",
     api_ln: "",
-    activated: false,
+    activated: true,
     invite: "",
     notice: 0,
     valid_account: [

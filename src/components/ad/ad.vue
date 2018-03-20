@@ -602,8 +602,8 @@
       targetCurrencyText() {
         return this.$t("public['" + this.targetCurrency + "']");
       },
-      tradePrice(){
-        return +(this.tradePriceObj[this.targetCurrency] || 0);
+      tradePrice() {
+        return this.targetCurrency ? +(this.tradePriceObj[this.targetCurrency] || 0) : 0;
       },
       currencyBuyLimit() {
         for (let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
