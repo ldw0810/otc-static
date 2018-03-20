@@ -96,7 +96,7 @@
         } else {
           if (this.$store.state.userToken) {
             this.$store.dispatch("ajax_language", {
-              ln: window.localStorage.getItem("language") || DEFAULT_LANGUAGE
+              ln: this.$getLanguage
             }).then(res => {
               if (res.data && +res.data.error === 0) {
                 window.localStorage.setItem(

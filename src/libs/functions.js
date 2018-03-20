@@ -7,7 +7,8 @@ import {
   CONF_DECIMAL_ASSET,
   CONF_DECIMAL_BASE,
   CONF_DECIMAL_LEGAL,
-  CONF_DIGITAL_CURRENCY_LIST
+  CONF_DIGITAL_CURRENCY_LIST,
+  DEFAULT_LANGUAGE
 } from "config/config";
 
 /**
@@ -127,10 +128,18 @@ export default {
       userList = Array.from(new Set(userList));
       window.localStorage.setItem("userList", JSON.stringify(userList));
     };
+    Vue.prototype.$getLanguage = function() {
+      let ln = window.localStorage.getItem("language") || DEFAULT_LANGUAGE;
+      if (["zh-HK", "zh-TW"].contains(ln)) {
+        ln = "zh-TW";
+      } else if (ln !== "zh-CN") {
+        ln = "en";
+      }
+      return ln;
+    };
     Vue.prototype.$getUserList = function(userName) {
       return JSON.parse(window.localStorage.getItem("userList") || "[]");
     };
-
     String.prototype.format = function() {
       if (arguments.length === 0) return this;
       let param = arguments[0];
