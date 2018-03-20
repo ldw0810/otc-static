@@ -16,7 +16,7 @@
                     </span>
           <a class='link' @click="goRecharge">{{$t("public.recharge")}}</a>
         </div>
-        <div class="credit-low-tip" v-if="form_sell.targetCurrency &&!balanceFlag && +adType === 1">
+        <div class="credit-low-tip" v-if="form_sell.targetCurrency && !balanceFlag && +adType === 1">
           <span class='red'>{{$t("ad.ad_credit_low_tip").format(
                         $t("public['" + currency + "']"), currencySellLimit)}}
           </span>
@@ -639,10 +639,10 @@
       },
       balanceFlag() {
         if (this.adType !== 1) {
-          if (!this.balanceObj[this.targetCurrency]) {
-            return true;
-          } else {
+          if (this.balanceObj[this.targetCurrency] || this.balanceObj[this.targetCurrency] === 0) {
             return +this.balanceObj[this.targetCurrency] >= this.currencyBuyLimit;
+          } else {
+            return true;
           }
         } else {
           return this.balanceObj[this.currency] >= this.currencySellLimit;
