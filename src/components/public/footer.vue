@@ -140,7 +140,7 @@
               .catch(err => {
               });
           } else {
-            window.location.href = `${domain}`
+            window.location.href = `${domain}/categories/360000187674`
           }
         } else if (this.footerList[index].url) {
           window.location.href = this.footerList[index].url;
