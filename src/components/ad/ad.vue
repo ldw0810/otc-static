@@ -563,7 +563,7 @@
         collection_default: {
           id: ""
         },
-        tradePrice: 0,
+        tradePriceObj: {},
         ad: {},
         examineAdBuyFlag: true,
         examineAdSellFlag: true,
@@ -601,6 +601,9 @@
       },
       targetCurrencyText() {
         return this.$t("public['" + this.targetCurrency + "']");
+      },
+      tradePrice(){
+        return +(this.tradePriceObj[this.targetCurrency] || 0);
       },
       currencyBuyLimit() {
         for (let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
@@ -694,7 +697,7 @@
           target: this.targetCurrency
         }).then(res => {
           if (res.data && +res.data.error === 0) {
-            this.tradePrice = res.data.price;
+            this.$set(this.tradePriceObj, this.targetCurrency, res.data.price);
             if (!this.isUpdate) {
               this.form_buy.buyPrice = this.$fixDecimalAuto(
                 this.$multipliedBy(
