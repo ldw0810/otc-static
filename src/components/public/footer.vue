@@ -95,8 +95,14 @@
           return false;
         } else {
           if (this.$store.state.userToken) {
+            let ln = this.languageList[this.languageSelectIndex].name;
+            if (["zh-HK", "zh-TW"].contains(ln)) {
+              ln = "zh-TW";
+            } else if (ln !== "zh-CN") {
+              ln = "en";
+            }
             this.$store.dispatch("ajax_language", {
-              ln: this.$getLanguage()
+              ln: ln
             }).then(res => {
               if (res.data && +res.data.error === 0) {
                 window.localStorage.setItem(
