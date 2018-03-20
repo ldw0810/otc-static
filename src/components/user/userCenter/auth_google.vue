@@ -96,7 +96,10 @@
       },
       closePopGoogle(val) {
         this.pop_google = false;
-        val && this.$goRouter("/user/userCenter/securitySetting");
+        if(val) {
+          this.$store.dispatch("ajax_me");
+          this.$goRouter("/user/userCenter/securitySetting");
+        }
       },
       redirect(type) {
         let href =
