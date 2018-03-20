@@ -277,8 +277,8 @@
         captchaObj: ""
       };
     },
-    computed:{
-      omt_show(){
+    computed: {
+      omt_show() {
         return OMT_SHOW;
       }
     },
@@ -317,23 +317,21 @@
                     geetest_validate: result.geetest_validate,
                     geetest_seccode: result.geetest_seccode,
                     check_captcha: 1
-                  })
-                    .then(result => {
-                      this.submitLoading = false;
-                      if (result.data && +result.data.error === 0) {
-                        this.$Message.success(this.$t("user.register_success"));
-                        this.$goRouter("/user/login");
-                      } else {
-                        this.$alert.error({
-                          title: this.$t("public.error_title_default"),
-                          content: this.$t("user.register_error")
-                        })
-                      }
-                    })
-                    .catch(err => {
-                      this.submitLoading = false;
-                      // this.$Message.error(this.$t("public.url_request_fail"));
-                    });
+                  }).then(result => {
+                    this.submitLoading = false;
+                    if (result.data && +result.data.error === 0) {
+                      this.$Message.success(this.$t("user.register_success"));
+                      this.$goRouter("/user/login");
+                    } else {
+                      this.$alert.error({
+                        title: this.$t("public.error_title_default"),
+                        content: this.$t("user.register_error")
+                      })
+                    }
+                  }).catch(err => {
+                    this.submitLoading = false;
+                    // this.$Message.error(this.$t("public.url_request_fail"));
+                  });
                 });
               }
             );

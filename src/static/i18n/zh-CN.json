@@ -111,6 +111,7 @@
     "no_off_ad": "您没有已下架的广告",
     "no_asset_recharge": "没有充值的信息",
     "no_asset_withdraw": "没有提现的信息",
+    "success_title_default": "成功",
     "error_title_default": "错误"
   },
   "user": {

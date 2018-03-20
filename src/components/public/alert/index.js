@@ -17,14 +17,17 @@ let alertInstance = function(options) {
     instance.okText = options.okText;
   }
   if (options.onClose) {
-    instance.onClose = options.onClose
+    instance.onClose = options.onClose;
   }
-  return instance
+  return instance;
 };
 
 alertInstance.error = function(options) {
   const instance = alertInstance(options);
   instance.type = 'error';
 };
-
+alertInstance.success = function(options) {
+  const instance = alertInstance(options);
+  instance.type = 'success';
+};
 export default alertInstance;

@@ -2,7 +2,7 @@
 import ajax from "./ajax";
 import store from "../store/store";
 import queryString from "querystring"; //解决post请求跨域问题
-import { BigNumber } from "bignumber.js";
+import {BigNumber} from "bignumber.js";
 import {
   CONF_DECIMAL_ASSET,
   CONF_DECIMAL_BASE,
@@ -15,27 +15,27 @@ import {
  * 设置bigNumber的全局参数
  */
 // BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_FLOOR });
-export const fixDecimal = function(value, limit) {
+export const fixDecimal = function (value, limit) {
   return BigNumber(value + "")
     .decimalPlaces(limit, BigNumber.ROUND_FLOOR)
     .toFixed(limit)
     .toString();
 };
-export const fixDecimalsAsset = function(value) {
+export const fixDecimalsAsset = function (value) {
   return fixDecimal(value, CONF_DECIMAL_ASSET);
 };
 
-export const fixDecimalsBase = function(value) {
+export const fixDecimalsBase = function (value) {
   return fixDecimal(value, CONF_DECIMAL_BASE);
 };
 
-export const fixDecimalsLegal = function(value) {
+export const fixDecimalsLegal = function (value) {
   return fixDecimal(value, CONF_DECIMAL_LEGAL);
 };
 
 export default {
   install(Vue, options) {
-    Vue.prototype.$ = function(id) {
+    Vue.prototype.$ = function (id) {
       return document.getElementById(id);
     };
     // Vue.prototype.$schema = schema;
@@ -59,7 +59,7 @@ export default {
     /**
      * 加法（解决精度问题）
      */
-    Vue.prototype.$plus = function(...args) {
+    Vue.prototype.$plus = function (...args) {
       if (args.length !== 2) {
         throw Error("Must set two params");
       }
@@ -69,7 +69,7 @@ export default {
     /**
      * 减法（解决精度问题）
      */
-    Vue.prototype.$minus = function(...args) {
+    Vue.prototype.$minus = function (...args) {
       if (args.length !== 2) {
         throw Error("Must set two params");
       }
@@ -79,7 +79,7 @@ export default {
     /**
      * 乘法（解决精度问题）
      */
-    Vue.prototype.$multipliedBy = function(...args) {
+    Vue.prototype.$multipliedBy = function (...args) {
       if (args.length !== 2) {
         throw Error("Must set two params");
       }
@@ -89,7 +89,7 @@ export default {
     /**
      * 除法（解决精度问题）
      */
-    Vue.prototype.$dividedBy = function(...args) {
+    Vue.prototype.$dividedBy = function (...args) {
       if (args.length !== 2) {
         throw Error("Must set two params");
       }
@@ -99,28 +99,43 @@ export default {
     /**
      * 根据参数定义显示资产位数
      */
-    Vue.prototype.$fixDecimalAuto = function(value, currency) {
+    Vue.prototype.$fixDecimalAuto = function (value, currency) {
       if (currency && store.state.code.payable.indexOf(currency) > -1) {
         return fixDecimalsLegal(value);
       }
       return fixDecimalsBase(value);
     };
     /*路由相关*/
-    Vue.prototype.$goRouter = function(url, query) {
+    Vue.prototype.$goRouter = function (url, query, onComplete, onAbort) {
       if (url && url.length) {
-        this.$router.push({ path: url, query: query });
+        this.$router.push({path: url, query: query}, onComplete, onAbort);
       } else {
         // this.$Message.error(this.$t("public.url_notFound"));
       }
     };
-    Vue.prototype.$goBack = function() {
+    Vue.prototype.$goBack = function () {
       this.$router.go(-1);
     };
-    Vue.prototype.$goRefresh = function() {
+    Vue.prototype.$goRefresh = function () {
       this.$router.go(0);
     };
+    //替换当前页面地址
+    Vue.prototype.$goReplace = function (name, query, delParams, onComplete, onAbort) {
+      let index = 0;
+      let url = name;
+      if(query) {
+        for(let key in query) {
+          if(key && key !== delParams && query[key]) {
+            url += index === 0 ? "?" : "&";
+            url += key + "=" + query[key];
+            index++;
+          }
+        }
+      }
+      return this.$router.replace(url, onComplete, onAbort);
+    };
     /*用户相关*/
-    Vue.prototype.$saveUser = function(userName) {
+    Vue.prototype.$saveUser = function (userName) {
       let userList = JSON.parse(
         window.localStorage.getItem("userList") || "[]"
       );
@@ -128,7 +143,7 @@ export default {
       userList = Array.from(new Set(userList));
       window.localStorage.setItem("userList", JSON.stringify(userList));
     };
-    Vue.prototype.$getLanguage = function() {
+    Vue.prototype.$getLanguage = function () {
       let ln = window.localStorage.getItem("language") || DEFAULT_LANGUAGE;
       if (["zh-HK", "zh-TW"].contains(ln)) {
         ln = "zh-TW";
@@ -137,10 +152,10 @@ export default {
       }
       return ln;
     };
-    Vue.prototype.$getUserList = function(userName) {
+    Vue.prototype.$getUserList = function (userName) {
       return JSON.parse(window.localStorage.getItem("userList") || "[]");
     };
-    String.prototype.format = function() {
+    String.prototype.format = function () {
       if (arguments.length === 0) return this;
       let param = arguments[0];
       let s = this;
@@ -154,7 +169,7 @@ export default {
         return s;
       }
     };
-    Date.prototype.format = function(format) {
+    Date.prototype.format = function (format) {
       let date = {
         "M+": this.getMonth() + 1,
         "d+": this.getDate(),
@@ -182,7 +197,7 @@ export default {
       }
       return format;
     };
-    Array.prototype.contains = function(needle) {
+    Array.prototype.contains = function (needle) {
       for (let i in this) {
         if (this[i] === needle) return true;
       }

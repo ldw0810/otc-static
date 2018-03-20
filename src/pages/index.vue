@@ -52,11 +52,17 @@
             code: this.$route.query.withdraw_token
           }).then(res => {
             if (res.data && +res.data.error === 0) {
-              this.$Message.success(this.$t("asset.asset_withdraw_confirm_success"));
+              this.$alert.success({
+                content: this.$t("asset.asset_withdraw_confirm_success"),
+                onClose: this.$goReplace(this.$route, this.$route.query, "withdraw_token")
+              });
             } else {
               this.$alert.error({
                 title: this.$t("public.error_title_default"),
-                content: this.$t("asset.asset_withdraw_confirm_fail")
+                content: this.$t("asset.asset_withdraw_confirm_fail"),
+                onClose: () => {
+                  this.$goReplace(this.$route.path, this.$route.query, "withdraw_token");
+                }
               });
             }
           }).catch(err => {
@@ -64,31 +70,42 @@
             this.$alert.error({
               title: this.$t("public.error_title_default"),
               content: this.$t("asset.asset_withdraw_confirm_fail"),
+              onClose: () => {
+                this.$goReplace(this.$route.path, this.$route.query, "withdraw_token");
+              }
             });
           });
-        } else if (this.$route.query.invitationCode) {
-//                    window.localStorage.setItem("invitationCode", this.$route.query.invitationCode);
         } else if (this.$route.query.activation_token) {
           this.$store.dispatch("ajax_email_verified", {
             token: this.$route.query.activation_token
           }).then(res => {
             if (res.data && +res.data.error === 0) {
-              this.$Message.success({
+              this.$alert.success({
                 content: this.$t('public.email_activation_success'),
-                // onClose: this.$goRouter("/"),
+                onClose: () => {
+                  this.$goReplace(this.$route.path, this.$route.query, "activation_token");
+                }
               });
             } else {
               this.$alert.error({
                 title: this.$t("public.error_title_default"),
-                content: this.$t("public.activation_link_notValid")
-              })
+                content: this.$t("public.activation_link_notValid"),
+                onClose: () => {
+                  this.$goReplace(this.$route.path, this.$route.query, "activation_token");
+                }
+              });
             }
           }).catch(err => {
-            // this.$Message.error({
-              // content: this.$t('public.activation_link_notValid'),
-              // onClose: this.$goRouter("/"),
-            // });
+            this.$alert.error({
+              title: this.$t("public.error_title_default"),
+              content: this.$t("public.activation_link_notValid"),
+              onClose: () => {
+                this.$goReplace(this.$route.path, this.$route.query, "activation_token");
+              }
+            });
           });
+        } else if (this.$route.query.invitationCode) {
+//                    window.localStorage.setItem("invitationCode", this.$route.query.invitationCode);
         }
       }
 
@@ -169,7 +186,7 @@
 
   #page {
     /* z-index: 0; */
-    flex:1;
+    flex: 1;
     /* padding-bottom: 30px; */
   }
 </style>
