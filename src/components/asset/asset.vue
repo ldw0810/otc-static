@@ -885,6 +885,8 @@
               return false;
             }
           }
+        } else {
+          this.addNewAddressStatus = false;
         }
       },
       sendListEmail(item) {
