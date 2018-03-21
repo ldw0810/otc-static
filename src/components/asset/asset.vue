@@ -691,19 +691,20 @@
               this.changTabLoading = false;
               if (res.data && +res.data.error === 0) {
                 this.withdraw = res.data;
-                for (let i = 0; i < this.withdraw.fund_sources.length; i++) {
-                  if (
-                    this.withdraw.fund_sources[i].id === this.default_source_id
-                  ) {
-                    const value =
-                      this.withdraw.fund_sources[i].id +
-                      "-" +
-                      this.withdraw.fund_sources[i].uid;
-                    this.form.address = this.withdraw.fund_sources[i].uid;
-                    this.setAddress = value;
-                    this.get_address_id(value);
-                  }
-                }
+                this.get_address_id();
+                // for (let i = 0; i < this.withdraw.fund_sources.length; i++) {
+                //   if (
+                //     this.withdraw.fund_sources[i].id === this.default_source_id
+                //   ) {
+                //     const value =
+                //       this.withdraw.fund_sources[i].id +
+                //       "-" +
+                //       this.withdraw.fund_sources[i].uid;
+                //     this.form.address = this.withdraw.fund_sources[i].uid;
+                //     this.setAddress = value;
+                    
+                //   }
+                // }
               }
             })
             .catch(err => {
@@ -862,7 +863,7 @@
         if (val === 1000) {
           this.initFormData();
           this.addNewAddressStatus = true;
-        } else {
+        } else if (val) {
           this.addNewAddressStatus = false;
           for (let i = 0; i < this.withdraw.fund_sources.length; i++) {
             if (
