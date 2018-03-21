@@ -111,6 +111,7 @@
     "no_off_ad": "您沒有已下架的廣告",
     "no_asset_recharge": "沒有充值的信息",
     "no_asset_withdraw": "沒有提現的信息",
+    "success_title_default": "成功",
     "error_title_default": "錯誤"
   },
   "user": {
@@ -396,7 +397,7 @@
     "ad_sell_price_tip": " 基於溢價比例得出的報價，10分鐘更新壹次",
     "ad_max_price": "最高價",
     "ad_max_price_required": "請輸入最高購買價格",
-    "ad_max_price_tip": "廣告最高可成交的價格，可幫助您在價格劇烈波動時保持盈利，比如最高價為1000，市場價處於1000以下時，您的廣告將依舊以1000的價格展示出來",
+    "ad_max_price_tip": "廣告最高可成交的價格，可幫助您在價格劇烈波動時保持盈利，比如最高價為1000，市場價處於1000以上時，您的廣告將依舊以1000的價格展示出來",
     "ad_min_price": "最低價",
     "ad_min_number_required": "數額必須不少於50",
     "ad_min_price_required": "請輸入最低價",
