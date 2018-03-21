@@ -880,6 +880,7 @@
             }
           }
         } else {
+          this.initFormData();
           this.addNewAddressStatus = false;
         }
       },
