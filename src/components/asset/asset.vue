@@ -136,23 +136,23 @@
                         <div class='withdraw-address'>
                           <FormItem prop="address" v-if="withdraw.fund_sources && withdraw.fund_sources.length">
                             <Select class='withdraw-address-select'
+                                    ref='select'
                                     :placeholder="$t('ad.ad_type_select_withdraw_address')"
                                     @on-change='get_address_id'
                                     v-model='setAddress'
                             >
-
-                              <template v-if='withdraw.fund_sources.length'>
-                                <Option :value='1000' :label='$t("asset.asset_withdraw_add_new_address_down")'>
+                              <Option :value='1000' :label='$t("asset.asset_withdraw_add_new_address_down")'>
                                   <span class='withdraw-address-select-text u-ellipsis-1'>{{$t('asset.asset_withdraw_address_add')}}</span>
                                 </Option>
+                              <!-- <template v-if='withdraw.fund_sources.length'> -->
                                 <Option :value="item.id + '-' + item.uid" :label="item.extra + ' - ' + item.uid"
                                         v-for="(item, index) in withdraw.fund_sources" :key='index'>
                                     <span
                                         class='withdraw-address-select-text u-ellipsis-1'>{{item.extra}} - {{item.uid}}</span>
-                                  <span class='withdraw-address-select-trash icon-trash'
+                                    <span class='withdraw-address-select-trash icon-trash'
                                         @click.stop='address_del(item.id)'></span>
                                 </Option>
-                              </template>
+                              <!-- </template> -->
                             </Select>
                           </FormItem>
                           <div class='withdraw-address-add'
@@ -685,6 +685,7 @@
             })
             .then(res => {
               this.initTabs();
+              
               this.changTabLoading = false;
               if (res.data && +res.data.error === 0) {
                 this.withdraw = res.data;
@@ -715,6 +716,7 @@
           currency: this.currencyList[+index],
           type: this.assetIndex
         });
+        this.get_address_id()
       },
       changeOperation(index) {
         this.changTabLoading = true;
@@ -858,10 +860,12 @@
         this.auth_two_flag = false;
       },
       get_address_id(val) {
+        this.setAddress = val ? val : '';
         if (val === 1000) {
           this.initFormData();
           this.addNewAddressStatus = true;
         } else if (val) {
+          this.$refs.select && this.$refs.select.updateOptions()           
           this.addNewAddressStatus = false;
           for (let i = 0; i < this.withdraw.fund_sources.length; i++) {
             if (
