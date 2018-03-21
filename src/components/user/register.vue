@@ -61,7 +61,7 @@
             </CheckboxGroup>
           </FormItem>
           <FormItem class="formItem submit">
-            <i-button class="submitButton" type='primary' :disabled='!validate' :loading='submitLoading'
+            <i-button class="submitButton" type='primary' :disabled='!validate || !this.validFlag.userName || !this.validFlag.email' :loading='submitLoading'
                       @click="submit('form')">
               {{$t('public.register')}}
             </i-button>
@@ -116,7 +116,6 @@
                   this.validFlag.userName = true;
                   callback();
                 } else {
-                  console.log('此处错误')
                   this.validFlag.userName = false;
                   callback(new Error(this.$t("user.userName_repeat")));
                 }
