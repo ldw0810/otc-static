@@ -14,7 +14,7 @@
                 <div v-for="(account, index2) in userInfo.valid_account" :key='index2'>
                   <p class='sider-item-desc' v-if="account.currency === currencyList[index]">
                     <!-- {{$t("public.asset")}}:  -->
-                    {{account.amount | fix_decimals_assets}}
+                    {{(account.amount || 0) | fix_decimals_assets}}
                   </p>
                 </div>
               </div>
@@ -28,7 +28,7 @@
             <div class="content-header-item">
               <div class="content-header-item-warpper">
                 <h3 class='content-header-item-title'>{{$t("asset.asset_amount")}}</h3>
-                <div class='content-header-item-content'>{{account["amount"] | fix_decimals_assets }}</div>
+                <div class='content-header-item-content'>{{(account["amount"] || 0) | fix_decimals_assets }}</div>
               </div>
 
             </div>
