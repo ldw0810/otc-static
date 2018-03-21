@@ -53,4 +53,14 @@ export const AJAX_BASEURL_DEV = "/";  //ajax请求的地址(development)
 export const AJAX_BASEURL_PRO = "https://alpha.otcmaker.com";  //ajax请求的地址(production)
 
 export const OMT_SHOW = false;  //是否展示注册送omt
+export const HOME_CAROUSEL = {
+  defaultIndex: 1,  //默认从第几张图片开始展示(默认第1张，为1)
+  speed: 5000,  //轮播图片速度(ms)
+  imgList: [  //轮播图片列表,当数量为1时不轮播
+    require("../static/images/home/carousel_0.jpg"),
+    require("../static/images/home/carousel_0.jpg"),
+    require("../static/images/home/carousel_0.jpg"),
+    require("../static/images/home/carousel_0.jpg")
+  ]
+};
 export default config;

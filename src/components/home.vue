@@ -1,6 +1,11 @@
 <template>
   <div class="home">
-    <div class="carousel">
+    <div class="carousel" v-if="carousel.list.length === 1">
+      <div class="img">
+        <img :src="carousel.list[0]">
+      </div>
+    </div>
+    <div class="carousel" v-else-if="carousel.list.length > 1">
       <Carousel class='m-ivu-carousel' autoplay :autoplay-speed="carousel.speed" v-model="carousel.value" loop
                 :radius-dot='true'>
         <CarouselItem v-for="(item, index) in carousel.list" :key="index">
@@ -71,6 +76,7 @@
 
 <script>
   import {Carousel, CarouselItem} from "iview";
+  import {HOME_CAROUSEL} from "config/config";
   import Card from "@/components/public/deal-cards";
 
   export default {
@@ -78,12 +84,9 @@
     data() {
       return {
         carousel: {
-          value: 0,
-          speed: 5000,
-          list: [
-            require("../static/images/home/carousel_0.jpg"),
-            require("../static/images/Invite-Banner.jpg")
-          ]
+          value: HOME_CAROUSEL.defaultIndex - 1,
+          speed: HOME_CAROUSEL.speed,
+          list: HOME_CAROUSEL.imgList
         },
         ads: []
       };
