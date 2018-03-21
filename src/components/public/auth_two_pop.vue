@@ -75,7 +75,7 @@
 </template>
 
 <script type="es6">
-  import { VALI_NUMBER_CALLBACK } from 'config/validator'
+  import {VALI_NUMBER_CALLBACK} from 'config/validator'
   import logoDiv from "../public/logo.vue"
   import sendCodeButton from "../public/sendCode.vue"
 
@@ -118,12 +118,20 @@
         },
       };
     },
+    watch:{
+      validate_two_Index(val){
+        this.validateIndex = val ? 1 : 0;
+      }
+    },
     computed: {
       validate_phone() {
         return this.$store.state.userInfo.mobile;
       },
       validate_google() {
         return this.$store.state.userInfo.app_two_factor;
+      },
+      validate_two_Index() {
+        return !this.validate_phone && this.validate_google;
       },
       tipText() {
         return this.$t('user.auth_phone_code_will_send').format(this.$store.state.userInfo.phone_number || "");
@@ -160,7 +168,7 @@
                   this.$alert.error({
                     title: this.$t("public.error_title_default"),
                     content: this.$t("user.auth_phone_fail")
-                  })
+                  });
                   this.$refs.sendCodeButton.refresh();
                 }
               }).catch(err => {
@@ -174,7 +182,7 @@
             this.$alert.error({
               title: this.$t("public.error_title_default"),
               content: this.$t("user.auth_phone_notValid")
-            })
+            });
           }
         });
       },
@@ -187,7 +195,7 @@
                 code: this.googleForm.pinCode,
               });
             } else {
-              this.googleLoading = true
+              this.googleLoading = true;
               this.$store.dispatch("ajax_verify_code", {
                 op: "app",
                 code: this.googleForm.pinCode,
@@ -213,7 +221,7 @@
             this.$alert.error({
               title: this.$t("public.error_title_default"),
               content: this.$t("user.auth_google_notValid")
-            })
+            });
           }
         });
       },
@@ -229,11 +237,6 @@
         this.$store.dispatch("ajax_google_auth", {
           refresh: 1
         });
-      }
-    },
-    created() {
-      if (!this.validate_phone && this.validate_google) {
-        this.validateIndex = 1;
       }
     },
     components: {
