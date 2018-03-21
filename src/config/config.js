@@ -33,36 +33,27 @@ export const CONF_DIGITAL_CURRENCY_LIST = [ // 当前平台支持的数字币
   },
 ];
 
-/**
- * 矿工费
- */
-// export const CONF_MINERSFEE = [
-//   {
-//     name: 'dai',
-//     fee: 1
-//   },
-//   {
-//     name: 'eth',
-//     fee: 0.005
-//   }
-// ];
 export const DEFAULT_LANGUAGE = "zh-HK";  //默认语言
+export const CURRENT_lANGUAGE = window.localStorage.getItem('language') || DEFAULT_LANGUAGE; // 当前语言
 export const CHAT_URL = "https://notice.otcmaker.com/chat"; //聊天接口URL
 export const AJAX_TIMEOUT = 20000;  //ajax请求的超时时间
 export const AJAX_BASEURL_DEV = "/";  //ajax请求的地址(development)
 export const AJAX_BASEURL_PRO = "https://alpha.otcmaker.com";  //ajax请求的地址(production)
 
 export const OMT_SHOW = false;  //是否展示注册送omt
+
+
+const postfixImg =  CURRENT_lANGUAGE.toLowerCase();
 export const HOME_CAROUSEL = {
   defaultIndex: 1,  //默认从第几张图片开始展示(默认第1张，为1)
   speed: 5000,  //轮播图片速度(ms)
   list: [  //轮播图片列表,当数量为1时不轮播
     {
-      img: require("../static/images/home/carousel_0.jpg"),
+      img: require(`../static/images/home/banner1-${postfixImg}.jpg`),
       url: "/"
     },
     {
-      img: require("../static/images/home/carousel_0.jpg"),
+      img: require(`../static/images/home/banner2-${postfixImg}.jpg`),
       url: "/invite"
     }
   ]
