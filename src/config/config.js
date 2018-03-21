@@ -56,11 +56,15 @@ export const OMT_SHOW = false;  //是否展示注册送omt
 export const HOME_CAROUSEL = {
   defaultIndex: 1,  //默认从第几张图片开始展示(默认第1张，为1)
   speed: 5000,  //轮播图片速度(ms)
-  imgList: [  //轮播图片列表,当数量为1时不轮播
-    require("../static/images/home/carousel_0.jpg"),
-    require("../static/images/home/carousel_0.jpg"),
-    require("../static/images/home/carousel_0.jpg"),
-    require("../static/images/home/carousel_0.jpg")
+  list: [  //轮播图片列表,当数量为1时不轮播
+    {
+      img: require("../static/images/home/carousel_0.jpg"),
+      url: "/"
+    },
+    {
+      img: require("../static/images/home/carousel_0.jpg"),
+      url: "/invite"
+    }
   ]
 };
 export default config;

@@ -1,16 +1,16 @@
 <template>
   <div class="home">
     <div class="carousel" v-if="carousel.list.length === 1">
-      <div class="img">
-        <img :src="carousel.list[0]">
+      <div class="img" @click.stop="goCarousel(carousel.list[0].url)">
+        <img :src="carousel.list[0].img">
       </div>
     </div>
     <div class="carousel" v-else-if="carousel.list.length > 1">
       <Carousel class='m-ivu-carousel' autoplay :autoplay-speed="carousel.speed" v-model="carousel.value" loop
                 :radius-dot='true'>
         <CarouselItem v-for="(item, index) in carousel.list" :key="index">
-          <div class="img">
-            <img :src="item">
+          <div class="img" @click.stop="goCarousel(item.url)">
+            <img :src="item.img">
           </div>
         </CarouselItem>
       </Carousel>
@@ -86,7 +86,7 @@
         carousel: {
           value: HOME_CAROUSEL.defaultIndex - 1,
           speed: HOME_CAROUSEL.speed,
-          list: HOME_CAROUSEL.imgList
+          list: HOME_CAROUSEL.list,
         },
         ads: []
       };
@@ -107,6 +107,9 @@
         }).catch(err => {
           // this.$Message.error(this.$t("public.ads_request_fail"));
         });
+      },
+      goCarousel(url){
+        this.$goRouter(url);
       }
     },
     mounted() {
@@ -211,5 +214,6 @@
     height: 440px;
     width: 100%;
     min-width: 1080px;
+    cursor: pointer;
   }
 </style>
