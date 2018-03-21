@@ -133,7 +133,8 @@
               .dispatch("ajax_zendesk")
               .then(res => {
                 if (res.data && +res.data.error === 0) {
-                  window.location.href = res.data.path;
+                  // window.location.href = res.data.path;
+                  window.location.href = `${domain}/categories/360000187674`
                 } else {
                 }
               })
