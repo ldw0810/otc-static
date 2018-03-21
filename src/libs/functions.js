@@ -125,7 +125,7 @@ export default {
       let url = name;
       if(query) {
         for(let key in query) {
-          if(key && key !== delParams && query[key]) {
+          if(key && key !== delParams && (query[key] || query[key] === 0)) {
             url += index === 0 ? "?" : "&";
             url += key + "=" + query[key];
             index++;

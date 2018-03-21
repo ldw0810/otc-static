@@ -54,7 +54,7 @@
             if (res.data && +res.data.error === 0) {
               this.$alert.success({
                 content: this.$t("asset.asset_withdraw_confirm_success"),
-                onClose: this.$goReplace(this.$route, this.$route.query, "withdraw_token")
+                onClose: this.$goReplace(this.$route.path, this.$route.query, "withdraw_token")
               });
             } else {
               this.$alert.error({
