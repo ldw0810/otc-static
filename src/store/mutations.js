@@ -29,6 +29,7 @@ export default {
   },
   userInfo_setter(state, value) {
     state.userInfo = value;
+    localStorage.setItem("nickname", value.nickname || "");
   },
   userInfo_phone_number_setter(state, value) {
     state.userInfo.phone_number = value;
@@ -66,11 +67,12 @@ export default {
     }
   },
   saveToken(state, value) {
-    localStorage.userToken = value;
+    localStorage.setItem("userToken", value);
     state.userToken = value;
   },
   delToken(state) {
     localStorage.removeItem("userToken");
+    localStorage.removeItem("nickname");
     state.userToken = null;
   },
 };
