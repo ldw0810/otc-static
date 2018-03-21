@@ -614,8 +614,8 @@
   "validate": {
     "alipay_name_range": "支付寶帳戶名稱長度應該介於 4-20 之間",
     "alipay_account_range": "支付寶帳號長度應該介於 4-40 之間",
-    "card_holder_range": "銀行卡帳戶長度應該介於 4-20 之間",
-    "card_number_range": "銀行卡卡號長度應該介於 10-20 之間",
+    "card_holder_range": "銀行卡帳戶長度應該介於 2-20 之間",
+    "card_number_range": "銀行卡卡號長度應該介於 16-19 之間",
     "address_label": "必須2-16個字元",
     "max_length": "字數不得超過{0}",
     "must_be_number": "必須是數位"

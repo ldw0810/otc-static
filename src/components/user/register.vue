@@ -12,6 +12,7 @@
         <Form ref="form" @checkValidate='checkValidate' :model="form" :rules="rules">
           <FormItem prop="userName" class="formItem">
             <i-input class="input" type="text" v-model="form.userName"
+                      @on-focus = 'onFocusUserName'
                      :placeholder="$t('user.userName_required')">
                             <span slot="prepend">
                                 <img src="../../static/images/icon/User-999999.svg">
@@ -20,6 +21,7 @@
           </FormItem>
           <FormItem prop="email" class="formItem">
             <i-input class="input" type="text" v-model="form.email"
+                      @on-focus = 'onFocusEmail'
                      :placeholder="$t('user.email_required')">
                             <span slot="prepend">
                                 <img src="../../static/images/icon/Email-999999.svg">
@@ -108,12 +110,13 @@
             this.$store.dispatch("ajax_verified_nickname", {
               nickname: value
             }).then(res => {
+              isValidNickName = true;
               if (res.data && +res.data.error === 0) {
                 if (!res.data.exist) {
                   this.validFlag.userName = true;
-                  isValidNickName = true;
                   callback();
                 } else {
+                  console.log('此处错误')
                   this.validFlag.userName = false;
                   callback(new Error(this.$t("user.userName_repeat")));
                 }
@@ -125,8 +128,9 @@
               this.validFlag.userName = false;
               callback(new Error(this.$t("public.url_request_fail")));
             });
+          } else {
+            callback()
           }
-          callback()
         }
       };
       const validateEmail = (rule, value, callback) => {
@@ -147,9 +151,9 @@
                 email: value
               })
               .then(res => {
+                isValidEmail = true;
                 if (res.data && +res.data.error === 0) {
                   if (!res.data.exist) {
-                    isValidEmail = true;
                     this.validFlag.email = true;
                     callback();
                   } else {
@@ -165,8 +169,9 @@
                 this.validFlag.email = false;
                 callback(new Error(this.$t("public.url_request_fail")));
               });
+          } else {
+            callback()
           }
-          callback()
         }
       };
       const validatePassword = (rule, value, callback) => {
@@ -350,6 +355,12 @@
       this.$store.commit("footer_is_login_setter", false);
     },
     methods: {
+      onFocusUserName() {
+        isValidNickName = false
+      },
+      onFocusEmail() {
+        isValidEmail = false
+      },
       submit(name) {
         this.$refs[name].validate(valid => {
           if (valid) {

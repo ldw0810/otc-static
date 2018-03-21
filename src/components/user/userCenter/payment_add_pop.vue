@@ -152,6 +152,9 @@ export default {
       } else if (value !== this.bankCardForm.number) {
         callback(new Error(this.$t("user.bankCard_number_different")));
       } else {
+        if (value === this.bankCardForm.number && this.bankCardForm.number !== 0) {
+          this.$refs.bankCardForm.resetField('number')
+        }
         callback();
       }
     };

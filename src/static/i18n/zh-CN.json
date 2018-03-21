@@ -615,8 +615,8 @@
   "validate": {
     "alipay_name_range": "支付宝账户名称长度应该介于4-20之间",
     "alipay_account_range": "支付宝账号长度应该介于4-40之间",
-    "card_holder_range": "银行卡账户长度应该介于4-20之间",
-    "card_number_range": "银行卡卡号长度应该介于10-20之间",
+    "card_holder_range": "银行卡账户长度应该介于2-20之间",
+    "card_number_range": "银行卡卡号长度应该介于16-19之间",
     "address_label": "必须2-16个字符",
     "max_length": "字数不得超过{0}",
     "must_be_number": "必须是数字"
