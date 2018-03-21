@@ -31,7 +31,7 @@
   </div>
 </template>
 <script type="es6">
-  import {CONF_MINERSFEE, CONF_DIGITAL_CURRENCY_LIST} from "config/config";
+  import {CONF_DIGITAL_CURRENCY_LIST} from "config/config";
   import logoDiv from "../public/logo.vue"
 
   export default {
@@ -40,7 +40,8 @@
         address: "",
         number: 0,
         id: 0,
-      }
+      },
+      withdraw: {}
     },
     data() {
       return {};
@@ -50,7 +51,7 @@
         return (this.$route.query.currency || CONF_DIGITAL_CURRENCY_LIST[0].currency);
       },
       currencyFee() {
-        return CONF_MINERSFEE.filter(item => item.name.toUpperCase() === this.currency.toUpperCase()).map(item => item.fee)[0] || 0;
+        return this.withdraw.withdraw_channels.fee;
       }
     },
     methods: {
