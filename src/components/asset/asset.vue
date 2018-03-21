@@ -520,9 +520,6 @@
       assetIndex() {
         return +(this.$route.query.type || 0);
       },
-      withdraw_token() {
-        return this.$route.query.withdraw_token;
-      },
       currencyList() {
         return this.$store.state.code.sellable;
       },
@@ -715,7 +712,8 @@
       },
       changeSider(index) {
         this.$goRouter(this.$route.name, {
-          currency: this.currencyList[+index]
+          currency: this.currencyList[+index],
+          type: this.assetIndex
         });
       },
       changeOperation(index) {
