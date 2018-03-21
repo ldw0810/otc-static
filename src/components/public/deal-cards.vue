@@ -114,6 +114,7 @@ $baseImage: "~images";
     &-item {
       display: flex;
       justify-content: center;
+      align-items: center;
       color: #999;
       font-size: 12px;
       margin-bottom: 10px;
