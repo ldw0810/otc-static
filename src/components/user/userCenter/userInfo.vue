@@ -7,7 +7,7 @@
       <div class="g-shadow avator">
         <img class='avator-img' src="../../../static/images/DefaultHead.jpg">
       </div>
-      <div class="name" v-text="userInfo.nickname || ''"></div>
+      <div class="name" v-text="nickname"></div>
     </div>
     <div class="infoPage">
       <div class="info">
@@ -82,6 +82,9 @@
       },
       userInfo() {
         return this.$store.state.userInfo;
+      },
+      nickname(){
+        return this.userInfo.nickname || window.localStorage.getItem("nickname");
       },
       default_receiver() {
         let default_collection = this.userInfo.default_collection;
