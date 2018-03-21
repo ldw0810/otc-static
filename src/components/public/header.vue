@@ -147,7 +147,7 @@
               <Dropdown>
                 <div class='header-navbar-item-wrapper' @click='goMenu(item)'>
                   <a class='header-navbar-item-link' href="javascript:void(0)">
-                    {{userInfo.nickname}}
+                    {{nickname}}
                   </a>
                   <Icon class='header-navbar-item-icon header-navbar-item-icon-append' type="arrow-down-b"></Icon>
                 </div>
@@ -289,6 +289,9 @@
       },
       userInfo() {
         return this.$store.state.userInfo;
+      },
+      nickname(){
+        return this.userInfo.nickname || window.localStorage.getItem("nickname");
       },
       soft_disabled(){
         return this.$store.state.userInfo.soft_disabled;

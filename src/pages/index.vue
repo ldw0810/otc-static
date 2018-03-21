@@ -131,19 +131,19 @@
       }
     },
     beforeRouteEnter(to, from, next) {
-      if (localStorage.getItem("userToken")) {
-        window.store.dispatch("ajax_me");
-      }
-      window.store.dispatch("ajax_currency_code").then(res => {
-        if (res.data && +res.data.error === 0) {
-          window.store.commit("code_setter", res.data);
-        } else {
-          // this.$Message.error(this.$t("public.ads_request_fail"));
+      next(vm => {
+        if (localStorage.getItem("userToken")) {
+          vm.$store.dispatch("ajax_me");
         }
-        next();
-      }).catch(err => {
-        // this.$Message.error(this.$t("public.ads_request_fail"));
-        next();
+        vm.$store.dispatch("ajax_currency_code").then(res => {
+          if (res.data && +res.data.error === 0) {
+            vm.$store.commit("code_setter", res.data);
+          } else {
+            // this.$Message.error(this.$t("public.ads_request_fail"));
+          }
+        }).catch(err => {
+          // this.$Message.error(this.$t("public.ads_request_fail"));
+        });
       });
     },
     components: {

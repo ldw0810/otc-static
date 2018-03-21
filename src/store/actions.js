@@ -1,4 +1,4 @@
-import ajax from "../libs/ajax"
+import ajax from "../libs/ajax";
 import queryString from 'querystring';   //post请求转码
 import store from "../store/store";
 import {CHAT_URL} from "config/config";
