@@ -123,14 +123,10 @@
                   <div class='content-withdraw-verify'
                        v-else>
                     <div class="tip" v-if="currency === 'dai'">
-                      {{$t("asset.asset_withdraw_address_tip_DAI").format($t("public['" +
-                      this.currency +
-                      "']"))}}
+                      {{$t("asset.asset_withdraw_address_tip_DAI").format(withdraw.withdraw_channels.fee)}}
                     </div>
                     <div class="tip" v-else>
-                      {{$t("asset.asset_withdraw_address_tip_ETH").format($t("public['" +
-                      this.currency +
-                      "']"))}}
+                      {{$t("asset.asset_withdraw_address_tip_ETH").format(withdraw.withdraw_channels.fee)}}
                     </div>
 
                     <Form class="form" ref="form" @checkValidate='checkValidate_form' :model="form"
@@ -330,7 +326,7 @@
           <Modal v-model="withdraw_confirm" width='580' class-name="m-ivu-modal" :mask-closable="true"
                  :closable="false">
             <logoDiv/>
-            <withdraw_confirm_pop :form="form" @close="doWithdrawPop"/>
+            <withdraw_confirm_pop :form="form" :withdraw="withdraw" @close="doWithdrawPop"/>
             <div slot="footer"></div>
           </Modal>
           <Modal v-model="withdraw_email" width='480' class-name="m-ivu-modal" :mask-closable="false"

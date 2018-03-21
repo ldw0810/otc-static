@@ -36,16 +36,16 @@ export const CONF_DIGITAL_CURRENCY_LIST = [ // 当前平台支持的数字币
 /**
  * 矿工费
  */
-export const CONF_MINERSFEE = [
-  {
-    name: 'dai',
-    fee: 1
-  },
-  {
-    name: 'eth',
-    fee: 0.005
-  }
-];
+// export const CONF_MINERSFEE = [
+//   {
+//     name: 'dai',
+//     fee: 1
+//   },
+//   {
+//     name: 'eth',
+//     fee: 0.005
+//   }
+// ];
 export const DEFAULT_LANGUAGE = "zh-HK";  //默认语言
 export const CHAT_URL = "https://notice.otcmaker.com/chat"; //聊天接口URL
 export const AJAX_TIMEOUT = 20000;  //ajax请求的超时时间
