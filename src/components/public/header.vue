@@ -324,7 +324,6 @@
         } else {
           this.timeout && clearTimeout(this.timeout);
           this.timeout = setTimeout(this.getNotice, 30 * 1000);
-          this.init();
         }
       }
     },
@@ -425,6 +424,9 @@
           }
         ];
       }
+    },
+    created(){
+      this.init();
     },
     destroyed() {
       this.timeout && clearTimeout(this.timeout);
