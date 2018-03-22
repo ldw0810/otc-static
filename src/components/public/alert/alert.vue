@@ -1,5 +1,6 @@
 <template>
   <Modal
+      data-sign = 'alert'
       class='alert'
       width='auto'
       class-name='u-flex u-flex-center-middle'
@@ -53,6 +54,9 @@
       },
       onClose() {
       }
+    },
+    mounted() {
+
     }
   }
 </script>

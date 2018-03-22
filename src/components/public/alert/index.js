@@ -4,6 +4,12 @@ import alert from './alert'
 const alertController = Vue.extend(alert);
 
 let alertInstance = function(options) {
+  // 不会重复弹窗 
+  const sign = document.querySelector('[data-sign=alert] .ivu-modal-mask')
+  if (sign && sign.style.display !== 'none') {
+    return {}
+  }
+
   const instance = new alertController().$mount(document.createElement('div'));
   document.body.appendChild(instance.$el);
   instance.visible = true;
