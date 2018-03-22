@@ -227,9 +227,7 @@
                 this.submitloading = false;
                 if (res.data && +res.data.error === 0) {
                   this.$Message.success(this.$t("user.auth_phone_bind_success"));
-                  this.$store.commit("userInfo_phone_number_setter", this.addForm.phoneNumber);
-                  this.$store.commit("userInfo_mobile_setter", true);
-                  this.$emit('cancel');
+                  this.$emit('cancel', 1);
                 } else {
                   this.$Message.error(this.$t("user.auth_phone_bind_fail"));
                 }
@@ -252,8 +250,7 @@
                 this.submitloading = false;
                 if (res.data && +res.data.error === 0) {
                   this.$Message.success(this.$t("user.auth_phone_unbind_success"));
-                  this.$store.commit("userInfo_mobile_setter", false);
-                  this.$emit('cancel');
+                  this.$emit('cancel', 1);
                 } else {
                   // this.$Message.error(this.$t("user.auth_phone_unbind_fail"));
                 }
@@ -268,7 +265,7 @@
         }
       },
       cancel() {
-        this.$emit('cancel');
+        this.$emit('cancel', 0);
       }
     },
     computed: {
