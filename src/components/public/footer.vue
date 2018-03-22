@@ -91,10 +91,11 @@
     watch: {},
     methods: {
       changeLanguage(index) {
-        if (index === this.languageSelectIndex) {
+        if (+index === this.languageSelectIndex) {
           return false;
         } else {
-          let ln = this.languageList[index] && this.languageList[index].language;
+          const language = this.languageList[+index] && this.languageList[+index].language;
+          let ln = language;
           if (this.$store.state.userToken) {
             if (["zh-HK", "zh-TW"].contains(ln)) {
               ln = "zh-TW";
@@ -105,7 +106,7 @@
               ln: ln
             }).then(res => {
               if (res.data && +res.data.error === 0) {
-                window.localStorage.setItem("language", ln);
+                window.localStorage.setItem("language", language);
                 this.$goRefresh();
               } else {
                 return false;
@@ -115,7 +116,7 @@
                 return false;
               });
           } else {
-            window.localStorage.setItem("language", ln);
+            window.localStorage.setItem("language", language);
             this.$goRefresh();
           }
         }
