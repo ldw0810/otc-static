@@ -57,7 +57,7 @@
     </div>
     <Modal v-model="pop_phone" class-name="m-ivu-modal" width='480' :mask-closable="true"
            :closable="false" @on-visible-change="popPhoneTrigger">
-      <auth_phone_pop :pop_phone_show="pop_phone_show" @cancel='closePopPhone'/>
+      <auth_phone_pop ref='autoPhonePop' :pop_phone_show="pop_phone_show" @cancel='pop_phone = false'/>
       <div slot="footer"></div>
     </Modal>
     <Modal v-model="pop_google" class-name="m-ivu-modal" width='480' :mask-closable="true" :closable="false">
@@ -118,6 +118,7 @@
       },
       popPhoneTrigger(val) {
         this.pop_phone_show = val;
+        this.$refs.autoPhonePop.resetForm()
       },
       closePopGoogle(val) {
         val && this.$store.dispatch("ajax_me");
