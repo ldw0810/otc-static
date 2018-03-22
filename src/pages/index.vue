@@ -32,21 +32,6 @@
         duration: 3
       });
       if (this.$route.query) {
-        // if (this.$route.query.error) {
-        //     if (+this.$route.query.error === 10001) {
-        //         this.$Message.info({
-        //             content: this.$t('public.activation_link_notValid'),
-        //             onClose: this.$goRouter("/"),
-        //         });
-        //     }
-        // } else if (this.$route.query.success) {
-        //     if (+this.$route.query.success === 10000) {
-        //         this.$Message.info({
-        //             content: this.$t('public.email_activation_success'),
-        //             onClose: this.$goRouter("/"),
-        //         });
-        //     }
-        // } else
         if (this.$route.query.withdraw_token) {
           this.$store.dispatch("ajax_withdraw_confirm", {
             code: this.$route.query.withdraw_token
@@ -108,7 +93,6 @@
 //                    window.localStorage.setItem("invitationCode", this.$route.query.invitationCode);
         }
       }
-
     },
     watch: {
       showAuthEmail(val) {
