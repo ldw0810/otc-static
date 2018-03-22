@@ -123,6 +123,10 @@
       closePopGoogle(val) {
         val && this.$store.dispatch("ajax_me");
         this.pop_google = false;
+      },
+      closePopPhone(val) {
+        val && this.$store.dispatch("ajax_me");
+        this.pop_phone = false;
       }
     },
     components: {

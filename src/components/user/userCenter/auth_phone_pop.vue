@@ -39,7 +39,7 @@
         </FormItem>
         <FormItem class="formItem submit">
           <div class="g-comfirm-group">
-            <i-button class="submitButton" type="primary" :disabled='!validate.addForm' :loading='submitloading' @click="submit">
+            <i-button class="submitButton" type="primary" :disabled='!validate.addForm' :loading='submitLoading' @click="submit">
               {{$t('public.confirm')}}
             </i-button>
             <i-button class="cancelButton" @click="cancel">
@@ -73,7 +73,7 @@
         </FormItem>
         <FormItem class="formItem submit">
           <div class="g-comfirm-group">
-            <i-button class="submitButton" :disabled='!validate.delForm' :loading='submitloading' type="primary"
+            <i-button class="submitButton" :disabled='!validate.delForm' :loading='submitLoading' type="primary"
                       @click="submit">
               {{$t('public.confirm')}}
             </i-button>
@@ -104,7 +104,7 @@
     },
     data() {
       return {
-        submitloading: false,
+        submitLoading: false,
         countryList: [],
         addForm: {
           country: "CN",
@@ -221,24 +221,22 @@
         if (!this.userInfo.mobile) {
           this.$refs["addForm"].validate((valid) => {
             if (valid) {
-              this.submitloading = true;
+              this.submitLoading = true;
               this.$store.dispatch("ajax_sms_auth", {
                 commit: "auth",
                 country: this.addForm.country,
                 mobile: this.addForm.phoneNumber,
                 code: this.addForm.pinCode
               }).then(res => {
-                this.submitloading = false;
+                this.submitLoading = false;
                 if (res.data && +res.data.error === 0) {
                   this.$Message.success(this.$t("user.auth_phone_bind_success"));
-                  this.$store.commit("userInfo_phone_number_setter", this.addForm.phoneNumber);
-                  this.$store.commit("userInfo_mobile_setter", true);
-                  this.$emit('cancel');
+                  this.$emit('cancel', 1);
                 } else {
                   this.$Message.error(this.$t("user.auth_phone_bind_fail"));
                 }
               }).catch(err => {
-                this.submitloading = false;
+                this.submitLoading = false;
                 // this.$Message.error(this.$t("user.auth_phone_bind_fail"));
               });
             } else {
@@ -248,21 +246,20 @@
         } else {
           this.$refs["delForm"].validate((valid) => {
             if (valid) {
-              this.submitloading = true;
+              this.submitLoading = true;
               this.$store.dispatch("ajax_unbind_sms", {
                 password: this.delForm.password,
                 code: this.delForm.pinCode
               }).then(res => {
-                this.submitloading = false;
+                this.submitLoading = false;
                 if (res.data && +res.data.error === 0) {
                   this.$Message.success(this.$t("user.auth_phone_unbind_success"));
-                  this.$store.commit("userInfo_mobile_setter", false);
-                  this.$emit('cancel');
+                  this.$emit('cancel', 1);
                 } else {
                   // this.$Message.error(this.$t("user.auth_phone_unbind_fail"));
                 }
               }).catch(err => {
-                this.submitloading = false;
+                this.submitLoading = false;
                 // this.$Message.error(this.$t("user.auth_phone_unbind_fail"));
               });
             } else {
@@ -272,7 +269,7 @@
         }
       },
       cancel() {
-        this.$emit('cancel');
+        this.$emit('cancel', 0);
       }
     },
     computed: {

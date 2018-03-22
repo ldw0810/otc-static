@@ -53,7 +53,7 @@
     </Modal>
     <Modal v-model="pop_phone" class-name="m-ivu-modal" width='480' :mask-closable="true"
            :closable="false" @on-visible-change="popPhoneTrigger">
-      <auth_phone_pop :pop_phone_show="pop_phone_show" @cancel='pop_phone = false'/>
+      <auth_phone_pop :pop_phone_show="pop_phone_show" @cancel='closePopPhone'/>
       <div slot="footer"></div>
     </Modal>
     <div style="clear: both"></div>
@@ -123,6 +123,10 @@
       },
       popPhoneTrigger(val) {
         this.pop_phone_show = val;
+      },
+      closePopPhone(val) {
+        val && this.$store.dispatch("ajax_me");
+        this.pop_phone = false;
       }
     },
     components: {
