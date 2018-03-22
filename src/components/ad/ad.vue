@@ -768,7 +768,7 @@
               this.$multipliedBy(
                 this.$minus(
                   this.$dividedBy(
-                    +this.form.buyPrice,
+                    +this.form.sellPrice,
                     this.tradePrice
                   ), 1), 100)
             ).toFixed(3);
