@@ -44,18 +44,24 @@ export const OMT_SHOW = false;  //是否展示注册送omt
 
 
 const postfixImg =  CURRENT_lANGUAGE.toLowerCase();
+
+// 轮播图
 export const HOME_CAROUSEL = {
   defaultIndex: 1,  //默认从第几张图片开始展示(默认第1张，为1)
   speed: 5000,  //轮播图片速度(ms)
   list: [  //轮播图片列表,当数量为1时不轮播
     {
-      img: require(`../static/images/home/banner1-${postfixImg}.jpg`),
+      img: require(`../static/images/home/banner1-${postfixImg}.png`),
       url: "/"
     },
     {
-      img: require(`../static/images/home/banner2-${postfixImg}.jpg`),
+      img: require(`../static/images/home/banner2-${postfixImg}.png`),
       url: "/invite"
     }
   ]
 };
+
+// 邀请页面图片
+export const CONF_INVITE_BANNER = require(`../static/images/home/banner2-${postfixImg}.png`)
+
 export default config;

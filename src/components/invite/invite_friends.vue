@@ -1,6 +1,6 @@
 <template>
   <div class='invite'>
-    <div :class="klass">
+    <div class="banner" :style="{backgroundImage: 'url('+CONF_INVITE_BANNER+')'}">
     </div>
     <article class='invite-container'>
       <section class="invite-target g-shadow">
@@ -45,16 +45,16 @@
 </template>
 
 <script>
-  import { CURRENT_lANGUAGE } from 'config/config';
+  import { CONF_INVITE_BANNER } from 'config/config';
 
   export default {
     name: '',
+    data() {
+      return {
+        CONF_INVITE_BANNER,
+      }
+    },
     computed: {
-      klass() {
-        const result = ['banner']
-        result.push(`banner-img-${CURRENT_lANGUAGE.toLowerCase()}`)
-        return result
-      },
       link() {
         return window.location.href.replace("invite", "user/register?invitationCode=" +
           this.$store.state.userInfo.invite)
@@ -77,15 +77,6 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-  }
-  .banner-img-zh-cn {
-    background-image: url('~images/home/banner2-zh-cn.jpg');
-  }
-  .banner-img-zh-hk {
-    background-image: url('~images/home/banner2-zh-hk.jpg');
-  }
-  .banner-img-en-us {
-    background-image: url('~images/home/banner2-en-us.jpg');
   }
   .invite {
     margin-bottom: 30px;
