@@ -105,7 +105,7 @@
 
                 product: "bind",
                 width: "292px",
-                lang: this.$lang === "zh-CN" ? "zh-cn" : "en"
+                lang: window.localStorage.getItem("language") === "zh-CN" ? "zh-cn" : "en"
               },
               captchaObj => {
                 captchaObj.appendTo(document.getElementById("captcha"));
