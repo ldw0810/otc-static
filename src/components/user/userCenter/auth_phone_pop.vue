@@ -39,7 +39,7 @@
         </FormItem>
         <FormItem class="formItem submit">
           <div class="g-comfirm-group">
-            <i-button class="submitButton" type="primary" :disabled='!validate.addForm' @click="submit">
+            <i-button class="submitButton" type="primary" :disabled='!validate.addForm' :loading='submitloading' @click="submit">
               {{$t('public.confirm')}}
             </i-button>
             <i-button class="cancelButton" @click="cancel">
@@ -244,10 +244,12 @@
         } else {
           this.$refs["delForm"].validate((valid) => {
             if (valid) {
+              this.submitloading = true;
               this.$store.dispatch("ajax_unbind_sms", {
                 password: this.delForm.password,
                 code: this.delForm.pinCode
               }).then(res => {
+                this.submitloading = false;
                 if (res.data && +res.data.error === 0) {
                   this.$Message.success(this.$t("user.auth_phone_unbind_success"));
                   this.$store.commit("userInfo_mobile_setter", false);
@@ -256,6 +258,7 @@
                   // this.$Message.error(this.$t("user.auth_phone_unbind_fail"));
                 }
               }).catch(err => {
+                this.submitloading = false;
                 // this.$Message.error(this.$t("user.auth_phone_unbind_fail"));
               });
             } else {

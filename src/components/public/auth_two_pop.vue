@@ -13,7 +13,7 @@
       <div class='content'>
         <div class="title" v-if="validate_phone && !validate_google" v-text="$t('user.auth_phone')"></div>
         <div class="title" v-if="validate_google && !validate_phone" v-text="$t('user.auth_google')"></div>
-        <div v-show="+validateIndex === 0">
+        <div v-show="validate_phone && +validateIndex === 0">
           <div class="tip" v-text="tipText"></div>
           <Form class="form" ref="phoneForm" :model="phoneForm" :rules="phoneRules">
             <FormItem prop="pinCode" class="formItem">
@@ -42,7 +42,7 @@
           </Form>
 
         </div>
-        <div v-show="+validateIndex === 1">
+        <div v-show="validate_google && +validateIndex === 1">
           <div class="tip" v-text="$t('user.auth_google_code_required')"></div>
           <Form class="form" ref="googleForm" :model="googleForm" :rules="googleRules">
             <FormItem prop="pinCode" class="formItem">
@@ -93,7 +93,7 @@
         googleForm: {
           pinCode: ''
         },
-        validateIndex: 0,
+        validateIndex: this.validate_phone ? 0 : 1,
         phoneRules: {
           pinCode: [
             {
@@ -118,20 +118,13 @@
         },
       };
     },
-    watch:{
-      validate_two_Index(val){
-        this.validateIndex = val ? 1 : 0;
-      }
-    },
     computed: {
       validate_phone() {
+        this.validateIndex = this.$store.state.userInfo.mobile ? 0 : 1;
         return this.$store.state.userInfo.mobile;
       },
       validate_google() {
         return this.$store.state.userInfo.app_two_factor;
-      },
-      validate_two_Index() {
-        return !this.validate_phone && this.validate_google;
       },
       tipText() {
         return this.$t('user.auth_phone_code_will_send').format(this.$store.state.userInfo.phone_number || "");
