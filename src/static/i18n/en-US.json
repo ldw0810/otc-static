@@ -184,7 +184,7 @@
     "auth_phone_code_send_fail": "Pincode sent fail",
     "auth_phone_code_will_send": "Click to send pincode to {0} ",
     "auth_phone_code_reSend": "Resend",
-    "auth_phone_code_reSend_seconds": "({0}) Resend",
+    "auth_phone_code_reSend_seconds": "Resend ({0})",
     "auth_phone_success": "Phone verification success",
     "auth_phone_bind_success": "Phone binding success",
     "auth_phone_unbind_success": "Phone unbinding success",
