@@ -94,8 +94,8 @@
         if (index === this.languageSelectIndex) {
           return false;
         } else {
+          let ln = this.languageList[index] && this.languageList[index].language;
           if (this.$store.state.userToken) {
-            let ln = this.languageList[this.languageSelectIndex].name;
             if (["zh-HK", "zh-TW"].contains(ln)) {
               ln = "zh-TW";
             } else if (ln !== "zh-CN") {
@@ -105,10 +105,7 @@
               ln: ln
             }).then(res => {
               if (res.data && +res.data.error === 0) {
-                window.localStorage.setItem(
-                  "language",
-                  this.languageList[index].language
-                );
+                window.localStorage.setItem("language", ln);
                 this.$goRefresh();
               } else {
                 return false;
@@ -118,10 +115,7 @@
                 return false;
               });
           } else {
-            window.localStorage.setItem(
-              "language",
-              this.languageList[index].language
-            );
+            window.localStorage.setItem("language", ln);
             this.$goRefresh();
           }
         }
