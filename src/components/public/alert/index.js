@@ -5,10 +5,9 @@ const alertController = Vue.extend(alert);
 
 let alertInstance = function(options) {
   // 不会重复弹窗 
-  const sign = document.querySelector('[data-sign=alert] .ivu-modal-mask')
-  if (sign && sign.style.display !== 'none') {
-    return {}
-  }
+  const ALERT = document.querySelector('[data-sign=alert]')
+
+  if (ALERT) return {}
 
   const instance = new alertController().$mount(document.createElement('div'));
   document.body.appendChild(instance.$el);
@@ -27,7 +26,6 @@ let alertInstance = function(options) {
   }
   return instance;
 };
-
 alertInstance.error = function(options) {
   const instance = alertInstance(options);
   instance.type = 'error';
@@ -36,4 +34,6 @@ alertInstance.success = function(options) {
   const instance = alertInstance(options);
   instance.type = 'success';
 };
+
+
 export default alertInstance;

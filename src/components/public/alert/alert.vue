@@ -1,5 +1,6 @@
 <template>
   <Modal
+      ref='alert'
       data-sign = 'alert'
       class='alert'
       width='auto'
@@ -44,6 +45,14 @@
           } else if (this.type === "success") {
             return this.$t('public.success_title_default');
           }
+        }
+      }
+    },
+    watch: {
+      visible(val) {
+        if (val === false) {
+          document.body.removeChild(this.$refs.alert.$el)
+          this.$destroy()
         }
       }
     },
