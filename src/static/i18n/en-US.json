@@ -210,7 +210,7 @@
     "add_auth_google_scan": "Scan QR code with google authentication",
     "add_auth_google_saveKey": "Please keep the key properly",
     "add_auth_google_keyInfo": "is your key for google authentication, please keep it properly",
-    "add_auth_google_commit": "already keep the key, next",
+    "add_auth_google_commit": "Already keep the key, next",
     "userCenter": "User center",
     "info": "Basic information",
     "userInfo_response_none": "Please login again",

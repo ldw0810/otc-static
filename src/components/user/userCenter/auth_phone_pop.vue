@@ -1,7 +1,7 @@
 <template>
   <div id="popPage">
     <logoDiv></logoDiv>
-    <div class="addContent" v-if="!userInfo.mobile">
+    <div class="addContent" v-show="!userInfo.mobile">
       <div class="title" v-text="$t('user.auth_phone_add')"></div>
       <Form class="form" ref="addForm" @checkValidate='checkValidate_addForm' :model="addForm" :rules="addRules">
         <FormItem prop="country" class="formItem">
@@ -49,7 +49,7 @@
         </FormItem>
       </Form>
     </div>
-    <div class="delContent" v-else>
+    <div class="delContent" v-show='userInfo.mobile'>
       <div class="title" v-text="$t('user.auth_phone_del')"></div>
       <Form class="form" ref="delForm" @checkValidate='checkValidate_delForm' :model="delForm" :rules="delRules">
         <FormItem prop="password" class="formItem">
@@ -177,6 +177,10 @@
       }
     },
     methods: {
+      resetForm() {
+        this.$refs.addForm.resetFields()
+        this.$refs.delForm.resetFields()
+      },
       sendPinCode() {
         if (!this.userInfo.mobile) {
           if (this.$refs["addForm"].fields[1].validateState === "success") {
