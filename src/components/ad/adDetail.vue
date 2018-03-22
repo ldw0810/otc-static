@@ -264,6 +264,10 @@
           moneyAmount: "",
           number: ""
         },
+        formData: {
+          moneyAmount: "",
+          number: ""
+        },
         rules: {
           moneyAmount: [
             {
@@ -411,16 +415,22 @@
       },
       changeAmount() {
         if (+this.form.moneyAmount || +this.form.moneyAmount === 0) {
-          this.form.number = this.$fixDecimalAuto(
-            this.$dividedBy(+this.form.moneyAmount, +this.ad.current_price),
-            this.ad.currency
-          );
+          this.formData.moneyAmount = this.form.moneyAmount;
+          this.formData.number = this.$dividedBy(+this.form.moneyAmount, +this.ad.current_price);
+          this.form.number = this.$fixDecimalAuto(this.formData.number, this.ad.currency);
+          console.log("this.formData.number=" + this.formData.number);
         }
       },
       changeNumber() {
         if (+this.form.number || +this.form.number === 0) {
+          this.formData.number = this.form.number;
+          this.formData.moneyAmount = this.$multipliedBy(
+            +this.form.number,
+            +this.ad.current_price
+          );
+          console.log("this.formData.moneyAmount=" + this.formData.moneyAmount);
           this.form.moneyAmount = this.$fixDecimalAuto(
-            this.$multipliedBy(+this.form.number, +this.ad.current_price),
+            this.formData.moneyAmount,
             this.ad.target_currency
           );
         }
@@ -430,7 +440,7 @@
         this.$store
           .dispatch("ajax_order_buy", {
             id: this.ad.id,
-            price_sum: +this.form.moneyAmount
+            price_sum: +this.formData.moneyAmount
           })
           .then(res => {
             // this.submitPlaceOrderLoading = false;
