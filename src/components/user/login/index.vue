@@ -86,7 +86,7 @@
               new_captcha: res.data.new_captcha,
               product: "bind", // 产品形式，包括：float，popup, custom
               width: "292px",
-              lang: this.$lang === "zh-CN" ? "zh-cn" : "en"
+              lang: window.localStorage.getItem("language") === "zh-CN" ? "zh-cn" : "en"
             },
             captchaObj => {
               captchaObj.appendTo(document.getElementById("captcha"));
