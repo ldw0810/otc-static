@@ -768,7 +768,7 @@
               this.$multipliedBy(
                 this.$minus(
                   this.$dividedBy(
-                    +this.form.buyPrice,
+                    +this.form.sellPrice,
                     this.tradePrice
                   ), 1), 100)
             ).toFixed(3);
@@ -913,51 +913,56 @@
         }
       },
       getAdById(adId) {
-        this.$store.dispatch("ajax_get_ad", {
-          id: adId
-        }).then(res => {
-          if (res.data && +res.data.error === 0) {
-            this.ad = res.data.info;
-            for (let i = 0; i < this.opList.length; i++) {
-              if (this.opList[i] === this.ad.op_type) {
-                this.adType = i;
-                break;
+        return new Promise((resolve, reject) => {
+          this.$store.dispatch("ajax_get_ad", {
+            id: adId
+          }).then(res => {
+            if (res.data && +res.data.error === 0) {
+              this.ad = res.data.info;
+              for (let i = 0; i < this.opList.length; i++) {
+                if (this.opList[i] === this.ad.op_type) {
+                  this.adType = i;
+                  break;
+                }
               }
-            }
-            this.targetCurrency = this.ad.target_currency;
-            this.form.premium = +(this.ad.margin || 0);
-            this.form.floor = +(this.ad.min_limit || 0);
-            this.form.ceiling = +(this.ad.max_limit || 0);
-            this.form.remark = this.ad.remark;
-            if (+this.adType === 0) {
-              this.form.payment = this.ad.pay_kind;
-              if (this.ad.price) {
-                this.form.maxPrice = this.$fixDecimalAuto(
-                  +this.ad.price,
+              this.targetCurrency = this.ad.target_currency;
+              this.form.premium = +(this.ad.margin || 0);
+              this.form.floor = +(this.ad.min_limit || 0);
+              this.form.ceiling = +(this.ad.max_limit || 0);
+              this.form.remark = this.ad.remark;
+              if (+this.adType === 0) {
+                this.form.payment = this.ad.pay_kind;
+                if (this.ad.price) {
+                  this.form.maxPrice = this.$fixDecimalAuto(
+                    +this.ad.price,
+                    this.targetCurrency
+                  );
+                }
+                this.form.buyPrice = this.$fixDecimalAuto(
+                  +this.ad.current_price,
+                  this.targetCurrency
+                );
+              } else if (+this.adType === 1) {
+                this.form.collection = this.ad.pay_kind;
+                if (this.ad.price) {
+                  this.form.minPrice = this.$fixDecimalAuto(
+                    +this.ad.price,
+                    this.targetCurrency
+                  );
+                }
+                this.form.sellPrice = this.$fixDecimalAuto(
+                  +this.ad.current_price,
                   this.targetCurrency
                 );
               }
-              this.form.buyPrice = this.$fixDecimalAuto(
-                +this.ad.current_price,
-                this.targetCurrency
-              );
-            } else if (+this.adType === 1) {
-              this.form.collection = this.ad.pay_kind;
-              if (this.ad.price) {
-                this.form.minPrice = this.$fixDecimalAuto(
-                  +this.ad.price,
-                  this.targetCurrency
-                );
-              }
-              this.form.sellPrice = this.$fixDecimalAuto(
-                +this.ad.current_price,
-                this.targetCurrency
-              );
+            } else {
+              // this.$Message.error(this.$t("ad.ad_data_request_fail"));
             }
-          } else {
-            // this.$Message.error(this.$t("ad.ad_data_request_fail"));
-          }
-        })
+            resolve(res);
+          }).catch(err => {
+            resolve(err);
+          });
+        });
       },
       examineAd() {
         this.$store.dispatch("ajax_exam_ad", {
@@ -995,12 +1000,16 @@
         if (!this.userInfo.activated) {
           this.$store.commit("showAuthEmail_setter", 1);
         }
-        this.initTargetCurrency();
         this.getPayCollections();
-        this.getTradePrice();
         if (this.isUpdate) {
-          this.adId && this.getAdById(this.adId);
+          if (this.adId) {
+            this.getAdById(this.adId).then(res => {
+              this.getTradePrice();
+            });
+          }
         } else {
+          this.initTargetCurrency();
+          this.getTradePrice();
           this.examineAd();
         }
       }
