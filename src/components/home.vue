@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="carousel" v-else-if="carousel.list.length > 1">
-      <Carousel class='m-ivu-carousel' :autoplay-speed="carousel.speed" v-model="carousel.value" loop
+      <Carousel class='m-ivu-carousel' autoplay :autoplay-speed="carousel.speed" v-model="carousel.value" loop
                 :radius-dot='true'>
         <CarouselItem v-for="(item, index) in carousel.list" :key="index">
           <div class="img" :style="{backgroundImage: 'url('+item.img+')'}" @click.stop="goCarousel(item.url)">
