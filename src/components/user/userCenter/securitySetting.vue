@@ -57,7 +57,7 @@
     </div>
     <Modal v-model="pop_phone" class-name="m-ivu-modal" width='480' :mask-closable="true"
            :closable="false" @on-visible-change="popPhoneTrigger">
-      <auth_phone_pop ref='autoPhonePop' :pop_phone_show="pop_phone_show" @cancel='pop_phone = false'/>
+      <auth_phone_pop ref='autoPhonePop' :pop_phone_show="pop_phone_show" @cancel='closePopPhone'/>
       <div slot="footer"></div>
     </Modal>
     <Modal v-model="pop_google" class-name="m-ivu-modal" width='480' :mask-closable="true" :closable="false">
