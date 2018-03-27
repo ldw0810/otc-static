@@ -7,7 +7,7 @@
         <div class='invite-target-desc'>
           {{$t('public.invite_title')}}
           <a class='invite-target-desc-sub'
-             href='https://otcmaker.zendesk.com/hc/zh-cn/articles/360001929553' target="_blank">{{$t('public.invite_question')}}</a>
+             :href='articlesLink' target="_blank">{{$t('public.invite_question')}}</a>
         </div>
         <div class='copy-area'>
           <div class='copy-input-wrapper'>
@@ -46,11 +46,14 @@
 
 <script>
   import { CONF_INVITE_BANNER } from 'config/config';
+  const domain = `https://otcmaker.zendesk.com/hc/${(window.localStorage.getItem("language") || "zh-TW").replace('HK', 'TW')
+    .toLowerCase()}`;
 
   export default {
     name: '',
     data() {
       return {
+        articlesLink: `${domain}/articles/360001929553`,
         CONF_INVITE_BANNER,
       }
     },
