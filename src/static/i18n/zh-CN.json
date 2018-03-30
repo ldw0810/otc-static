@@ -290,7 +290,7 @@
     "asset_recharge_address_get": "获取接收地址",
     "asset_recharge_address": "接收地址",
     "asset_recharge_address_tip_ETH": "提示：ETH 地址只能充值 ETH 资产，任何充入 ETH 地址的非 ETH 资产将不可找回。 ETH 充值需要时间，我们会在收到 ETH 网络 {0} 个确认后给您入账，到账您将收到邮件通知。最低存入金额为 0.01 ETH ，我们不会处理少于该金额的 ETH 存入请求。OTCMAKER暂不支持 ETH 智能合约（如bitstamp）的转入。",
-    "asset_recharge_address_tip_DAI": "提示：DAI 地址只能充值 DAI 资产，任何充入 DAI 地址的非 DAI 资产将不可找回。 DAI 充值需要时间，我们会在收到 DAI 网络 {0} 个确认后给您入账，到账您将收到邮件通知。最低存入金额为 100 DAI ，我们不会处理少于该金额的 DAI 存入请求。",
+    "asset_recharge_address_tip_DAI": "提示：DAI 地址只能充值 DAI 资产，任何充入 DAI 地址的非 DAI 资产将不可找回。 DAI 充值需要时间，我们会在收到 DAI 网络 {0} 个确认后给您入账，到账您将收到邮件通知。最低存入金额为 20 DAI ，我们不会处理少于该金额的 DAI 存入请求。",
     "asset_recharge_time": "充值时间",
     "asset_withdraw_time": "提现时间",
     "asset_number": "数量",
