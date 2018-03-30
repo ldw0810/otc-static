@@ -6,10 +6,11 @@
 image: node:6.9.4
 
 pipelines:
-  default:
-    - step:
-        caches:
-          - node
-        script:
-          - npm install pm2@latest -g
-          - pm2 deploy ecosystem.json production --force
+  branches:
+    develop:
+      - step:
+          caches:
+            - node
+          script:
+            - npm install pm2@latest -g
+            - pm2 deploy ecosystem.json production --force
