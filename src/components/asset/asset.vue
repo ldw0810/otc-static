@@ -85,13 +85,13 @@
                     <div class="tip" v-if="currency === 'dai'">
                       {{$t("asset.asset_recharge_address_tip_DAI").format(
                       +deposit.deposit_channels.max_confirm,
-
+                      +deposit.deposit_channels.min_value
                       )}}
                     </div>
                     <div class="tip" v-else>
                       {{$t("asset.asset_recharge_address_tip_ETH").format(
                       +deposit.deposit_channels.max_confirm,
-
+                      +deposit.deposit_channels.min_value
                       )}}
                     </div>
                   </div>
