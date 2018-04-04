@@ -7,7 +7,7 @@
     "production": {
       "user": "otcmaker",
       "host": "35.200.203.143",
-      "ref": "origin/master",
+      "ref": "origin/develop",
       "repo": "git@bitbucket.org:itering/otc-static.git",
       "path": "/home/otcmaker/otc-static",
       "post-deploy" : "npm install; npm run build"
