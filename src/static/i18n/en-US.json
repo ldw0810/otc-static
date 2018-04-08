@@ -224,7 +224,7 @@
     "authentication_email_beenSend_info": "Please verify your email by clicking verification link",
     "authentication_phone": "Phone number",
     "user_email_not_auth": "Email unverified",
-    "user_email_not_auth_tip": "Please verify your email before processing, you can also resend verification email in User center",
+    "user_email_not_auth_tip": "Please verify your email before processing, you can also resend verification email in {0}",
     "default": "Default",
     "default_notValid": "Set default",
     "receivables": "Transaction account",

@@ -214,7 +214,7 @@
               this.$alert.error({
                 title: this.$t("public.error_title_default"),
                 content: this.$t("ad.ad_open_fail")
-              })
+              });
             }
           })
       },

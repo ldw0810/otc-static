@@ -224,7 +224,7 @@
     "authentication_email_beenSend_info": "請到您的郵箱查看並點擊驗證鏈接",
     "authentication_phone": "手機號碼",
     "user_email_not_auth": "郵箱尚未驗證",
-    "user_email_not_auth_tip": "您尚未驗證郵箱，無法進行後續操作，請先驗證郵箱或在個人中心重新獲取郵箱驗證郵件",
+    "user_email_not_auth_tip": "您尚未驗證郵箱，無法進行後續操作，請先驗證郵箱或在{0}重新獲取郵箱驗證郵件",
     "default": "默認",
     "default_notValid": "設為默認",
     "receivables": "收款方式",

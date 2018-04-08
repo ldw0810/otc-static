@@ -223,7 +223,7 @@
     "authentication_email_beenSend": "已发送电子邮件至",
     "authentication_email_beenSend_info": "请到您的邮箱查看并点击验证链接",
     "user_email_not_auth": "邮箱尚未验证",
-    "user_email_not_auth_tip": "您尚未验证邮箱，无法进行后续操作，请先验证邮箱或在个人中心重新获取邮箱验证邮件",
+    "user_email_not_auth_tip": "您尚未验证邮箱，无法进行后续操作，请先验证邮箱或在{0}重新获取邮箱验证邮件",
     "authentication_phone": "手机号码",
     "default": "默认",
     "default_notValid": "设为默认",
