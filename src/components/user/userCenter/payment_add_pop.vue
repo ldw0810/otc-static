@@ -83,16 +83,16 @@
                 </Option>
               </Select>
             </FormItem>
-            <FormItem prop="number" class="formItem">
-              <i-input class="input" type="text" v-model="bankCardForm.number"
+            <FormItem prop="bankNumber" class="formItem">
+              <i-input class="input" type="text" v-model="bankCardForm.bankNumber"
                        :placeholder="$t('user.bankCard_number_required')">
                                 <span slot="prepend">
                                     <img src="../../../static/images/icon/Card-999999.svg">
                                 </span>
               </i-input>
             </FormItem>
-            <FormItem prop="reNumber" class="formItem">
-              <i-input class="input" type="text" v-model="bankCardForm.reNumber"
+            <FormItem prop="reBankNumber" class="formItem">
+              <i-input class="input" type="text" v-model="bankCardForm.reBankNumber"
                        :placeholder="$t('user.bankCard_reNumber_required')">
                                 <span slot="prepend">
                                     <img src="../../../static/images/icon/Card-999999.svg">
@@ -147,51 +147,25 @@
           callback();
         }
       };
-      const validateReNumber = (rule, value, callback) => {
-        if (!value || !value.length) {
-          callback(new Error(this.$t("user.bankCard_reNumber_required")));
-        } else if (value !== this.bankCardForm.number) {
-          callback(new Error(this.$t("user.bankCard_number_different")));
-        } else {
-          if (value === this.bankCardForm.number && this.bankCardForm.number !== 0) {
-            this.$refs.bankCardForm.resetField('number');
-          }
-          callback();
-        }
-      };
-      const validateReBank = (rule, value, callback) => {
-        if (!value || !value.length) {
-          callback(new Error(this.$t("user.bankCard_reNumber_required")));
-        } else if (value !== this.bankCardForm.reNumber && this.bankCardForm.reNumber !== '') {
-          callback(new Error(this.$t("user.bankCard_number_different")));
-        } else {
-          if (value === this.bankCardForm.reNumber && +this.bankCardForm.reNumber !== 0) {
-            this.$refs.bankCardForm.resetField('reNumber');
-          }
-          callback();
-        }
-      };
-
-      const validateBank = (rule, value, callback) => {
-        let tvalue = Number(value).toString();
-        let verify = true;
-        let sum = 0;
-        if (tvalue.length < VALI_CARD_NUMBER.min || tvalue.length > VALI_CARD_NUMBER.max) {
-          verify = false;
-        }
-        // else {
-        //     for (let i = 0; i <= tvalue.length - 2; i++) {
-        //         if (i % 2 === 0) {
-        //             sum += (Number(tvalue[i]) * 2) % 10 + parseInt((Number(tvalue[i]) * 2) / 10)
-        //         } else {
-        //             sum += Number(tvalue[i])
-        //         }
-        //     }
-        //     verify = 10 - sum % 10 === Number(tvalue[tvalue.length - 1])
-        // }
-        if (!verify) {
+      const validateBankNumber = (rule, value, callback) => {
+        let valueStr = Number(value).toString();
+        if (valueStr.length < VALI_CARD_NUMBER.min || valueStr.length > VALI_CARD_NUMBER.max) {
           callback(new Error(this.$t("user.bankCard_number_invalid")));
+        } else if (this.bankCardForm.reBankNumber && value !== this.bankCardForm.reBankNumber) {
+          callback(new Error(this.$t("user.bankCard_number_different")));
         } else {
+          callback();
+        }
+      };
+      const validateReBankNumber = (rule, value, callback) => {
+        if (!value || !value.length) {
+          callback(new Error(this.$t("user.bankCard_reNumber_required")));
+        } else if (this.bankCardForm.bankNumber && value !== this.bankCardForm.bankNumber) {
+          callback(new Error(this.$t("user.bankCard_number_different")));
+        } else {
+          if (value === this.bankCardForm.reBankNumber && +this.bankCardForm.reBankNumber !== 0) {
+            this.$refs.bankCardForm.resetField('reBankNumber');
+          }
           callback();
         }
       };
@@ -206,8 +180,8 @@
         bankCardForm: {
           userName: "",
           bank: "",
-          number: "",
-          reNumber: ""
+          bankNumber: "",
+          reBankNumber: ""
         },
         bankCardFormLoading: false,
         alipayRules: {
@@ -267,17 +241,14 @@
               message: this.$t("user.bankCard_bank_required")
             }
           ],
-          number: [
+          bankNumber: [
             {
-              validator: validateBank
-            },
-            {
-              validator: validateReBank
+              validator: validateBankNumber
             }
           ],
-          reNumber: [
+          reBankNumber: [
             {
-              validator: validateReNumber
+              validator: validateReBankNumber
             }
           ]
         }
@@ -305,7 +276,7 @@
               this.bankCardFormLoading = true;
               this.addReceiving({
                 name: this.bankCardForm.userName,
-                account: this.bankCardForm.number,
+                account: this.bankCardForm.bankNumber,
                 bank: this.bankCardForm.bank
               });
             }
