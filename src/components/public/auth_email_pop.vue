@@ -19,9 +19,7 @@
   export default {
     data() {
       return {
-        loading: false,
-        content: this.$t("user.user_email_not_auth_tip").format("<a href='/user/userCenter'>" +
-          this.$t("user.userCenter") + "</a>")
+        loading: false
       };
     },
     methods: {
