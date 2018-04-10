@@ -5,9 +5,6 @@ import {LoadingBar} from "iview";
 import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
-if (localStorage.getItem("userToken") && !store.state.userToken) {
-  store.commit("saveToken", localStorage.getItem("userToken"));
-}
 const routers = [
   {
     path: "/",

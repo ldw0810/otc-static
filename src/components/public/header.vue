@@ -284,6 +284,9 @@
       };
     },
     computed: {
+      device(){
+        return this.$store.state.device;
+      },
       userToken() {
         return this.$store.state.userToken;
       },

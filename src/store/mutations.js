@@ -75,4 +75,7 @@ export default {
     localStorage.removeItem("nickname");
     state.userToken = null;
   },
+  device_setter(state, value) {
+    state.device = value;
+  }
 };

@@ -146,9 +146,9 @@
         return str.substr(0, VALI_CHAT.max)
       },
       checkLengh($event) {
-        const $el = $event.target
+        const $el = $event.target;
         if ($el.innerHTML.length > VALI_CHAT.max) {
-          $el.innerHTML = this.setMaxLength($el.innerHTML)
+          $el.innerHTML = this.setMaxLength($el.innerHTML);
           setCursorPosition($el)
         }
       },
@@ -320,7 +320,7 @@
       this.init();
     },
     mounted() {
-      this.scrollToBottom()
+      this.scrollToBottom();
     },
     destroyed() {
       this.ajax_source_chat && this.ajax_source_chat.cancel({cancel: 1});

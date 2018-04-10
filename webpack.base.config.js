@@ -45,8 +45,7 @@ module.exports = {
       style: resolve("src/style"),
       images: resolve("src/static/images"),
       fonts: resolve("src/static/fonts"),
-      utils: resolve("src/utils"),
-      mobile: resolve("src/mobile")
+      utils: resolve("src/utils")
     }
   }
 };
