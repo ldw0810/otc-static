@@ -123,9 +123,9 @@ export default {
     Vue.prototype.$goReplace = function (name, query, delParams, onComplete, onAbort) {
       let index = 0;
       let url = name;
-      if(query) {
-        for(let key in query) {
-          if(key && key !== delParams && (query[key] || query[key] === 0)) {
+      if (query) {
+        for (let key in query) {
+          if (key && key !== delParams && (query[key] || query[key] === 0)) {
             url += index === 0 ? "?" : "&";
             url += key + "=" + query[key];
             index++;
@@ -155,6 +155,24 @@ export default {
     Vue.prototype.$getUserList = function (userName) {
       return JSON.parse(window.localStorage.getItem("userList") || "[]");
     };
+    /*密码*/
+    Vue.prototype.$checkPassword = function (password) {
+      let level = 0;
+      if (!password || password.length < 6) {
+      } else {
+        if (/[1-9]/.test(password)) {
+          level++;
+        }
+        if (/[a-z]/.test(password)) {
+          level++;
+        }
+        if (/[^a-z1-9]/.test(password)) {
+          level++;
+        }
+      }
+      return level;
+    };
+    /*其他*/
     String.prototype.format = function () {
       if (arguments.length === 0) return this;
       let param = arguments[0];

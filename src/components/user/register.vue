@@ -174,7 +174,6 @@
         }
       };
       const validatePassword = (rule, value, callback) => {
-        // let reg = /^(([a-z]+[0-9]+)|([0-9]+[a-z]+))[a-z0-9]*$/i;
         let reg = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,20}$/;
         if (!value || !value.length) {
           this.validFlag.password = false;
@@ -192,6 +191,7 @@
         }
       };
       const validateRePassword = (rule, value, callback) => {
+        this.passwordStrength = this.$checkPassword(value);
         if (!value || !value.length) {
           this.validFlag.rePassword = false;
           callback(new Error(this.$t("user.rePassword_required")));
@@ -278,7 +278,8 @@
           rePassword: false,
           invitationCode: true
         },
-        captchaObj: ""
+        captchaObj: "",
+        passwordStrength: 0
       };
     },
     computed: {

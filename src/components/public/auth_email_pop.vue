@@ -1,9 +1,11 @@
 <template>
   <div id="popPage">
-    <logoDiv />
+    <logoDiv/>
     <div class="content">
       <div class="content_1" v-text="$t('user.user_email_not_auth')"></div>
-      <div class="content_2" v-text="$t('user.user_email_not_auth_tip')"></div>
+      <div class="content_2" v-html="$t('user.user_email_not_auth_tip').format('<a href=\'/user/userCenter\'>' +
+      this.$t('user.userCenter') + '</a>')">
+      </div>
       <i-button class="submitButton" type="primary" :loading='loading' @click="submit">
         {{$t('public.confirm')}}
       </i-button>
@@ -13,6 +15,7 @@
 </template>
 <script type="es6">
   import logoDiv from "./logo.vue";
+
   export default {
     data() {
       return {

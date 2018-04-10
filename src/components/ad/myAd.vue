@@ -13,11 +13,12 @@
               <Row
                   type="flex"
               >
-                <i-col span="3" class='g-list-header-title'>{{$t("ad.ad_id")}}</i-col>
-                <i-col span="4" class='g-list-header-title'>{{$t("ad.ad_type")}}</i-col>
-                <i-col span="4" class='g-list-header-title'>{{$t("public.price")}}</i-col>
-                <i-col span="4" class='g-list-header-title'>{{$t("ad.ad_premium")}}</i-col>
-                <i-col span="3" class='g-list-header-title'>{{$t("ad.ad_time")}}</i-col>
+                <i-col span="2" class='g-list-header-title'>{{$t("ad.ad_id")}}</i-col>
+                <i-col span="3" class='g-list-header-title'>{{$t("ad.ad_type")}}</i-col>
+                <i-col span="2" class='g-list-header-title'>{{$t("public.price")}}</i-col>
+                <i-col span="5" class='g-list-header-title'>{{$t("order.order_limit")}}</i-col>
+                <i-col span="2" class='g-list-header-title'>{{$t("ad.ad_premium")}}</i-col>
+                <i-col span="4" class='g-list-header-title'>{{$t("ad.ad_time")}}</i-col>
                 <i-col span="3" class='g-list-header-title'>{{$t("ad.ad_payment")}}</i-col>
                 <i-col span="3" class='g-list-header-title'>{{$t("public.operation")}}</i-col>
               </Row>
@@ -28,30 +29,39 @@
                   type="flex"
                   v-for="(item, subIndex) in myAds.list" :key="subIndex"
               >
-                <i-col span="3" class='g-list-content-item-col'>
+                <i-col span="2" class='g-list-content-item-col'>
                   <div>
                     {{item.id}}
                   </div>
                 </i-col>
-                <i-col span="4" class='g-list-content-item-col'>
+                <i-col span="3" class='g-list-content-item-col'>
                   <div>
                     {{$t("public['" + item.op_type + "']")}}
                     {{$t("public['" + item.currency + "']")}}
                   </div>
                 </i-col>
-                <i-col span="4" class='g-list-content-item-col'>
+                <i-col span="2" class='g-list-content-item-col'>
                   <div>
                     {{$fixDecimalAuto(item.current_price, item.target_currency)}}
 
                     {{$t("public['" + item.target_currency + "']")}}
                   </div>
                 </i-col>
-                <i-col span="4" class='g-list-content-item-col'>
+                <i-col span="5" class='g-list-content-item-col'>
+                  <div>
+                    {{$fixDecimalAuto(item.min_limit, item.target_currency)}}
+                    &nbsp;-&nbsp;
+                    {{$fixDecimalAuto(item.order_limit, item.target_currency)}}
+
+                    {{$t("public['" + item.target_currency + "']")}}
+                  </div>
+                </i-col>
+                <i-col span="2" class='g-list-content-item-col'>
                   <div>
                     {{item.margin}}%
                   </div>
                 </i-col>
-                <i-col span="3" class='g-list-content-item-col'>
+                <i-col span="4" class='g-list-content-item-col'>
                   <div>
                     {{new Date(+item.created_at * 1000).format("yyyy/MM/dd hh:mm:ss")}}
                   </div>
@@ -147,12 +157,12 @@
             if (res.data && +res.data.error === 0) {
               this.myAds = res.data;
             } else {
-              // this.$Message.error(this.$t("ad.ad_data_request_fail"));
+// this.$Message.error(this.$t("ad.ad_data_request_fail"));
             }
           })
           .catch(err => {
             this.loading = false;
-            // this.$Message.error(this.$t("ad.ad_data_request_fail"));
+// this.$Message.error(this.$t("ad.ad_data_request_fail"));
           });
       },
       changePage(pageIndex) {
@@ -186,7 +196,7 @@
               this.$alert.error({
                 title: this.$t("public.error_title_default"),
                 content: this.$t("ad.ad_close_fail")
-              })               
+              })
             }
           })
       },
@@ -204,7 +214,7 @@
               this.$alert.error({
                 title: this.$t("public.error_title_default"),
                 content: this.$t("ad.ad_open_fail")
-              })               
+              });
             }
           })
       },
