@@ -11,7 +11,7 @@
         </div>
         <div class='copy-area'>
           <div class='copy-input-wrapper'>
-            <input type="text" class='copy-input' v-model="link" readonly>
+            <input class='copy-input' v-model="link" readonly="">
           </div>
           <div class='copy-btn-wrapper'>
             <i-button type="primary" class="copy-btn" v-clipboard:copy="link"
@@ -59,8 +59,8 @@
     },
     computed: {
       link() {
-        return window.location.href.replace("invite", "user/register?invitationCode=" +
-          this.$store.state.userInfo.invite)
+        return this.$t("public.invite_content") + "\n" + window.location.href.replace("invite",
+          "user/register?invitationCode=" + this.$store.state.userInfo.invite);
       }
     },
     methods: {
