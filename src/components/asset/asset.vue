@@ -121,10 +121,12 @@
                   <div class='content-withdraw-verify'
                        v-else>
                     <div class="tip" v-if="currency === 'dai'">
-                      {{$t("asset.asset_withdraw_address_tip_DAI").format(withdraw.withdraw_channels.fee)}}
+                      {{$t("asset.asset_withdraw_address_tip_DAI").format(currencyWithdrawLimit,
+                      withdraw.withdraw_channels.fee)}}
                     </div>
                     <div class="tip" v-else>
-                      {{$t("asset.asset_withdraw_address_tip_ETH").format(withdraw.withdraw_channels.fee)}}
+                      {{$t("asset.asset_withdraw_address_tip_ETH").format(currencyWithdrawLimit,
+                      withdraw.withdraw_channels.fee)}}
                     </div>
 
                     <Form class="form" ref="form" @checkValidate='checkValidate_form' :model="form"
@@ -140,16 +142,16 @@
                                     v-model='setAddress'
                             >
                               <Option :value='1000' :label='$t("asset.asset_withdraw_add_new_address_down")'>
-                                  <span class='withdraw-address-select-text u-ellipsis-1'>{{$t('asset.asset_withdraw_address_add')}}</span>
-                                </Option>
+                                <span class='withdraw-address-select-text u-ellipsis-1'>{{$t('asset.asset_withdraw_address_add')}}</span>
+                              </Option>
                               <!-- <template v-if='withdraw.fund_sources.length'> -->
-                                <Option :value="item.id + '-' + item.uid" :label="item.extra + ' - ' + item.uid"
-                                        v-for="(item, index) in withdraw.fund_sources" :key='index'>
+                              <Option :value="item.id + '-' + item.uid" :label="item.extra + ' - ' + item.uid"
+                                      v-for="(item, index) in withdraw.fund_sources" :key='index'>
                                     <span
                                         class='withdraw-address-select-text u-ellipsis-1'>{{item.extra}} - {{item.uid}}</span>
-                                    <span class='withdraw-address-select-trash icon-trash'
-                                        @click.stop='address_del(item.id)'></span>
-                                </Option>
+                                <span class='withdraw-address-select-trash icon-trash'
+                                      @click.stop='address_del(item.id)'></span>
+                              </Option>
                               <!-- </template> -->
                             </Select>
                           </FormItem>
@@ -388,14 +390,8 @@
           callback(new Error(this.$t("public.input_number_required")));
         } else if (+value > +this.$fixDecimalsAsset(this.account["balance"] || 0)) {
           callback(new Error(this.$t("public.balance_insufficient")));
-        } else if (+value < this.currencySellLimit) {
-          callback(
-            new Error(
-              this.$t(
-                "asset.asset_withdraw_" + this.currency + "_number_required"
-              )
-            )
-          );
+        } else if (+value < this.currencyWithdrawLimit) {
+          callback(new Error(this.$t("asset.asset_withdraw_" + this.currency + "_number_required").format(this.currencyWithdrawLimit)));
         } else {
           callback();
         }
@@ -526,12 +522,8 @@
           this.$route.query.currency || CONF_DIGITAL_CURRENCY_LIST[0].currency
         );
       },
-      currencySellLimit() {
-        for (let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
-          if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.currency) {
-            return CONF_DIGITAL_CURRENCY_LIST[i].sellLimit;
-          }
-        }
+      currencyWithdrawLimit() {
+        return this.withdraw.withdraw_channels.min || 0;
       },
       account() {
         let index = 0;
@@ -683,7 +675,7 @@
             })
             .then(res => {
               this.initTabs();
-              
+
               this.changTabLoading = false;
               if (res.data && +res.data.error === 0) {
                 this.withdraw = res.data;
@@ -698,7 +690,7 @@
                 //       this.withdraw.fund_sources[i].uid;
                 //     this.form.address = this.withdraw.fund_sources[i].uid;
                 //     this.setAddress = value;
-                    
+
                 //   }
                 // }
               }
@@ -863,7 +855,7 @@
           this.initFormData();
           this.addNewAddressStatus = true;
         } else if (val) {
-          this.$refs.select && this.$refs.select.updateOptions()           
+          this.$refs.select && this.$refs.select.updateOptions()
           this.addNewAddressStatus = false;
           for (let i = 0; i < this.withdraw.fund_sources.length; i++) {
             if (
