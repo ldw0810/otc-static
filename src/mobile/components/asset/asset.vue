@@ -742,7 +742,7 @@
           }
           const {number, id} = this.form;
           let requestData = {
-            member_id: this.userInfo.id,
+            // member_id: this.userInfo.id,
             currency: this.currency,
             sum: +number
           };
