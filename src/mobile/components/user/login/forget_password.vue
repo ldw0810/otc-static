@@ -1,6 +1,6 @@
 <template>
   <div>
-    <logoDiv />
+    <!--<logoDiv />-->
     <div class="content">
       <div class="title" v-text="$t('user.password_forget')"></div>
       <Form class="form" ref="form" @checkValidate='checkValidate' :model="form" :rules="rules">
@@ -104,7 +104,7 @@
                 new_captcha: res.data.new_captcha,
 
                 product: "bind",
-                width: "292px",
+                width: "10vh",
                 lang: window.localStorage.getItem("language") === "zh-CN" ? "zh-cn" : "en"
               },
               captchaObj => {
@@ -166,10 +166,7 @@
 </script>
 <style lang='scss' scoped>
   .content {
-    position: relative;
-    margin: 0 auto 5px auto;
-    width: 480px;
-    padding: 56px 94px 70px;
+    width: 100vw;
     background: #ffffff;
     font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC,
     Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei,
@@ -181,42 +178,36 @@
   }
 
   .title {
-    font-size: 24px;
+    font-size: 2rem;
     color: #666666;
+    margin-left: 14vw;
   }
 
   .form {
     margin-top: 3vh;
   }
 
+  .formItem {
+    margin-left: 14vw;
+  }
+
   .input {
     width: 72vw;
   }
 
-  /* #captcha {
-          width: 292px;
-          display: inline-block;
-      } */
-
-  .inputPinCode {
-    width: 192px;
-  }
-
-  .pinCodeDiv {
-    position: relative;
-    left: 305px;
-    top: -118px;
-    width: 80px;
-    height: 30px;
-  }
-
   .submitButton {
-    width: 292px;
+    width: 72vw;
   }
 
   .goButton {
     /* width: 100%; */
     text-align: right;
+    float: right;
+    font-size: 0.85rem;
+    color: #66bbbf;
+    letter-spacing: 0;
+    cursor: pointer;
+    margin-right: 14vw;
     &-btn {
       color: #66bbbf;
       cursor: pointer;

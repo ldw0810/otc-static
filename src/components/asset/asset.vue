@@ -515,7 +515,9 @@
         return +(this.$route.query.type || 0);
       },
       currencyList() {
-        return this.$store.state.code.sellable;
+        return this.userInfo.valid_account.map((item => {
+          return item.currency;
+        }));
       },
       currency() {
         return (

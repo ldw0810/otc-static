@@ -455,29 +455,13 @@
     background: #f4f6f9;
   }
 
-  .logo {
-    position: relative;
-    width: 195px;
-    height: 30px;
-    left: 143px;
-    top: 35px;
-  }
-
-  .logo img {
-    object-fit: cover;
-    object-position: 0 0;
-    width: 100%;
-    height: 100%;
-  }
-
   .title {
-    margin: 3vh 0 0 14vw;
-    font-size: 6vw;
+    margin: 2vh 0 2vh 14vw;
+    font-size: 2rem;
     color: #666666;
   }
 
   .form {
-    margin-top: 15px;
   }
 
   .formItem {
@@ -498,10 +482,10 @@
 
   .goButton {
     float: right;
-    font-size: 14px;
+    font-size: 0.85rem;
     color: #66bbbf;
     letter-spacing: 0;
     cursor: pointer;
-    margin-right: 94px;
+    margin-right: 14vw;
   }
 </style>

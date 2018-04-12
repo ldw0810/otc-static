@@ -24,7 +24,7 @@
                     @click="submit">{{$t('public.login')}}
           </i-button>
         </FormItem>
-        <div>
+        <div class="goDiv">
                 <span class="goButton toForgetPassword" v-text="$t('user.password_forget')"
                       @click="$goRouter('/user/login/forget_password')"></span>
           <span class="goButton toRegister" v-text="$t('user.login_toRegister')"
@@ -176,11 +176,7 @@
 </script>
 <style lang='scss' scoped>
   .wrapper {
-    position: relative;
-    /* margin: 0 auto 5px auto; */
-    padding-bottom: 40px;
-    width: 480px;
-    /* height: 372px; */
+    width: 100vw;
     background: #ffffff;
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
@@ -193,7 +189,7 @@
   .title {
     margin-left: 14vw;
     padding-top: 3vh;
-    font-size: 6vw;
+    font-size: 2rem;
     color: #666666;
   }
 
@@ -217,20 +213,22 @@
   .submitButton {
     width: 72vw;
   }
-
+  .goDiv {
+    display: flex;
+    justify-content: space-around;
+  }
   .goButton {
-    font-size: 14px;
+    font-size: 1rem;
     color: #66bbbf;
     letter-spacing: 0;
     cursor: pointer;
   }
 
   .toForgetPassword {
-    margin-left: 94px;
+    font-size: 0.85rem;
   }
 
   .toRegister {
-    float: right;
-    margin-right: 94px;
+    font-size: 0.85rem;
   }
 </style>
