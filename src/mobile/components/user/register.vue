@@ -481,7 +481,8 @@
   }
 
   .goButton {
-    float: right;
+    display: flex;
+    justify-content: flex-end;
     font-size: 0.85rem;
     color: #66bbbf;
     letter-spacing: 0;

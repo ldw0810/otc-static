@@ -179,6 +179,7 @@
 
   .title {
     font-size: 2rem;
+    padding-top: 3vh;
     color: #666666;
     margin-left: 14vw;
   }
@@ -200,14 +201,14 @@
   }
 
   .goButton {
-    /* width: 100%; */
-    text-align: right;
-    float: right;
+    display: flex;
+    justify-content: flex-end;
     font-size: 0.85rem;
     color: #66bbbf;
     letter-spacing: 0;
     cursor: pointer;
     margin-right: 14vw;
+    padding-bottom: 4vh;
     &-btn {
       color: #66bbbf;
       cursor: pointer;

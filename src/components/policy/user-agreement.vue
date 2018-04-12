@@ -549,6 +549,7 @@ export default {
 		}
 	},
   created() {
+    this.$store.commit("header_index_setter", "-1");
     this.text = language[window.localStorage.getItem("language")]
   }
 };
