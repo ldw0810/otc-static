@@ -23,8 +23,8 @@ const routers = [
       },
       // 服务条款
       {
-        path: "/policy",
-        name: "/policy",
+        path: "policy",
+        name: "policy",
         meta: {
           noLogin: true
         },
@@ -33,8 +33,8 @@ const routers = [
       },
       // 用户协议
       {
-        path: "/user-agreement",
-        name: "/user-agreement",
+        path: "user-agreement",
+        name: "user-agreement",
         meta: {
           noLogin: true
         },
@@ -42,7 +42,7 @@ const routers = [
           require(["./components/policy/user-agreement.vue"], resolve)
       },
       {
-        path: "/user/login",
+        path: "user/login",
         meta: {
           noLogin: true,
           noUser: true
@@ -51,33 +51,33 @@ const routers = [
         children: [
           {
             path: "/",
-            name: "/user/login",
+            name: "user/login",
             component: resolve =>
               require(["./components/user/login/index.vue"], resolve)
           },
           {
             path: "modify_password",
-            name: "/user/login/modify_password",
+            name: "user/login/modify_password",
             component: resolve =>
               require(["./components/user/login/modify_password.vue"], resolve)
           },
           {
             path: "forget_password",
-            name: "/user/login/forget_password",
+            name: "user/login/forget_password",
             component: resolve =>
               require(["./components/user/login/forget_password.vue"], resolve)
           },
           {
             path: "validate",
-            name: "/user/login/validate",
+            name: "user/login/validate",
             component: resolve =>
               require(["./components/user/login/validate.vue"], resolve)
           }
         ]
       },
       {
-        path: "/user/register",
-        name: "/user/register",
+        path: "user/register",
+        name: "user/register",
         meta: {
           noLogin: true,
           noUser: true
@@ -86,19 +86,19 @@ const routers = [
           require(["./components/user/register.vue"], resolve)
       },
       {
-        path: "/user/userCenter",
+        path: "user/userCenter",
         component: resolve =>
           require(["./components/user/userCenter.vue"], resolve),
         children: [
           {
             path: "/",
-            name: "/user/userCenter",
+            name: "user/userCenter",
             component: resolve =>
               require(["./components/user/userCenter/userInfo.vue"], resolve)
           },
           {
             path: "securitySetting",
-            name: "/user/userCenter/securitySetting",
+            name: "user/userCenter/securitySetting",
             component: resolve =>
               require([
                 "./components/user/userCenter/securitySetting.vue"
@@ -106,7 +106,7 @@ const routers = [
           },
           {
             path: "modify_password",
-            name: "/user/userCenter/modify_password",
+            name: "user/userCenter/modify_password",
             component: resolve =>
               require([
                 "./components/user/userCenter/modify_password.vue"
@@ -114,7 +114,7 @@ const routers = [
           },
           {
             path: "auth_google",
-            name: "/user/userCenter/auth_google",
+            name: "user/userCenter/auth_google",
             meta: {
               needEmail: true
             },
@@ -123,7 +123,7 @@ const routers = [
           },
           {
             path: "payment",
-            name: "/user/userCenter/payment",
+            name: "user/userCenter/payment",
             meta: {
               needEmail: true
             },
@@ -133,8 +133,8 @@ const routers = [
         ]
       },
       {
-        path: "/myOrder",
-        name: "/myOrder",
+        path: "myOrder",
+        name: "myOrder",
         meta: {
           freeze: true
         },
@@ -142,8 +142,8 @@ const routers = [
           require(["./components/order/myOrder.vue"], resolve)
       },
       {
-        path: "/buy",
-        name: "/buy",
+        path: "buy",
+        name: "buy",
         meta: {
           noLogin: true,
           freeze: true
@@ -151,8 +151,8 @@ const routers = [
         component: resolve => require(["./components/ad/adList.vue"], resolve)
       },
       {
-        path: "/sell",
-        name: "/sell",
+        path: "sell",
+        name: "sell",
         meta: {
           noLogin: true,
           freeze: true
@@ -160,8 +160,8 @@ const routers = [
         component: resolve => require(["./components/ad/adList.vue"], resolve)
       },
       {
-        path: "/detail",
-        name: "/detail",
+        path: "detail",
+        name: "detail",
         meta: {
           needEmail: true,
           freeze: true
@@ -169,8 +169,8 @@ const routers = [
         component: resolve => require(["./components/ad/adDetail.vue"], resolve)
       },
       {
-        path: "/order",
-        name: "/order",
+        path: "order",
+        name: "order",
         meta: {
           needEmail: true,
           freeze: true
@@ -178,16 +178,16 @@ const routers = [
         component: resolve => require(["./components/order/order.vue"], resolve)
       },
       {
-        path: "/asset",
-        name: "/asset",
+        path: "asset",
+        name: "asset",
         meta: {
           needEmail: true
         },
         component: resolve => require(["./components/asset/asset.vue"], resolve)
       },
       {
-        path: "/ad",
-        name: "/ad",
+        path: "ad",
+        name: "ad",
         meta: {
           needEmail: true,
           freeze: true
@@ -195,21 +195,224 @@ const routers = [
         component: resolve => require(["./components/ad/ad.vue"], resolve)
       },
       {
-        path: "/myAd",
-        name: "/myAd",
+        path: "myAd",
+        name: "myAd",
         meta: {
           freeze: true
         },
         component: resolve => require(["./components/ad/myAd.vue"], resolve)
       },
       {
-        path: "/invite",
-        name: "/invite",
+        path: "invite",
+        name: "invite",
         meta: {
           freeze: true
         },
         component: resolve =>
           require(["./components/invite/invite_friends.vue"], resolve)
+      }
+    ]
+  },
+  {
+    path: "/mobile",
+    meta: {
+      title: "OTCMAKER"
+    },
+    component: resolve => require(["./mobile/pages/index.vue"], resolve),
+    children: [
+      {
+        path: "/",
+        name: "mobile/home",
+        meta: {
+          noLogin: true
+        },
+        component: resolve => require(["./mobile/components/home.vue"], resolve)
+      },
+      // 服务条款
+      {
+        path: "policy",
+        name: "mobile/policy",
+        meta: {
+          noLogin: true
+        },
+        component: resolve =>
+          require(["./mobile/components/policy/index.vue"], resolve)
+      },
+      // 用户协议
+      {
+        path: "user-agreement",
+        name: "mobile/user-agreement",
+        meta: {
+          noLogin: true
+        },
+        component: resolve =>
+          require(["./mobile/components/policy/user-agreement.vue"], resolve)
+      },
+      {
+        path: "user/login",
+        meta: {
+          noLogin: true,
+          noUser: true
+        },
+        component: resolve => require(["./mobile/components/user/login.vue"], resolve),
+        children: [
+          {
+            path: "/",
+            name: "mobile/user/login",
+            component: resolve =>
+              require(["./mobile/components/user/login/index.vue"], resolve)
+          },
+          {
+            path: "modify_password",
+            name: "mobile/user/login/modify_password",
+            component: resolve =>
+              require(["./mobile/components/user/login/modify_password.vue"], resolve)
+          },
+          {
+            path: "forget_password",
+            name: "mobile/user/login/forget_password",
+            component: resolve =>
+              require(["./mobile/components/user/login/forget_password.vue"], resolve)
+          },
+          {
+            path: "validate",
+            name: "mobile/user/login/validate",
+            component: resolve =>
+              require(["./mobile/components/user/login/validate.vue"], resolve)
+          }
+        ]
+      },
+      {
+        path: "user/register",
+        name: "mobile/user/register",
+        meta: {
+          noLogin: true,
+          noUser: true
+        },
+        component: resolve =>
+          require(["./mobile/components/user/register.vue"], resolve)
+      },
+      {
+        path: "user/userCenter",
+        component: resolve =>
+          require(["./mobile/components/user/userCenter.vue"], resolve),
+        children: [
+          {
+            path: "/",
+            name: "mobile/user/userCenter",
+            component: resolve =>
+              require(["./mobile/components/user/userCenter/userInfo.vue"], resolve)
+          },
+          {
+            path: "securitySetting",
+            name: "mobile/user/userCenter/securitySetting",
+            component: resolve =>
+              require(["./mobile/components/user/userCenter/securitySetting.vue"], resolve)
+          },
+          {
+            path: "modify_password",
+            name: "mobile/user/userCenter/modify_password",
+            component: resolve =>
+              require(["./mobile/components/user/userCenter/modify_password.vue"], resolve)
+          },
+          {
+            path: "auth_google",
+            name: "mobile/user/userCenter/auth_google",
+            meta: {
+              needEmail: true
+            },
+            component: resolve =>
+              require(["./mobile/components/user/userCenter/auth_google.vue"], resolve)
+          },
+          {
+            path: "payment",
+            name: "mobile/user/userCenter/payment",
+            meta: {
+              needEmail: true
+            },
+            component: resolve =>
+              require(["./mobile/components/user/userCenter/payment.vue"], resolve)
+          }
+        ]
+      },
+      {
+        path: "myOrder",
+        name: "mobile/myOrder",
+        meta: {
+          freeze: true
+        },
+        component: resolve =>
+          require(["./mobile/components/order/myOrder.vue"], resolve)
+      },
+      {
+        path: "buy",
+        name: "mobile/buy",
+        meta: {
+          noLogin: true,
+          freeze: true
+        },
+        component: resolve => require(["./mobile/components/ad/adList.vue"], resolve)
+      },
+      {
+        path: "sell",
+        name: "mobile/sell",
+        meta: {
+          noLogin: true,
+          freeze: true
+        },
+        component: resolve => require(["./mobile/components/ad/adList.vue"], resolve)
+      },
+      {
+        path: "detail",
+        name: "mobile/detail",
+        meta: {
+          needEmail: true,
+          freeze: true
+        },
+        component: resolve => require(["./mobile/components/ad/adDetail.vue"], resolve)
+      },
+      {
+        path: "order",
+        name: "mobile/order",
+        meta: {
+          needEmail: true,
+          freeze: true
+        },
+        component: resolve => require(["./mobile/components/order/order.vue"], resolve)
+      },
+      {
+        path: "asset",
+        name: "mobile/asset",
+        meta: {
+          needEmail: true
+        },
+        component: resolve => require(["./mobile/components/asset/asset.vue"], resolve)
+      },
+      {
+        path: "ad",
+        name: "mobile/ad",
+        meta: {
+          needEmail: true,
+          freeze: true
+        },
+        component: resolve => require(["./mobile/components/ad/ad.vue"], resolve)
+      },
+      {
+        path: "myAd",
+        name: "mobile/myAd",
+        meta: {
+          freeze: true
+        },
+        component: resolve => require(["./mobile/components/ad/myAd.vue"], resolve)
+      },
+      {
+        path: "invite",
+        name: "mobile/invite",
+        meta: {
+          freeze: true
+        },
+        component: resolve =>
+          require(["./mobile/components/invite/invite_friends.vue"], resolve)
       }
     ]
   },
@@ -227,38 +430,58 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   LoadingBar.start();
   Util.title(to.meta.title);
-  if (localStorage.getItem("userToken")) {
-    if (to.matched.some(r => r.meta.noUser)) {  //登陆注册页面
-      if (from.name === "home") {
+  if (to.fullPath.indexOf("/mobile") > -1) {
+    if(+store.state.device === 0) {
+      if (from.name && from.name.indexOf("home") > -1) {
         LoadingBar.finish();
       }
-      next({path: "/"});
-    } else if (to.matched.some(r => r.meta.freeze) && store.state.userInfo.soft_disabled) { //账户软冻结
-      if (from.name === "home") {
-        LoadingBar.finish();
-      }
-      next({path: "/"});
-    } else if (to.matched.some(r => r.meta.needEmail) && !store.state.userInfo.activated) { //邮箱未验证
-      //地址栏输入的from.name为空
-      if (from.name && from.name.indexOf("/user/login") <= -1) {
-        LoadingBar.finish();
-        store.commit("showAuthEmail_setter", 1);
-      } else {
-        next({path: "/user/userCenter"});
-      }
+      next({
+        path: to.fullPath.substring("/mobile".length)
+      });
     } else {
       next();
     }
   } else {
-    if (to.matched.some(r => r.meta.noLogin)) {
-      next();
-    } else {
-      next({
-        path: "/user/login",
-        query: {redirect: to.fullPath}
-      });
-      if (from.name === "/user/login") {
+    if(+store.state.device === 1) {
+      if (from.name && from.name.indexOf("home") > -1) {
         LoadingBar.finish();
+      }
+      next({
+        path: "/mobile" + to.fullPath
+      });
+    } else if (localStorage.getItem("userToken")) {
+      if (to.matched.some(r => r.meta.noUser)) {  //登陆注册页面
+        if (from.name.indexOf("home") > -1) {
+          LoadingBar.finish();
+        }
+        next({path: "/"});
+      } else if (to.matched.some(r => r.meta.freeze) && store.state.userInfo.soft_disabled) { //账户软冻结
+        if (from.name.indexOf("home") > -1) {
+          LoadingBar.finish();
+        }
+        next({path: "/"});
+      } else if (to.matched.some(r => r.meta.needEmail) && !store.state.userInfo.activated) { //邮箱未验证
+        //地址栏输入的from.name为空
+        if (from.name && from.name.indexOf("/user/login") <= -1) {
+          LoadingBar.finish();
+          store.commit("showAuthEmail_setter", 1);
+        } else {
+          next({path: "/user/userCenter"});
+        }
+      } else {
+        next();
+      }
+    } else {
+      if (to.matched.some(r => r.meta.noLogin)) {
+        next();
+      } else {
+        next({
+          path: "/user/login",
+          query: {redirect: to.fullPath}
+        });
+        if (from.name && from.name.indexOf("/user/login") > -1) {
+          LoadingBar.finish();
+        }
       }
     }
   }

@@ -22,7 +22,7 @@
     },
   }
 </script>
-<style scoped>
+<style lang='scss' scoped>
   .login-wrapper {
     display: flex;
     justify-content: center;

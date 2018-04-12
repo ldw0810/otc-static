@@ -15,8 +15,8 @@
   </div>
 </template>
 <script>
-  import headerBar from "../components/public/header.vue"
-  import footerBar from "../components/public/footer.vue"
+  import headerBar from "@/components/public/header.vue"
+  import footerBar from "@/components/public/footer.vue"
   import auth_email from '@/components/public/auth_email_pop';
 
   export default {
@@ -137,7 +137,7 @@
     }
   }
 </script>
-<style>
+<style lang='scss' scoped>
   html, body, .container, .mainLayer {
     min-height: 100vh;
   }

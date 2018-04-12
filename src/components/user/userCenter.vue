@@ -49,7 +49,7 @@
   }
 </script>
 
-<style scoped>
+<style lang='scss' scoped>
   .bg {
     height: 89px;
     width: 100%;

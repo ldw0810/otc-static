@@ -141,7 +141,7 @@
             </li>
             <li
                 class='header-navbar-item' :key='index'
-                :class="{'active': Array.isArray(item.index) && item.index.indexOf(+header_index) > -1 }"
+                :class="{'active': Array.isArray(item.index) && item.index.indexOf(header_index) > -1 }"
                 v-if='index === 2'
             >
               <Dropdown>
@@ -162,9 +162,7 @@
                       </DropdownItem>
                     </template>
                     <template v-else>
-                      <DropdownItem :class="{'active': childItem.index === header_index}"
-                                    :key='i'
-                      >
+                      <DropdownItem :class="{'active': childItem.index === header_index}" :key='i'>
                         <a @click='goMenu(childItem)'>{{childItem.title}}</a>
                       </DropdownItem>
                     </template>
@@ -303,7 +301,7 @@
         return this.$store.state.code.sellable;
       },
       header_index() {
-        return +this.$store.state.header_index;
+        return this.$store.state.header_index;
       },
       ajax_source() {
         return this.$store.state.ajax_source.me;

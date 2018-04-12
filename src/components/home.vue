@@ -196,7 +196,7 @@
   }
 </style>
 
-<style scoped>
+<style lang='scss' scoped>
   .home img {
     object-fit: cover;
     object-position: 0 0;

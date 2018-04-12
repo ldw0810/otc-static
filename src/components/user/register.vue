@@ -1,8 +1,8 @@
 <template>
   <div class='register-wrapper'>
-    <div class="bg"></div>
+    <div class="bg" v-if="device === 0"></div>
     <div class="content">
-      <div class="logoBg">
+      <div class="logoBg" v-if="device === 0">
         <div class="logo">
           <img src="../../static/images/LOGO.png">
         </div>
@@ -287,6 +287,9 @@
     computed: {
       omt_show() {
         return OMT_SHOW;
+      },
+      device(){
+        return this.$store.state.device;
       }
     },
     mounted() {
@@ -358,10 +361,10 @@
     },
     methods: {
       onFocusUserName() {
-        isValidNickName = false
+        isValidNickName = false;
       },
       onFocusEmail() {
-        isValidEmail = false
+        isValidEmail = false;
       },
       submit(name) {
         this.$refs[name].validate(valid => {
@@ -384,7 +387,7 @@
     }
   };
 </script>
-<style scoped>
+<style lang='scss' scoped>
   .register-wrapper {
     display: flex;
     align-items: center;

@@ -139,7 +139,7 @@
     }
   }
 </script>
-<style scoped>
+<style lang='scss' scoped>
   .content {
     position: relative;
     margin: 0 auto 5px auto;
