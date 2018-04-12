@@ -34,11 +34,9 @@
 </template>
 <script type="es6">
   import languageData from "@/locale";
-  import {DEFAULT_LANGUAGE} from "config/config";
+  import {DEFAULT_LANGUAGE, ZENDESK_DOMAIN_URL} from "config/config";
 
-  const domain = `https://otcmaker.zendesk.com/hc/${(window.localStorage.getItem("language") || "zh-TW").replace('HK', 'TW')
-    .toLowerCase()}`;
-
+  const domain = `${ZENDESK_DOMAIN_URL}/hc/${(window.localStorage.getItem("language") || "zh-TW").replace('HK', 'TW').toLowerCase()}`;
   export default {
     name: "footerBar",
     data() {
@@ -113,24 +111,21 @@
         }
       },
       goFooter(index) {
-        if (+index === 4) {
+        if (this.footerList[index].url) {
           if (this.$store.state.userToken) {
-            this.$store
-              .dispatch("ajax_zendesk")
-              .then(res => {
-                if (res.data && +res.data.error === 0) {
-                  window.location.href = res.data.path;
-                  // window.location.href = `${domain}/categories/360000187674`
-                } else {
-                }
-              })
-              .catch(err => {
-              });
-          } else {
-            window.location.href = `${domain}/categories/360000187674`
+            this.$store.dispatch("ajax_zendesk").then(res => {
+              if (res.data && +res.data.error === 0) {
+                const returnUrl = encodeURI(this.footerList[index].url);
+                window.location.href = `${ZENDESK_DOMAIN_URL}/access/jwt?jwt=${res.data.token}&return_to=${returnUrl}`;
+              } else {
+                window.location.href = `${domain}/categories/360000187674`;
+              }
+            }).catch(err => {
+              window.location.href = `${domain}/categories/360000187674`;
+            });
+          } else if (this.footerList[index].url) {
+            window.location.href = this.footerList[index].url;
           }
-        } else if (this.footerList[index].url) {
-          window.location.href = this.footerList[index].url;
         }
       }
     }
@@ -152,6 +147,7 @@
     background: transparent;
     color: #ffffff;
   }
+
   .copyright {
     height: 8vh;
     display: flex;
