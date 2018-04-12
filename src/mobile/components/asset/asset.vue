@@ -519,7 +519,9 @@
         return +(this.$route.query.type || 0);
       },
       currencyList() {
-        return this.$store.state.code.sellable;
+        return this.userInfo.valid_account.map((item => {
+          return item.currency;
+        }));
       },
       currency() {
         return (
@@ -710,11 +712,11 @@
         }
       },
       changeSider(index) {
-        this.$goRouter(this.$route.name, {
+        this.$goRouter(this.$route.path, {
           currency: this.currencyList[+index],
           type: this.assetIndex
         });
-        this.get_address_id()
+        this.get_address_id();
       },
       changeOperation(index) {
         this.changTabLoading = true;

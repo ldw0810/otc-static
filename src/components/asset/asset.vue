@@ -83,13 +83,13 @@
                       </i-button>
                     </div>
                     <div class="tip" v-if="currency === 'dai'" v-html="$t('asset.asset_recharge_address_tip_DAI').format(
-                      +deposit.deposit_channels.max_confirm,
-                      +deposit.deposit_channels.min_value
+                      +deposit.deposit_channels ? +deposit.deposit_channels.max_confirm: 0,
+                      +deposit.deposit_channels ? +deposit.deposit_channels.min_value: 0
                       )">
                     </div>
                     <div class="tip" v-else v-html="$t('asset.asset_recharge_address_tip_ETH').format(
-                      +deposit.deposit_channels.max_confirm,
-                      +deposit.deposit_channels.min_value
+                      +deposit.deposit_channels ? +deposit.deposit_channels.max_confirm: 0,
+                      +deposit.deposit_channels ? +deposit.deposit_channels.min_value: 0
                       )">
                     </div>
                   </div>
@@ -231,8 +231,8 @@
                   <td class='content-history-table-body-td'>
                     <div class="status">
                       {{$t("asset['asset_recharge_status_" + item["aasm_state"] + "']")}}
-                      {{item.confirmations < +deposit.deposit_channels.max_confirm
-                      ? '&nbsp;&nbsp;' + item.confirmations + '/' + +deposit.deposit_channels.max_confirm
+                      {{item.confirmations < (+deposit.deposit_channels ? +deposit.deposit_channels.max_confirm : 0)
+                      ? '&nbsp;&nbsp;' + item.confirmations + '/' + (+deposit.deposit_channels ? +deposit.deposit_channels.max_confirm : 0)
                       : '' }}
                     </div>
                   </td>
@@ -704,11 +704,11 @@
         }
       },
       changeSider(index) {
-        this.$goRouter(this.$route.name, {
+        this.$goRouter(this.$route.path, {
           currency: this.currencyList[+index],
           type: this.assetIndex
         });
-        this.get_address_id()
+        this.get_address_id();
       },
       changeOperation(index) {
         this.changTabLoading = true;
