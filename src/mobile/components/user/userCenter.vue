@@ -6,13 +6,13 @@
     <div class="contentBg"></div>
     <div class="page">
       <div class="g-tabs-vertical g-shadow sider">
-        <div class="siderDiv" :class="{'siderFocus': +siderIndex === 0}">
+        <div class="siderDiv" :class="{'siderFocus': +siderIndex === 0}" @click="doSider(0)">
           <div class="siderTextDiv" :class="{'siderTextFocus': +siderIndex === 0}"
-               v-text="$t('user.info')" @click="doSider(0)"></div>
+               v-text="$t('user.info')"></div>
         </div>
-        <div class="siderDiv" :class="{'siderFocus': +siderIndex === 1}">
+        <div class="siderDiv" :class="{'siderFocus': +siderIndex === 1}" @click="doSider(1)">
           <div class="siderTextDiv" :class="{'siderTextFocus': +siderIndex === 1}"
-               v-text="$t('user.securitySetting')" @click="doSider(1)"></div>
+               v-text="$t('user.securitySetting')"></div>
         </div>
       </div>
       <div class="content">

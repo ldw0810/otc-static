@@ -6,10 +6,12 @@
           <h2 class='content-common-title'>{{$t('public.public_ad_title')}}</h2>
           <h3 class='content-common-sub-title'>
             <span class=''>{{$t('public.public_ad_info')}}</span>
+            <!-- <router-link to="/foo">Go to Foo</router-link> -->
+          </h3>
+          <h3 class='content-common-sub-title'>
             <router-link to="/buy?currency=dai" class='content-common-title-link'>
               {{$t('public.public_ad_go_adList')}}
             </router-link>
-            <!-- <router-link to="/foo">Go to Foo</router-link> -->
           </h3>
           <div class="content-hots-list">
             <div class="content-hots-list-item" v-for="(ad, index) in ads" :key="index">
@@ -120,12 +122,14 @@
       &-sub-title {
         font-weight: normal;
         color: #666;
-        margin-bottom: 5vh;
         font-size: 1rem;
         display: flex;
         width: 100vw;
         align-items: center;
         justify-content: center;
+        &:last-of-type {
+          margin-bottom: 5vh;
+        }
       }
       &-title-link {
         text-decoration: underline;
