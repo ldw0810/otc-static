@@ -396,7 +396,7 @@
       }
       &-subMenu {
         /deep/ .ivu-menu-submenu-title {
-          height: 6vh;
+          height: 7vh;
           display: flex;
           width: 100vw;
           align-items: center;
@@ -416,7 +416,7 @@
         }
       }
       &-item {
-        height: 6vh;
+        height: 7vh;
         display: flex;
         width: 100vw;
         align-items: center;
@@ -463,7 +463,7 @@
         }
       }
       &-subItem {
-        height: 5vh;
+        height: 6vh;
         display: flex;
         width: 100vw;
         align-items: center;

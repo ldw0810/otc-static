@@ -1,8 +1,8 @@
 <template>
   <div id="content">
-    <BreadCrumb
-        :breadcrumbText='breadcrumbText'
-    />
+    <!--<BreadCrumb-->
+        <!--:breadcrumbText='breadcrumbText'-->
+    <!--/>-->
     <div class="user">
       <div class="g-shadow avator">
         <img class='avator-img' src="../../../../static/images/DefaultHead.jpg">
@@ -141,32 +141,31 @@
 </script>
 <style lang='scss' scoped>
   #content .breadcrumb {
-    height: 44px;
+    height: 5vh;
     background: #fafbfd;
   }
 
   #content .breadcrumb div {
-    height: 44px;
-    line-height: 44px;
-    margin-left: 30px;
-    font-size: 14px;
+    height: 5vh;
+    margin-left: 14vw;
+    font-size: 0.85rem;
     color: #666666;
     letter-spacing: 0;
   }
 
   #content .user {
-    margin-top: 40px;
-    height: 74px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 18vh;
+    width: 100vw;
   }
 
   #content .user .avator {
-    float: left;
-    margin-left: 70px;
-    height: 74px;
-    width: 74px;
+    height: 10vh;
+    width: 10vh;
+    padding: 0.1vw;
     border-radius: 50%;
-    padding: 2px;
-    background-color: #fff;
   }
 
   #content .user .avator-img {
@@ -178,28 +177,22 @@
   }
 
   #content .user .name {
-    float: left;
-    margin-left: 44px;
-    font-size: 24px;
+    font-size: 1.5rem;
     letter-spacing: 0;
-    height: 74px;
-    line-height: 74px;
   }
 
   #content .infoPage {
-    margin-left: 175px;
-    margin-top: 6px;
-    height: 418px;
   }
 
   #content .info {
-    margin-top: 20px;
-    font-size: 14px;
+    display: flex;
+    padding: 0 10vw 4vh 10vw;
+    font-size: 1rem;
     letter-spacing: 0;
   }
 
   #content .info span {
-    margin-left: 16px;
+    flex: 1;
   }
 
   #content .info .text_red {

@@ -1,8 +1,5 @@
 <template>
   <div id="content">
-    <BreadCrumb
-        :breadcrumbText='breadcrumbText'
-    />
     <div class='g-loading-wrapper' v-if='isLoading'>
       <c-loading/>
     </div>
@@ -290,23 +287,30 @@ export default {
 }
 
 #content .breadcrumb {
-  height: 44px;
+  height: 5vh;
   background: #fafbfd;
 }
 
 #content .breadcrumb div {
-  height: 44px;
-  line-height: 44px;
-  margin-left: 30px;
-  font-size: 14px;
+  height: 5vh;
+  margin-left: 14vw;
+  font-size: 0.85rem;
   color: #666666;
   letter-spacing: 0;
 }
 
+#content .payment_none {
+  width: 100vw;
+  min-height: 72vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
 #content .payment_none .img {
-  margin: 156px auto 30px;
-  width: 127px;
-  height: 117px;
+  width: 10vh;
+  height: 10vh;
   cursor: pointer;
 }
 
@@ -323,7 +327,6 @@ export default {
   margin-top: 10px;
   font-size: 14px;
   color: #999999;
-  width: 970px;
   height: 20px;
   line-height: 20px;
   text-align: center;

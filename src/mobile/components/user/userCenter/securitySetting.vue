@@ -1,8 +1,8 @@
 <template>
   <div id="content">
-    <BreadCrumb
-        :breadcrumbText='breadcrumbText'
-    />
+    <!--<BreadCrumb-->
+        <!--:breadcrumbText='breadcrumbText'-->
+    <!--/>-->
     <div class="content_1">
       <div class="title" v-text="$t('user.passwordSetting')"></div>
       <div class="border"></div>
@@ -12,7 +12,7 @@
         </div>
         <div class="info">
           <div class="text_1" v-text="$t('user.password_login')"></div>
-          <div class="text_2" v-text="$t('user.password_login_info')"></div>
+          <!--<div class="text_2" v-text="$t('user.password_login_info')"></div>-->
         </div>
         <span class="operation">
                     <i-button class="submitButton" @click="submit(1, 1)">
@@ -30,7 +30,7 @@
         </div>
         <div class="info">
           <div class="text_1" v-text="$t('user.auth_phone')"></div>
-          <div class="text_2" v-text="$t('user.auth_phone_info')"></div>
+          <!--<div class="text_2" v-text="$t('user.auth_phone_info')"></div>-->
         </div>
         <span class="operation">
                     <i-button class="submitButton" type="primary" @click="submit(2, 1)"
@@ -45,7 +45,7 @@
         </div>
         <div class="info">
           <div class="text_1" v-text="$t('user.auth_google')"></div>
-          <div class="text_2" v-text="$t('user.auth_google_info')"></div>
+          <!--<div class="text_2" v-text="$t('user.auth_google_info')"></div>-->
         </div>
         <span class="operation">
                     <i-button class="submitButton" type="primary" @click="submit(2, 2)"
@@ -148,115 +148,95 @@
   }
 
   #content .breadcrumb {
-    height: 44px;
+    height: 5vh;
     background: #fafbfd;
   }
 
   #content .breadcrumb div {
-    height: 44px;
-    line-height: 44px;
-    margin-left: 30px;
-    font-size: 14px;
+    height: 5vh;
+    margin-left: 14vw;
+    font-size: 0.85rem;
     color: #666666;
     letter-spacing: 0;
   }
 
-  #content .content_1 {
-    margin: 35px 60px 0 60px;
-    width: 850px;
-  }
-
-  #content .content_2 {
-    margin: 90px 60px 0 60px;
-    width: 850px;
+  #content .content_1,.content_2 {
+    display: flex;
+    width: 100vw;
+    flex-direction: column;
+    padding: 0 10vw 0 10vw;
   }
 
   #content .title {
-    font-size: 14px;
-    height: 20px;
-    line-height: 20px;
+    display: flex;
+    font-size: 0.9rem;
+    height: 6vh;
+    align-items: center;
   }
 
   #content .content_1 .border,
   #content .content_2 .border {
-    width: 850px;
+    width: 80vw;
     height: 1px;
-    margin-top: 10px;
     background: #eeeeee;
   }
 
   #content .setting {
-    width: 850px;
-    height: 44px;
-    margin-top: 40px;
   }
 
-  #content .password div,
-  #content .phone div,
-  #content .google div {
-    float: left;
+  #content .password,
+  #content .phone,
+  #content .google {
+    display: flex;
+    height: 18vh;
+    align-items: center;
+    justify-content: space-between;
   }
 
   #content .password .img {
-    height: 44px;
-    width: 44px;
-    border-radius: 44px;
+    height: 6vh;
+    width: 6vh;
+    border-radius: 50%;
     background-image: linear-gradient(-134deg, #0bbfd5 0%, #6dd7b2 100%);
   }
 
   #content .phone .img {
-    height: 44px;
-    width: 44px;
-    border-radius: 44px;
+    height: 6vh;
+    width: 6vh;
+    border-radius: 50%;
     background-image: linear-gradient(-134deg, #44b4ff 0%, #467cf6 100%);
   }
 
   #content .google .img {
-    height: 44px;
-    width: 44px;
-    border-radius: 44px;
+    height: 6vh;
+    width: 6vh;
+    border-radius: 50%;
     background-image: linear-gradient(45deg, #f5515f 0%, #e01937 100%);
   }
 
   #content .icon {
-    margin: 14px 15px;
-    height: 16px;
-    width: 14px;
-    text-align: center;
+    margin: 1.5vh;
+    height: 3vh;
+    width: 3vh;
   }
 
   #content .info {
-    margin-left: 20px;
   }
 
   #content .info .text_1 {
-    float: none;
-    font-size: 14px;
+    font-size: 0.8rem;
     letter-spacing: 0;
   }
 
   #content .info .text_2 {
-    float: none;
-    font-size: 12px;
+    font-size: 0.8rem;
     color: #999999;
-    line-height: 21px;
   }
 
   #content .operation {
-    float: right;
   }
 
   #content .submitButton {
-    width: 100px;
+    width: 24vw;
   }
-
-  /* #content .content_1 .submitButton {
-          background: #FFFFFF;
-          border: 1px solid rgba(0, 0, 0, 0.10);
-          box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.03);
-          border-radius: 2px;
-          font-size: 14px;
-          color: #666666;
-          line-height: 21px;
-      } */
 </style>

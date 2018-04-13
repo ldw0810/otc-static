@@ -6,11 +6,13 @@
     <div class="contentBg"></div>
     <div class="page">
       <div class="g-tabs-vertical g-shadow sider">
-        <div class="g-tabs-vertical-bar" :class="{'g-tabs-vertical-bar-active': +siderIndex === 0}">
-          <div class="siderTextDiv" v-text="$t('user.info')" @click="doSider(0)"></div>
+        <div class="siderDiv" :class="{'siderFocus': +siderIndex === 0}">
+          <div class="siderTextDiv" :class="{'siderTextFocus': +siderIndex === 0}"
+               v-text="$t('user.info')" @click="doSider(0)"></div>
         </div>
-        <div class="g-tabs-vertical-bar" :class="{'g-tabs-vertical-bar-active': +siderIndex === 1}">
-          <div class="siderTextDiv" v-text="$t('user.securitySetting')" @click="doSider(1)"></div>
+        <div class="siderDiv" :class="{'siderFocus': +siderIndex === 1}">
+          <div class="siderTextDiv" :class="{'siderTextFocus': +siderIndex === 1}"
+               v-text="$t('user.securitySetting')" @click="doSider(1)"></div>
         </div>
       </div>
       <div class="content">
@@ -83,32 +85,39 @@
   }
 
   .sider {
-    float: left;
-    width: 170px;
-    height: 88px;
-    line-height: 44px;
-    font-size: 16px;
+    display: flex;
+    width: 100vw;
+    font-size: 1rem;
     color: #666666;
-    margin: 30px 30px 0 0;
     background: #FFFFFF;
   }
 
-  .siderTextDiv {
-    float: left;
-    width: 165px;
-    height: 44px;
-    font-size: 14px;
+  .siderDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50vw;
+    height: 8vh;
     color: #666666;
-    text-align: center;
     cursor: pointer;
   }
 
+  .siderFocus {
+    background: #FAFBFD;
+  }
+
+  .siderTextDiv {
+    font-size: 1rem;
+    color: #666666;
+  }
+
+  .siderTextFocus {
+  }
+
   .content {
-    float: left;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    display: flex;
     width: 100vw;
-    min-height: 596px;
+    min-height: 72vh;
     background: #FFFFFF;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.10);
     border-radius: 2px;
@@ -116,23 +125,5 @@
 
   .content div {
     word-wrap: break-word;
-  }
-
-  @keyframes fade-out {
-    0% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
-  }
-
-  @keyframes fade-in {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
   }
 </style>
