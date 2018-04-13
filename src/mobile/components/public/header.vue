@@ -363,10 +363,10 @@
       width: 40vw;
       margin-left: 55vw;
       background-image: linear-gradient(134deg, #0BBFD5 0%, #6DD7B2 100%);
+      box-shadow: rgba(0, 0, 0, 0.25) 0.25vh 0.25vh 2.5vh 0;
       border-radius: 0.5vh;
       &:before {
         right: 2vw;
-        box-shadow: rgba(0, 0, 0, 0.1) -2px -2px 5px 0px;
         /*background-image: linear-gradient(134deg, #0BBFD5 0%, #6DD7B2 100%);*/
         background: #0BBFD5;
         content: " ";
