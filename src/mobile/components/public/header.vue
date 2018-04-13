@@ -358,8 +358,25 @@
       justify-content: flex-end;
     }
     &-menu {
-      width: 100vw;
+      position: absolute;
+      top: 9vh;
+      width: 40vw;
+      margin-left: 55vw;
       background-image: linear-gradient(134deg, #0BBFD5 0%, #6DD7B2 100%);
+      border-radius: 0.5vh;
+      &:before {
+        right: 2vw;
+        box-shadow: rgba(0, 0, 0, 0.1) -2px -2px 5px 0px;
+        /*background-image: linear-gradient(134deg, #0BBFD5 0%, #6DD7B2 100%);*/
+        background: #0BBFD5;
+        content: " ";
+        position: absolute;
+        width: 5vh;
+        height: 5vh;
+        transform: rotate(135deg);
+        box-sizing: border-box;
+        z-index: -1;
+      }
     }
     &-nav {
       float: left;
@@ -386,8 +403,8 @@
     }
     &-navbar {
       display: flex;
-      width: 100vw;
-      color:#fff;
+      width: 40vw;
+      color: #fff;
       align-items: center;
       justify-content: center;
       border-bottom: 1px solid #eee;
@@ -398,7 +415,6 @@
         /deep/ .ivu-menu-submenu-title {
           height: 7vh;
           display: flex;
-          width: 100vw;
           align-items: center;
           justify-content: center;
         }
@@ -418,7 +434,6 @@
       &-item {
         height: 7vh;
         display: flex;
-        width: 100vw;
         align-items: center;
         justify-content: center;
         &.active {
@@ -463,11 +478,11 @@
         }
       }
       &-subItem {
-        height: 6vh;
         display: flex;
-        width: 100vw;
         align-items: center;
         justify-content: center;
+        height: 6vh;
+        width: 40vw;
         background: #C8D4E0;
         padding: 0 !important;
         border-bottom: 1px solid #eee;
