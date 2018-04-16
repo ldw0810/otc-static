@@ -118,17 +118,17 @@
         this.createImage();
       },
       createImage() {
-        let canvas0 = qrcanvas({
-          data: this.linkUrl    //linkStr就是你要生成的二维码内容，上图中输入的http://www.jianshu.com?user=yueziming就将成为二维码内的内容
-        });
-        let nHeight = document.getElementById('pop-image').naturalHeight;
-        let ctx = canvas.getContext("2d");
-        ctx.rect(0, 0, nWidth, nHeight);
-        ctx.fillStyle = "#ffffff";
-        ctx.fill();
-        img_all.addEventListener("load", () => {
-          ctx.drawImage(img_all, 0, 0, nWidth, nHeight);  //参数为原图img对象，图片在画布的x轴左边像素，y轴坐标像素、宽度、高度
-        }, false);
+        // let canvas0 = qrcanvas({
+        //   data: this.linkUrl    //linkStr就是你要生成的二维码内容，上图中输入的http://www.jianshu.com?user=yueziming就将成为二维码内的内容
+        // });
+        // let nHeight = document.getElementById('pop-image').naturalHeight;
+        // let ctx = canvas.getContext("2d");
+        // ctx.rect(0, 0, nWidth, nHeight);
+        // ctx.fillStyle = "#ffffff";
+        // ctx.fill();
+        // img_all.addEventListener("load", () => {
+        //   ctx.drawImage(img_all, 0, 0, nWidth, nHeight);  //参数为原图img对象，图片在画布的x轴左边像素，y轴坐标像素、宽度、高度
+        // }, false);
       },
       downloadImage() {
         this.popImageFlag = true;
