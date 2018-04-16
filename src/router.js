@@ -432,7 +432,7 @@ router.beforeEach((to, from, next) => {
   Util.title(to.meta.title);
   if (to.fullPath.indexOf("/mobile") > -1) {
     if(+store.state.device === 0) {
-      if (from.name && from.name.indexOf("home") > -1) {
+      if (from.path && from.path.indexOf("home") > -1) {
         LoadingBar.finish();
       }
       next({
@@ -443,7 +443,7 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     if(+store.state.device === 1) {
-      if (from.name && from.name.indexOf("home") > -1) {
+      if (from.path && from.path.indexOf("home") > -1) {
         LoadingBar.finish();
       }
       next({
@@ -451,18 +451,18 @@ router.beforeEach((to, from, next) => {
       });
     } else if (localStorage.getItem("userToken")) {
       if (to.matched.some(r => r.meta.noUser)) {  //登陆注册页面
-        if (from.name.indexOf("home") > -1) {
+        if (from.path.indexOf("home") > -1) {
           LoadingBar.finish();
         }
         next({path: "/"});
       } else if (to.matched.some(r => r.meta.freeze) && store.state.userInfo.soft_disabled) { //账户软冻结
-        if (from.name.indexOf("home") > -1) {
+        if (from.path.indexOf("home") > -1) {
           LoadingBar.finish();
         }
         next({path: "/"});
       } else if (to.matched.some(r => r.meta.needEmail) && !store.state.userInfo.activated) { //邮箱未验证
         //地址栏输入的from.name为空
-        if (from.name && from.name.indexOf("/user/login") <= -1) {
+        if (from.name && from.path.indexOf("/user/login") <= -1) {
           LoadingBar.finish();
           store.commit("showAuthEmail_setter", 1);
         } else {
@@ -479,7 +479,7 @@ router.beforeEach((to, from, next) => {
           path: "/user/login",
           query: {redirect: to.fullPath}
         });
-        if (from.name && from.name.indexOf("/user/login") > -1) {
+        if (from.name && from.path.indexOf("/user/login") > -1) {
           LoadingBar.finish();
         }
       }
