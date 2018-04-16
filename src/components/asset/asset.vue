@@ -69,7 +69,10 @@
                 <div class='g-loading-wrapper' v-show="changTabLoading">
                   <c-loading/>
                 </div>
-                <div class='content-recharge' v-show="!changTabLoading && +assetIndex === 0">
+                <div class='content-withdraw-no-verify' v-if="!changTabLoading && +assetIndex === 0 && currency === 'omt'">
+                  {{$t("asset.asset_withdraw_await")}}
+                </div>
+                <div class='content-recharge' v-show="!changTabLoading && +assetIndex === 0" v-else>
                   <div class='content-recharge-left'>
                     <div class="address">
                       <span class='address-desc'>{{$t("asset.asset_recharge_address")}}:</span>
@@ -102,7 +105,10 @@
                   </div>
                 </div>
                 <!-- widthdraw -->
-                <div class='withdraw content-withdraw' v-show="!changTabLoading && +assetIndex === 1">
+                <div class='content-withdraw-no-verify' v-if="!changTabLoading && +assetIndex === 1 && currency === 'omt'">
+                  {{$t("asset.asset_withdraw_await")}}
+                </div>
+                <div class='withdraw content-withdraw' v-show="!changTabLoading && +assetIndex === 1" v-else>
                   <!-- 您尚未设置二次验证，无法提取ETH -->
                   <div class='content-withdraw-no-verify'
                        v-if="!userInfo.mobile && !userInfo.app_two_factor">
@@ -122,13 +128,12 @@
                        v-else>
                     <div class="tip" v-if="currency === 'dai'">
                       {{$t("asset.asset_withdraw_address_tip_DAI").format(currencyWithdrawLimit,
-                      withdraw.withdraw_channels.fee)}}
+                      withdraw.withdraw_channels ? withdraw.withdraw_channels.fee : 0)
                     </div>
                     <div class="tip" v-else>
                       {{$t("asset.asset_withdraw_address_tip_ETH").format(currencyWithdrawLimit,
-                      withdraw.withdraw_channels.fee)}}
+                      withdraw.withdraw_channels ? withdraw.withdraw_channels.fee : 0)
                     </div>
-
                     <Form class="form" ref="form" @checkValidate='checkValidate_form' :model="form"
                           :rules="rules"
                           :label-width="90">
@@ -413,7 +418,7 @@
         imageType: [
           require("../../static/images/CoinLogo-DAI.png"),
           require("../../static/images/CoinLogo-ETH .png"),
-          require("../../static/images/CoinLogo-CAT.png")
+          require("../../static/images/OMT.svg")
         ],
         setAddress: "",
         tabs: [],

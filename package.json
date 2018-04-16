@@ -30,6 +30,7 @@
     "lodash": "^4.17.5",
     "lodash.throttle": "^4.1.1",
     "popper.js": "^0.6.4",
+    "qrcanvas": "^2.0.0",
     "qrcode.vue": "^1.5.2",
     "tinycolor2": "^1.4.1",
     "vue": "^2.5.2",

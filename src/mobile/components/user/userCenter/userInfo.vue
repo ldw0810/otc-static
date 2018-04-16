@@ -29,9 +29,9 @@
       <div class="info">
         <span class="title">{{$t('user.default_receivables')}}:</span>
         <span class="text" v-if="Object.keys(userInfo.default_collection).length">{{ default_receiver }}</span>
-        <span v-else></span>
         <span class="link" @click="$goRouter('/user/userCenter/payment')"
               v-text="$t('public.setting')"></span>
+        <span v-if="!Object.keys(userInfo.default_collection).length"></span>
       </div>
       <div class="info">
         <span class="title">{{$t('user.transaction_record')}}:</span>

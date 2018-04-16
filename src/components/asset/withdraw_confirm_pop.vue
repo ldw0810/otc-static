@@ -51,7 +51,7 @@
         return (this.$route.query.currency || CONF_DIGITAL_CURRENCY_LIST[0].currency);
       },
       currencyFee() {
-        return this.withdraw.withdraw_channels.fee;
+        return this.withdraw.withdraw_channels ? this.withdraw.withdraw_channels.fee : 0;
       }
     },
     methods: {

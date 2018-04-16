@@ -6,13 +6,10 @@
       <section class="invite-target g-shadow">
         <div class='invite-target-desc'>
           {{$t('public.invite_title')}}
-          <a class='invite-target-desc-sub'
-             :href='articlesLink' target="_blank">{{$t('public.invite_question')}}</a>
+          <a class='invite-target-desc-sub' @click="goArticle">{{$t('public.invite_question')}}</a>
         </div>
         <div class='copy-area'>
-          <div class='copy-input-wrapper'>
-            <input type="text" class='copy-input' v-model="link" readonly>
-          </div>
+          <div class='copy-input' v-text="link"></div>
           <div class='copy-btn-wrapper'>
             <i-button type="primary" class="copy-btn" v-clipboard:copy="link"
                       v-clipboard:success="copySuccess">
@@ -20,18 +17,22 @@
             </i-button>
           </div>
         </div>
-        <!-- <div class="score-cards">
-                <div class="score-cards-item">
-                        <div class="number">938</div>
-                        <div class="border"></div>
-                        <div class="text">{{$t("public.invite_invited")}}</div>
-                </div>
-                <div class="score-cards-item">
-                        <div class="number">720340.37</div>
-                        <div class="border"></div>
-                        <div class="text">{{$t("public.invite_omt")}}</div>
-                </div>
-        </div> -->
+        <div class="copy-image">
+          <div @click="showImage" class='copy-image-input' v-text="$t('public.invite_image_content')"></div>
+          <div class='copy-btn-wrapper'>
+            <i-button type="primary" class="copy-btn" @click="downloadImage">
+              {{$t("public.invite_image_text")}}
+            </i-button>
+          </div>
+        </div>
+        <div class="score-cards">
+          <div class="score-cards-item">
+            {{$t("public.invite_invited")}}: {{invite.count}}
+          </div>
+          <div class="score-cards-item">
+            {{$t("public.invite_omt")}}: {{invite.amount}}
+          </div>
+        </div>
       </section>
       <section class="invite-rules g-shadow">
         <h3 class='invite-rules-title'>
@@ -41,61 +42,131 @@
         </div>
       </section>
     </article>
+    <Modal v-model="popImageFlag" class-name="m-ivu-modal" :mask-closable="true"
+           :closable="false" @on-visible-change="popImageTrigger">
+      <div id="pop-image" class="pop-image" :style="{backgroundImage: 'url('+CONF_INVITE_IMAGE+')'}">
+      </div>
+      <div class="pop-button"></div>
+    </Modal>
   </div>
 </template>
 
 <script>
-  import { CONF_INVITE_BANNER } from 'config/config';
-  const domain = `https://otcmaker.zendesk.com/hc/${(window.localStorage.getItem("language") || "zh-TW").replace('HK', 'TW')
-    .toLowerCase()}`;
+  import QrcodeVue from 'qrcode.vue';
+  import qrcanvas from "qrcanvas";
+  import {CONF_INVITE_BANNER, CONF_INVITE_IMAGE, ZENDESK_DOMAIN_URL} from 'config/config';
+
+  const domain = `${ZENDESK_DOMAIN_URL}/hc/${(window.localStorage.getItem("language") || "zh-TW").replace('HK', 'TW').toLowerCase()}`;
 
   export default {
     name: '',
+    components: {
+      QrcodeVue,
+    },
     data() {
       return {
         articlesLink: `${domain}/articles/360001929553`,
         CONF_INVITE_BANNER,
+        CONF_INVITE_IMAGE,
+        invite: {
+          amount: 0,
+          count: 0
+        },
+        popImageFlag: false
       }
     },
     computed: {
       link() {
-        return window.location.href.replace("invite", "user/register?invitationCode=" +
-          this.$store.state.userInfo.invite)
+        return this.$t("public.invite_content") + "\n" + this.linkUrl;
+      },
+      linkUrl() {
+        return window.location.href.replace("invite", "user/register?invitationCode=" + this.$store.state.userInfo.invite);
       }
     },
     methods: {
       copySuccess() {
         this.$Message.success(this.$t("public.invite_copy_success"));
       },
+      getInviteDetail() {
+        this.$store.dispatch("ajax_invited_detail").then(res => {
+          if (res && res.data === 0) {
+            this.invite = res.data;
+          } else {
+
+          }
+        }).catch(err => {
+
+        });
+      },
+      goArticle() {
+        if (this.$store.state.userToken) {
+          this.$store.dispatch("ajax_zendesk").then(res => {
+            if (res.data && +res.data.error === 0) {
+              window.location.href = `${ZENDESK_DOMAIN_URL}/access/jwt?jwt=${res.data.token}&return_to=${encodeURI(this.articlesLink)}`;
+            } else {
+              window.location.href = `${domain}/categories/360001929553`;
+            }
+          }).catch(err => {
+            window.location.href = `${domain}/categories/360001929553`;
+          });
+        } else if (this.footerList[index].url) {
+          window.location.href = this.articlesLink;
+        }
+      },
+      showImage() {
+        this.popImageFlag = true;
+        this.createImage();
+      },
+      createImage() {
+        let canvas0 = qrcanvas({
+          data: this.linkUrl    //linkStr就是你要生成的二维码内容，上图中输入的http://www.jianshu.com?user=yueziming就将成为二维码内的内容
+        });
+        let nHeight = document.getElementById('pop-image').naturalHeight;
+        let ctx = canvas.getContext("2d");
+        ctx.rect(0, 0, nWidth, nHeight);
+        ctx.fillStyle = "#ffffff";
+        ctx.fill();
+        img_all.addEventListener("load", () => {
+          ctx.drawImage(img_all, 0, 0, nWidth, nHeight);  //参数为原图img对象，图片在画布的x轴左边像素，y轴坐标像素、宽度、高度
+        }, false);
+      },
+      downloadImage() {
+        this.popImageFlag = true;
+      },
+      popImageTrigger(val) {
+        if (!val) {
+          this.popImageFlag = false;
+        }
+      }
     },
     mounted() {
       this.$store.commit("header_index_setter", "4");
+      this.getInviteDetail();
     }
   }
 </script>
 <style lang='scss' scoped>
   $baseImage: '~images';
   .banner {
-    height: 530px;
+    height: 20vh;
+    width: 100vw;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
   }
+
   .invite {
-    margin-bottom: 30px;
     &-container {
-      width: 970px;
-      margin: 370px - 530px auto 0;
+      width: 100vw;
     }
     &-target {
       background-color: #fff;
-      border-radius: 2px;
-      padding: 48px 70px;
-      margin-bottom: 30px;
+      border-radius: 0.2vw;
+      padding: 2vh 5vw 2vh 5vw;
       &-desc {
-        font-size: 16px;
+        font-size: 0.8rem;
         color: #ED1C24;
-        margin-bottom: 26px;
+        margin-bottom: 2vh;
         &-sub {
           color: #2EA2F8;
         }
@@ -103,80 +174,99 @@
       .copy-area {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 38px;
-      }
-      .copy-input-wrapper {
-        width: 700px;
+        flex-direction: column;
       }
       .copy-input {
         width: 100%;
         border: 1px solid #CCCCCC;
         border-radius: 2px;
-        height: 40px;
-        font-size: 16px;
-        padding: 8px 20px;
+        font-size: 0.8rem;
+        word-break: break-all;
+        cursor: text;
+        padding: 0 2vw 0 2vw;
       }
       .copy-btn-wrapper {
-        width: 101px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 8vh;
       }
-      .copy-btn {
-        width: 101px;
+      .copy-image {
+        padding-top: 2.5vh;
+        &-input {
+          width: 90vw;
+          height: 20vw;
+          background: #FFFFFF url(#{$baseImage}/Invite-pic-bg.png) no-repeat center;
+          background-size: 100%;
+          color: #ffffff;
+          font-size: 0.8rem;
+          display: flex;
+          align-items: center;
+          text-align: center;
+          justify-content: center;
+          padding: 0 2vw 0 2vw;
+        }
       }
     }
     .score-cards {
+      width: 90vw;
       display: flex;
       justify-content: space-between;
+      background: #3DCBC3 100%;
+      margin: 4vh 0 4vh 0;
       &-item {
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
         font-weight: normal;
-        width: 370px;
-        height: 198px;
-        background: #FFFFFF url(#{$baseImage}/Invite-Card.png) no-repeat center;
-        background-size: 100%;
-        .number {
-          margin-top: 50px;
-          font-size: 41px;
-          line-height: 57px;
-          color: #FFFFFF;
-        }
-        .border {
-          height: 1px;
-          width: 58px;
-          background-color: #fff;
-          margin-top: 22px;
-          margin-bottom: 10px;
-        }
-        .text {
-          font-size: 26px;
-          line-height: 37px;
-          color: #FFFFFF;
-        }
+        flex: 1;
+        height: 10vh;
+        font-size: 1rem;
+        color: #FFFFFF;
       }
     }
     &-rules {
-      width: 970px;
-      height: 424px;
+      width: 100vw;
       background: #FFFFFF;
       border-radius: 2px;
-      padding: 40px 70px 50px;
+      padding: 5vh 10vw 5vh 10vw;
       display: flex;
       flex-direction: column;
       align-items: center;
       &-title {
         font-weight: normal;
-        font-size: 26px;
-        line-height: 37px;
-        margin-bottom: 20px;
+        font-size: 1.5rem;
+        margin-bottom: 2.5vh;
       }
       &-content {
         border-top: 1px solid #eee;
         padding-top: 20px;
-        font-size: 16px;
+        font-size: 1rem;
         letter-spacing: 0;
-        line-height: 32px;
+        line-height: 2rem;
       }
+    }
+  }
+
+  .pop {
+    &-image {
+      background: #FFFFFF url(#{$baseImage}/Invite-pic-bg.png) no-repeat center;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 600px;
+      width: 300px;
+      &-qrCode {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+    &-button {
+
     }
   }
 </style>

@@ -6,8 +6,7 @@
       <section class="invite-target g-shadow">
         <div class='invite-target-desc'>
           {{$t('public.invite_title')}}
-          <a class='invite-target-desc-sub'
-             :href='articlesLink' target="_blank">{{$t('public.invite_question')}}</a>
+          <a class='invite-target-desc-sub' @click="goArticle">{{$t('public.invite_question')}}</a>
         </div>
         <div class='copy-area'>
           <div class='copy-input-wrapper'>
@@ -67,6 +66,21 @@
       copySuccess() {
         this.$Message.success(this.$t("public.invite_copy_success"));
       },
+      goArticle(){
+        if (this.$store.state.userToken) {
+          this.$store.dispatch("ajax_zendesk").then(res => {
+            if (res.data && +res.data.error === 0) {
+              window.location.href = `${ZENDESK_DOMAIN_URL}/access/jwt?jwt=${res.data.token}&return_to=${encodeURI(this.articlesLink)}`;
+            } else {
+              window.location.href = `${domain}/categories/360001929553`;
+            }
+          }).catch(err => {
+            window.location.href = `${domain}/categories/360001929553`;
+          });
+        } else if (this.footerList[index].url) {
+          window.location.href = this.articlesLink;
+        }
+      }
     },
     mounted() {
       this.$store.commit("header_index_setter", "4");
