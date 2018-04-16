@@ -428,61 +428,81 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  const judgeFrom = (name) => {
+    if (from.name && from.name.indexOf(name) > -1) {
+      LoadingBar.finish();
+      return true;
+    } else {
+      return false;
+    }
+  };
+  const judgeDevice = (nextPath) => {
+    if(nextPath) {
+      if (+store.state.device === 0) {
+        if (nextPath.path.indexOf("/mobile") > -1) {
+          next(Object.assign({
+            path: nextPath.path.substring("/mobile".length)
+          }, nextPath));
+        } else {
+          next();
+        }
+      } else {
+        if (nextPath.path.indexOf("/mobile") > -1) {
+          next();
+        } else {
+          next(Object.assign({
+            path: "/mobile" + nextPath.path
+          }, nextPath));
+        }
+      }
+    } else {
+      if (+store.state.device === 0) {
+        if (to.fullPath.indexOf("/mobile") > -1) {
+          next({
+            path: nextPath.path.substring("/mobile".length)
+          });
+        } else {
+          next();
+        }
+      } else {
+        if (to.fullPath.indexOf("/mobile") > -1) {
+          next();
+        } else {
+          next({
+            path: "/mobile" + to.fullPath
+          });
+        }
+      }
+    }
+  };
   LoadingBar.start();
   Util.title(to.meta.title);
-  if (to.fullPath.indexOf("/mobile") > -1) {
-    if(+store.state.device === 0) {
-      if (from.path && from.path.indexOf("home") > -1) {
-        LoadingBar.finish();
+  if (localStorage.getItem("userToken")) {
+    if (to.matched.some(r => r.meta.noUser)) {  //登陆注册页面
+      judgeFrom("home");
+      judgeDevice({path: "/"});
+    } else if (to.matched.some(r => r.meta.freeze) && store.state.userInfo.soft_disabled) { //账户软冻结
+      judgeFrom("home");
+      judgeDevice({path: "/"});
+    } else if (to.matched.some(r => r.meta.needEmail) && !store.state.userInfo.activated) { //邮箱未验证
+      //地址栏输入的from.name为空
+      if (judgeFrom("user/login")) {
+        store.commit("showAuthEmail_setter", 1);
+      } else {
+        judgeDevice({path: "/user/userCenter"});
       }
-      next({
-        path: to.fullPath.substring("/mobile".length)
-      });
     } else {
-      next();
+      judgeDevice();
     }
   } else {
-    if(+store.state.device === 1) {
-      if (from.path && from.path.indexOf("home") > -1) {
-        LoadingBar.finish();
-      }
-      next({
-        path: "/mobile" + to.fullPath
-      });
-    } else if (localStorage.getItem("userToken")) {
-      if (to.matched.some(r => r.meta.noUser)) {  //登陆注册页面
-        if (from.path.indexOf("home") > -1) {
-          LoadingBar.finish();
-        }
-        next({path: "/"});
-      } else if (to.matched.some(r => r.meta.freeze) && store.state.userInfo.soft_disabled) { //账户软冻结
-        if (from.path.indexOf("home") > -1) {
-          LoadingBar.finish();
-        }
-        next({path: "/"});
-      } else if (to.matched.some(r => r.meta.needEmail) && !store.state.userInfo.activated) { //邮箱未验证
-        //地址栏输入的from.name为空
-        if (from.name && from.path.indexOf("/user/login") <= -1) {
-          LoadingBar.finish();
-          store.commit("showAuthEmail_setter", 1);
-        } else {
-          next({path: "/user/userCenter"});
-        }
-      } else {
-        next();
-      }
+    if (to.matched.some(r => r.meta.noLogin)) {
+      judgeDevice();
     } else {
-      if (to.matched.some(r => r.meta.noLogin)) {
-        next();
-      } else {
-        next({
-          path: "/user/login",
-          query: {redirect: to.fullPath}
-        });
-        if (from.name && from.path.indexOf("/user/login") > -1) {
-          LoadingBar.finish();
-        }
-      }
+      judgeFrom("user/login");
+      judgeDevice({
+        path: "/user/login",
+        query: {redirect: to.fullPath}
+      });
     }
   }
 });
