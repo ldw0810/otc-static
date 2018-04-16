@@ -530,7 +530,7 @@
         );
       },
       currencyWithdrawLimit() {
-        return this.withdraw.withdraw_channels.min || 0;
+        return this.withdraw.withdraw_channels ? this.withdraw.withdraw_channels.min : 0;
       },
       account() {
         let index = 0;
