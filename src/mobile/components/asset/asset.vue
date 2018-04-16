@@ -717,7 +717,7 @@
       },
       changeOperation(index) {
         this.changTabLoading = true;
-        this.$goRouter(this.$route.name, {
+        this.$goRouter(this.$route.path, {
           currency: this.currency,
           type: index
         });
