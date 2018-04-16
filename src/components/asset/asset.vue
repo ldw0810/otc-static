@@ -128,11 +128,11 @@
                        v-else>
                     <div class="tip" v-if="currency === 'dai'">
                       {{$t("asset.asset_withdraw_address_tip_DAI").format(currencyWithdrawLimit,
-                      withdraw.withdraw_channels ? withdraw.withdraw_channels.fee : 0)
+                      withdraw.withdraw_channels ? withdraw.withdraw_channels.fee : 0)}}
                     </div>
                     <div class="tip" v-else>
                       {{$t("asset.asset_withdraw_address_tip_ETH").format(currencyWithdrawLimit,
-                      withdraw.withdraw_channels ? withdraw.withdraw_channels.fee : 0)
+                      withdraw.withdraw_channels ? withdraw.withdraw_channels.fee : 0)}}
                     </div>
                     <Form class="form" ref="form" @checkValidate='checkValidate_form' :model="form"
                           :rules="rules"
