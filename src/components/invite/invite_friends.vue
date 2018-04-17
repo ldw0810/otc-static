@@ -73,7 +73,7 @@
         articlesLink: `${domain}/articles/360001929553`,
         CONF_INVITE_BANNER,
         CONF_INVITE_IMAGE,
-        inviteAmount:0,
+        inviteAmount: 0,
         inviteCount: 0,
         qrCodeFlag: true,
         popImageFlag: false,
@@ -103,10 +103,9 @@
       },
       getInviteDetail() {
         this.$store.dispatch("ajax_invited_detail").then(res => {
-          if (res && res.data === 0) {
-            console.log(this.invite);
-            this.inviteAmount = res.data.amount || 0;
-            this.inviteCount = res.data.count || 0;
+          if (res.data && +res.data.error === 0) {
+            this.inviteAmount = +res.data.amount || 0;
+            this.inviteCount = +res.data.count || 0;
           } else {
           }
         }).catch(err => {
@@ -203,6 +202,7 @@
     background-position: center;
     background-size: cover;
   }
+
   .invite {
     margin-bottom: 30px;
     &-container {

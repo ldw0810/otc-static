@@ -101,9 +101,9 @@
       },
       getInviteDetail() {
         this.$store.dispatch("ajax_invited_detail").then(res => {
-          if (res && res.data === 0) {
-            this.inviteAmount = res.data.amount || 0;
-            this.inviteCount = res.data.count || 0;
+          if (res.data && +res.data.error === 0) {
+            this.inviteAmount = +res.data.amount || 0;
+            this.inviteCount = +res.data.count || 0;
           } else {
           }
         }).catch(err => {
