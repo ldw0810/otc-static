@@ -6,10 +6,10 @@
       <section class="invite-target g-shadow">
         <div class="score-cards">
           <div class="score-cards-item">
-            {{$t("public.invite_invited")}}: {{invite.count}}
+            {{$t("public.invite_invited")}}: {{inviteCount}}
           </div>
           <div class="score-cards-item">
-            {{$t("public.invite_omt")}}: {{invite.amount}}
+            {{$t("public.invite_omt")}}: {{inviteAmount}}
           </div>
         </div>
         <div class='invite-target-desc'>
@@ -71,10 +71,8 @@
         articlesLink: `${domain}/articles/360001929553`,
         CONF_INVITE_BANNER,
         CONF_INVITE_IMAGE,
-        invite: {
-          amount: 0,
-          count: 0
-        },
+        inviteAmount:0,
+        inviteCount: 0,
         qrCodeFlag: true,
         popImageFlag: false,
         imageData: "",
@@ -104,7 +102,8 @@
       getInviteDetail() {
         this.$store.dispatch("ajax_invited_detail").then(res => {
           if (res && res.data === 0) {
-            this.invite = res.data;
+            this.inviteAmount = res.data.amount || 0;
+            this.inviteCount = res.data.count || 0;
           } else {
           }
         }).catch(err => {
