@@ -41,13 +41,13 @@
       <div class="info">
         <span class="title">{{$t('user.evaluate')}}:</span>
         <span v-text="userInfo.stat.trade_count ? (userInfo.stat.good_rate + '%') : $t('user.evaluate_noValid')"></span>
-        <span></span>
+        <span></span>`
       </div>
-      <div class="info">
-        <span class="title">{{$t('user.integral')}}:</span>
-        <span v-text="userInfo.omt.amount"></span>
-        <span></span>
-      </div>
+      <!--<div class="info">-->
+        <!--<span class="title">{{$t('user.integral')}}:</span>-->
+        <!--<span v-text="userInfo.omt.amount"></span>-->
+        <!--<span></span>-->
+      <!--</div>-->
       <div class="info" :class="{'omt-hide': !omt_show}">
         <span class="text" style="color: red;">** 注册后将实名信息和手机号发给内测群主，才可以获得积分 **</span>
         <span v-text="userInfo.omt.amount"></span>
