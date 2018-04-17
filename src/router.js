@@ -459,7 +459,7 @@ router.beforeEach((to, from, next) => {
       if (+store.state.device === 0) {
         if (to.fullPath.indexOf("/mobile") > -1) {
           next({
-            path: nextPath.path.substring("/mobile".length)
+            path: to.fullPath.substring("/mobile".length)
           });
         } else {
           next();

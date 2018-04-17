@@ -86,13 +86,13 @@
                       </i-button>
                     </div>
                     <div class="tip" v-if="currency === 'dai'" v-html="$t('asset.asset_recharge_address_tip_DAI').format(
-                      +deposit.deposit_channels ? +deposit.deposit_channels.max_confirm: 0,
-                      +deposit.deposit_channels ? +deposit.deposit_channels.min_value: 0
+                      deposit.deposit_channels ? +deposit.deposit_channels.max_confirm: 0,
+                      deposit.deposit_channels ? +deposit.deposit_channels.min_value: 0
                       )">
                     </div>
                     <div class="tip" v-else v-html="$t('asset.asset_recharge_address_tip_ETH').format(
-                      +deposit.deposit_channels ? +deposit.deposit_channels.max_confirm: 0,
-                      +deposit.deposit_channels ? +deposit.deposit_channels.min_value: 0
+                      deposit.deposit_channels ? +deposit.deposit_channels.max_confirm: 0,
+                      deposit.deposit_channels ? +deposit.deposit_channels.min_value: 0
                       )">
                     </div>
                   </div>
@@ -236,8 +236,8 @@
                   <td class='content-history-table-body-td'>
                     <div class="status">
                       {{$t("asset['asset_recharge_status_" + item["aasm_state"] + "']")}}
-                      {{item.confirmations < (+deposit.deposit_channels ? +deposit.deposit_channels.max_confirm : 0)
-                      ? '&nbsp;&nbsp;' + item.confirmations + '/' + (+deposit.deposit_channels ? +deposit.deposit_channels.max_confirm : 0)
+                      {{item.confirmations < (deposit.deposit_channels ? +deposit.deposit_channels.max_confirm : 0)
+                      ? '&nbsp;&nbsp;' + item.confirmations + '/' + (deposit.deposit_channels ? +deposit.deposit_channels.max_confirm : 0)
                       : '' }}
                     </div>
                   </td>

@@ -44,7 +44,8 @@
     </article>
     <Modal v-model="popImageFlag" class-name="m-ivu-modal" :mask-closable="true"
            :closable="false" @on-visible-change="popImageTrigger">
-      <div id="pop-image" class="pop-image" :style="{backgroundImage: 'url('+CONF_INVITE_IMAGE+')'}">
+      <div class="pop-image" :style="{backgroundImage: 'url('+CONF_INVITE_IMAGE+')'}">
+        <qrcode-vue class="pop-image-qrCode" :value='qrCodeConfig.value' :size='qrCodeConfig.size'/>
       </div>
       <div class="pop-button"></div>
     </Modal>
@@ -53,6 +54,7 @@
 
 <script>
   import QrcodeVue from 'qrcode.vue';
+  import qrcanvas from "qrcanvas";
   import {CONF_INVITE_BANNER, CONF_INVITE_IMAGE, ZENDESK_DOMAIN_URL} from 'config/config';
 
   const domain = `${ZENDESK_DOMAIN_URL}/hc/${(window.localStorage.getItem("language") || "zh-TW").replace('HK', 'TW').toLowerCase()}`;
@@ -80,7 +82,15 @@
       },
       linkUrl() {
         return window.location.href.replace("invite", "user/register?invitationCode=" + this.$store.state.userInfo.invite);
-      }
+      },
+      qrCodeConfig() {
+        return {
+          value: window.location.href.replace("invite", "user/register?invitationCode=" + this.$store.state.userInfo.invite),
+          imagePath: require("../../../static/images/home/QC-Code-BG.png"),
+          filter: "canvas",
+          size: 100
+        }
+      },
     },
     methods: {
       copySuccess() {
@@ -91,10 +101,8 @@
           if (res && res.data === 0) {
             this.invite = res.data;
           } else {
-
           }
         }).catch(err => {
-
         });
       },
       goArticle() {
@@ -249,8 +257,8 @@
       width: 300px;
       &-qrCode {
         display: flex;
-        justify-content: center;
         align-items: center;
+        top: 20px;
       }
     }
     &-button {
