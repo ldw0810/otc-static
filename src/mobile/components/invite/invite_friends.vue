@@ -43,11 +43,12 @@
       </section>
     </article>
     <Modal v-model="popImageFlag" class-name="m-ivu-modal" :mask-closable="true" @on-visible-change="popImageTrigger">
-      <qrcode-vue v-if="qrCodeFlag" ref="qrCode" class="pop-qrCode" :value='qrCodeConfig.value' :size='qrCodeConfig.size'/>
+      <qrcode-vue v-if="qrCodeFlag" ref="qrCode" class="pop-qrCode" :value='qrCodeConfig.value'
+                  :size='qrCodeConfig.size'/>
       <div ref="popImage" class="pop-image"></div>
       <div slot="footer">
-        <i-button class="pop-popDownload submitButton" type="primary" @click="downloadImage">
-          {{$t('public.invite_image_download_text')}}
+        <i-button class="pop-popDownload submitButton" type="primary">
+          {{$t('public.invite_image_info_text')}}
         </i-button>
       </div>
     </Modal>
@@ -137,8 +138,8 @@
         let imgArr = [CONF_INVITE_IMAGE, qrCodeImg];
         let c = document.createElement('canvas');
         let ctx = c.getContext('2d');
-        c.width = this.clientHeight * 0.395;
-        c.height = this.clientHeight * 0.7;
+        c.width = 750;
+        c.height = 1334;
         ctx.rect(0, 0, c.width, c.height);
         ctx.fillStyle = '#ccc';
         ctx.fill();
@@ -149,7 +150,7 @@
             img.src = imgArr[index];
             img.onload = () => {
               if (index === 1) {
-                ctx.drawImage(img, this.clientHeight * 0.145, this.clientHeight * 0.402, this.clientHeight * 0.105, this.clientHeight * 0.105);
+                ctx.drawImage(img, 270, 760, 210, 210);
                 drawing(++index);
               } else {
                 ctx.drawImage(img, 0, 0, c.width, c.height);
@@ -159,14 +160,15 @@
           } else {
             this.qrCodeFlag = false;
             this.imageData = c.toDataURL("image/png").replace("image/png", "image/octet-stream");
-            this.$refs.popImage.innerHTML = "<img src='" + this.imageData + "'>";
+            this.$refs.popImage.innerHTML = "<img width='" + this.clientHeight * 0.45 +
+              "' height='" + this.clientHeight * 0.8 + "' src='" + this.imageData + "'>";
           }
         };
         drawing();
       }
       ,
       downloadImage() {
-        if(this.imageData) {
+        if (this.imageData) {
           let a = document.createElement('a');
           a.href = this.imageData;
           a.download = "img.png";
