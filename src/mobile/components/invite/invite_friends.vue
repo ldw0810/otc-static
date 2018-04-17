@@ -4,6 +4,14 @@
     </div>
     <article class='invite-container'>
       <section class="invite-target g-shadow">
+        <div class="score-cards">
+          <div class="score-cards-item">
+            {{$t("public.invite_invited")}}: {{invite.count}}
+          </div>
+          <div class="score-cards-item">
+            {{$t("public.invite_omt")}}: {{invite.amount}}
+          </div>
+        </div>
         <div class='invite-target-desc'>
           {{$t('public.invite_title')}}
           <a class='invite-target-desc-sub' @click="goArticle">{{$t('public.invite_question')}}</a>
@@ -23,14 +31,6 @@
             <i-button type="primary" class="copy-btn" @click="downloadImage">
               {{$t("public.invite_image_text")}}
             </i-button>
-          </div>
-        </div>
-        <div class="score-cards">
-          <div class="score-cards-item">
-            {{$t("public.invite_invited")}}: {{invite.count}}
-          </div>
-          <div class="score-cards-item">
-            {{$t("public.invite_omt")}}: {{invite.amount}}
           </div>
         </div>
       </section>
@@ -162,7 +162,7 @@
       &-desc {
         font-size: 0.8rem;
         color: #ED1C24;
-        margin-bottom: 2vh;
+        margin: 2vh 0 2vh 0;
         &-sub {
           color: #2EA2F8;
         }
@@ -171,6 +171,7 @@
         display: flex;
         justify-content: space-between;
         flex-direction: column;
+        padding: 2vh 0 0 0;
       }
       .copy-input {
         width: 100%;
@@ -189,7 +190,7 @@
         height: 8vh;
       }
       .copy-image {
-        padding-top: 2.5vh;
+        padding: 2vh 0 2vh 0;
         &-input {
           width: 90vw;
           height: 20vw;
@@ -210,7 +211,7 @@
       display: flex;
       justify-content: space-between;
       background: #3DCBC3 100%;
-      margin: 4vh 0 4vh 0;
+      padding: 0;
       &-item {
         display: flex;
         flex-direction: column;
