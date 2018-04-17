@@ -347,7 +347,9 @@
       align-items: center;
     }
   }
-
+  /deep/ .ivu-modal-content {
+    background: transparent;
+  }
   /deep/ .ivu-modal-footer {
     display: flex;
     justify-content: center;
