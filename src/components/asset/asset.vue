@@ -69,7 +69,10 @@
                 <div class='g-loading-wrapper' v-show="changTabLoading">
                   <c-loading/>
                 </div>
-                <div class='content-recharge' v-show="!changTabLoading && +assetIndex === 0">
+                <div class='content-withdraw-no-verify' v-if="!changTabLoading && +assetIndex === 0 && currency === 'omt'">
+                  {{$t("asset.asset_withdraw_await")}}
+                </div>
+                <div class='content-recharge' v-show="!changTabLoading && +assetIndex === 0" v-else>
                   <div class='content-recharge-left'>
                     <div class="address">
                       <span class='address-desc'>{{$t("asset.asset_recharge_address")}}:</span>
@@ -83,13 +86,13 @@
                       </i-button>
                     </div>
                     <div class="tip" v-if="currency === 'dai'" v-html="$t('asset.asset_recharge_address_tip_DAI').format(
-                      +deposit.deposit_channels.max_confirm,
-                      +deposit.deposit_channels.min_value
+                      deposit.deposit_channels ? +deposit.deposit_channels.max_confirm: 0,
+                      deposit.deposit_channels ? +deposit.deposit_channels.min_value: 0
                       )">
                     </div>
                     <div class="tip" v-else v-html="$t('asset.asset_recharge_address_tip_ETH').format(
-                      +deposit.deposit_channels.max_confirm,
-                      +deposit.deposit_channels.min_value
+                      deposit.deposit_channels ? +deposit.deposit_channels.max_confirm: 0,
+                      deposit.deposit_channels ? +deposit.deposit_channels.min_value: 0
                       )">
                     </div>
                   </div>
@@ -102,7 +105,10 @@
                   </div>
                 </div>
                 <!-- widthdraw -->
-                <div class='withdraw content-withdraw' v-show="!changTabLoading && +assetIndex === 1">
+                <div class='content-withdraw-no-verify' v-if="!changTabLoading && +assetIndex === 1 && currency === 'omt'">
+                  {{$t("asset.asset_withdraw_await")}}
+                </div>
+                <div class='withdraw content-withdraw' v-show="!changTabLoading && +assetIndex === 1" v-else>
                   <!-- 您尚未设置二次验证，无法提取ETH -->
                   <div class='content-withdraw-no-verify'
                        v-if="!userInfo.mobile && !userInfo.app_two_factor">
@@ -121,12 +127,13 @@
                   <div class='content-withdraw-verify'
                        v-else>
                     <div class="tip" v-if="currency === 'dai'">
-                      {{$t("asset.asset_withdraw_address_tip_DAI").format(withdraw.withdraw_channels.fee)}}
+                      {{$t("asset.asset_withdraw_address_tip_DAI").format(currencyWithdrawLimit,
+                      withdraw.withdraw_channels ? withdraw.withdraw_channels.fee : 0)}}
                     </div>
                     <div class="tip" v-else>
-                      {{$t("asset.asset_withdraw_address_tip_ETH").format(withdraw.withdraw_channels.fee)}}
+                      {{$t("asset.asset_withdraw_address_tip_ETH").format(currencyWithdrawLimit,
+                      withdraw.withdraw_channels ? withdraw.withdraw_channels.fee : 0)}}
                     </div>
-
                     <Form class="form" ref="form" @checkValidate='checkValidate_form' :model="form"
                           :rules="rules"
                           :label-width="90">
@@ -140,16 +147,16 @@
                                     v-model='setAddress'
                             >
                               <Option :value='1000' :label='$t("asset.asset_withdraw_add_new_address_down")'>
-                                  <span class='withdraw-address-select-text u-ellipsis-1'>{{$t('asset.asset_withdraw_address_add')}}</span>
-                                </Option>
+                                <span class='withdraw-address-select-text u-ellipsis-1'>{{$t('asset.asset_withdraw_address_add')}}</span>
+                              </Option>
                               <!-- <template v-if='withdraw.fund_sources.length'> -->
-                                <Option :value="item.id + '-' + item.uid" :label="item.extra + ' - ' + item.uid"
-                                        v-for="(item, index) in withdraw.fund_sources" :key='index'>
+                              <Option :value="item.id + '-' + item.uid" :label="item.extra + ' - ' + item.uid"
+                                      v-for="(item, index) in withdraw.fund_sources" :key='index'>
                                     <span
                                         class='withdraw-address-select-text u-ellipsis-1'>{{item.extra}} - {{item.uid}}</span>
-                                    <span class='withdraw-address-select-trash icon-trash'
-                                        @click.stop='address_del(item.id)'></span>
-                                </Option>
+                                <span class='withdraw-address-select-trash icon-trash'
+                                      @click.stop='address_del(item.id)'></span>
+                              </Option>
                               <!-- </template> -->
                             </Select>
                           </FormItem>
@@ -229,8 +236,8 @@
                   <td class='content-history-table-body-td'>
                     <div class="status">
                       {{$t("asset['asset_recharge_status_" + item["aasm_state"] + "']")}}
-                      {{item.confirmations < +deposit.deposit_channels.max_confirm
-                      ? '&nbsp;&nbsp;' + item.confirmations + '/' + +deposit.deposit_channels.max_confirm
+                      {{item.confirmations < (deposit.deposit_channels ? +deposit.deposit_channels.max_confirm : 0)
+                      ? '&nbsp;&nbsp;' + item.confirmations + '/' + (deposit.deposit_channels ? +deposit.deposit_channels.max_confirm : 0)
                       : '' }}
                     </div>
                   </td>
@@ -388,14 +395,8 @@
           callback(new Error(this.$t("public.input_number_required")));
         } else if (+value > +this.$fixDecimalsAsset(this.account["balance"] || 0)) {
           callback(new Error(this.$t("public.balance_insufficient")));
-        } else if (+value < this.currencySellLimit) {
-          callback(
-            new Error(
-              this.$t(
-                "asset.asset_withdraw_" + this.currency + "_number_required"
-              )
-            )
-          );
+        } else if (+value < this.currencyWithdrawLimit) {
+          callback(new Error(this.$t("asset.asset_withdraw_" + this.currency + "_number_required").format(this.currencyWithdrawLimit)));
         } else {
           callback();
         }
@@ -417,7 +418,7 @@
         imageType: [
           require("../../static/images/CoinLogo-DAI.png"),
           require("../../static/images/CoinLogo-ETH .png"),
-          require("../../static/images/CoinLogo-CAT.png")
+          require("../../static/images/OMT.svg")
         ],
         setAddress: "",
         tabs: [],
@@ -519,19 +520,17 @@
         return +(this.$route.query.type || 0);
       },
       currencyList() {
-        return this.$store.state.code.sellable;
+        return this.userInfo.valid_account.map((item => {
+          return item.currency;
+        }));
       },
       currency() {
         return (
           this.$route.query.currency || CONF_DIGITAL_CURRENCY_LIST[0].currency
         );
       },
-      currencySellLimit() {
-        for (let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
-          if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.currency) {
-            return CONF_DIGITAL_CURRENCY_LIST[i].sellLimit;
-          }
-        }
+      currencyWithdrawLimit() {
+        return this.withdraw.withdraw_channels ? this.withdraw.withdraw_channels.min : 0;
       },
       account() {
         let index = 0;
@@ -683,7 +682,7 @@
             })
             .then(res => {
               this.initTabs();
-              
+
               this.changTabLoading = false;
               if (res.data && +res.data.error === 0) {
                 this.withdraw = res.data;
@@ -698,7 +697,7 @@
                 //       this.withdraw.fund_sources[i].uid;
                 //     this.form.address = this.withdraw.fund_sources[i].uid;
                 //     this.setAddress = value;
-                    
+
                 //   }
                 // }
               }
@@ -710,11 +709,11 @@
         }
       },
       changeSider(index) {
-        this.$goRouter(this.$route.name, {
+        this.$goRouter(this.$route.path, {
           currency: this.currencyList[+index],
           type: this.assetIndex
         });
-        this.get_address_id()
+        this.get_address_id();
       },
       changeOperation(index) {
         this.changTabLoading = true;
@@ -742,7 +741,7 @@
           }
           const {number, id} = this.form;
           let requestData = {
-            member_id: this.userInfo.id,
+            // member_id: this.userInfo.id,
             currency: this.currency,
             sum: +number
           };
@@ -863,7 +862,7 @@
           this.initFormData();
           this.addNewAddressStatus = true;
         } else if (val) {
-          this.$refs.select && this.$refs.select.updateOptions()           
+          this.$refs.select && this.$refs.select.updateOptions()
           this.addNewAddressStatus = false;
           for (let i = 0; i < this.withdraw.fund_sources.length; i++) {
             if (

@@ -238,7 +238,7 @@
     }
   }
 </script>
-<style scoped>
+<style lang='scss' scoped>
   .content {
     padding: 40px 94px 54px;
     position: relative;

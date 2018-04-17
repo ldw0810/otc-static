@@ -30,16 +30,18 @@
     },
     computed: {
       siderIndex() {
-        return this.$store.state.user_sider_index;
+        return +this.$store.state.user_sider_index;
       }
     },
     methods: {
       doSider(index) {
-        this.$store.commit("user_sider_index_setter", index);
-        if (+index === 0) {
-          this.$goRouter("/user/userCenter");
-        } else if (+index === 1) {
-          this.$goRouter("/user/userCenter/securitySetting");
+        if(this.siderIndex !== +index) {
+          this.$store.commit("user_sider_index_setter", index);
+          if (+index === 0) {
+            this.$goRouter("/user/userCenter");
+          } else if (+index === 1) {
+            this.$goRouter("/user/userCenter/securitySetting");
+          }
         }
       }
     },
@@ -49,7 +51,7 @@
   }
 </script>
 
-<style scoped>
+<style lang='scss' scoped>
   .bg {
     height: 89px;
     width: 100%;

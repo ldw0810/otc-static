@@ -196,7 +196,7 @@
         }
       },
       init() {
-        if (this.$route.name === "/buy") {
+        if (this.$route.name.indexOf("buy") > -1) {
           this.adType = 0;
           this.$store.commit("header_index_setter", "1" + (+this.tabIndex + 1));
         } else {

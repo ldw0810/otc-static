@@ -1,8 +1,8 @@
 <template>
   <div class='register-wrapper'>
-    <div class="bg"></div>
+    <div class="bg" v-if="device === 0"></div>
     <div class="content">
-      <div class="logoBg">
+      <div class="logoBg" v-if="device === 0">
         <div class="logo">
           <img src="../../static/images/LOGO.png">
         </div>
@@ -12,7 +12,7 @@
         <Form ref="form" @checkValidate='checkValidate' :model="form" :rules="rules">
           <FormItem prop="userName" class="formItem">
             <i-input class="input" type="text" v-model="form.userName"
-                      @on-focus = 'onFocusUserName'
+                     @on-focus='onFocusUserName'
                      :placeholder="$t('user.userName_required')">
                             <span slot="prepend">
                                 <img src="../../static/images/icon/User-999999.svg">
@@ -21,7 +21,7 @@
           </FormItem>
           <FormItem prop="email" class="formItem">
             <i-input class="input" type="text" v-model="form.email"
-                      @on-focus = 'onFocusEmail'
+                     @on-focus='onFocusEmail'
                      :placeholder="$t('user.email_required')">
                             <span slot="prepend">
                                 <img src="../../static/images/icon/Email-999999.svg">
@@ -61,7 +61,9 @@
             </CheckboxGroup>
           </FormItem>
           <FormItem class="formItem submit">
-            <i-button class="submitButton" type='primary' :disabled='!validate || !this.validFlag.userName || !this.validFlag.email' :loading='submitLoading'
+            <i-button class="submitButton" type='primary'
+                      :disabled='!validate || !this.validFlag.userName || !this.validFlag.email'
+                      :loading='submitLoading'
                       @click="submit('form')">
               {{$t('public.register')}}
             </i-button>
@@ -285,6 +287,9 @@
     computed: {
       omt_show() {
         return OMT_SHOW;
+      },
+      device(){
+        return this.$store.state.device;
       }
     },
     mounted() {
@@ -356,10 +361,10 @@
     },
     methods: {
       onFocusUserName() {
-        isValidNickName = false
+        isValidNickName = false;
       },
       onFocusEmail() {
-        isValidEmail = false
+        isValidEmail = false;
       },
       submit(name) {
         this.$refs[name].validate(valid => {
@@ -382,7 +387,7 @@
     }
   };
 </script>
-<style scoped>
+<style lang='scss' scoped>
   .register-wrapper {
     display: flex;
     align-items: center;

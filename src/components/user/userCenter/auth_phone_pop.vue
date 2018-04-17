@@ -289,7 +289,7 @@
     }
   }
 </script>
-<style scoped>
+<style lang='scss' scoped>
   #popPage {
     /* position: fixed;
     left: 35%;
