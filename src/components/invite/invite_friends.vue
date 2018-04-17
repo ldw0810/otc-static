@@ -8,21 +8,23 @@
           {{$t('public.invite_title')}}
           <a class='invite-target-desc-sub' @click="goArticle">{{$t('public.invite_question')}}</a>
         </div>
-        <div class='copy-area'>
-          <div class='copy-input' v-text="link"></div>
-          <div class='copy-btn-wrapper'>
-            <i-button type="primary" class="copy-btn" v-clipboard:copy="link"
-                      v-clipboard:success="copySuccess">
-              {{$t("public.invite_copy")}}
-            </i-button>
+        <div class="copy-content">
+          <div class='copy-area'>
+            <div class='copy-input' v-text="link"></div>
+            <div class='copy-btn-wrapper'>
+              <i-button type="primary" class="copy-btn" v-clipboard:copy="link"
+                        v-clipboard:success="copySuccess">
+                {{$t("public.invite_copy")}}
+              </i-button>
+            </div>
           </div>
-        </div>
-        <div class="copy-image">
-          <div class='copy-image-input' v-text="$t('public.invite_image_content')"></div>
-          <div class='copy-btn-wrapper'>
-            <i-button type="primary" class="copy-btn" @click="showImage">
-              {{$t("public.invite_image_show_text")}}
-            </i-button>
+          <div class="copy-image">
+            <div class='copy-image-input' v-text="$t('public.invite_image_content')"></div>
+            <div class='copy-btn-wrapper copy-image-btn'>
+              <i-button type="primary" class="copy-btn" @click="showImage">
+                {{$t("public.invite_image_show_text")}}
+              </i-button>
+            </div>
           </div>
         </div>
         <div class="score-cards">
@@ -91,7 +93,7 @@
           value: window.location.href.replace("invite", "user/register?invitationCode=" + this.$store.state.userInfo.invite),
           imagePath: require("../../static/images/home/QC-Code-BG.png"),
           filter: "canvas",
-          size: this.clientHeight * 0.1,
+          size: 210,
         }
       },
     },
@@ -220,10 +222,14 @@
           color: #2EA2F8;
         }
       }
+      .copy-content {
+        display: flex;
+      }
       .copy-area {
         display: flex;
         justify-content: space-between;
         margin-bottom: 38px;
+        flex-direction: column;
       }
       .copy-input-wrapper {
         width: 700px;
@@ -232,28 +238,57 @@
         width: 400px;
         border: 1px solid #CCCCCC;
         border-radius: 2px;
-        height: 40px;
+        height: 140px;
         font-size: 16px;
         padding: 8px 20px;
+        word-wrap: break-word;
+        cursor: text;
       }
       .copy-btn-wrapper {
-        width: 101px;
+        width: 400px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
       .copy-btn {
-        width: 101px;
+        width: 156px;
+      }
+      .copy-image {
+        &-input {
+          padding: 0 8px 0 8px;
+          margin-left: 40px;
+          width: 400px;
+          height: 150px;
+          background: #FFFFFF url(#{$baseImage}/Invite-pic-bg.png) no-repeat center;
+          background-size: 100%;
+          color: #ffffff;
+          display: flex;
+          align-items: center;
+          text-align: center;
+          justify-content: center;
+        }
+        &-btn {
+          margin: -10px 0 0 40px;
+        }
       }
     }
     .score-cards {
       display: flex;
       justify-content: space-between;
+      height: 68px;
+      background: #3DCBC3;
       &-item {
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
         font-weight: normal;
         width: 370px;
-        height: 198px;
-        background: #3DCBC3;
+        font-family: PingFangSC-Light;
+        font-size: 23px;
+        color: #FFFFFF;
+        letter-spacing: 0;
         .number {
           margin-top: 50px;
           font-size: 41px;

@@ -91,7 +91,7 @@
           value: window.location.href.replace("invite", "user/register?invitationCode=" + this.$store.state.userInfo.invite),
           imagePath: require("../../../static/images/home/QC-Code-BG.png"),
           filter: "canvas",
-          size: this.clientHeight * 0.1,
+          size: 210,
         }
       },
     },
