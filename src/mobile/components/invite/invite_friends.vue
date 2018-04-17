@@ -28,8 +28,8 @@
         <div class="copy-image">
           <div @click="showImage" class='copy-image-input' v-text="$t('public.invite_image_content')"></div>
           <div class='copy-btn-wrapper'>
-            <i-button type="primary" class="copy-btn" @click="downloadImage">
-              {{$t("public.invite_image_text")}}
+            <i-button type="primary" class="copy-btn" @click="showImage">
+              {{$t("public.invite_image_show_text")}}
             </i-button>
           </div>
         </div>
@@ -42,19 +42,20 @@
         </div>
       </section>
     </article>
-    <Modal v-model="popImageFlag" class-name="m-ivu-modal" :mask-closable="true"
-           :closable="false" @on-visible-change="popImageTrigger">
-      <div class="pop-image" :style="{backgroundImage: 'url('+CONF_INVITE_IMAGE+')'}">
-        <qrcode-vue class="pop-image-qrCode" :value='qrCodeConfig.value' :size='qrCodeConfig.size'/>
+    <Modal v-model="popImageFlag" class-name="m-ivu-modal" :mask-closable="true" @on-visible-change="popImageTrigger">
+      <qrcode-vue v-if="qrCodeFlag" ref="qrCode" class="pop-qrCode" :value='qrCodeConfig.value' :size='qrCodeConfig.size'/>
+      <div ref="popImage" class="pop-image"></div>
+      <div slot="footer">
+        <i-button class="pop-popDownload submitButton" type="primary" @click="downloadImage">
+          {{$t('public.invite_image_download_text')}}
+        </i-button>
       </div>
-      <div class="pop-button"></div>
     </Modal>
   </div>
 </template>
 
 <script>
   import QrcodeVue from 'qrcode.vue';
-  import qrcanvas from "qrcanvas";
   import {CONF_INVITE_BANNER, CONF_INVITE_IMAGE, ZENDESK_DOMAIN_URL} from 'config/config';
 
   const domain = `${ZENDESK_DOMAIN_URL}/hc/${(window.localStorage.getItem("language") || "zh-TW").replace('HK', 'TW').toLowerCase()}`;
@@ -73,7 +74,10 @@
           amount: 0,
           count: 0
         },
-        popImageFlag: false
+        qrCodeFlag: true,
+        popImageFlag: false,
+        imageData: "",
+        clientHeight: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
       }
     },
     computed: {
@@ -88,7 +92,7 @@
           value: window.location.href.replace("invite", "user/register?invitationCode=" + this.$store.state.userInfo.invite),
           imagePath: require("../../../static/images/home/QC-Code-BG.png"),
           filter: "canvas",
-          size: 100
+          size: this.clientHeight * 0.1,
         }
       },
     },
@@ -122,16 +126,62 @@
       },
       showImage() {
         this.popImageFlag = true;
-        this.createImage();
+      },
+      convertCanvasToImage(canvas) {
+        let image = new Image();
+        image.src = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+        return image.src;
       },
       createImage() {
-      },
+        let qrCodeImg = this.convertCanvasToImage(this.$refs.qrCode.$el.children[0]);
+        let imgArr = [CONF_INVITE_IMAGE, qrCodeImg];
+        let c = document.createElement('canvas');
+        let ctx = c.getContext('2d');
+        c.width = this.clientHeight * 0.395;
+        c.height = this.clientHeight * 0.7;
+        ctx.rect(0, 0, c.width, c.height);
+        ctx.fillStyle = '#ccc';
+        ctx.fill();
+        const drawing = (number) => {
+          let index = +number || 0;
+          if (index < imgArr.length) {
+            let img = new Image;
+            img.src = imgArr[index];
+            img.onload = () => {
+              if (index === 1) {
+                ctx.drawImage(img, this.clientHeight * 0.145, this.clientHeight * 0.402, this.clientHeight * 0.105, this.clientHeight * 0.105);
+                drawing(++index);
+              } else {
+                ctx.drawImage(img, 0, 0, c.width, c.height);
+                drawing(++index);
+              }
+            }
+          } else {
+            this.qrCodeFlag = false;
+            this.imageData = c.toDataURL("image/png").replace("image/png", "image/octet-stream");
+            this.$refs.popImage.innerHTML = "<img src='" + this.imageData + "'>";
+          }
+        };
+        drawing();
+      }
+      ,
       downloadImage() {
-        this.popImageFlag = true;
+        if(this.imageData) {
+          let a = document.createElement('a');
+          a.href = this.imageData;
+          a.download = "img.png";
+          this.$refs.popImage.appendChild(a);
+          a.click();
+          a.remove();
+        }
       },
       popImageTrigger(val) {
         if (!val) {
           this.popImageFlag = false;
+        } else {
+          if (this.qrCodeFlag) {
+            this.createImage();
+          }
         }
       }
     },
@@ -248,22 +298,21 @@
   }
 
   .pop {
+    &-qrCode {
+      position: absolute;
+      top: -100vh;
+      left: -100vw;
+      visibility: hidden;
+    }
     &-image {
-      background: #FFFFFF url(#{$baseImage}/Invite-pic-bg.png) no-repeat center;
-      background-size: cover;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 600px;
-      width: 300px;
-      &-qrCode {
-        display: flex;
-        align-items: center;
-        top: 20px;
-      }
     }
-    &-button {
+  }
 
-    }
+  /deep/ .ivu-modal-footer {
+    display: flex;
+    justify-content: center;
   }
 </style>
