@@ -444,11 +444,11 @@ router.beforeEach((to, from, next) => {
             path: nextPath.path.substring("/mobile".length)
           }, nextPath));
         } else {
-          next();
+          next(nextPath);
         }
       } else {
         if (nextPath.path.indexOf("/mobile") > -1) {
-          next();
+          next(nextPath);
         } else {
           next(Object.assign({
             path: "/mobile" + nextPath.path
