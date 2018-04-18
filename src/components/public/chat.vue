@@ -252,7 +252,6 @@
         if (+event.keyCode === 13) {
           // event.preventDefault();
           if (event.ctrlKey === true) {
-            console.log(1);
             //ctrl + enter
             // this.showRange(document.createElement("br"));
           } else {

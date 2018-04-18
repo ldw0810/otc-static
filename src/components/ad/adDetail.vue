@@ -418,7 +418,6 @@
           this.formData.moneyAmount = this.form.moneyAmount;
           this.formData.number = this.$dividedBy(+this.form.moneyAmount, +this.ad.current_price);
           this.form.number = this.$fixDecimalAuto(this.formData.number, this.ad.currency);
-          console.log("this.formData.number=" + this.formData.number);
         }
       },
       changeNumber() {
@@ -428,7 +427,6 @@
             +this.form.number,
             +this.ad.current_price
           );
-          console.log("this.formData.moneyAmount=" + this.formData.moneyAmount);
           this.form.moneyAmount = this.$fixDecimalAuto(
             this.formData.moneyAmount,
             this.ad.target_currency
