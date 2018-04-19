@@ -231,7 +231,7 @@
           email: "",
           password: "",
           rePassword: "",
-          invitationCode: this.$route.query.invitationCode,
+          invitationCode: this.$route.query.invitationCode || this.$route.query.inviteCode,
           //                    invitationCode: this.$route.query.invitationCode || window.localStorage.getItem("invitationCode"),
           checkbox: []
         },

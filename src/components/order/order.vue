@@ -339,6 +339,13 @@ import auth_two from "../public/auth_two_pop.vue";
 export default {
   mixins: [ValidateMixin(['remarkForm', 'confirmForm'])],
   data() {
+    const validateRemark = (rule, value, callback) => {
+      if (!value || !value.trim() || !value.trim().length) {
+        callback(new Error(this.$t("order.remark_required")));
+      } else {
+        callback();
+      }
+    };
     return {
       stepList: [],
       stepTip: "",
@@ -359,8 +366,7 @@ export default {
       remarkFormRules: {
         remark: [
           {
-            required: true,
-            message: this.$t("order.remark_required")
+            validator: validateRemark
           },
           {
             min: VALI_PAYMENT_INFO.min,
