@@ -546,7 +546,7 @@ export default {
           }).then(res => {
             if (res.data && +res.data.error === 0) {
               this.confirmFlag.pay = false;
-              this.chatMessage = this.confirmForm.remark;
+              this.$refs.chat.sendInfo(this.remarkForm.remark);
               this.$Message.success(this.$t("order.order_pay_complete_success"));
               this.getOrderInfo();
             } else {

@@ -146,9 +146,9 @@
         return str.substr(0, VALI_CHAT.max)
       },
       checkLengh($event) {
-        const $el = $event.target
+        const $el = $event.target;
         if ($el.innerHTML.length > VALI_CHAT.max) {
-          $el.innerHTML = this.setMaxLength($el.innerHTML)
+          $el.innerHTML = this.setMaxLength($el.innerHTML);
           setCursorPosition($el)
         }
       },
@@ -159,12 +159,14 @@
           }
         });
       },
-      sendInfo() {
-        if (this.inputText.trim()) {
-          const inputInfo = this.htmlEncode(this.inputText.trim());
+      sendInfo(msg) {
+        if (this.inputText.trim() || msg) {
+          const inputInfo = this.htmlEncode(this.inputText.trim() || msg);
           const tempTime = new Date();
           this.$refs.input.innerHTML = "";
-          this.inputText = "";
+          if(!msg) {
+            this.inputText = "";
+          }
           let compareTime = this.msgList.length
             ? this.msgList[this.msgList.length - 1].compareTime
             : 0;
@@ -250,7 +252,7 @@
       },
       inputKey(event) {
         if (+event.keyCode === 13) {
-          // event.preventDefault();
+          event.preventDefault();
           if (event.ctrlKey === true) {
             //ctrl + enter
             // this.showRange(document.createElement("br"));
