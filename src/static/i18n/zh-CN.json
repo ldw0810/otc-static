@@ -449,7 +449,7 @@
     "ad_deal_with_self": "您不可以和自己交易",
     "ad_buying": "买",
     "ad_selling": "卖",
-    "ad_local_trading_tip": "当面交易必须填写备注"
+    "ad_local_trading_tip": "当面交易需填写含有地址信息的备注"
   },
   "order": {
     "remark_required": "请输入订单相关内容",
