@@ -417,6 +417,13 @@
           callback();
         }
       };
+      const validateRemark = (rule, value, callback) => {
+        if (this.form.payment === "local" && !value) {
+          callback(new Error(this.$t("ad.ad_local_trading_tip")));
+        } else {
+          callback();
+        }
+      };
       return {
         submitLoading: false,
         opList: ["buy", "sell"],
@@ -550,6 +557,9 @@
             }
           ],
           remark: [
+            {
+              validator: validateRemark
+            },
             {
               min: VALI_AD_REMARK.min,
               message: VALI_AD_REMARK.message
@@ -848,7 +858,7 @@
                   margin: this.form.premium,
                   pay_kind: +this.adType === 0 ? this.form.payment : this.form.collection,
                   pay_default:
-                    this.collection_default &&
+                    +this.adType === 1 && this.collection_default &&
                     this.collection_default.id === this.form.collection ? 1 : 0,
                   remark: this.form.remark
                 };
@@ -932,6 +942,7 @@
               this.form.remark = this.ad.remark;
               if (+this.adType === 0) {
                 this.form.payment = this.ad.pay_kind;
+                console.log(this.form.payment);
                 if (this.ad.price) {
                   this.form.maxPrice = this.$fixDecimalAuto(
                     +this.ad.price,
@@ -944,6 +955,7 @@
                 );
               } else if (+this.adType === 1) {
                 this.form.collection = this.ad.pay_kind;
+                console.log();
                 if (this.ad.price) {
                   this.form.minPrice = this.$fixDecimalAuto(
                     +this.ad.price,

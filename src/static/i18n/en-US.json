@@ -48,6 +48,7 @@
     "select": "Select",
     "alipay": "Alipay",
     "bank": "Bank transfer",
+    "local": "Face-to-face transaction",
     "bankCard": "Bank Card",
     "currencyExchange": "CurrencyExchange",
     "phone": "Phone",
@@ -447,7 +448,8 @@
     "ad_max_price_limit": "Max 9999999999",
     "ad_deal_with_self": "You can not trade with yourself",
     "ad_buying": "buying",
-    "ad_selling": "selling"
+    "ad_selling": "selling",
+    "ad_local_trading_tip": "The remark must be filled in on a face to face transaction"
   },
   "order": {
     "remark_required": "Please enter the order related content",

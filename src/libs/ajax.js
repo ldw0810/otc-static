@@ -36,32 +36,37 @@ axios.interceptors.request.use(
     return Promise.reject(err);
   });
 // http response 拦截器
+
+const showAjaxError = (errorCode) => {
+  const index = languageSelectIndex();
+  const errMsg = languageData[index].data.request["" + errorCode];
+  if (+errorCode) {
+    if (+errorCode === 999999) {
+      store.commit("delToken");
+      Alert.error({
+        title: languageData[index].data.public.error_title_default,
+        content: languageData[index].data.request["" + +errorCode],
+        onCancel: router.push("/user/login")
+      });
+    } else if (+errorCode === 100031) {
+      // store.commit("showAuthEmail_setter", 1);
+    } else if ([100002, 100017, 100021, 100030, 100033, 100036, 100038, 100039].contains(+errorCode)) {
+    } else {
+      errMsg && Alert.error({
+        title: languageData[index].data.public.error_title_default,
+        content: errMsg
+      });
+    }
+  }
+};
 axios.interceptors.response.use(
   response => {
+    showAjaxError(response.data.error);
     return response;
   },
   error => {
     if (error.response) {
-      const index = languageSelectIndex();
-      const errMsg = languageData[index].data.request["" + error.response.data.error];
-      if (error.response.data) {
-        if (+error.response.data.error === 999999) {
-          store.commit("delToken");
-          Alert.error({
-            title: languageData[index].data.public.error_title_default,
-            content: languageData[index].data.request["" + error.response.data.error],
-            onCancel: router.push("/user/login")
-          });
-        } else if (+error.response.data.error === 100031) {
-          // store.commit("showAuthEmail_setter", 1);
-        } else if ([100017, 100021, 100030, 100033, 100036, 100038, 100039].contains(+error.response.data.error)) {
-        } else {
-          errMsg && Alert.error({
-            title: languageData[index].data.public.error_title_default,
-            content: errMsg
-          });
-        }
-      }
+      showAjaxError(error.response.data.error);
     } else if (error.message) {
       error.response = {
         data: error.message

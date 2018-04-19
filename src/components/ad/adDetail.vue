@@ -438,6 +438,7 @@
         this.$store
           .dispatch("ajax_order_buy", {
             id: this.ad.id,
+            price: +this.ad.current_price,
             price_sum: +this.formData.moneyAmount
           })
           .then(res => {

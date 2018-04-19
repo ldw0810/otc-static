@@ -48,6 +48,7 @@
     "select": "選擇",
     "alipay": "支付寶",
     "bank": "銀行轉賬",
+    "local": "當面交易",
     "bankCard": "銀行卡",
     "currencyExchange": "幣幣交易",
     "phone": "手機",
@@ -447,7 +448,8 @@
     "ad_max_price_limit": "最大限額9999999999",
     "ad_deal_with_self": "您不可以和自己交易",
     "ad_buying": "買",
-    "ad_selling": "賣"
+    "ad_selling": "賣",
+    "ad_local_trading_tip": "當面交易必須填寫備註"
   },
   "order": {
     "remark_required": "請輸入訂單相關內容",
