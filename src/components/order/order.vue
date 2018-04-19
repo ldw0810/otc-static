@@ -619,12 +619,15 @@ export default {
           if (this.remain_time < 0) {
             this.stepTip = this.$t("order.order_info_timeout");
           } else {
-            let minute = Math.floor(this.remain_time / 60);
-            let second = Math.floor(this.remain_time % 60);
+            let hour = Math.floor(this.remain_time / 3600);
+            let minute = Math.floor((this.remain_time % 3600) / 60);
+            let second = Math.floor((this.remain_time % 3600) % 60);
+            hour = hour / 10 < 1 ? "0" + hour : hour;
             minute = minute / 10 < 1 ? "0" + minute : minute;
             second = second / 10 < 1 ? "0" + second : second;
             this.stepTip = this.$t("order.order_info_timer").format(
-              `<a style="cursor: text;">${minute}:${second}</a>`
+              hour ? `<a style="cursor: text;">${hour}:${minute}:${second}</a>` :
+                `<a style="cursor: text;">${minute}:${second}</a>`
             );
             this.remain_time--;
           }

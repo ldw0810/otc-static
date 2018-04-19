@@ -256,6 +256,8 @@
           if (event.ctrlKey === true) {
             //ctrl + enter
             // this.showRange(document.createElement("br"));
+            this.inputText = this.setMaxLength(this.$refs.input.innerText.trim());
+            console.log(this.inputText);
           } else {
             this.inputText = this.setMaxLength(this.$refs.input.innerText.trim());
             this.sendInfo();
