@@ -626,8 +626,7 @@ export default {
             minute = minute / 10 < 1 ? "0" + minute : minute;
             second = second / 10 < 1 ? "0" + second : second;
             this.stepTip = this.$t("order.order_info_timer").format(
-              hour ? `<a style="cursor: text;">${hour}:${minute}:${second}</a>` :
-                `<a style="cursor: text;">${minute}:${second}</a>`
+              `<a style="cursor: text;">${+hour > 0 ? (hour + ":") : ""}${minute}:${second}</a>`
             );
             this.remain_time--;
           }
