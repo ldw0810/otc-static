@@ -13,38 +13,35 @@
     <div class="infoPage">
       <div class="info">
         <span class="title">{{$t('user.authentication_email')}}:</span>
-        <span class="text_red" v-text="$t('user.authentication_wait')" v-if="!userInfo.activated"></span>
         <span class="link" v-text="$t('user.authentication_email_reSend')"
               v-if="!userInfo.activated" @click="reSendEmail"></span>
         <span class="text" v-text="$t('user.authenticated')" v-if="userInfo.activated"></span>
-        <span v-if="userInfo.activated"></span>
+      </div>
+      <div class="info" v-if="!userInfo.activated">
+        <span class="tip text_red" v-text="$t('user.authentication_wait')"></span>
       </div>
       <div class="info">
         <span class="title">{{$t('user.authentication_phone')}}:</span>
         <span class="link" @click="showAuthPhone" v-text="$t('user.unAuthenticated')"
               v-if="!userInfo.mobile"></span>
         <span class="text" v-else>{{ $t('user.authenticated')}}({{userInfo.phone_number}})</span>
-        <span></span>
       </div>
       <div class="info">
         <span class="tip text_red">{{$t('user.user_phone_verify_tip')}}</span>
       </div>
       <div class="info">
         <span class="title">{{$t('user.default_receivables')}}:</span>
-        <span class="text" v-if="Object.keys(userInfo.default_collection).length">{{ default_receiver }}</span>
+        <span class="text content" v-if="Object.keys(userInfo.default_collection).length">{{ default_receiver }}</span>
         <span class="link" @click="$goRouter('/user/userCenter/payment')"
               v-text="$t('public.setting')"></span>
-        <span v-if="!Object.keys(userInfo.default_collection).length"></span>
       </div>
       <div class="info">
         <span class="title">{{$t('user.transaction_record')}}:</span>
         <span v-text="userInfo.stat.trade_count"></span>
-        <span></span>
       </div>
       <div class="info">
         <span class="title">{{$t('user.evaluate')}}:</span>
         <span v-text="userInfo.stat.trade_count ? (userInfo.stat.good_rate + '%') : $t('user.evaluate_noValid')"></span>
-        <span></span>`
       </div>
       <!--<div class="info">-->
       <!--<span class="title">{{$t('user.integral')}}:</span>-->
@@ -202,17 +199,19 @@
     letter-spacing: 0;
   }
 
-  #content .info span {
-    flex: 1;
+  #content .info .title {
+    width: 35vw;
   }
 
-  #content .info span.title {
-    flex: 2;
+  #content .info .content {
+    display: flex;
+    width: 20vw;
   }
-  #content .info span.tip {
+  #content .info .tip {
     margin-top: -3vh;
-    margin-left: 40vw;
+    margin-left: 35vw;
   }
+
   #content .info .text_red {
     color: red;
   }
