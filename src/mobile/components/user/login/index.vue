@@ -123,6 +123,25 @@
                     })).catch(err => {
                       // this.$Message.error(this.$t("user.userInfo_response_none"));
                     });
+                  } else if (result.data && +result.data.error === 100038) {
+                    this.submitLoading = false;
+                    if (result.data.sms || result.data.app) {
+                      this.$store.commit("loginInfo_setter", {
+                        mobile: result.data.mobile,
+                        login_token: result.data.login_token
+                      });
+                      this.$store.commit("userInfo_mobile_setter", result.data.sms);
+                      this.$store.commit("userInfo_app_two_factor_setter", result.data.app);
+                      if (this.$route.query.redirect) {
+                        this.$goRouter("/user/login/validate", {
+                          redirect: this.$route.query.redirect
+                        });
+                      } else {
+                        this.$goRouter("/user/login/validate");
+                      }
+                    } else {
+                      // this.$Message.error(this.$t("user.login_error"));
+                    }
                   } else if (result.data && +result.data.error === 100049) {
                     this.$alert.error({
                       title: this.$t("public.error_title_default"),
@@ -135,24 +154,7 @@
                     });
                   }
                 }).catch(err => {
-                  this.submitLoading = false;
-                  if (err.sms || err.app) {
-                    this.$store.commit("loginInfo_setter", {
-                      mobile: err.mobile,
-                      login_token: err.login_token
-                    });
-                    this.$store.commit("userInfo_mobile_setter", err.sms);
-                    this.$store.commit("userInfo_app_two_factor_setter", err.app);
-                    if (this.$route.query.redirect) {
-                      this.$goRouter("/user/login/validate", {
-                        redirect: this.$route.query.redirect
-                      });
-                    } else {
-                      this.$goRouter("/user/login/validate");
-                    }
-                  } else {
-                    // this.$Message.error(this.$t("user.login_error"));
-                  }
+                  // this.$Message.error(this.$t("user.login_error"));
                 });
               });
             }
