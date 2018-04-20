@@ -27,6 +27,9 @@
         <span></span>
       </div>
       <div class="info">
+        <span class="tip text_red">{{$t('user.user_phone_verify_tip')}}</span>
+      </div>
+      <div class="info">
         <span class="title">{{$t('user.default_receivables')}}:</span>
         <span class="text" v-if="Object.keys(userInfo.default_collection).length">{{ default_receiver }}</span>
         <span class="link" @click="$goRouter('/user/userCenter/payment')"
@@ -44,9 +47,9 @@
         <span></span>`
       </div>
       <!--<div class="info">-->
-        <!--<span class="title">{{$t('user.integral')}}:</span>-->
-        <!--<span v-text="userInfo.omt.amount"></span>-->
-        <!--<span></span>-->
+      <!--<span class="title">{{$t('user.integral')}}:</span>-->
+      <!--<span v-text="userInfo.omt.amount"></span>-->
+      <!--<span></span>-->
       <!--</div>-->
       <div class="info" :class="{'omt-hide': !omt_show}">
         <span class="text" style="color: red;">** 注册后将实名信息和手机号发给内测群主，才可以获得积分 **</span>
@@ -194,7 +197,7 @@
 
   #content .info {
     display: flex;
-    padding: 0 10vw 4vh 10vw;
+    padding: 4vh 10vw 0 10vw;
     font-size: 0.85rem;
     letter-spacing: 0;
   }
@@ -202,8 +205,13 @@
   #content .info span {
     flex: 1;
   }
+
   #content .info span.title {
     flex: 2;
+  }
+  #content .info span.tip {
+    margin-top: -3vh;
+    margin-left: 40vw;
   }
   #content .info .text_red {
     color: red;

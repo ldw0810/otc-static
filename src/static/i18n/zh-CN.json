@@ -48,6 +48,7 @@
     "select": "选择",
     "alipay": "支付宝",
     "bank": "银行转账",
+    "local": "当面交易",
     "bankCard": "银行卡",
     "currencyExchange": "币币交易",
     "phone": "手机",
@@ -285,7 +286,8 @@
     "authSetting": "二次验证",
     "email_not_activated": "邮箱未验证",
     "email_not_reg": "邮箱未注册",
-    "user_frozen": "您的账号已被冻结，如需帮助，请联系客服"
+    "user_frozen": "您的账号已被冻结，如需帮助，请联系客服",
+    "user_phone_verify_tip": "验证成功即送200 OMT"
   },
   "asset": {
     "asset_resend_email": "重发邮件",
@@ -447,7 +449,8 @@
     "ad_max_price_limit": "最大限额9999999999",
     "ad_deal_with_self": "您不可以和自己交易",
     "ad_buying": "买",
-    "ad_selling": "卖"
+    "ad_selling": "卖",
+    "ad_local_trading_tip": "当面交易需填写含有地址信息的备注"
   },
   "order": {
     "remark_required": "请输入订单相关内容",
