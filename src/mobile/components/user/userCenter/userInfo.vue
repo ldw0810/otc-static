@@ -27,8 +27,7 @@
         <span></span>
       </div>
       <div class="info">
-        <span class="title"></span>
-        <span class="tip">{{$t('user.user_phone_verify_tip')}}</span>
+        <span class="tip text_red">{{$t('user.user_phone_verify_tip')}}</span>
       </div>
       <div class="info">
         <span class="title">{{$t('user.default_receivables')}}:</span>
@@ -212,8 +211,7 @@
   }
   #content .info span.tip {
     margin-top: -3vh;
-    flex: 4.5;
-    color: #999999;
+    margin-left: 40vw;
   }
   #content .info .text_red {
     color: red;
