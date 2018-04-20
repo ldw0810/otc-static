@@ -449,7 +449,8 @@
     "ad_deal_with_self": "您不可以和自己交易",
     "ad_buying": "買",
     "ad_selling": "賣",
-    "ad_local_trading_tip": "當面交易需填寫含有地址信息的備註"
+    "ad_local_trading_tip": "當面交易需填寫含有地址信息的備註",
+    "user_phone_verify_tip": "驗證成功即送200 OMT"
   },
   "order": {
     "remark_required": "請輸入訂單相關內容",

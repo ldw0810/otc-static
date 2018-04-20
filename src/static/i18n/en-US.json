@@ -286,7 +286,8 @@
     "authSetting": "Two-factor Authentication",
     "email_not_activated": "Email not verified",
     "email_not_reg": "Email not registered",
-    "user_frozen": "Your account has been frozen. If you need help, please contact customer service"
+    "user_frozen": "Your account has been frozen. If you need help, please contact customer service",
+    "user_phone_verify_tip": "Verify your phone to get 200 OMT"
   },
   "asset": {
     "asset_resend_email": "Resend",

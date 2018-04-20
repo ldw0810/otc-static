@@ -10,7 +10,7 @@
         </div>
         <div class="copy-content">
           <div class='copy-area'>
-            <div class='copy-input' v-text="link"></div>
+            <div class='copy-input'>{{link}}</div>
             <div class='copy-btn-wrapper'>
               <i-button type="primary" class="copy-btn" v-clipboard:copy="link"
                         v-clipboard:success="copySuccess">
@@ -241,7 +241,7 @@
         height: 140px;
         font-size: 16px;
         padding: 8px 10px;
-        word-wrap: break-word;
+        word-break: break-all;
         cursor: text;
       }
       .copy-btn-wrapper {
