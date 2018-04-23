@@ -307,7 +307,7 @@
             this.$goRouter(this.menuList[+indexList[0]].url, this.menuList[+indexList[0]].query);
           }
         } else {
-
+          this.menuFlag = false;
         }
       },
       init() {
