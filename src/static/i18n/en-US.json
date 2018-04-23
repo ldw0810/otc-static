@@ -501,7 +501,7 @@
     "order_phone_verified": "Phone verified",
     "order_phone_notVerified": "Phone unverified",
     "order_trade_notice": "Notice",
-    "order_trade_notice_content": "1.Please understand the transaction information before the transaction.<br>2.Please communicate through OTCMAKER and save the relevant records. <br>6.Please check the user's evaluation and related credit information, and pay attention to the risk of fraud.<br>7.Hosting services will protect both buyer and seller. In the event of a dispute, we will evaluate all informations provided and release the managed asset to its legal owner. ",
+    "order_trade_notice_content": "1.Please understand the transaction information before the transaction.<br>2.Please communicate through OTCMAKER and save the relevant records. <br>3.Please check the user's evaluation and related credit information, and pay attention to the risk of fraud.<br>4.Hosting services will protect both buyer and seller. In the event of a dispute, we will evaluate all informations provided and release the managed asset to its legal owner. ",
     "order_info_notValid": "Trade information invalid",
     "order_place_order_confirm": "Confirm",
     "order_join_own_otc_ad": "You can not trade with yourself",
