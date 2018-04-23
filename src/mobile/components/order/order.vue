@@ -428,6 +428,11 @@
         return tempList;
       }
     },
+    watch: {
+      $route: function (val) {
+        this.init();
+      }
+    },
     methods: {
       showStep() {
         this.stepList = [

@@ -89,14 +89,13 @@ export default {
       return this.$store.state.banks;
     }
   },
-  mounted() {
-    this.$store.commit("user_sider_index_setter", 0);
-    if (!this.collection || !this.collection.length) {
-      this.getReceivingList();
-    } else {
-      this.isLoading = false;
-      this.findDefaultIndex(this.collection)
+  watch: {
+    $route: function (val) {
+      this.init();
     }
+  },
+  mounted() {
+    this.init();
   },
   methods: {
     delCancel(index) {
@@ -169,6 +168,15 @@ export default {
         .catch(err => {
           // this.$Message.error(this.$t("user.receivables_set_default_fail"));
         });
+    },
+    init(){
+      this.$store.commit("user_sider_index_setter", 0);
+      if (!this.collection || !this.collection.length) {
+        this.getReceivingList();
+      } else {
+        this.isLoading = false;
+        this.findDefaultIndex(this.collection)
+      }
     }
   },
   components: {

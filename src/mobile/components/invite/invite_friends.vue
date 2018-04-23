@@ -95,6 +95,11 @@
         }
       },
     },
+    watch: {
+      $route: function (val) {
+        this.init();
+      }
+    },
     methods: {
       copySuccess() {
         this.$Message.success(this.$t("public.invite_copy_success"));
@@ -184,11 +189,14 @@
             this.createImage();
           }
         }
+      },
+      init(){
+        this.$store.commit("header_index_setter", "4");
+        this.getInviteDetail();
       }
     },
     mounted() {
-      this.$store.commit("header_index_setter", "4");
-      this.getInviteDetail();
+      this.init();
     }
   }
 </script>

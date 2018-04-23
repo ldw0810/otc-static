@@ -145,13 +145,7 @@
     },
     watch:{
       $route: function (val) {
-        if (this.$route.query.redirect) {
-          this.$goRouter("/user/login", {
-            redirect: this.$route.query.redirect
-          });
-        } else {
-          this.$goRouter("/user/login");
-        }
+        this.init();
       }
     },
     methods: {
@@ -286,21 +280,24 @@
         this.$store.dispatch("ajax_google_auth", {
           refresh: 1
         });
+      },
+      init(){
+        if (this.validate_phone) {
+        } else if (this.validate_google) {
+          this.validateIndex = 1;
+        } else {
+          if (this.$route.query.redirect) {
+            this.$goRouter("/user/login", {
+              redirect: this.$route.query.redirect
+            });
+          } else {
+            this.$goRouter("/user/login");
+          }
+        }
       }
     },
     created: function () {
-      if (this.validate_phone) {
-      } else if (this.validate_google) {
-        this.validateIndex = 1;
-      } else {
-        if (this.$route.query.redirect) {
-          this.$goRouter("/user/login", {
-            redirect: this.$route.query.redirect
-          });
-        } else {
-          this.$goRouter("/user/login");
-        }
-      }
+      this.init();
     },
     components: {
       logoDiv,

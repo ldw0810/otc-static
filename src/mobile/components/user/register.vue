@@ -3,9 +3,9 @@
     <div class="bg"></div>
     <div class="content">
       <!--<div class="logoBg">-->
-        <!--<div class="logo">-->
-          <!--<img src="../../../static/images/LOGO.png">-->
-        <!--</div>-->
+      <!--<div class="logo">-->
+      <!--<img src="../../../static/images/LOGO.png">-->
+      <!--</div>-->
       <!--</div>-->
       <div class="title" v-text="$t('public.register')"></div>
       <div class="form">
@@ -287,69 +287,13 @@
         return OMT_SHOW;
       }
     },
+    watch: {
+      $route: function (val) {
+        this.init();
+      }
+    },
     mounted() {
-      this.$store.commit("footer_is_login_setter", true);
-      this.$store.commit("header_index_setter", "5");
-      this.$store
-        .dispatch("ajax_captcha_server")
-        .then(res => {
-          if (res.data && +res.data.error === 0) {
-            initGeetest(
-              {
-                gt: res.data.gt,
-                challenge: res.data.challenge,
-                offline: false,
-                new_captcha: res.data.new_captcha,
-
-                product: "bind", // 产品形式，包括：float，popup, custom
-                width: "292px",
-                lang: window.localStorage.getItem("language") === "zh-CN" ? "zh-cn" : "en"
-              },
-              captchaObj => {
-                captchaObj.appendTo(document.getElementById("captcha"));
-                this.captchaObj = captchaObj;
-                captchaObj.onSuccess(() => {
-                  let result = this.captchaObj.getValidate();
-                  this.submitLoading = true;
-                  this.$store.dispatch("ajax_register", {
-                    email: this.form.email,
-                    password: this.form.password,
-                    password_confirmation: this.form.rePassword,
-                    invite_code: this.form.invitationCode,
-                    nickname: this.form.userName,
-                    ln: this.$getLanguage(),
-                    geetest_challenge: result.geetest_challenge,
-                    geetest_validate: result.geetest_validate,
-                    geetest_seccode: result.geetest_seccode,
-                    check_captcha: 1
-                  }).then(result => {
-                    this.submitLoading = false;
-                    if (result.data && +result.data.error === 0) {
-                      this.$Message.success(this.$t("user.register_success"));
-                      this.$goRouter("/user/login");
-                    } else {
-                      this.$alert.error({
-                        title: this.$t("public.error_title_default"),
-                        content: this.$t("user.register_error")
-                      })
-                    }
-                  }).catch(err => {
-                    this.submitLoading = false;
-                    // this.$Message.error(this.$t("public.url_request_fail"));
-                  });
-                });
-              }
-            );
-          } else {
-            this.$alert.error({
-              title: this.$t("public.error_title_default"),
-              content: this.$t("user.captcha_request_fail")
-            })
-          }
-        })
-        .catch(err => {
-          // this.$Message.error(this.$t("user.captcha_request_fail"));
-        });
+      this.init();
     },
     destroyed() {
       this.$store.commit("footer_is_login_setter", false);
@@ -375,6 +319,70 @@
       },
       showTerms() {
         this.$goRouter("/user-agreement");
+      },
+      init() {
+        this.$store.commit("footer_is_login_setter", true);
+        this.$store.commit("header_index_setter", "5");
+        this.$store
+          .dispatch("ajax_captcha_server")
+          .then(res => {
+            if (res.data && +res.data.error === 0) {
+              initGeetest(
+                {
+                  gt: res.data.gt,
+                  challenge: res.data.challenge,
+                  offline: false,
+                  new_captcha: res.data.new_captcha,
+
+                  product: "bind", // 产品形式，包括：float，popup, custom
+                  width: "292px",
+                  lang: window.localStorage.getItem("language") === "zh-CN" ? "zh-cn" : "en"
+                },
+                captchaObj => {
+                  captchaObj.appendTo(document.getElementById("captcha"));
+                  this.captchaObj = captchaObj;
+                  captchaObj.onSuccess(() => {
+                    let result = this.captchaObj.getValidate();
+                    this.submitLoading = true;
+                    this.$store.dispatch("ajax_register", {
+                      email: this.form.email,
+                      password: this.form.password,
+                      password_confirmation: this.form.rePassword,
+                      invite_code: this.form.invitationCode,
+                      nickname: this.form.userName,
+                      ln: this.$getLanguage(),
+                      geetest_challenge: result.geetest_challenge,
+                      geetest_validate: result.geetest_validate,
+                      geetest_seccode: result.geetest_seccode,
+                      check_captcha: 1
+                    }).then(result => {
+                      this.submitLoading = false;
+                      if (result.data && +result.data.error === 0) {
+                        this.$Message.success(this.$t("user.register_success"));
+                        this.$goRouter("/user/login");
+                      } else {
+                        this.$alert.error({
+                          title: this.$t("public.error_title_default"),
+                          content: this.$t("user.register_error")
+                        })
+                      }
+                    }).catch(err => {
+                      this.submitLoading = false;
+                      // this.$Message.error(this.$t("public.url_request_fail"));
+                    });
+                  });
+                }
+              );
+            } else {
+              this.$alert.error({
+                title: this.$t("public.error_title_default"),
+                content: this.$t("user.captcha_request_fail")
+              })
+            }
+          })
+          .catch(err => {
+            // this.$Message.error(this.$t("user.captcha_request_fail"));
+          });
       }
     },
     components: {
@@ -471,6 +479,7 @@
   .input {
     width: 72vw;
   }
+
   #captcha {
     width: 72vw;
     display: inline-block;

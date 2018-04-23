@@ -105,7 +105,7 @@
           return this.currencyList.map((item, index) => {
             const obj = {};
             obj.title = this.$t(`public.${item}`);
-            obj.url = `/${type}`;
+            obj.url = `/mobile/${type}`;
             obj.index = +arr[type] + index;
             obj.query = {
               currency: item
@@ -116,35 +116,35 @@
         return [
           {
             title: this.$t("public.homePage"),
-            url: "/",
+            url: "/mobile/",
             index: 0,
             children: [],
             visible: false
           },
           {
             title: this.$t("public.buy"),
-            url: "/buy",
+            url: "/mobile/buy",
             index: 1,
             visible: false,
             children: makeArray("buy")
           },
           {
             title: this.$t("public.sell"),
-            url: "/sell",
+            url: "/mobile/sell",
             index: 2,
             visible: false,
             children: makeArray("sell")
           },
           {
             title: this.$t("public.ad"),
-            url: "/ad",
+            url: "/mobile/ad",
             index: 3,
             visible: false,
             children: makeArray("ad")
           },
           {
             title: this.$t("public.invite"),
-            url: "/invite",
+            url: "/mobile/invite",
             index: 4,
             visible: false,
             children: []
@@ -155,33 +155,33 @@
         return [
           {
             title: this.$t("public.order"),
-            url: "/myOrder",
+            url: "/mobile/myOrder",
             index: 7,
             children: [],
             meta: {}
           },
           {
             title: this.$t("public.asset"),
-            url: "/asset",
+            url: "/mobile/asset",
             index: 8,
             children: [
               {
                 title: this.$t("public.recharge"),
-                url: "/asset",
+                url: "/mobile/asset",
                 query: {
                   type: 0
                 }
               },
               {
                 title: this.$t("public.withdraw"),
-                url: "/asset",
+                url: "/mobile/asset",
                 query: {
                   type: 1
                 }
               },
               {
                 title: this.$t("public.assetInfo"),
-                url: "/asset",
+                url: "/mobile/asset",
                 query: {
                   type: 0
                 }
@@ -190,18 +190,18 @@
           },
           {
             title: this.nickname,
-            url: "/user/userCenter",
+            url: "/mobile/user/userCenter",
             index: 9,
             visible: false,
             children: [
               {
                 title: this.$t("public.userCenter"),
-                url: "/user/userCenter",
+                url: "/mobile/user/userCenter",
                 children: []
               },
               {
                 title: this.$t("public.myAd"),
-                url: "/myAd",
+                url: "/mobile/myAd",
                 children: []
               },
               {
@@ -306,6 +306,8 @@
           } else {
             this.$goRouter(this.menuList[+indexList[0]].url, this.menuList[+indexList[0]].query);
           }
+        } else {
+
         }
       },
       init() {
