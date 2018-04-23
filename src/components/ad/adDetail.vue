@@ -303,7 +303,11 @@
         }
       };
     },
-    watch: {},
+    watch: {
+      $route: function (val) {
+        this.init();
+      }
+    },
     computed: {
       formMoneyAmount() {
         return this.$fixDecimalAuto(this.form.moneyAmount || 0, this.ad.target_currency)

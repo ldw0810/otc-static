@@ -94,6 +94,11 @@
         return this.$store.state.userInfo.app_two_factor;
       }
     },
+    watch:{
+      $route: function (val) {
+        this.init();
+      }
+    },
     methods: {
       submit(contentIndex, settingIndex) {
         if (+contentIndex === 1) {
@@ -127,6 +132,9 @@
       closePopPhone(val) {
         val && this.$store.dispatch("ajax_me");
         this.pop_phone = false;
+      },
+      init(){
+        this.$store.commit("user_sider_index_setter", 1);
       }
     },
     components: {
@@ -135,7 +143,7 @@
       BreadCrumb
     },
     mounted() {
-      this.$store.commit("user_sider_index_setter", 1);
+      this.init();
     }
   };
 </script>

@@ -81,6 +81,11 @@
         clientHeight: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
       }
     },
+    watch: {
+      $route: function (val) {
+        this.init();
+      }
+    },
     computed: {
       link() {
         return this.$t("public.invite_content") + "\n" + this.linkUrl;
@@ -186,11 +191,14 @@
             this.createImage();
           }
         }
+      },
+      init(){
+        this.$store.commit("header_index_setter", "4");
+        this.getInviteDetail();
       }
     },
     mounted() {
-      this.$store.commit("header_index_setter", "4");
-      this.getInviteDetail();
+      this.init();
     }
   }
 </script>

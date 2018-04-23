@@ -222,7 +222,7 @@ const routers = [
     children: [
       {
         path: "/",
-        name: "mobile/home",
+        name: "home",
         meta: {
           noLogin: true
         },
@@ -231,7 +231,7 @@ const routers = [
       // 服务条款
       {
         path: "policy",
-        name: "mobile/policy",
+        name: "policy",
         meta: {
           noLogin: true
         },
@@ -241,7 +241,7 @@ const routers = [
       // 用户协议
       {
         path: "user-agreement",
-        name: "mobile/user-agreement",
+        name: "user-agreement",
         meta: {
           noLogin: true
         },
@@ -258,25 +258,25 @@ const routers = [
         children: [
           {
             path: "/",
-            name: "mobile/user/login",
+            name: "user/login",
             component: resolve =>
               require(["./mobile/components/user/login/index.vue"], resolve)
           },
           {
             path: "modify_password",
-            name: "mobile/user/login/modify_password",
+            name: "user/login/modify_password",
             component: resolve =>
               require(["./mobile/components/user/login/modify_password.vue"], resolve)
           },
           {
             path: "forget_password",
-            name: "mobile/user/login/forget_password",
+            name: "user/login/forget_password",
             component: resolve =>
               require(["./mobile/components/user/login/forget_password.vue"], resolve)
           },
           {
             path: "validate",
-            name: "mobile/user/login/validate",
+            name: "user/login/validate",
             component: resolve =>
               require(["./mobile/components/user/login/validate.vue"], resolve)
           }
@@ -284,7 +284,7 @@ const routers = [
       },
       {
         path: "user/register",
-        name: "mobile/user/register",
+        name: "user/register",
         meta: {
           noLogin: true,
           noUser: true
@@ -299,25 +299,25 @@ const routers = [
         children: [
           {
             path: "/",
-            name: "mobile/user/userCenter",
+            name: "user/userCenter",
             component: resolve =>
               require(["./mobile/components/user/userCenter/userInfo.vue"], resolve)
           },
           {
             path: "securitySetting",
-            name: "mobile/user/userCenter/securitySetting",
+            name: "user/userCenter/securitySetting",
             component: resolve =>
               require(["./mobile/components/user/userCenter/securitySetting.vue"], resolve)
           },
           {
             path: "modify_password",
-            name: "mobile/user/userCenter/modify_password",
+            name: "user/userCenter/modify_password",
             component: resolve =>
               require(["./mobile/components/user/userCenter/modify_password.vue"], resolve)
           },
           {
             path: "auth_google",
-            name: "mobile/user/userCenter/auth_google",
+            name: "user/userCenter/auth_google",
             meta: {
               needEmail: true
             },
@@ -326,7 +326,7 @@ const routers = [
           },
           {
             path: "payment",
-            name: "mobile/user/userCenter/payment",
+            name: "user/userCenter/payment",
             meta: {
               needEmail: true
             },
@@ -337,7 +337,7 @@ const routers = [
       },
       {
         path: "myOrder",
-        name: "mobile/myOrder",
+        name: "myOrder",
         meta: {
           freeze: true
         },
@@ -346,7 +346,7 @@ const routers = [
       },
       {
         path: "buy",
-        name: "mobile/buy",
+        name: "buy",
         meta: {
           noLogin: true,
           freeze: true
@@ -355,7 +355,7 @@ const routers = [
       },
       {
         path: "sell",
-        name: "mobile/sell",
+        name: "sell",
         meta: {
           noLogin: true,
           freeze: true
@@ -364,7 +364,7 @@ const routers = [
       },
       {
         path: "detail",
-        name: "mobile/detail",
+        name: "detail",
         meta: {
           needEmail: true,
           freeze: true
@@ -373,7 +373,7 @@ const routers = [
       },
       {
         path: "order",
-        name: "mobile/order",
+        name: "order",
         meta: {
           needEmail: true,
           freeze: true
@@ -382,7 +382,7 @@ const routers = [
       },
       {
         path: "asset",
-        name: "mobile/asset",
+        name: "asset",
         meta: {
           needEmail: true
         },
@@ -390,7 +390,7 @@ const routers = [
       },
       {
         path: "ad",
-        name: "mobile/ad",
+        name: "ad",
         meta: {
           needEmail: true,
           freeze: true
@@ -399,7 +399,7 @@ const routers = [
       },
       {
         path: "myAd",
-        name: "mobile/myAd",
+        name: "myAd",
         meta: {
           freeze: true
         },
@@ -407,7 +407,7 @@ const routers = [
       },
       {
         path: "invite",
-        name: "mobile/invite",
+        name: "invite",
         meta: {
           freeze: true
         },
@@ -428,15 +428,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const judgeFrom = (name) => {
-    if (from.name && from.name.indexOf(name) > -1) {
-      LoadingBar.finish();
-      return true;
-    } else {
-      return false;
-    }
-  };
-  const judgeDevice = (nextPath) => {
+  const goNext = (nextPath) => {
     if(nextPath) {
       if (+store.state.device === 0) {
         if (nextPath.path.indexOf("/mobile") > -1) {
@@ -479,27 +471,20 @@ router.beforeEach((to, from, next) => {
   Util.title(to.meta.title);
   if (localStorage.getItem("userToken")) {
     if (to.matched.some(r => r.meta.noUser)) {  //登陆注册页面
-      judgeFrom("home");
-      judgeDevice({path: "/"});
+      goNext({path: "/"});
     } else if (to.matched.some(r => r.meta.freeze) && store.state.userInfo.soft_disabled) { //账户软冻结
-      judgeFrom("home");
-      judgeDevice({path: "/"});
+      goNext({path: "/"});
     } else if (to.matched.some(r => r.meta.needEmail) && !store.state.userInfo.activated) { //邮箱未验证
       //地址栏输入的from.name为空
-      if (judgeFrom("user/login")) {
-        store.commit("showAuthEmail_setter", 1);
-      } else {
-        judgeDevice({path: "/user/userCenter"});
-      }
+      goNext({path: "/user/userCenter"});
     } else {
-      judgeDevice();
+      goNext();
     }
   } else {
     if (to.matched.some(r => r.meta.noLogin)) {
-      judgeDevice();
+      goNext();
     } else {
-      judgeFrom("user/login");
-      judgeDevice({
+      goNext({
         path: "/user/login",
         query: {redirect: to.fullPath}
       });

@@ -61,23 +61,6 @@
         }
       };
     },
-    mounted() {
-      this.$store.dispatch("ajax_google_auth", {
-        refresh: 1
-      }).then(res => {
-        if (res.data && +res.data.error === 0) {
-          this.$store.commit("googleKey_setter", res.data.otp_secret);
-          this.qrCodeConfig.value = res.data.uri;
-          this.$store.commit("googleCode_setter", res.data.uri);
-        } else if (res.data && +res.data.error === 100011) {
-          this.$goRouter("/user/userCenter/securitySetting");
-        } else {
-          // this.$Message.error(this.$t("user.auth_google_request_fail"));
-        }
-      }).catch(err => {
-        // this.$Message.error(this.$t("user.auth_google_request_fail"));
-      });
-    },
     computed: {
       key() {
         return this.$store.state.googleKey;
@@ -85,6 +68,14 @@
       layer_index() {
         return this.$store.state.layer_index;
       }
+    },
+    watch:{
+      $route: function (val) {
+        this.init();
+      }
+    },
+    mounted() {
+      this.init();
     },
     methods: {
       submit() {
@@ -107,6 +98,23 @@
             ? "https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8"
             : "https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2";
         window.open(href);
+      },
+      init(){
+        this.$store.dispatch("ajax_google_auth", {
+          refresh: 1
+        }).then(res => {
+          if (res.data && +res.data.error === 0) {
+            this.$store.commit("googleKey_setter", res.data.otp_secret);
+            this.qrCodeConfig.value = res.data.uri;
+            this.$store.commit("googleCode_setter", res.data.uri);
+          } else if (res.data && +res.data.error === 100011) {
+            this.$goRouter("/user/userCenter/securitySetting");
+          } else {
+            // this.$Message.error(this.$t("user.auth_google_request_fail"));
+          }
+        }).catch(err => {
+          // this.$Message.error(this.$t("user.auth_google_request_fail"));
+        });
       }
     },
     components: {

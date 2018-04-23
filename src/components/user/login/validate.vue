@@ -143,6 +143,17 @@
         return this.$store.state.loginInfo;
       }
     },
+    watch:{
+      $route: function (val) {
+        if (this.$route.query.redirect) {
+          this.$goRouter("/user/login", {
+            redirect: this.$route.query.redirect
+          });
+        } else {
+          this.$goRouter("/user/login");
+        }
+      }
+    },
     methods: {
       changeValidate(index) {
         this.validateIndex = index;

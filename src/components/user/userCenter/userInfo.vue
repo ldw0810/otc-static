@@ -104,6 +104,11 @@
         return OMT_SHOW;
       }
     },
+    watch:{
+      $route: function (val) {
+        this.init();
+      }
+    },
     methods: {
       showAuthPhone() {
         if (this.userInfo.activated) {
@@ -127,6 +132,9 @@
       closePopPhone(val) {
         val && this.$store.dispatch("ajax_me");
         this.pop_phone = false;
+      },
+      init(){
+        this.$store.commit("user_sider_index_setter", 0);
       }
     },
     components: {
@@ -135,7 +143,7 @@
       auth_email_send
     },
     mounted() {
-      this.$store.commit("user_sider_index_setter", 0);
+      this.init();
     }
   };
 </script>
