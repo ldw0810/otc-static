@@ -1,6 +1,6 @@
 <template>
   <div>
-    <logoDiv/>
+    <!--<logoDiv/>-->
     <div class="container-validate">
       <!-- <div v-if="validate_phone && validate_google">
           <div class="titleDiv" :class="{'titleFocus':validateIndex == 1}" @click="changeValidate(0)">
@@ -301,12 +301,12 @@
   .container-validate {
     position: relative;
     margin: 0 auto 5px auto;
-    width: 480px;
+    width: 100vw;
     background: #ffffff;
   }
 
   .content {
-    padding: 78px 92px 94px;
+    padding: 10vh 16vw;
   }
 
   .content div {
@@ -314,18 +314,17 @@
   }
 
   .title {
-    font-size: 24px;
+    font-size: 2rem;
     color: #666666;
   }
 
   .tip {
-    padding-top: 10px;
-    font-size: 14px;
+    font-size: 0.85rem;
     color: #666666;
   }
 
   .form {
-    margin-top: 20px;
+    margin-top: 2.5vh;
   }
 
   .formItem {
@@ -333,22 +332,22 @@
   }
 
   .inputPinCode {
-    width: 292px;
+    width: 68vw;
   }
 
   .inputPinCodePhone {
-    width: 192px;
+    width: 45vw;
   }
 
   .submit {
-    margin-top: 50px;
+    margin-top: 8vh;
   }
 
   .submitButton {
-    width: 172px;
+    width: 38vw;
   }
 
   .cancelButton {
-    width: 110px;
+    width: 26vw;
   }
 </style>

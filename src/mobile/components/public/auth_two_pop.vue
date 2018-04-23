@@ -1,7 +1,7 @@
 <template>
   <div>
-    <logoDiv/>
-    <div>
+    <!--<logoDiv/>-->
+    <div class="container-validate">
       <div class="g-tabs" v-if="validate_phone && validate_google">
         <div class='g-tabs-bar' @click="changeValidate(0)" :class="{'g-tabs-bar-active': +validateIndex === 0}">
           <span class='g-tabs-bar-text' v-text="$t('user.auth_phone')"></span>
@@ -239,15 +239,15 @@
   }
 </script>
 <style lang='scss' scoped>
-  .content {
-    padding: 40px 94px 54px;
+  .container-validate {
     position: relative;
     margin: 0 auto 5px auto;
-    width: 480px;
-    background: #FFFFFF;
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
-    font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;
+    width: 100vw;
+    background: #ffffff;
+  }
+
+  .content {
+    padding: 10vh 16vw;
   }
 
   .content div {
@@ -256,7 +256,7 @@
 
   .title {
     /* margin-left: 94px; */
-    font-size: 24px;
+    font-size: 0.85rem;
     color: #666666;
   }
 
@@ -268,7 +268,7 @@
   }
 
   .form {
-    margin-top: 20px;
+    margin-top: 2.5vh;
   }
 
   .formItem {
@@ -276,11 +276,11 @@
   }
 
   .inputPinCode {
-    width: 292px;
+    width: 68vw;
   }
 
   .inputPinCodePhone {
-    width: 192px;
+    width: 45vw;
   }
 
   .pinCodeDiv {
@@ -293,14 +293,14 @@
   }
 
   .submit {
-    margin-top: 50px;
+    margin-top: 8vh;
   }
 
   .submitButton {
-    width: 172px;
+    width: 38vw;
   }
 
   .cancelButton {
-    width: 110px;
+    width: 26vw;
   }
 </style>
