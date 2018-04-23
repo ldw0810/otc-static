@@ -862,7 +862,7 @@
           this.initFormData();
           this.addNewAddressStatus = true;
         } else if (val) {
-          this.$refs.select && this.$refs.select.updateOptions()
+          this.$refs.select && this.$refs.select.updateOptions();
           this.addNewAddressStatus = false;
           for (let i = 0; i < this.withdraw.fund_sources.length; i++) {
             if (
@@ -876,7 +876,6 @@
               this.form.labelPlus = this.withdraw.fund_sources[i].extra;
               this.form.address = this.withdraw.fund_sources[i].uid;
               this.form.addressPlus = this.withdraw.fund_sources[i].uid;
-
               return false;
             }
           }

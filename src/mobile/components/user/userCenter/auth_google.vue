@@ -69,13 +69,13 @@
           this.$store.commit("googleKey_setter", res.data.otp_secret);
           this.qrCodeConfig.value = res.data.uri;
           this.$store.commit("googleCode_setter", res.data.uri);
-        }
-      }).catch(err => {
-        if (err.error === "100011") {
+        } else if (res.data && +res.data.error === 100011) {
           this.$goRouter("/user/userCenter/securitySetting");
         } else {
           // this.$Message.error(this.$t("user.auth_google_request_fail"));
         }
+      }).catch(err => {
+        // this.$Message.error(this.$t("user.auth_google_request_fail"));
       });
     },
     computed: {

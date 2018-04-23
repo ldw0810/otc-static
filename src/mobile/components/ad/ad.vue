@@ -976,16 +976,15 @@
             } else {
               this.examineAdSellFlag = true;
             }
-          } else {
-          }
-        }).catch(err => {
-          if (+err.error === 100036) {
+          } else if (+res.data.error === 100036) {
             if (+this.adType === 0) {
               this.examineAdBuyFlag = false;
             } else {
               this.examineAdSellFlag = false;
             }
+          } else {
           }
+        }).catch(err => {
         });
       },
       init() {

@@ -385,13 +385,12 @@
             if (res.data.info.status === 'closed') {
               this.$goBack();
             }
+          } else if (+res.data.error === 100021) {
+            this.$goBack();
           } else {
             // this.$Message.error(this.$t("order.order_ad_info_request_fail"));
           }
         }).catch(err => {
-          if (err.error === '100021') {
-            this.$goBack();
-          }
         });
       },
       submit() {
