@@ -1,5 +1,5 @@
 <template>
-  <div class='g-container agreement'>
+  <div class='g-mobile-container agreement'>
     <div v-html='text'></div>
   </div>
 </template>

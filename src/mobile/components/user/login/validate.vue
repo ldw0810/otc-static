@@ -10,12 +10,12 @@
               <span v-text="$t('user.auth_google')"></span>
           </div>
       </div> -->
-      <div class='g-tabs' v-if="validate_phone && validate_google">
-        <div class="g-tabs-bar" :class="{'g-tabs-bar-active':validateIndex !== 1}" @click="changeValidate(0)">
-          <span class='g-tabs-bar-text' v-text="$t('user.auth_phone')"></span>
+      <div class='g-mobile-tabs' v-if="validate_phone && validate_google">
+        <div class="g-mobile-tabs-bar" :class="{'g-mobile-tabs-bar-active':validateIndex !== 1}" @click="changeValidate(0)">
+          <span class='g-mobile-tabs-bar-text' v-text="$t('user.auth_phone')"></span>
         </div>
-        <div class="g-tabs-bar" :class="{'g-tabs-bar-active': validateIndex !== 0}" @click="changeValidate(1)">
-          <span class='g-tabs-bar-text' v-text="$t('user.auth_google')"></span>
+        <div class="g-mobile-tabs-bar" :class="{'g-mobile-tabs-bar-active': validateIndex !== 0}" @click="changeValidate(1)">
+          <span class='g-mobile-tabs-bar-text' v-text="$t('user.auth_google')"></span>
         </div>
       </div>
       <div class='content'>
@@ -27,7 +27,7 @@
           <Form class="form" ref="phoneForm" @checkValidate='checkValidate_phoneForm' :model="phoneForm"
                 :rules="phoneRules">
             <FormItem prop="pinCode" class="formItem ">
-              <div class='g-send-group'>
+              <div class='g-mobile-send-group'>
                 <i-input class="inputPinCodePhone" type="text" v-model="phoneForm.pinCode"
                          :placeholder="$t('user.pinCode_required')" @on-enter="phoneSubmit">
                             <span slot="prepend">
@@ -40,7 +40,7 @@
             <!--防止自动提交表单-->
             <input type="text" style="display:none"/>
             <FormItem class="formItem  submit">
-              <div class='g-comfirm-group'>
+              <div class='g-mobile-comfirm-group'>
                 <i-button class="submitButton" type="primary" :loading='submitPhoneLoading'
                           :disabled='!validate.phoneForm' @click="phoneSubmit">
                   {{$t('public.confirm')}}
@@ -69,7 +69,7 @@
             <!--防止自动提交表单-->
             <input type="text" style="display:none"/>
             <FormItem class="formItem submit">
-              <div class='g-comfirm-group'>
+              <div class='g-mobile-comfirm-group'>
                 <i-button class="submitButton" type="primary" :loading='submitGoogleLoading'
                           :disabled='!validate.googleForm' @click="googleSubmit">
                   {{$t('public.confirm')}}

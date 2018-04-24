@@ -1,6 +1,6 @@
 <template>
-  <div class="g-container order" v-if="order.id">
-    <header class="g-shadow order-header">
+  <div class="g-mobile-container order" v-if="order.id">
+    <header class="g-mobile-shadow order-header">
       <div class='order-header-steps'>
         <div class="order-header-steps-item" v-for='(item, index) in stepList' :key='index'>
           <div class="order-header-steps-item-left">
@@ -21,14 +21,14 @@
       <div class="order-header-tip" v-html='stepTip'></div>
     </header>
     <div class="order-content">
-      <div class="g-shadow order-chat">
+      <div class="g-mobile-shadow order-chat">
         <chat ref="chat" :contact="{id: order.member.member_id, name: order.member.nickname}"
               :owner="{id: userInfo.id, name: userInfo.nickname}" :orderId="order.id"
               :chatList="chatList" :msg="chatMessage" :chatFlag="chatFlag" @refresh="getOrderInfo">
         </chat>
       </div>
       <div class="order-status">
-        <div class='g-shadow info'>
+        <div class='g-mobile-shadow info'>
           <h2 class='info-title'>{{$t("order.order_info")}}</h2>
           <section class='info-section'>
             <Row>
@@ -225,7 +225,7 @@
           </FormItem>
           <div class='warn'>{{$t("order.order_confirm_pay_warn")}}</div>
         </div>
-        <FormItem class='g-comfirm-group buttons-group'>
+        <FormItem class='g-mobile-comfirm-group buttons-group'>
           <i-button class="submit-button" type="primary" :disabled='!validate.remarkForm' @click="doOper('pay')">
             {{$t('order.order_confirm_payed')}}
           </i-button>
@@ -274,7 +274,7 @@
           <div class='warn'>{{$t("order.order_confirm_release_warn").format(orderAmount,
             order.currency.toUpperCase())}}
           </div>
-          <FormItem class="formItem g-comfirm-group buttons-group">
+          <FormItem class="formItem g-mobile-comfirm-group buttons-group">
             <i-button class="submit-button" type="primary" :disabled='!validate.confirmForm' @click="doOper('release')">
               {{$t('order.order_pay_release')}}
             </i-button>
@@ -294,7 +294,7 @@
           <div class='asset-model-content-desc'>{{$t("order.order_cancel_order_tip")}}</div>
           <div class='warn'>{{$t("order.order_cancel_order_warn")}}</div>
         </div>
-        <div class='g-comfirm-group buttons-group'>
+        <div class='g-mobile-comfirm-group buttons-group'>
           <i-button class="submit-button" type="primary" @click="doOper('cancel')">
             {{$t('order.order_pay_cancel')}}
           </i-button>

@@ -1,8 +1,8 @@
 <template>
   <div class='wrapper'>
-    <div class="g-container page">
+    <div class="g-mobile-container page">
       <aside class="sider">
-        <div class='g-shadow sider-wrapper'>
+        <div class='g-mobile-shadow sider-wrapper'>
           <div class="sider-item" :class="{'sider-item-active': currency === item}"
                v-for="(item, index) in currencyList" :key='index' @click="changeSider(index)">
             <div class="sider-item-wrapper">
@@ -24,7 +24,7 @@
       </aside>
       <transition name="fade" mode="out-in">
         <div class="content">
-          <header class="g-shadow content-header">
+          <header class="g-mobile-shadow content-header">
             <div class="content-header-item">
               <div class="content-header-item-warpper">
                 <h3 class='content-header-item-title'>{{$t("asset.asset_amount")}}</h3>
@@ -54,19 +54,19 @@
               $t("asset.asset_recharge_email_no_Auth").format($t("public['" + this.currency + "']")) :
               $t("asset.asset_withdraw_email_no_Auth").format($t("public['" + this.currency + "']"))}}
             </div>
-            <i-button class='g-shadow button' type='primary' @click="showAuthEmail">
+            <i-button class='g-mobile-shadow button' type='primary' @click="showAuthEmail">
               {{$t("asset.asset_go_email_auth")}}
             </i-button>
           </div> -->
           <div v-if="+deposit.error === 0 || +withdraw.error === 0">
-            <div class="g-shadow content-main">
+            <div class="g-mobile-shadow content-main">
               <Tab
                   class='assets-tab'
                   :tabs='tabs'
                   :defaultIndex='+assetIndex'
                   @changeIndex='changeOperation'
               >
-                <div class='g-loading-wrapper' v-show="changTabLoading">
+                <div class='g-mobile-loading-wrapper' v-show="changTabLoading">
                   <c-loading/>
                 </div>
                 <div class='content-withdraw-no-verify' v-if="!changTabLoading && +assetIndex === 0 && currency === 'omt'">
@@ -116,7 +116,7 @@
                       {{$t("asset.asset_withdraw_no_auth").format($t("public['" + this.currency +
                       "']"))}}
                     </div>
-                    <i-button class='g-shadow button'
+                    <i-button class='g-mobile-shadow button'
                               type='primary'
                               @click="$goRouter('/user/userCenter/securitySetting')">
                       {{$t("asset.asset_go_set_auth")}}
@@ -199,7 +199,7 @@
             </div>
             <div class='content-history' v-show='!changTabLoading'
                  v-if="+assetIndex === 0 && deposit.deposits_history.length">
-              <table class='g-shadow content-history-table'>
+              <table class='g-mobile-shadow content-history-table'>
                 <thead class='content-history-table-head'>
                 <tr class='content-history-table-head-tr'>
                   <th class='content-history-table-head-th' width='20%'>
@@ -253,7 +253,7 @@
             <div class='content-history'
                  v-show='!changTabLoading'
                  v-else-if="+assetIndex === 1 && withdraw.withdraws.length ">
-              <table class='g-shadow content-history-table'>
+              <table class='g-mobile-shadow content-history-table'>
                 <thead class='content-history-table-head'>
                 <tr class='content-history-table-head-tr'>
                   <th class='content-history-table-head-th' width='20%'>

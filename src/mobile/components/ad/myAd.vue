@@ -1,6 +1,6 @@
 <template>
   <div class="myAd">
-    <div class="g-container">
+    <div class="g-mobile-container">
       <Tab
           :tabs='tabList'
           tabType='inner'
@@ -8,46 +8,46 @@
           @changeIndex='changeTab'
       >
         <div class=' myAd-content'>
-          <div class="g-list g-list-type-2" v-if="myAds.list.length">
-            <header class="g-list-header">
+          <div class="g-mobile-list g-mobile-list-type-2" v-if="myAds.list.length">
+            <header class="g-mobile-list-header">
               <Row
                   type="flex"
               >
-                <i-col span="2" class='g-list-header-title'>{{$t("ad.ad_id")}}</i-col>
-                <i-col span="3" class='g-list-header-title'>{{$t("ad.ad_type")}}</i-col>
-                <i-col span="2" class='g-list-header-title'>{{$t("public.price")}}</i-col>
-                <i-col span="5" class='g-list-header-title'>{{$t("order.order_limit")}}</i-col>
-                <i-col span="2" class='g-list-header-title'>{{$t("ad.ad_premium")}}</i-col>
-                <i-col span="4" class='g-list-header-title'>{{$t("ad.ad_time")}}</i-col>
-                <i-col span="3" class='g-list-header-title'>{{$t("ad.ad_payment")}}</i-col>
-                <i-col span="3" class='g-list-header-title'>{{$t("public.operation")}}</i-col>
+                <i-col span="2" class='g-mobile-list-header-title'>{{$t("ad.ad_id")}}</i-col>
+                <i-col span="3" class='g-mobile-list-header-title'>{{$t("ad.ad_type")}}</i-col>
+                <i-col span="2" class='g-mobile-list-header-title'>{{$t("public.price")}}</i-col>
+                <i-col span="5" class='g-mobile-list-header-title'>{{$t("order.order_limit")}}</i-col>
+                <i-col span="2" class='g-mobile-list-header-title'>{{$t("ad.ad_premium")}}</i-col>
+                <i-col span="4" class='g-mobile-list-header-title'>{{$t("ad.ad_time")}}</i-col>
+                <i-col span="3" class='g-mobile-list-header-title'>{{$t("ad.ad_payment")}}</i-col>
+                <i-col span="3" class='g-mobile-list-header-title'>{{$t("public.operation")}}</i-col>
               </Row>
             </header>
-            <section class="g-list-content">
+            <section class="g-mobile-list-content">
               <Row
-                  class='g-list-content-item'
+                  class='g-mobile-list-content-item'
                   type="flex"
                   v-for="(item, subIndex) in myAds.list" :key="subIndex"
               >
-                <i-col span="2" class='g-list-content-item-col'>
+                <i-col span="2" class='g-mobile-list-content-item-col'>
                   <div>
                     {{item.id}}
                   </div>
                 </i-col>
-                <i-col span="3" class='g-list-content-item-col'>
+                <i-col span="3" class='g-mobile-list-content-item-col'>
                   <div>
                     {{$t("public['" + item.op_type + "']")}}
                     {{$t("public['" + item.currency + "']")}}
                   </div>
                 </i-col>
-                <i-col span="2" class='g-list-content-item-col'>
+                <i-col span="2" class='g-mobile-list-content-item-col'>
                   <div>
                     {{$fixDecimalAuto(item.current_price, item.target_currency)}}
 
                     {{$t("public['" + item.target_currency + "']")}}
                   </div>
                 </i-col>
-                <i-col span="5" class='g-list-content-item-col'>
+                <i-col span="5" class='g-mobile-list-content-item-col'>
                   <div>
                     {{$fixDecimalAuto(item.min_limit, item.target_currency)}}
                     &nbsp;-&nbsp;
@@ -56,23 +56,23 @@
                     {{$t("public['" + item.target_currency + "']")}}
                   </div>
                 </i-col>
-                <i-col span="2" class='g-list-content-item-col'>
+                <i-col span="2" class='g-mobile-list-content-item-col'>
                   <div>
                     {{item.margin}}%
                   </div>
                 </i-col>
-                <i-col span="4" class='g-list-content-item-col'>
+                <i-col span="4" class='g-mobile-list-content-item-col'>
                   <div>
                     {{new Date(+item.created_at * 1000).format("yyyy/MM/dd hh:mm:ss")}}
                   </div>
                 </i-col>
-                <i-col span="3" class='g-list-content-item-col'>
+                <i-col span="3" class='g-mobile-list-content-item-col'>
                   <div>
                     {{item.pay_kind ? $t("public['" + item.pay_kind + "']") :
                     $t("public.currencyExchange")}}
                   </div>
                 </i-col>
-                <i-col span="3" class='g-list-content-item-col'>
+                <i-col span="3" class='g-mobile-list-content-item-col'>
                   <div>
                     <div v-if="+tabIndex === 0">
                       <a href='javascript:' class='action-link' @click="closeAd(item.id)"

@@ -3,7 +3,7 @@
     <div class="banner" :style="{backgroundImage: 'url('+CONF_INVITE_BANNER+')'}">
     </div>
     <article class='invite-container'>
-      <section class="invite-target g-shadow">
+      <section class="invite-target g-mobile-shadow">
         <div class="score-cards">
           <div class="score-cards-item">
             {{$t("public.invite_invited")}}: {{inviteCount}}
@@ -34,7 +34,7 @@
           </div>
         </div>
       </section>
-      <section class="invite-rules g-shadow">
+      <section class="invite-rules g-mobile-shadow">
         <h3 class='invite-rules-title'>
           {{$t("public.invite_rules")}}
         </h3>

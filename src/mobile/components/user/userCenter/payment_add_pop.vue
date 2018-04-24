@@ -3,18 +3,18 @@
   <div id="popPage">
     <logoDiv></logoDiv>
     <div class="container-payment">
-      <div class="g-tabs" v-if="payment_alipay_flag">
-        <div class="g-tabs-bar" @click="changeContent(0)" :class="{'g-tabs-bar-active':contentIndex === 0}">
-                    <span class="g-tabs-bar-asset">
+      <div class="g-mobile-tabs" v-if="payment_alipay_flag">
+        <div class="g-mobile-tabs-bar" @click="changeContent(0)" :class="{'g-mobile-tabs-bar-active':contentIndex === 0}">
+                    <span class="g-mobile-tabs-bar-asset">
                         <img src="../../../../static/images/icon/Alipay-999999.svg">
                     </span>
-          <span class="g-tabs-bar-text" v-text="$t('user.alipay_title')"></span>
+          <span class="g-mobile-tabs-bar-text" v-text="$t('user.alipay_title')"></span>
         </div>
-        <div class="g-tabs-bar" @click="changeContent(1)" :class="{'g-tabs-bar-active':contentIndex === 1}">
-                    <span class="g-tabs-bar-asset">
+        <div class="g-mobile-tabs-bar" @click="changeContent(1)" :class="{'g-mobile-tabs-bar-active':contentIndex === 1}">
+                    <span class="g-mobile-tabs-bar-asset">
                         <img src="../../../../static/images/icon/Card-999999.svg">
                     </span>
-          <span class="g-tabs-bar-text" v-text="$t('user.bankCard_title_1')"></span>
+          <span class="g-mobile-tabs-bar-text" v-text="$t('user.bankCard_title_1')"></span>
         </div>
       </div>
       <div class='content'>
@@ -46,7 +46,7 @@
               </i-input>
             </FormItem>
             <FormItem class="formItem submit">
-              <div class='g-comfirm-group '>
+              <div class='g-mobile-comfirm-group '>
                 <i-button
                     :loading='alipayFormLoading'
                     class="submitButton"
@@ -100,7 +100,7 @@
               </i-input>
             </FormItem>
             <FormItem class="formItem submit">
-              <div class='g-comfirm-group '>
+              <div class='g-mobile-comfirm-group '>
                 <i-button
                     class="submitButton"
                     type="primary"

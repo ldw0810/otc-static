@@ -1,7 +1,7 @@
 <template>
   <div class='container'>
     <div class="mainLayer">
-      <headerBar id="header" class='g-shadow'/>
+      <headerBar id="header" class='g-mobile-shadow'/>
       <transition name="fade" mode="out-in">
         <router-view id="page"/>
       </transition>

@@ -41,7 +41,7 @@
     <div id="publish" class='publish'>
       <div class="oper"></div>
       <div class='publish-action'>
-        <div ref="input" :contenteditable="readOnly" class='g-shadow publish-action-input' v-html="toEmotion(inputText)"
+        <div ref="input" :contenteditable="readOnly" class='g-mobile-shadow publish-action-input' v-html="toEmotion(inputText)"
              @keydown="inputKey" @onclick="getRange" @keyup="getRange"
              @focus="inputFocusFlag = true" @blur="inputFocusFlag = false"
               @input='checkLengh'

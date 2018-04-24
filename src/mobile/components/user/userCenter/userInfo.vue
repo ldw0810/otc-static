@@ -4,7 +4,7 @@
     <!--:breadcrumbText='breadcrumbText'-->
     <!--/>-->
     <div class="user">
-      <div class="g-shadow avator">
+      <div class="g-mobile-shadow avator">
         <img class='avator-img' src="../../../../static/images/DefaultHead.jpg">
       </div>
       <div class="name" v-text="nickname"></div>
@@ -48,11 +48,11 @@
         <!--<span v-text="userInfo.omt.amount"></span>-->
         <!--<span></span>-->
       <!--</div>-->
-      <div class="info" :class="{'omt-hide': !omt_show}">
-        <span class="text" style="color: red;">** 注册后将实名信息和手机号发给内测群主，才可以获得积分 **</span>
-        <span v-text="userInfo.omt.amount"></span>
-        <span></span>
-      </div>
+      <!--<div class="info" :class="{'omt-hide': !omt_show}">-->
+        <!--<span class="text" style="color: red;">** 注册后将实名信息和手机号发给内测群主，才可以获得积分 **</span>-->
+        <!--<span v-text="userInfo.omt.amount"></span>-->
+        <!--<span></span>-->
+      <!--</div>-->
     </div>
     <Modal v-model="pop_email" class-name="m-ivu-modal" width='480' :mask-closable="true"
            :closable="false" @on-visible-change="popEmailTrigger">

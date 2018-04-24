@@ -1,6 +1,6 @@
 <template>
-  <div class="g-container">
-    <div class='g-shadow ad'>
+  <div class="g-mobile-container">
+    <div class='g-mobile-shadow ad'>
       <div class='ad-header'>
         <div class="g-title ad-title">{{$t("ad.ad_title").format($t("public['" + currency + "']"))}}</div>
         <div class="title-tip" v-html='$t("ad.ad_title_tip")'></div>
@@ -1036,60 +1036,64 @@
 
   .ad {
     background-color: #fff;
-    margin: 30px 0 40px;
-    padding: 33px 51px 58px 49px;
+    margin: 2.5vh 0 2.5vh;
+    padding: 4vh 6vw;
     &-title {
-      font-size: 26px;
-      line-height: 37px;
-      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      font-size: 1.6rem;
+      line-height: 2.4rem;
+      margin-bottom: 2vh;
     }
     .title-tip {
-      font-size: 14px;
-      line-height: 26px;
-      margin-bottom: 20px;
+      font-size: 0.85rem;
+      line-height: 1.5rem;
+      margin-bottom: 2vh;
     }
     .credit-low-tip {
-      margin-bottom: 20px;
+      margin-bottom: 2vh;
     }
   }
 
   .form-item {
-    margin-bottom: 30px;
+    /*margin-bottom: 3vh;*/
     &-header {
       display: flex;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 1vh;
       &-title {
-        font-size: 16px;
-        margin-right: 10px;
+        font-size: 0.85rem;
+        margin-right: 1vw;
       }
       &-title-tip {
-        font-size: 14px;
+        font-size: 0.8rem;
         color: #999999;
       }
     }
     .form-item-radio-group {
-      padding-top: 20px;
-      padding-bottom: 26px;
-      border-top: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      padding-top: 2.5vh;
+      padding-bottom: 2.5vh;
+      border-top: 0.1vw solid #eee;
     }
   }
 
   .premium-example {
-    margin-left: 24px;
+    margin-left: 2.5vw;
     &-desc {
-      font-size: 14px;
+      font-size: 0.85rem;
       color: #666666;
-      line-height: 20px;
-      margin-right: 5px;
+      line-height: 1rem;
+      margin-right: 0.5vw;
     }
     &-number {
-      font-size: 14px;
+      font-size: 0.85rem;
       color: red;
     }
   }
 
   .add-payment {
-    margin-left: 24px;
+    margin-left: 2.5vw;
   }
 </style>

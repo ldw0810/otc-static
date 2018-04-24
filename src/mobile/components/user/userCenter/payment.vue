@@ -1,6 +1,6 @@
 <template>
   <div id="content">
-    <div class='g-loading-wrapper' v-if='isLoading'>
+    <div class='g-mobile-loading-wrapper' v-if='isLoading'>
       <c-loading/>
     </div>
     <template v-if='!isLoading'>

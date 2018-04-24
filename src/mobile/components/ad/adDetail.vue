@@ -1,7 +1,7 @@
 <template>
-  <div class="detail g-container">
+  <div class="detail g-mobile-container">
     <!-- 头部 -->
-    <header class="g-shadow header" v-if="ad.id">
+    <header class="g-mobile-shadow header" v-if="ad.id">
       <div class='header-avator'>
         <Avator
             :size='64'
@@ -31,7 +31,7 @@
       </div>
     </header>
     <!-- 交易 -->
-    <div class="g-shadow deal" v-if="ad.id">
+    <div class="g-mobile-shadow deal" v-if="ad.id">
       <div class='deal-common deal-info'>
         <div class="deal-info-item">
           <div class="deal-info-item-title">
@@ -168,7 +168,7 @@
           $t("order.order_confirm_complete_sell_warn").format(formNumber, $t("public['" + ad.currency + "']"),
           formMoneyAmount, $t("public['" + ad.target_currency + "']"))}}
         </div>
-        <div class='g-comfirm-group'>
+        <div class='g-mobile-comfirm-group'>
           <i-button class="submit-button" type="primary" :loading='submitPlaceOrderLoading' @click="placeOrder_submit">
             {{+adType === 0 ? $t("order.order_buy_confirm") : $t("order.order_sell_confirm")}}
           </i-button>

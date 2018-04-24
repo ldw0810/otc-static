@@ -1,5 +1,5 @@
 <template>
-  <div class='card shadow g-shadow' v-if="ad && ad.id">
+  <div class='card shadow g-mobile-shadow' v-if="ad && ad.id">
     <header :class='computedClass'>
       <div class="avator-wrapper">
         <avator :status="ad.member.online" :name="ad.member.nickname"/>

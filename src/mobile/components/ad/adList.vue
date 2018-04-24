@@ -1,31 +1,31 @@
 <template>
   <div class="wrapper">
-    <div class="g-container">
+    <div class="g-mobile-container">
       <Tab
           :tabs='transList(currencyList)'
           :defaultIndex='+tabIndex'
           @changeIndex='changeTab'
       >
-        <div class="g-list g-list-type-1" v-if="ads.list && ads.list.length">
-          <header class="g-list-header">
+        <div class="g-mobile-list g-mobile-list-type-1" v-if="ads.list && ads.list.length">
+          <header class="g-mobile-list-header">
             <Row
                 type="flex"
             >
-              <i-col span="4" class='g-list-header-title'>{{$t("order.order_trader")}}</i-col>
-              <i-col span="4" class='g-list-header-title'>{{$t("order.order_eval")}}</i-col>
-              <i-col span="4" class='g-list-header-title'>{{$t("order.order_payment")}}</i-col>
-              <i-col span="4" class='g-list-header-title'>{{$t("order.order_limit")}}</i-col>
-              <i-col span="4" class='g-list-header-title'>{{$t("order.order_price")}}</i-col>
-              <i-col span="4" class='g-list-header-title'></i-col>
+              <i-col span="4" class='g-mobile-list-header-title'>{{$t("order.order_trader")}}</i-col>
+              <i-col span="4" class='g-mobile-list-header-title'>{{$t("order.order_eval")}}</i-col>
+              <i-col span="4" class='g-mobile-list-header-title'>{{$t("order.order_payment")}}</i-col>
+              <i-col span="4" class='g-mobile-list-header-title'>{{$t("order.order_limit")}}</i-col>
+              <i-col span="4" class='g-mobile-list-header-title'>{{$t("order.order_price")}}</i-col>
+              <i-col span="4" class='g-mobile-list-header-title'></i-col>
             </Row>
           </header>
-          <section class='g-list-content'>
+          <section class='g-mobile-list-content'>
             <Row
-                class='g-list-content-item'
+                class='g-mobile-list-content-item'
                 type="flex"
                 v-for="(ad, adIndex) in ads.list" :key="adIndex"
             >
-              <i-col span="4" class='g-list-content-item-col'>
+              <i-col span="4" class='g-mobile-list-content-item-col'>
                 <div class='avator'>
                   <Avator
                       :status='ad.member.online'
@@ -33,7 +33,7 @@
                   <span class='avator-name u-ellipsis-1'>{{ad.member.nickname}}</span>
                 </div>
               </i-col>
-              <i-col span="4" class='g-list-content-item-col rate'>
+              <i-col span="4" class='g-mobile-list-content-item-col rate'>
                 <div>
                   {{$t("order.order_trade_count").format(ad.member.stat.trade_count)}}
                 </div>
@@ -41,13 +41,13 @@
                   {{$t("order.order_praise_rate")}}:{{ad.member.stat.good_rate}}%
                 </div>
               </i-col>
-              <i-col span="4" class='g-list-content-item-col'>
+              <i-col span="4" class='g-mobile-list-content-item-col'>
                 <div>
                   {{ad.pay_kind ? $t("public['" + ad.pay_kind + "']") :
                   $t("public.currencyExchange")}}
                 </div>
               </i-col>
-              <i-col span="4" class='g-list-content-item-col'>
+              <i-col span="4" class='g-mobile-list-content-item-col'>
                 <div>
                   {{$fixDecimalAuto(ad.min_limit, ad.target_currency)}}
                   &nbsp;-&nbsp;
@@ -56,13 +56,13 @@
                   {{$t("public['" + ad.target_currency + "']")}}
                 </div>
               </i-col>
-              <i-col span="4" class='g-list-content-item-col'>
+              <i-col span="4" class='g-mobile-list-content-item-col'>
                 <div class='pay'>
                   {{$fixDecimalAuto(ad.current_price, ad.target_currency)}}
                   {{$t("public['" + ad.target_currency + "']")}}
                 </div>
               </i-col>
-              <i-col span="4" class='g-list-content-item-col'>
+              <i-col span="4" class='g-mobile-list-content-item-col'>
                 <i-button type='primary' @click="deal(ad.id)">
                   {{+adType === 0 ? $t("public.buy") + " " + currency.toUpperCase() :
                   $t("public.sell") + " " + currency.toUpperCase()}}
