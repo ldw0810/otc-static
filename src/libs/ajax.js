@@ -50,7 +50,7 @@ const showAjaxError = (errorCode) => {
       });
     } else if (+errorCode === 100031) {
       // store.commit("showAuthEmail_setter", 1);
-    } else if ([100002, 100017, 100021, 100030, 100033, 100036, 100038, 100039].contains(+errorCode)) {
+    } else if ([100002, 100017, 100021, 100030, 100033, 100036, 100038].contains(+errorCode)) {
     } else {
       errMsg && Alert.error({
         title: languageData[index].data.public.error_title_default,

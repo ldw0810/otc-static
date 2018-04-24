@@ -391,7 +391,8 @@ export default {
       auth_two_flag: false,
       chatFlag: false,
       chatMessage: "",
-      remain_time: 0
+      remain_time: 0,
+      timer: 0
     };
   },
   computed: {
@@ -625,6 +626,7 @@ export default {
       }
     },
     showTip() {
+      this.timer && clearTimeout(this.timer);
       if (this.order.status === "fresh") {
         if (this.remain_time) {
           if (this.remain_time < 0) {
@@ -644,7 +646,7 @@ export default {
         } else {
           this.stepTip = "";
         }
-        setTimeout(this.showTip, 1000);
+        this.timer = setTimeout(this.showTip, 1000);
       } else {
         this.stepTip = "";
       }
