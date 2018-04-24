@@ -524,7 +524,7 @@
     "order_pay_complete_fail": "Payment complete request fail",
     "order_pay_complete_success": "Payment complete request fail",
     "order_pay_completed": "Payment completed",
-    "order_pay_cancel": "Cancel",
+    "order_pay_cancel": "Cancel order",
     "order_pay_cancel_fail": "Cancel failed",
     "order_pay_cancel_success": "Cancel success",
     "order_pay_release": "Release asset",
