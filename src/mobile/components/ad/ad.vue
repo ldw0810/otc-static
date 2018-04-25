@@ -25,8 +25,8 @@
       </div>
       <div class="form-item" v-if="currency !== 'ck'">
         <header class='form-item-header'>
-          <div class="form-item-header-title">{{$t("ad.ad_type_select")}}:</div>
-          <div class="form-item-header-title-tip">{{$t("ad.ad_type_select_tip")}}</div>
+          <span class="form-item-header-title">{{$t("ad.ad_type_select")}}:</span>
+          <span class="form-item-header-title-tip">{{$t("ad.ad_type_select_tip")}}</span>
         </header>
         <div class='form-item-radio-group'>
           <RadioGroup v-model="adType" @input='onChangeAdType'>
@@ -43,8 +43,8 @@
             @checkValidate='checkValidate' :rules="rules">
         <FormItem prop="payment" class="form-item" v-if="currency === 'dai'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t("ad.ad_payment_select")}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_payment_select_tip")}}</div>
+            <span class="form-item-header-title">{{$t("ad.ad_payment_select")}}:</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_payment_select_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -59,8 +59,8 @@
         <!--货币-->
         <FormItem prop="targetCurrency" class="form-item" v-if="currency === 'dai'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t("ad.ad_money_select")}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_money_select_tip")}}</div>
+            <span class="form-item-header-title">{{$t("ad.ad_money_select")}}:</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_money_select_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -80,8 +80,8 @@
         <!-- 溢价 -->
         <FormItem prop="premium" class="form-item" v-if="currency !== 'ck'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t("ad.ad_premium")}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_premium_tip")}}</div>
+            <span class="form-item-header-title">{{$t("ad.ad_premium")}}:</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_premium_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -105,8 +105,8 @@
         <!--价格-->
         <FormItem prop="buyPrice" class="form-item" v-if="currency !== 'ck'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t("ad.ad_buy_price")}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_buy_price_tip")}}</div>
+            <span class="form-item-header-title">{{$t("ad.ad_buy_price")}}:</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_buy_price_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -119,8 +119,8 @@
         </FormItem>
         <FormItem prop="maxPrice" class="form-item" v-if="currency !== 'ck'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t('ad.ad_max_price')}}({{$t("public.optional")}}):</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_max_price_tip")}}</div>
+            <span class="form-item-header-title">{{$t('ad.ad_max_price')}}({{$t("public.optional")}}):</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_max_price_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -133,8 +133,8 @@
         </FormItem>
         <FormItem prop="floor" class="form-item" v-if="currency !== 'ck'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t('ad.ad_floor')}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_floor_tip")}}</div>
+            <span class="form-item-header-title">{{$t('ad.ad_floor')}}:</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_floor_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -147,8 +147,8 @@
         </FormItem>
         <FormItem prop="ceiling" class="form-item" v-if="currency !== 'ck'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t('ad.ad_ceiling')}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_ceiling_tip")}}</div>
+            <span class="form-item-header-title">{{$t('ad.ad_ceiling')}}:</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_ceiling_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -161,7 +161,7 @@
         </FormItem>
         <FormItem prop="remark" class="form-item">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t('ad.ad_remark')}}:</div>
+            <span class="form-item-header-title">{{$t('ad.ad_remark')}}:</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -190,8 +190,8 @@
         <!--广告类型-->
         <FormItem prop="collection" class="form-item" v-if="currency === 'dai'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t("ad.ad_collection_select")}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_collection_select_tip")}}</div>
+            <span class="form-item-header-title">{{$t("ad.ad_collection_select")}}:</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_collection_select_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -225,8 +225,8 @@
         <!--货币-->
         <FormItem prop="targetCurrency" class="form-item" v-if="currency === 'dai'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t("ad.ad_money_select")}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_money_select_tip")}}</div>
+            <span class="form-item-header-title">{{$t("ad.ad_money_select")}}:</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_money_select_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -246,8 +246,8 @@
         <!-- 溢价 -->
         <FormItem prop="premium" class="form-item" v-if="currency !== 'ck'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t("ad.ad_premium")}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_premium_tip")}}</div>
+            <span class="form-item-header-title">{{$t("ad.ad_premium")}}:</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_premium_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -271,8 +271,8 @@
         <!--价格-->
         <FormItem prop="sellPrice" class="form-item">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t("ad.ad_sell_price")}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_sell_price_tip")}}</div>
+            <span class="form-item-header-title">{{$t("ad.ad_sell_price")}}:</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_sell_price_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -285,8 +285,8 @@
         </FormItem>
         <FormItem prop="minPrice" class="form-item" v-if="currency !== 'ck'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t('ad.ad_min_price')}}({{$t("public.optional")}}):</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_min_price_tip")}}</div>
+            <span class="form-item-header-title">{{$t('ad.ad_min_price')}}({{$t("public.optional")}}):</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_min_price_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -299,8 +299,8 @@
         </FormItem>
         <FormItem prop="floor" class="form-item" v-if="currency !== 'ck'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t('ad.ad_floor')}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_floor_tip")}}</div>
+            <span class="form-item-header-title">{{$t('ad.ad_floor')}}:</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_floor_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -313,8 +313,8 @@
         </FormItem>
         <FormItem prop="ceiling" class="form-item" v-if="currency !== 'ck'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t('ad.ad_ceiling')}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_ceiling_tip")}}</div>
+            <span class="form-item-header-title">{{$t('ad.ad_ceiling')}}:</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_ceiling_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -332,7 +332,7 @@
         </FormItem>
         <FormItem prop="remark" class="form-item">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t('ad.ad_remark')}}:</div>
+            <span class="form-item-header-title">{{$t('ad.ad_remark')}}:</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -1058,8 +1058,8 @@
   .form-item {
     /*margin-bottom: 3vh;*/
     &-header {
-      display: flex;
-      align-items: center;
+      /*display: flex;*/
+      /*align-items: center;*/
       margin-bottom: 1vh;
       &-title {
         font-size: 0.85rem;
@@ -1095,5 +1095,9 @@
 
   .add-payment {
     margin-left: 2.5vw;
+  }
+
+  /deep/ .ivu-col-span-10 {
+    width: 66vw;
   }
 </style>

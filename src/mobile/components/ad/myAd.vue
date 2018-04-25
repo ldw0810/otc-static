@@ -235,6 +235,6 @@
 </script>
 <style lang='scss' scoped>
   .myAd {
-    padding-top: 30px;
+    padding-top: 2.5vh;
   }
 </style>

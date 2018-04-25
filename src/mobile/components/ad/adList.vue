@@ -214,6 +214,9 @@
 <style lang='scss' scoped>
   .wrapper {
     background-color: #fafbfd;
-    padding-top: 30px;
+    padding-top: 2.5vh;
+  }
+  /deep/ .ivu-btn {
+    padding: 1vw;
   }
 </style>

@@ -315,7 +315,7 @@
       color: #fff;
     }
     &-header {
-      padding: 2.5vh 0;
+      padding: 4vh 0 2vh;
       text-align: center;
       &-title {
         font-weight: normal;
@@ -356,9 +356,10 @@
         }
         .avator {
           width: 100%;
-          padding-left: 8vw;
+          //padding-left: 8vw;
           // padding-right: 42px;
           display: flex;
+          flex-direction: column;
           justify-content: flex-start;
           align-items: center;
         }
