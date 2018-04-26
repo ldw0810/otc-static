@@ -150,7 +150,7 @@
     methods: {
       transList(list) {
         return list.map(item => {
-          return this.$t(`public.${item}`)
+          return this.$t(`public.${item}`);
         })
       },
       changeTab(index) {

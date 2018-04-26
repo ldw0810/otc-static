@@ -111,7 +111,6 @@ export default {
   .tab-content {
     min-height: 77vh;
     background-color: #fff;
-    /*padding: 30px 30px 40px;*/
   }
 }
 </style>

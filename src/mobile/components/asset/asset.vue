@@ -1,7 +1,7 @@
 <template>
   <div class='wrapper'>
     <div class="g-mobile-container page">
-      <aside class="sider">
+      <aside class="sider" v-if="siderFlag">
         <div class='g-mobile-shadow sider-wrapper'>
           <div class="sider-item" :class="{'sider-item-active': currency === item}"
                v-for="(item, index) in currencyList" :key='index' @click="changeSider(index)">
@@ -365,10 +365,10 @@
 </template>
 
 <script type="es6">
-  import validateMixin from "@/components/mixins/validate-mixin";
-  import emptyList from "@/components/public/empty-list";
+  import validateMixin from "mobile/components/mixins/validate-mixin";
+  import emptyList from "mobile/components/public/empty-list";
   import QrcodeVue from "qrcode.vue";
-  import Tab from "@/components/public/tab";
+  import Tab from "mobile/components/public/tab";
   import {VALI_ADDRESS_LABEL} from "config/validator";
   import logoDiv from "../public/logo.vue";
   import auth_two from "../public/auth_two_pop.vue";
@@ -507,7 +507,8 @@
         auth_two_flag: false,
         addressLoading: false,
         addressAddLoading: false,
-        assetLoading: false
+        assetLoading: false,
+        siderFlag: false
       };
     },
     computed: {
