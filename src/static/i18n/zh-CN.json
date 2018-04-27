@@ -138,7 +138,7 @@
     "email_notValid": "邮箱格式不正确",
     "email_repeat": "邮箱已经认证，请重新输入",
     "invitationCode": "邀请码",
-    "invitationCode_required": "请输入邀请码",
+    "invitationCode_required": "请输入邀请码，可不填",
     "invitationCode_notValid": "请输入正确的邀请码",
     "register_checkbox_required": "请勾选确认协议内容",
     "password": "密码",

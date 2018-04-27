@@ -138,7 +138,7 @@
     "email_notValid": "Invalid email address",
     "email_repeat": "Email address exist,please try another one",
     "invitationCode": "Invitation code",
-    "invitationCode_required": "Enter invitation code",
+    "invitationCode_required": "Enter invitation code, not necessary",
     "invitationCode_notValid": "Invalid invitation code",
     "register_checkbox_required": "Please confirm and agree EULA",
     "password": "Password",
