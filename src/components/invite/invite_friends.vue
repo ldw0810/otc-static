@@ -49,7 +49,7 @@
                   :size='qrCodeConfig.size'/>
       <div ref="popImage" class="pop-image"></div>
       <div slot="footer">
-        <i-button class="pop-popDownload submitButton" type="primary" @click="downloadImage">
+        <i-button class="pop-popDownload" @click="downloadImage">
           {{$t('public.invite_image_download_text')}}
         </i-button>
       </div>
@@ -374,6 +374,18 @@
       justify-content: center;
       align-items: center;
       padding-bottom: 20px;
+    }
+    &-popDownload {
+      width: 156px;
+      background: #FFFFFF;
+      border: 1px solid rgba(0,0,0,0.10);
+      box-shadow: 0 5px 5px 0 rgba(0,0,0,0.03);
+      border-radius: 2px;
+      font-family: SFUIDisplay-Light sans-serif;
+      font-size: 14px;
+      color: #333333;
+      text-align: center;
+      line-height: 21px;
     }
   }
   /deep/ .ivu-modal-content {
