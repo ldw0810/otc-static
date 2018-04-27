@@ -260,7 +260,7 @@
           ],
           invitationCode: [
             {
-              validator: validateInvitationCode
+              // validator: validateInvitationCode
             }
           ],
           checkbox: [
