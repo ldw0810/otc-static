@@ -1,27 +1,31 @@
 <template>
   <div class='wrapper'>
     <div class="g-mobile-container page">
-      <aside class="sider" v-if="siderFlag">
-        <div class='g-mobile-shadow sider-wrapper'>
-          <div class="sider-item" :class="{'sider-item-active': currency === item}"
-               v-for="(item, index) in currencyList" :key='index' @click="changeSider(index)">
-            <div class="sider-item-wrapper">
-              <div class="sider-item-asstes">
-                <img :src="imageType[index]" class='img'>
-              </div>
-              <div class='sider-item-content'>
-                <h3 class='sider-item-title'>{{$t("public['" + item + "']")}}</h3>
-                <div v-for="(account, index2) in userInfo.valid_account" :key='index2'>
-                  <p class='sider-item-desc' v-if="account.currency === currencyList[index]">
-                    <!-- {{$t("public.asset")}}:  -->
-                    {{(account.amount || 0) | fix_decimals_assets}}
-                  </p>
+      <transition name="fade" mode="out-in">
+        <aside class="sider" v-if="siderFlag">
+          <div class='g-mobile-shadow sider-wrapper'>
+            <div class="sider-item" :class="{'sider-item-active': currency === item}"
+                 v-for="(item, index) in currencyList" :key='index' @click="changeSider(index)">
+              <div class="sider-item-wrapper">
+                <div class="sider-item-asstes">
+                  <img :src="imageType[index]" class='img'>
+                </div>
+                <div class='sider-item-content'>
+                  <h3 class='sider-item-title'>{{$t("public['" + item + "']")}}</h3>
+                  <div v-for="(account, index2) in userInfo.valid_account" :key='index2'>
+                    <p class='sider-item-desc' v-if="account.currency === currencyList[index]">
+                      <!-- {{$t("public.asset")}}:  -->
+                      {{(account.amount || 0) | fix_decimals_assets}}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+        </aside>
+        <div class="pullIcon" @click="siderFlag = true" v-else>
         </div>
-      </aside>
+      </transition>
       <transition name="fade" mode="out-in">
         <div class="content">
           <header class="g-mobile-shadow content-header">

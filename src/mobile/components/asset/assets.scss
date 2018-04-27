@@ -5,6 +5,10 @@
 
 // 左侧
 .sider {
+  position: absolute;
+  left: 0;
+  top: 20vh;
+  z-index: 999;
   flex-shrink: 0;
   width: 270px;
   margin-right: 30px;
@@ -55,7 +59,7 @@
       top: 0;
       height: 100%;
       width: 8px;
-      background-image: linear-gradient(-134deg, #0BBFD5 0%, #6DD7B2 100%);
+      background-image: linear-gradient(-135deg, #0BBFD5 0%, #6DD7B2 100%);
     }
   }
 }
@@ -168,7 +172,7 @@
       }
     }
     &-verify {
-      padding: 5vh 8vw;
+      padding: 2.5vh 8vw;
       min-height: 58vh;
       .tip {
         font-size: 0.85rem;
@@ -282,7 +286,7 @@
     margin-bottom: 0;
     display: flex;
     &-number {
-      margin-bottom: 2.5vh;
+      margin-bottom: 4vh;
     }
   }
   &-address {
@@ -338,6 +342,21 @@
       width: 20vw;
     }
   }
+}
+
+.pullIcon {
+  position: absolute;
+  left: -2vh;
+  top: 47.5vh;
+  background: #0BBFD5;
+  content: " ";
+  width: 4vh;
+  height: 4vh;
+  transform: rotate(135deg);
+  box-sizing: border-box;
+  z-index: 999;
+  box-shadow: 0 1vh 1vh 0 rgba(0, 0, 0, 0.03);
+  cursor: pointer;
 }
 
 /deep/ .ivu-form-item-content {
