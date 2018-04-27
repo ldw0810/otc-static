@@ -10,7 +10,7 @@
         </div>
         <div class="copy-content">
           <div class='copy-area'>
-            <div class='copy-input'>{{link}}</div>
+            <div class='copy-input' v-html="link"></div>
             <div class='copy-btn-wrapper'>
               <i-button type="primary" class="copy-btn" v-clipboard:copy="link"
                         v-clipboard:success="copySuccess">
@@ -98,7 +98,7 @@
           value: window.location.href.replace("invite", "user/register?invitationCode=" + this.$store.state.userInfo.invite),
           imagePath: require("../../static/images/home/QC-Code-BG.png"),
           filter: "canvas",
-          size: 210,
+          size: window.localStorage.getItem("language") === "zh-CN" ? 245 : 210,
         }
       },
     },
@@ -156,7 +156,11 @@
             img.src = imgArr[index];
             img.onload = () => {
               if (index === 1) {
-                ctx.drawImage(img, 270, 760, 210, 210);
+                if(window.localStorage.getItem("language") === "zh-CN") {
+                  ctx.drawImage(img, 246, 955, 245, 245);
+                } else {
+                  ctx.drawImage(img, 270, 760, 210, 210);
+                }
                 drawing(++index);
               } else {
                 ctx.drawImage(img, 0, 0, c.width, c.height);
@@ -369,6 +373,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      padding-bottom: 20px;
     }
   }
   /deep/ .ivu-modal-content {
