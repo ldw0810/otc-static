@@ -157,8 +157,6 @@
     z-index: 99;
   }
 
- 
-
   #header {
     height: 76px;
     z-index: 2;

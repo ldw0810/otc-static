@@ -20,7 +20,7 @@
       </div>
       <p class='desc'>{{$t('asset.asset_withdraw_confirm_tip')}}</p>
     </div>
-    <div class='g-comfirm-group'>
+    <div class='g-mobile-comfirm-group'>
       <i-button class="submitButton" type="primary" @click="submit">
         {{$t('public.confirm')}}
       </i-button>

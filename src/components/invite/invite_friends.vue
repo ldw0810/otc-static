@@ -10,7 +10,7 @@
         </div>
         <div class="copy-content">
           <div class='copy-area'>
-            <div class='copy-input' v-text="link"></div>
+            <div class='copy-input' v-html="link"></div>
             <div class='copy-btn-wrapper'>
               <i-button type="primary" class="copy-btn" v-clipboard:copy="link"
                         v-clipboard:success="copySuccess">
@@ -19,7 +19,7 @@
             </div>
           </div>
           <div class="copy-image">
-            <div class='copy-image-input' v-text="$t('public.invite_image_content')"></div>
+            <div class='copy-image-input' v-html="$t('public.invite_image_content')"></div>
             <div class='copy-btn-wrapper copy-image-btn'>
               <i-button type="primary" class="copy-btn" @click="showImage">
                 {{$t("public.invite_image_show_text")}}
@@ -27,15 +27,15 @@
             </div>
           </div>
         </div>
-        <div class="score-cards">
-          <div class="score-cards-item">
-            {{$t("public.invite_invited")}}: {{inviteCount}}
-          </div>
-          <div class="score-cards-item">
-            {{$t("public.invite_omt")}}: {{inviteAmount}}
-          </div>
-        </div>
       </section>
+      <div class="score-cards">
+        <div class="score-cards-item">
+          {{$t("public.invite_invited")}}: {{inviteCount}}
+        </div>
+        <div class="score-cards-item">
+          {{$t("public.invite_omt")}}: {{inviteAmount}}
+        </div>
+      </div>
       <section class="invite-rules g-shadow">
         <h3 class='invite-rules-title'>
           {{$t("public.invite_rules")}}
@@ -49,7 +49,7 @@
                   :size='qrCodeConfig.size'/>
       <div ref="popImage" class="pop-image"></div>
       <div slot="footer">
-        <i-button class="pop-popDownload submitButton" type="primary" @click="downloadImage">
+        <i-button class="pop-popDownload" @click="downloadImage">
           {{$t('public.invite_image_download_text')}}
         </i-button>
       </div>
@@ -81,6 +81,11 @@
         clientHeight: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
       }
     },
+    watch: {
+      $route: function (val) {
+        this.init();
+      }
+    },
     computed: {
       link() {
         return this.$t("public.invite_content") + "\n" + this.linkUrl;
@@ -93,7 +98,7 @@
           value: window.location.href.replace("invite", "user/register?invitationCode=" + this.$store.state.userInfo.invite),
           imagePath: require("../../static/images/home/QC-Code-BG.png"),
           filter: "canvas",
-          size: 210,
+          size: window.localStorage.getItem("language") === "zh-CN" ? 245 : 210,
         }
       },
     },
@@ -151,7 +156,11 @@
             img.src = imgArr[index];
             img.onload = () => {
               if (index === 1) {
-                ctx.drawImage(img, 270, 760, 210, 210);
+                if(window.localStorage.getItem("language") === "zh-CN") {
+                  ctx.drawImage(img, 246, 955, 245, 245);
+                } else {
+                  ctx.drawImage(img, 270, 760, 210, 210);
+                }
                 drawing(++index);
               } else {
                 ctx.drawImage(img, 0, 0, c.width, c.height);
@@ -186,11 +195,14 @@
             this.createImage();
           }
         }
+      },
+      init(){
+        this.$store.commit("header_index_setter", "4");
+        this.getInviteDetail();
       }
     },
     mounted() {
-      this.$store.commit("header_index_setter", "4");
-      this.getInviteDetail();
+      this.init();
     }
   }
 </script>
@@ -204,7 +216,7 @@
   }
 
   .invite {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     &-container {
       width: 970px;
       margin: 370px - 530px auto 0;
@@ -212,7 +224,7 @@
     &-target {
       background-color: #fff;
       border-radius: 2px;
-      padding: 48px 70px;
+      padding: 48px 70px 0;
       margin-bottom: 30px;
       &-desc {
         font-size: 16px;
@@ -228,44 +240,59 @@
       .copy-area {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 38px;
         flex-direction: column;
       }
       .copy-input-wrapper {
         width: 700px;
       }
       .copy-input {
+        font-family: Arial-Black sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 400px;
         border: 1px solid #CCCCCC;
         border-radius: 2px;
         height: 140px;
         font-size: 16px;
-        padding: 8px 10px;
-        word-wrap: break-word;
+        padding: 8px 16px;
+        word-break: break-all;
         cursor: text;
       }
       .copy-btn-wrapper {
         width: 400px;
-        height: 60px;
+        height: 90px;
         display: flex;
         align-items: center;
         justify-content: center;
       }
       .copy-btn {
         width: 156px;
+        background: #FFFFFF;
+        border: 1px solid rgba(0,0,0,0.10);
+        box-shadow: 0 5px 5px 0 rgba(0,0,0,0.03);
+        border-radius: 2px;
+        font-family: SFUIDisplay-Light sans-serif;
+        font-size: 14px;
+        color: #333333;
+        text-align: center;
+        line-height: 21px;
       }
       .copy-image {
         &-input {
+          font-family: Arial-Black sans-serif;
+          font-size: 16px;
+          color: #ffffff;
+          text-align: center;
+          line-height: 22px;
           padding: 0 8px 0 8px;
           margin-left: 40px;
           width: 400px;
           height: 150px;
           background: #FFFFFF url(#{$baseImage}/Invite-pic-bg.png) no-repeat center;
           background-size: 100%;
-          color: #ffffff;
           display: flex;
           align-items: center;
-          text-align: center;
           justify-content: center;
         }
         &-btn {
@@ -275,9 +302,9 @@
     }
     .score-cards {
       display: flex;
-      justify-content: space-between;
+      justify-content: space-around;
       height: 68px;
-      background: #3DCBC3;
+      background-image: linear-gradient(-180deg, #E43636 0%, #E83E3E 70%);
       &-item {
         display: flex;
         flex-direction: column;
@@ -285,7 +312,7 @@
         justify-content: center;
         font-weight: normal;
         width: 370px;
-        font-family: PingFangSC-Light;
+        font-family: PingFangSC-Light sans-serif;
         font-size: 23px;
         color: #FFFFFF;
         letter-spacing: 0;
@@ -314,6 +341,7 @@
       height: 424px;
       background: #FFFFFF;
       border-radius: 2px;
+      margin-top: 40px;
       padding: 40px 70px 50px;
       display: flex;
       flex-direction: column;
@@ -345,6 +373,19 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      padding-bottom: 20px;
+    }
+    &-popDownload {
+      width: 156px;
+      background: #FFFFFF;
+      border: 1px solid rgba(0,0,0,0.10);
+      box-shadow: 0 5px 5px 0 rgba(0,0,0,0.03);
+      border-radius: 2px;
+      font-family: SFUIDisplay-Light sans-serif;
+      font-size: 14px;
+      color: #333333;
+      text-align: center;
+      line-height: 21px;
     }
   }
   /deep/ .ivu-modal-content {

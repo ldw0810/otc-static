@@ -1,6 +1,6 @@
 <template>
   <div>
-    <logoDiv />
+    <logoDiv/>
     <div class="content">
       <div class="title" v-text="$t('user.password_forget')"></div>
       <Form class="form" ref="form" @checkValidate='checkValidate' :model="form" :rules="rules">
@@ -89,74 +89,82 @@
             this.captchaObj.verify();
           }
         });
+      },
+      init() {
+        this.$store
+          .dispatch("ajax_captcha_server")
+          .then(res => {
+            if (res.data && +res.data.error === 0) {
+              initGeetest(
+                {
+                  gt: res.data.gt,
+                  challenge: res.data.challenge,
+                  offline: false,
+                  new_captcha: res.data.new_captcha,
+
+                  product: "bind",
+                  width: "292px",
+                  lang: window.localStorage.getItem("language") === "zh-CN" ? "zh-cn" : "en"
+                },
+                captchaObj => {
+                  captchaObj.appendTo(document.getElementById("captcha"));
+                  this.captchaObj = captchaObj;
+                  captchaObj.onSuccess(() => {
+                    let result = this.captchaObj.getValidate();
+                    this.submitLoading = true;
+                    this.$store.dispatch("ajax_send_forget_mail", {
+                      email: this.form.email,
+                      geetest_challenge: result.geetest_challenge,
+                      geetest_validate: result.geetest_validate,
+                      geetest_seccode: result.geetest_seccode,
+                      check_captcha: 1
+                    }).then(result => {
+                      this.submitLoading = false;
+                      if (result.data && +result.data.error === 0) {
+                        this.$Message.success(this.$t("user.auth_email_send_success"));
+                      } else if (result.data.error === "100031") {
+                        this.$alert.error({
+                          title: this.$t("public.error_title_default"),
+                          content: this.$t("user.email_not_activated")
+                        })
+                      } else if (result.data.error === "100040") {
+                        this.$alert.error({
+                          title: this.$t("public.error_title_default"),
+                          content: this.$t("user.email_not_reg")
+                        })
+                      } else {
+                        this.$alert.error({
+                          title: this.$t("public.error_title_default"),
+                          content: this.$t("user.auth_email_send_fail")
+                        })
+                      }
+                    })
+                      .catch(err => {
+                        this.submitLoading = false;
+                        // this.$Message.error(this.$t("user.auth_email_send_fail"));
+                      });
+                  });
+                }
+              );
+            } else {
+              this.$alert.error({
+                title: this.$t("public.error_title_default"),
+                content: this.$t("user.captcha_request_fail")
+              })
+            }
+          })
+          .catch(err => {
+            // this.$Message.error(this.$t("user.captcha_request_fail"));
+          });
+      }
+    },
+    watch: {
+      $route: function (val) {
+        this.init();
       }
     },
     mounted() {
-      this.$store
-        .dispatch("ajax_captcha_server")
-        .then(res => {
-          if (res.data && +res.data.error === 0) {
-            initGeetest(
-              {
-                gt: res.data.gt,
-                challenge: res.data.challenge,
-                offline: false,
-                new_captcha: res.data.new_captcha,
-
-                product: "bind",
-                width: "292px",
-                lang: window.localStorage.getItem("language") === "zh-CN" ? "zh-cn" : "en"
-              },
-              captchaObj => {
-                captchaObj.appendTo(document.getElementById("captcha"));
-                this.captchaObj = captchaObj;
-                captchaObj.onSuccess(() => {
-                  let result = this.captchaObj.getValidate();
-                  this.submitLoading = true;
-                  this.$store.dispatch("ajax_send_forget_mail", {
-                    email: this.form.email,
-                    geetest_challenge: result.geetest_challenge,
-                    geetest_validate: result.geetest_validate,
-                    geetest_seccode: result.geetest_seccode,
-                    check_captcha: 1
-                  }).then(result => {
-                    this.submitLoading = false;
-                    if (result.data && +result.data.error === 0) {
-                      this.$Message.success(this.$t("user.auth_email_send_success"));
-                    } else if (result.data.error === "100031") {
-                      this.$alert.error({
-                        title: this.$t("public.error_title_default"),
-                        content: this.$t("user.email_not_activated")
-                      })
-                    } else if (result.data.error === "100040") {
-                      this.$alert.error({
-                        title: this.$t("public.error_title_default"),
-                        content: this.$t("user.email_not_reg")
-                      })
-                    } else {
-                      this.$alert.error({
-                        title: this.$t("public.error_title_default"),
-                        content: this.$t("user.auth_email_send_fail")
-                      })
-                    }
-                  })
-                    .catch(err => {
-                      this.submitLoading = false;
-                      // this.$Message.error(this.$t("user.auth_email_send_fail"));
-                    });
-                });
-              }
-            );
-          } else {
-            this.$alert.error({
-              title: this.$t("public.error_title_default"),
-              content: this.$t("user.captcha_request_fail")
-            })
-          }
-        })
-        .catch(err => {
-          // this.$Message.error(this.$t("user.captcha_request_fail"));
-        });
+      this.init();
     },
     components: {
       logoDiv

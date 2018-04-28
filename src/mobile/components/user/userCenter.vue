@@ -5,7 +5,7 @@
     </div>
     <div class="contentBg"></div>
     <div class="page">
-      <div class="g-tabs-vertical g-shadow sider">
+      <div class="g-mobile-tabs-vertical g-mobile-shadow sider">
         <div class="siderDiv" :class="{'siderFocus': +siderIndex === 0}" @click="doSider(0)">
           <div class="siderTextDiv" :class="{'siderTextFocus': +siderIndex === 0}"
                v-text="$t('user.info')"></div>

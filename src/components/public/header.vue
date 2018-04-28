@@ -282,7 +282,7 @@
       };
     },
     computed: {
-      device(){
+      device() {
         return this.$store.state.device;
       },
       userToken() {
@@ -291,10 +291,10 @@
       userInfo() {
         return this.$store.state.userInfo;
       },
-      nickname(){
+      nickname() {
         return this.userInfo.nickname || window.localStorage.getItem("nickname");
       },
-      soft_disabled(){
+      soft_disabled() {
         return this.$store.state.userInfo.soft_disabled;
       },
       currencyList() {
@@ -323,7 +323,7 @@
         val && this.init();
       },
       soft_disabled(val) {
-        if(val) {
+        if (val) {
           this.timeout && clearTimeout(this.timeout);
         } else {
           this.timeout && clearTimeout(this.timeout);
@@ -369,7 +369,7 @@
         if (item.action && isFunction(item.action)) {
           item.action();
         } else {
-          this.$goRouter(item.url,item.query);
+          this.$goRouter(item.url, item.query);
         }
       },
       init() {
@@ -429,7 +429,7 @@
         ];
       }
     },
-    created(){
+    created() {
       this.init();
     },
     destroyed() {

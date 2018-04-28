@@ -22,7 +22,6 @@
         <span class="link" @click="showAuthPhone" v-text="$t('user.unAuthenticated')"
               v-if="!userInfo.mobile"></span>
         <span class="text" v-else>{{ $t('user.authenticated')}}({{userInfo.phone_number}})</span>
-        <span class="text text_red">{{$t("user.user_phone_verify_tip")}}</span>
       </div>
       <div class="info">
         <span class="text">{{$t('user.default_receivables')}}:</span>
@@ -39,13 +38,13 @@
         <span v-text="userInfo.stat.trade_count ? (userInfo.stat.good_rate + '%') : $t('user.evaluate_noValid')"></span>
       </div>
       <!--<div class="info">-->
-      <!--<span class="text">{{$t('user.integral')}}:</span>-->
-      <!--<span v-text="userInfo.omt.amount"></span>-->
+        <!--<span class="text">{{$t('user.integral')}}:</span>-->
+        <!--<span v-text="userInfo.omt.amount"></span>-->
       <!--</div>-->
-      <div class="info" :class="{'omt-hide': !omt_show}">
-        <span class="text" style="color: red;">** 注册后将实名信息和手机号发给内测群主，才可以获得积分 **</span>
-        <span v-text="userInfo.omt.amount"></span>
-      </div>
+      <!--<div class="info" :class="{'omt-hide': !omt_show}">-->
+         <!--<span class="text" style="color: red;">** 注册后将实名信息和手机号发给内测群主，才可以获得积分 **</span>-->
+        <!--<span v-text="userInfo.omt.amount"></span>-->
+      <!--</div>-->
     </div>
     <Modal v-model="pop_email" class-name="m-ivu-modal" width='480' :mask-closable="true"
            :closable="false" @on-visible-change="popEmailTrigger">
@@ -105,6 +104,11 @@
         return OMT_SHOW;
       }
     },
+    watch:{
+      $route: function (val) {
+        this.init();
+      }
+    },
     methods: {
       showAuthPhone() {
         if (this.userInfo.activated) {
@@ -128,6 +132,9 @@
       closePopPhone(val) {
         val && this.$store.dispatch("ajax_me");
         this.pop_phone = false;
+      },
+      init(){
+        this.$store.commit("user_sider_index_setter", 0);
       }
     },
     components: {
@@ -136,7 +143,7 @@
       auth_email_send
     },
     mounted() {
-      this.$store.commit("user_sider_index_setter", 0);
+      this.init();
     }
   };
 </script>

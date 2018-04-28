@@ -3,7 +3,7 @@
     <div class="banner" :style="{backgroundImage: 'url('+CONF_INVITE_BANNER+')'}">
     </div>
     <article class='invite-container'>
-      <section class="invite-target g-shadow">
+      <section class="invite-target g-mobile-shadow">
         <div class="score-cards">
           <div class="score-cards-item">
             {{$t("public.invite_invited")}}: {{inviteCount}}
@@ -17,7 +17,7 @@
           <a class='invite-target-desc-sub' @click="goArticle">{{$t('public.invite_question')}}</a>
         </div>
         <div class='copy-area'>
-          <div class='copy-input' v-text="link"></div>
+          <div class='copy-input' v-html="link"></div>
           <div class='copy-btn-wrapper'>
             <i-button type="primary" class="copy-btn" v-clipboard:copy="link"
                       v-clipboard:success="copySuccess">
@@ -26,7 +26,7 @@
           </div>
         </div>
         <div class="copy-image">
-          <div @click="showImage" class='copy-image-input' v-text="$t('public.invite_image_content')"></div>
+          <div @click="showImage" class='copy-image-input' v-html="$t('public.invite_image_content')"></div>
           <div class='copy-btn-wrapper'>
             <i-button type="primary" class="copy-btn" @click="showImage">
               {{$t("public.invite_image_show_text")}}
@@ -34,7 +34,7 @@
           </div>
         </div>
       </section>
-      <section class="invite-rules g-shadow">
+      <section class="invite-rules g-mobile-shadow">
         <h3 class='invite-rules-title'>
           {{$t("public.invite_rules")}}
         </h3>
@@ -47,7 +47,7 @@
                   :size='qrCodeConfig.size'/>
       <div ref="popImage" class="pop-image"></div>
       <div slot="footer">
-        <i-button class="pop-popDownload submitButton" type="primary">
+        <i-button class="pop-popDownload">
           {{$t('public.invite_image_info_text')}}
         </i-button>
       </div>
@@ -71,7 +71,7 @@
         articlesLink: `${domain}/articles/360001929553`,
         CONF_INVITE_BANNER,
         CONF_INVITE_IMAGE,
-        inviteAmount:0,
+        inviteAmount: 0,
         inviteCount: 0,
         qrCodeFlag: true,
         popImageFlag: false,
@@ -91,9 +91,14 @@
           value: window.location.href.replace("invite", "user/register?invitationCode=" + this.$store.state.userInfo.invite),
           imagePath: require("../../../static/images/home/QC-Code-BG.png"),
           filter: "canvas",
-          size: 210,
+          size: window.localStorage.getItem("language") === "zh-CN" ? 245 : 210,
         }
       },
+    },
+    watch: {
+      $route: function (val) {
+        this.init();
+      }
     },
     methods: {
       copySuccess() {
@@ -149,7 +154,11 @@
             img.src = imgArr[index];
             img.onload = () => {
               if (index === 1) {
-                ctx.drawImage(img, 270, 760, 210, 210);
+                if(window.localStorage.getItem("language") === "zh-CN") {
+                  ctx.drawImage(img, 246, 955, 245, 245);
+                } else {
+                  ctx.drawImage(img, 270, 760, 210, 210);
+                }
                 drawing(++index);
               } else {
                 ctx.drawImage(img, 0, 0, c.width, c.height);
@@ -184,11 +193,14 @@
             this.createImage();
           }
         }
+      },
+      init() {
+        this.$store.commit("header_index_setter", "4");
+        this.getInviteDetail();
       }
     },
     mounted() {
-      this.$store.commit("header_index_setter", "4");
-      this.getInviteDetail();
+      this.init();
     }
   }
 </script>
@@ -225,6 +237,11 @@
         padding: 2vh 0 0 0;
       }
       .copy-input {
+        font-family: SFUIDisplay-Light sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 20vw;
         width: 100%;
         border: 1px solid #CCCCCC;
         border-radius: 2px;
@@ -238,11 +255,24 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 8vh;
+        height: 10vh;
+        background: #FFFFFF;
+      }
+      .copy-btn {
+        width: 36vw;
+        background: #FFFFFF;
+        border: 1px solid rgba(0, 0, 0, 0.10);
+        box-shadow: 0 1vw 1vw 0 rgba(0, 0, 0, 0.03);
+        border-radius: 2px;
+        font-family: SFUIDisplay-Light sans-serif;
+        font-size: 0.85rem;
+        color: #333333;
+        text-align: center;
       }
       .copy-image {
         padding: 2vh 0 2vh 0;
         &-input {
+          font-family: SFUIDisplay-Light sans-serif;
           width: 90vw;
           height: 20vw;
           background: #FFFFFF url(#{$baseImage}/Invite-pic-bg.png) no-repeat center;
@@ -260,8 +290,8 @@
     .score-cards {
       width: 90vw;
       display: flex;
-      justify-content: space-between;
-      background: #3DCBC3 100%;
+      justify-content: space-around;
+      background-image: linear-gradient(-180deg, #E43636 0%, #E83E3E 70%);
       padding: 0;
       &-item {
         display: flex;
@@ -283,15 +313,16 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      font-family: PingFangSC-Light sans-serif;
       &-title {
         font-weight: normal;
-        font-size: 1.5rem;
+        font-size: 1.25rem;
         margin-bottom: 2.5vh;
       }
       &-content {
         border-top: 1px solid #eee;
-        padding-top: 20px;
-        font-size: 1rem;
+        padding-top: 4vh;
+        font-size: 0.85rem;
         letter-spacing: 0;
         line-height: 2rem;
       }
@@ -309,9 +340,23 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      padding-bottom: 2.5vh;
+    }
+    &-popDownload {
+      width: 36vw;
+      background: #FFFFFF;
+      border: 1px solid rgba(0, 0, 0, 0.10);
+      box-shadow: 0 1vw 1vw 0 rgba(0, 0, 0, 0.03);
+      border-radius: 2px;
+      font-family: SFUIDisplay-Light sans-serif;
+      font-size: 0.85rem;
+      color: #333333;
+      text-align: center;
     }
   }
-
+  /deep/ .ivu-modal-content {
+    background: transparent;
+  }
   /deep/ .ivu-modal-footer {
     display: flex;
     justify-content: center;

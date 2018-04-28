@@ -113,6 +113,11 @@ export default {
       }
     };
   },
+  watch:{
+    $route: function (val) {
+      this.init();
+    }
+  },
   methods: {
     submit() {
       this.$refs["form"].validate(valid => {
@@ -143,6 +148,9 @@ export default {
           //重置密码输入框
         }
       });
+    },
+    init(){
+
     }
   }
 };
