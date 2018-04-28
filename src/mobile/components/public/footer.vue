@@ -149,7 +149,7 @@
   }
 
   .copyright {
-    height: 8vh;
+    height: 6vh;
     display: flex;
     width: 100vw;
     align-items: center;
@@ -167,7 +167,7 @@
 
   .footerMenu {
     cursor: pointer;
-    height: 8vh;
+    height: 6vh;
     display: flex;
     width: 50vw;
     font-size: 1rem;

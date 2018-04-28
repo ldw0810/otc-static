@@ -119,7 +119,7 @@
           phoneNumber: [
             {
               required: true,
-              message: this.$t("user.password_required"),
+              message: this.$t("user.phone_required"),
             },
             {
               validator: VALI_NUMBER_CALLBACK
@@ -178,8 +178,8 @@
     },
     methods: {
       resetForm() {
-        this.$refs.addForm.resetFields()
-        this.$refs.delForm.resetFields()
+        this.$refs.addForm.resetFields();
+        this.$refs.delForm.resetFields();
       },
       sendPinCode() {
         if (!this.userInfo.mobile) {

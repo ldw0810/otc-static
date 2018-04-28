@@ -159,12 +159,14 @@
           }
         });
       },
-      sendInfo() {
-        if (this.inputText.trim()) {
-          const inputInfo = this.htmlEncode(this.inputText.trim());
+      sendInfo(msg) {
+        if (this.inputText.trim() || msg) {
+          const inputInfo = this.htmlEncode(this.inputText.trim() || msg);
           const tempTime = new Date();
           this.$refs.input.innerHTML = "";
-          this.inputText = "";
+          if(!msg) {
+            this.inputText = "";
+          }
           let compareTime = this.msgList.length
             ? this.msgList[this.msgList.length - 1].compareTime
             : 0;
@@ -250,11 +252,11 @@
       },
       inputKey(event) {
         if (+event.keyCode === 13) {
-          // event.preventDefault();
+          event.preventDefault();
           if (event.ctrlKey === true) {
-            console.log(1);
             //ctrl + enter
             // this.showRange(document.createElement("br"));
+            this.inputText = this.setMaxLength(this.$refs.input.innerText.trim());
           } else {
             this.inputText = this.setMaxLength(this.$refs.input.innerText.trim());
             this.sendInfo();

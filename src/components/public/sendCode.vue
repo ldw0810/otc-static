@@ -68,9 +68,8 @@
         this.subTime = this.time
       },
       init() {
-        console.log(this.subTime && !this.subOnce)
         if (this.subTime && !this.subOnce) {
-          this.clear()
+          this.clear();
           this.countDown();
         }
       }

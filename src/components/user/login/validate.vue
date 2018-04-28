@@ -143,6 +143,11 @@
         return this.$store.state.loginInfo;
       }
     },
+    watch:{
+      $route: function (val) {
+        this.init();
+      }
+    },
     methods: {
       changeValidate(index) {
         this.validateIndex = index;
@@ -177,6 +182,8 @@
                 })).catch(err => {
                   // this.$Message.error(this.$t("user.userInfo_response_none"));
                 });
+              } else if (res.data && +res.data.error === 100036) {
+                this.$goRouter("/user/login");
               } else if (res.data && +res.data.error === 100049) {
                 this.$alert.error({
                   title: this.$t("public.error_title_default"),
@@ -190,13 +197,9 @@
                 this.$refs.sendCodeButton.refresh();
               }
             }).catch(err => {
-              if (+err.error === 100036) {
-                this.$goRouter("/user/login");
-              } else {
-                this.submitPhoneLoading = false;
-                // this.$Message.error(this.$t("user.auth_phone_fail"));
-                this.$refs.sendCodeButton.refresh();
-              }
+              this.submitPhoneLoading = false;
+              // this.$Message.error(this.$t("user.auth_phone_fail"));
+              this.$refs.sendCodeButton.refresh();
             });
           } else {
             this.$alert.error({
@@ -236,6 +239,14 @@
                 })).catch(err => {
                   // this.$Message.error(this.$t("user.userInfo_response_none"));
                 });
+              } else if(res.data && +res.data.error === 100039) {
+                this.$alert.error({
+                  title: this.$t("public.error_title_default"),
+                  content: this.$t("request['" + +res.data.error + "']"),
+                  onClose: () => {
+                    this.$goBack();
+                  }
+                });
               } else {
                 this.$alert.error({
                   title: this.$t("public.error_title_default"),
@@ -255,6 +266,8 @@
                 this.submitGoogleLoading = false;
                 // this.$Message.error(this.$t("user.auth_google_fail"));
               }
+
+              // this.$Message.error(this.$t("user.auth_google_fail"));
             });
           } else {
             this.$alert.error({
@@ -279,21 +292,24 @@
         this.$store.dispatch("ajax_google_auth", {
           refresh: 1
         });
+      },
+      init(){
+        if (this.validate_phone) {
+        } else if (this.validate_google) {
+          this.validateIndex = 1;
+        } else {
+          if (this.$route.query.redirect) {
+            this.$goRouter("/user/login", {
+              redirect: this.$route.query.redirect
+            });
+          } else {
+            this.$goRouter("/user/login");
+          }
+        }
       }
     },
     created: function () {
-      if (this.validate_phone) {
-      } else if (this.validate_google) {
-        this.validateIndex = 1;
-      } else {
-        if (this.$route.query.redirect) {
-          this.$goRouter("/user/login", {
-            redirect: this.$route.query.redirect
-          });
-        } else {
-          this.$goRouter("/user/login");
-        }
-      }
+      this.init();
     },
     components: {
       logoDiv,

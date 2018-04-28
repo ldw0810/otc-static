@@ -4,7 +4,7 @@
     <!--:breadcrumbText='breadcrumbText'-->
     <!--/>-->
     <div class="user">
-      <div class="g-shadow avator">
+      <div class="g-mobile-shadow avator">
         <img class='avator-img' src="../../../../static/images/DefaultHead.jpg">
       </div>
       <div class="name" v-text="nickname"></div>
@@ -13,46 +13,49 @@
     <div class="infoPage">
       <div class="info">
         <span class="title">{{$t('user.authentication_email')}}:</span>
+        <span class="text_red" v-text="$t('user.authentication_wait')" v-if="!userInfo.activated"></span>
         <span class="link" v-text="$t('user.authentication_email_reSend')"
               v-if="!userInfo.activated" @click="reSendEmail"></span>
         <span class="text" v-text="$t('user.authenticated')" v-if="userInfo.activated"></span>
-      </div>
-      <div class="info" v-if="!userInfo.activated">
-        <span class="tip text_red" v-text="$t('user.authentication_wait')"></span>
+        <span v-if="userInfo.activated"></span>
       </div>
       <div class="info">
         <span class="title">{{$t('user.authentication_phone')}}:</span>
         <span class="link" @click="showAuthPhone" v-text="$t('user.unAuthenticated')"
               v-if="!userInfo.mobile"></span>
         <span class="text" v-else>{{ $t('user.authenticated')}}({{userInfo.phone_number}})</span>
+        <span></span>
       </div>
       <div class="info">
         <span class="tip text_red">{{$t('user.user_phone_verify_tip')}}</span>
       </div>
       <div class="info">
         <span class="title">{{$t('user.default_receivables')}}:</span>
-        <span class="text content" v-if="Object.keys(userInfo.default_collection).length">{{ default_receiver }}</span>
+        <span class="text" v-if="Object.keys(userInfo.default_collection).length">{{ default_receiver }}</span>
         <span class="link" @click="$goRouter('/user/userCenter/payment')"
               v-text="$t('public.setting')"></span>
+        <span v-if="!Object.keys(userInfo.default_collection).length"></span>
       </div>
       <div class="info">
         <span class="title">{{$t('user.transaction_record')}}:</span>
         <span v-text="userInfo.stat.trade_count"></span>
+        <span></span>
       </div>
       <div class="info">
         <span class="title">{{$t('user.evaluate')}}:</span>
         <span v-text="userInfo.stat.trade_count ? (userInfo.stat.good_rate + '%') : $t('user.evaluate_noValid')"></span>
+        <span></span>`
       </div>
       <!--<div class="info">-->
-      <!--<span class="title">{{$t('user.integral')}}:</span>-->
-      <!--<span v-text="userInfo.omt.amount"></span>-->
-      <!--<span></span>-->
+        <!--<span class="title">{{$t('user.integral')}}:</span>-->
+        <!--<span v-text="userInfo.omt.amount"></span>-->
+        <!--<span></span>-->
       <!--</div>-->
-      <div class="info" :class="{'omt-hide': !omt_show}">
-        <span class="text" style="color: red;">** 注册后将实名信息和手机号发给内测群主，才可以获得积分 **</span>
-        <span v-text="userInfo.omt.amount"></span>
-        <span></span>
-      </div>
+      <!--<div class="info" :class="{'omt-hide': !omt_show}">-->
+        <!--<span class="text" style="color: red;">** 注册后将实名信息和手机号发给内测群主，才可以获得积分 **</span>-->
+        <!--<span v-text="userInfo.omt.amount"></span>-->
+        <!--<span></span>-->
+      <!--</div>-->
     </div>
     <Modal v-model="pop_email" class-name="m-ivu-modal" width='480' :mask-closable="true"
            :closable="false" @on-visible-change="popEmailTrigger">
@@ -112,6 +115,11 @@
         return OMT_SHOW;
       }
     },
+    watch: {
+      $route: function (val) {
+        this.init();
+      }
+    },
     methods: {
       showAuthPhone() {
         if (this.userInfo.activated) {
@@ -135,6 +143,10 @@
       closePopPhone(val) {
         val && this.$store.dispatch("ajax_me");
         this.pop_phone = false;
+      },
+      init(){
+        this.$store.commit("user_sider_index_setter", 0);
+
       }
     },
     components: {
@@ -143,7 +155,7 @@
       auth_email_send
     },
     mounted() {
-      this.$store.commit("user_sider_index_setter", 0);
+      this.init();
     }
   };
 </script>
@@ -194,24 +206,21 @@
 
   #content .info {
     display: flex;
-    padding: 4vh 10vw 0 10vw;
+    padding: 0 10vw 4vh 10vw;
     font-size: 0.85rem;
     letter-spacing: 0;
   }
 
-  #content .info .title {
-    width: 35vw;
+  #content .info span {
+    flex: 1;
   }
-
-  #content .info .content {
-    display: flex;
-    width: 20vw;
+  #content .info span.title {
+    flex: 2;
   }
-  #content .info .tip {
+  #content .info span.tip {
     margin-top: -3vh;
-    margin-left: 35vw;
+    margin-left: 40vw;
   }
-
   #content .info .text_red {
     color: red;
   }

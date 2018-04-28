@@ -84,26 +84,13 @@
         }
       };
     },
-    mounted() {
-      if (this.$route.query && this.$route.query.token) {
-        this.token = this.$route.query.token;
-        //先判断 token valid
-        this.$store.dispatch("ajax_verified_token", {
-          token: this.token
-        }).then(res => {
-          if (!res.data || +res.data.error !== 0) {
-            this.$alert.error({
-              title: this.$t("public.error_title_default"),
-              content: this.$t("user.email_token_invalid")
-            })
-            this.$goRouter("/user/login");
-          }
-        }).catch(err => {
-          // this.$Message.error(this.$t("user.email_token_invalid"));
-          this.$goRouter("/user/login");
-        });
-
+    watch: {
+      $route: function (val) {
+        this.init();
       }
+    },
+    mounted() {
+      this.init();
     },
     methods: {
       submit() {
@@ -132,6 +119,27 @@
             })
           }
         });
+      },
+      init() {
+        if (this.$route.query && this.$route.query.token) {
+          this.token = this.$route.query.token;
+          //先判断 token valid
+          this.$store.dispatch("ajax_verified_token", {
+            token: this.token
+          }).then(res => {
+            if (!res.data || +res.data.error !== 0) {
+              this.$alert.error({
+                title: this.$t("public.error_title_default"),
+                content: this.$t("user.email_token_invalid")
+              })
+              this.$goRouter("/user/login");
+            }
+          }).catch(err => {
+            // this.$Message.error(this.$t("user.email_token_invalid"));
+            this.$goRouter("/user/login");
+          });
+
+        }
       }
     },
     components: {

@@ -61,18 +61,18 @@ export default {
 @import '~style/variables';
 .tab {
   &-bar {
-    height: 64px;
+    height: 8.5vh;
     background-color: #f4f6f9;
     display: flex;
     box-shadow: $base-box-shadow;
     &-item {
-      transition: background-color 0.25s;
-      padding: 20px 70px;
+      transition: background-color 0.5s;
+      flex:1;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 1rem;
       color: #333333;
       cursor: pointer;
       &-text {
@@ -109,6 +109,7 @@ export default {
     box-shadow: none;
   }
   .tab-content {
+    min-height: 77vh;
     background-color: #fff;
     padding: 30px 30px 40px;
   }

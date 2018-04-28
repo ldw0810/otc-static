@@ -1,7 +1,7 @@
 <template>
-  <div class="detail g-container">
+  <div class="detail g-mobile-container">
     <!-- 头部 -->
-    <header class="g-shadow header" v-if="ad.id">
+    <header class="g-mobile-shadow header" v-if="ad.id">
       <div class='header-avator'>
         <Avator
             :size='64'
@@ -31,7 +31,7 @@
       </div>
     </header>
     <!-- 交易 -->
-    <div class="g-shadow deal" v-if="ad.id">
+    <div class="g-mobile-shadow deal" v-if="ad.id">
       <div class='deal-common deal-info'>
         <div class="deal-info-item">
           <div class="deal-info-item-title">
@@ -168,7 +168,7 @@
           $t("order.order_confirm_complete_sell_warn").format(formNumber, $t("public['" + ad.currency + "']"),
           formMoneyAmount, $t("public['" + ad.target_currency + "']"))}}
         </div>
-        <div class='g-comfirm-group'>
+        <div class='g-mobile-comfirm-group'>
           <i-button class="submit-button" type="primary" :loading='submitPlaceOrderLoading' @click="placeOrder_submit">
             {{+adType === 0 ? $t("order.order_buy_confirm") : $t("order.order_sell_confirm")}}
           </i-button>
@@ -303,7 +303,11 @@
         }
       };
     },
-    watch: {},
+    watch: {
+      $route: function (val) {
+        this.init();
+      }
+    },
     computed: {
       formMoneyAmount() {
         return this.$fixDecimalAuto(this.form.moneyAmount || 0, this.ad.target_currency)
@@ -385,6 +389,8 @@
             if (res.data.info.status === 'closed') {
               this.$goBack();
             }
+          } else if (+res.data.error === 100021) {
+            this.$goBack();
           } else {
             // this.$Message.error(this.$t("order.order_ad_info_request_fail"));
           }
@@ -418,7 +424,6 @@
           this.formData.moneyAmount = this.form.moneyAmount;
           this.formData.number = this.$dividedBy(+this.form.moneyAmount, +this.ad.current_price);
           this.form.number = this.$fixDecimalAuto(this.formData.number, this.ad.currency);
-          console.log("this.formData.number=" + this.formData.number);
         }
       },
       changeNumber() {
@@ -428,7 +433,6 @@
             +this.form.number,
             +this.ad.current_price
           );
-          console.log("this.formData.moneyAmount=" + this.formData.moneyAmount);
           this.form.moneyAmount = this.$fixDecimalAuto(
             this.formData.moneyAmount,
             this.ad.target_currency
@@ -440,6 +444,7 @@
         this.$store
           .dispatch("ajax_order_buy", {
             id: this.ad.id,
+            price: +this.ad.current_price,
             price_sum: +this.formData.moneyAmount
           })
           .then(res => {

@@ -96,6 +96,11 @@
       CarouselItem,
       Card
     },
+    watch:{
+      $route: function (val) {
+        this.init();
+      }
+    },
     methods: {
       getAds() {
         this.$store.dispatch("ajax_ads_main").then(res => {
@@ -110,11 +115,14 @@
       },
       goCarousel(url){
         this.$goRouter(url);
+      },
+      init(){
+        this.$store.commit("header_index_setter", 0);
+        this.getAds();
       }
     },
     mounted() {
-      this.$store.commit("header_index_setter", 0);
-      this.getAds();
+      this.init();
     }
   };
 </script>

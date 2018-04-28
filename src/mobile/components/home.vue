@@ -2,7 +2,7 @@
   <div class="home">
     <section class="content">
       <div class="content-hots">
-        <section class="content-hots-wrapper g-container">
+        <section class="content-hots-wrapper g-mobile-container">
           <h2 class='content-common-title'>{{$t('public.public_ad_title')}}</h2>
           <h3 class='content-common-sub-title'>
             <span class=''>{{$t('public.public_ad_info')}}</span>
@@ -21,7 +21,7 @@
         </section>
       </div>
       <div class="content-features">
-        <section class="content-features-wrapper g-container">
+        <section class="content-features-wrapper g-mobile-container">
           <div class="content-features-item">
             <div class="content-features-item-avator">
               <img class='avator-image' src="../../static/images/home/Home-Iocn1.jpg" alt="">
@@ -83,6 +83,11 @@
       CarouselItem,
       Card
     },
+    watch: {
+      $route: function (val) {
+        this.init();
+      }
+    },
     methods: {
       getAds() {
         this.$store.dispatch("ajax_ads_main").then(res => {
@@ -97,11 +102,14 @@
       },
       goCarousel(url){
         this.$goRouter(url);
+      },
+      init(){
+        this.$store.commit("header_index_setter", 0);
+        this.getAds();
       }
     },
     mounted() {
-      this.$store.commit("header_index_setter", 0);
-      this.getAds();
+      this.init();
     }
   };
 </script>

@@ -17,7 +17,7 @@ export default {
   props: {
     loading: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     text: {
       type: String,
@@ -34,24 +34,25 @@ export default {
 <style lang="scss" scoped>
   .empty {
     .empty-show,.loading-show {
-      height: 640px;
+      height: 77vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
     }
     .loading-show{
-      height: 320px;
-      margin-top: 40px;
-      justify-content: flex-start;
+      height: 77vh;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
     &-asset {
-      margin-bottom: 54px;
+      padding-bottom: 5vh;
     }
     &-text {
-      font-size: 16px;
+      font-size: 1rem;
       color: #666666;
-      line-height: 22px;
+      line-height: 1.5rem;
     }
   }
 </style>

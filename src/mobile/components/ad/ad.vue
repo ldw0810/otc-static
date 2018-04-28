@@ -1,6 +1,6 @@
 <template>
-  <div class="g-container">
-    <div class='g-shadow ad'>
+  <div class="g-mobile-container">
+    <div class='g-mobile-shadow ad'>
       <div class='ad-header'>
         <div class="g-title ad-title">{{$t("ad.ad_title").format($t("public['" + currency + "']"))}}</div>
         <div class="title-tip" v-html='$t("ad.ad_title_tip")'></div>
@@ -25,8 +25,8 @@
       </div>
       <div class="form-item" v-if="currency !== 'ck'">
         <header class='form-item-header'>
-          <div class="form-item-header-title">{{$t("ad.ad_type_select")}}:</div>
-          <div class="form-item-header-title-tip">{{$t("ad.ad_type_select_tip")}}</div>
+          <span class="form-item-header-title">{{$t("ad.ad_type_select")}}:</span>
+          <span class="form-item-header-title-tip">{{$t("ad.ad_type_select_tip")}}</span>
         </header>
         <div class='form-item-radio-group'>
           <RadioGroup v-model="adType" @input='onChangeAdType'>
@@ -43,8 +43,8 @@
             @checkValidate='checkValidate' :rules="rules">
         <FormItem prop="payment" class="form-item" v-if="currency === 'dai'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t("ad.ad_payment_select")}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_payment_select_tip")}}</div>
+            <span class="form-item-header-title">{{$t("ad.ad_payment_select")}}:</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_payment_select_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -59,8 +59,8 @@
         <!--货币-->
         <FormItem prop="targetCurrency" class="form-item" v-if="currency === 'dai'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t("ad.ad_money_select")}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_money_select_tip")}}</div>
+            <span class="form-item-header-title">{{$t("ad.ad_money_select")}}:</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_money_select_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -80,8 +80,8 @@
         <!-- 溢价 -->
         <FormItem prop="premium" class="form-item" v-if="currency !== 'ck'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t("ad.ad_premium")}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_premium_tip")}}</div>
+            <span class="form-item-header-title">{{$t("ad.ad_premium")}}:</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_premium_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -105,8 +105,8 @@
         <!--价格-->
         <FormItem prop="buyPrice" class="form-item" v-if="currency !== 'ck'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t("ad.ad_buy_price")}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_buy_price_tip")}}</div>
+            <span class="form-item-header-title">{{$t("ad.ad_buy_price")}}:</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_buy_price_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -119,8 +119,8 @@
         </FormItem>
         <FormItem prop="maxPrice" class="form-item" v-if="currency !== 'ck'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t('ad.ad_max_price')}}({{$t("public.optional")}}):</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_max_price_tip")}}</div>
+            <span class="form-item-header-title">{{$t('ad.ad_max_price')}}({{$t("public.optional")}}):</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_max_price_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -133,8 +133,8 @@
         </FormItem>
         <FormItem prop="floor" class="form-item" v-if="currency !== 'ck'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t('ad.ad_floor')}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_floor_tip")}}</div>
+            <span class="form-item-header-title">{{$t('ad.ad_floor')}}:</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_floor_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -147,8 +147,8 @@
         </FormItem>
         <FormItem prop="ceiling" class="form-item" v-if="currency !== 'ck'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t('ad.ad_ceiling')}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_ceiling_tip")}}</div>
+            <span class="form-item-header-title">{{$t('ad.ad_ceiling')}}:</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_ceiling_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -161,7 +161,7 @@
         </FormItem>
         <FormItem prop="remark" class="form-item">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t('ad.ad_remark')}}:</div>
+            <span class="form-item-header-title">{{$t('ad.ad_remark')}}:</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -190,8 +190,8 @@
         <!--广告类型-->
         <FormItem prop="collection" class="form-item" v-if="currency === 'dai'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t("ad.ad_collection_select")}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_collection_select_tip")}}</div>
+            <span class="form-item-header-title">{{$t("ad.ad_collection_select")}}:</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_collection_select_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -225,8 +225,8 @@
         <!--货币-->
         <FormItem prop="targetCurrency" class="form-item" v-if="currency === 'dai'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t("ad.ad_money_select")}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_money_select_tip")}}</div>
+            <span class="form-item-header-title">{{$t("ad.ad_money_select")}}:</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_money_select_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -246,8 +246,8 @@
         <!-- 溢价 -->
         <FormItem prop="premium" class="form-item" v-if="currency !== 'ck'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t("ad.ad_premium")}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_premium_tip")}}</div>
+            <span class="form-item-header-title">{{$t("ad.ad_premium")}}:</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_premium_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -271,8 +271,8 @@
         <!--价格-->
         <FormItem prop="sellPrice" class="form-item">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t("ad.ad_sell_price")}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_sell_price_tip")}}</div>
+            <span class="form-item-header-title">{{$t("ad.ad_sell_price")}}:</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_sell_price_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -285,8 +285,8 @@
         </FormItem>
         <FormItem prop="minPrice" class="form-item" v-if="currency !== 'ck'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t('ad.ad_min_price')}}({{$t("public.optional")}}):</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_min_price_tip")}}</div>
+            <span class="form-item-header-title">{{$t('ad.ad_min_price')}}({{$t("public.optional")}}):</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_min_price_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -299,8 +299,8 @@
         </FormItem>
         <FormItem prop="floor" class="form-item" v-if="currency !== 'ck'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t('ad.ad_floor')}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_floor_tip")}}</div>
+            <span class="form-item-header-title">{{$t('ad.ad_floor')}}:</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_floor_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -313,8 +313,8 @@
         </FormItem>
         <FormItem prop="ceiling" class="form-item" v-if="currency !== 'ck'">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t('ad.ad_ceiling')}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_ceiling_tip")}}</div>
+            <span class="form-item-header-title">{{$t('ad.ad_ceiling')}}:</span>
+            <span class="form-item-header-title-tip">{{$t("ad.ad_ceiling_tip")}}</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -332,7 +332,7 @@
         </FormItem>
         <FormItem prop="remark" class="form-item">
           <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t('ad.ad_remark')}}:</div>
+            <span class="form-item-header-title">{{$t('ad.ad_remark')}}:</span>
           </header>
           <Row>
             <i-col span='10'>
@@ -976,6 +976,12 @@
             } else {
               this.examineAdSellFlag = true;
             }
+          } else if (+res.data.error === 100036) {
+            if (+this.adType === 0) {
+              this.examineAdBuyFlag = false;
+            } else {
+              this.examineAdSellFlag = false;
+            }
           } else {
           }
         }).catch(err => {
@@ -1037,60 +1043,68 @@
 
   .ad {
     background-color: #fff;
-    margin: 30px 0 40px;
-    padding: 33px 51px 58px 49px;
+    margin: 2.5vh 0 2.5vh;
+    padding: 4vh 6vw;
     &-title {
-      font-size: 26px;
-      line-height: 37px;
-      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      font-size: 1.6rem;
+      line-height: 2.4rem;
+      margin-bottom: 2vh;
     }
     .title-tip {
-      font-size: 14px;
-      line-height: 26px;
-      margin-bottom: 20px;
+      font-size: 0.85rem;
+      line-height: 1.5rem;
+      margin-bottom: 2vh;
     }
     .credit-low-tip {
-      margin-bottom: 20px;
+      margin-bottom: 2vh;
     }
   }
 
   .form-item {
-    margin-bottom: 30px;
+    /*margin-bottom: 3vh;*/
     &-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
+      /*display: flex;*/
+      /*align-items: center;*/
+      margin-bottom: 1vh;
       &-title {
-        font-size: 16px;
-        margin-right: 10px;
+        font-size: 0.85rem;
+        margin-right: 1vw;
       }
       &-title-tip {
-        font-size: 14px;
+        font-size: 0.8rem;
         color: #999999;
       }
     }
     .form-item-radio-group {
-      padding-top: 20px;
-      padding-bottom: 26px;
-      border-top: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      padding-top: 2.5vh;
+      padding-bottom: 2.5vh;
+      border-top: 0.1vw solid #eee;
     }
   }
 
   .premium-example {
-    margin-left: 24px;
+    margin-left: 2.5vw;
     &-desc {
-      font-size: 14px;
+      font-size: 0.85rem;
       color: #666666;
-      line-height: 20px;
-      margin-right: 5px;
+      line-height: 1rem;
+      margin-right: 0.5vw;
     }
     &-number {
-      font-size: 14px;
+      font-size: 0.85rem;
       color: red;
     }
   }
 
   .add-payment {
-    margin-left: 24px;
+    margin-left: 2.5vw;
+  }
+
+  /deep/ .ivu-col-span-10 {
+    width: 66vw;
   }
 </style>

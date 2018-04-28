@@ -848,7 +848,7 @@
                   margin: this.form.premium,
                   pay_kind: +this.adType === 0 ? this.form.payment : this.form.collection,
                   pay_default:
-                    this.collection_default &&
+                    +this.adType === 1 && this.collection_default &&
                     this.collection_default.id === this.form.collection ? 1 : 0,
                   remark: this.form.remark
                 };

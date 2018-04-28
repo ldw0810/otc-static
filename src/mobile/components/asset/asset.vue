@@ -365,10 +365,10 @@
 </template>
 
 <script type="es6">
-  import validateMixin from "@/components/mixins/validate-mixin";
-  import emptyList from "@/components/public/empty-list";
+  import validateMixin from "mobile/components/mixins/validate-mixin";
+  import emptyList from "mobile/components/public/empty-list";
   import QrcodeVue from "qrcode.vue";
-  import Tab from "@/components/public/tab";
+  import Tab from "mobile/components/public/tab";
   import {VALI_ADDRESS_LABEL} from "config/validator";
   import logoDiv from "../public/logo.vue";
   import auth_two from "../public/auth_two_pop.vue";

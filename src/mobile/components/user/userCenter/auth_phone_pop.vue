@@ -27,7 +27,7 @@
           </i-input>
         </FormItem>
         <FormItem prop="pinCode" class="formItem">
-          <div class='g-send-group'>
+          <div class='g-mobile-send-group'>
             <i-input class="inputPinCode" type="text" v-model="addForm.pinCode" @on-enter="submit"
                      :placeholder="$t('user.pinCode_required')">
                         <span slot="prepend">
@@ -38,7 +38,7 @@
           </div>
         </FormItem>
         <FormItem class="formItem submit">
-          <div class="g-comfirm-group">
+          <div class="g-mobile-comfirm-group">
             <i-button class="submitButton" type="primary" :disabled='!validate.addForm' :loading='submitLoading' @click="submit">
               {{$t('public.confirm')}}
             </i-button>
@@ -61,7 +61,7 @@
           </i-input>
         </FormItem>
         <FormItem prop="pinCode" class="formItem">
-          <div class='g-send-group'>
+          <div class='g-mobile-send-group'>
             <i-input class="inputPinCode" type="text" v-model="delForm.pinCode"
                      :placeholder="$t('user.pinCode_required')" @on-enter="submit">
                             <span slot="prepend">
@@ -72,7 +72,7 @@
           </div>
         </FormItem>
         <FormItem class="formItem submit">
-          <div class="g-comfirm-group">
+          <div class="g-mobile-comfirm-group">
             <i-button class="submitButton" :disabled='!validate.delForm' :loading='submitLoading' type="primary"
                       @click="submit">
               {{$t('public.confirm')}}
@@ -119,7 +119,7 @@
           phoneNumber: [
             {
               required: true,
-              message: this.$t("user.password_required"),
+              message: this.$t("user.phone_required"),
             },
             {
               validator: VALI_NUMBER_CALLBACK
@@ -178,8 +178,8 @@
     },
     methods: {
       resetForm() {
-        this.$refs.addForm.resetFields()
-        this.$refs.delForm.resetFields()
+        this.$refs.addForm.resetFields();
+        this.$refs.delForm.resetFields();
       },
       sendPinCode() {
         if (!this.userInfo.mobile) {

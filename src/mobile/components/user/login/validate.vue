@@ -1,6 +1,6 @@
 <template>
   <div>
-    <logoDiv/>
+    <!--<logoDiv/>-->
     <div class="container-validate">
       <!-- <div v-if="validate_phone && validate_google">
           <div class="titleDiv" :class="{'titleFocus':validateIndex == 1}" @click="changeValidate(0)">
@@ -10,12 +10,12 @@
               <span v-text="$t('user.auth_google')"></span>
           </div>
       </div> -->
-      <div class='g-tabs' v-if="validate_phone && validate_google">
-        <div class="g-tabs-bar" :class="{'g-tabs-bar-active':validateIndex !== 1}" @click="changeValidate(0)">
-          <span class='g-tabs-bar-text' v-text="$t('user.auth_phone')"></span>
+      <div class='g-mobile-tabs' v-if="validate_phone && validate_google">
+        <div class="g-mobile-tabs-bar" :class="{'g-mobile-tabs-bar-active':validateIndex !== 1}" @click="changeValidate(0)">
+          <span class='g-mobile-tabs-bar-text' v-text="$t('user.auth_phone')"></span>
         </div>
-        <div class="g-tabs-bar" :class="{'g-tabs-bar-active': validateIndex !== 0}" @click="changeValidate(1)">
-          <span class='g-tabs-bar-text' v-text="$t('user.auth_google')"></span>
+        <div class="g-mobile-tabs-bar" :class="{'g-mobile-tabs-bar-active': validateIndex !== 0}" @click="changeValidate(1)">
+          <span class='g-mobile-tabs-bar-text' v-text="$t('user.auth_google')"></span>
         </div>
       </div>
       <div class='content'>
@@ -27,7 +27,7 @@
           <Form class="form" ref="phoneForm" @checkValidate='checkValidate_phoneForm' :model="phoneForm"
                 :rules="phoneRules">
             <FormItem prop="pinCode" class="formItem ">
-              <div class='g-send-group'>
+              <div class='g-mobile-send-group'>
                 <i-input class="inputPinCodePhone" type="text" v-model="phoneForm.pinCode"
                          :placeholder="$t('user.pinCode_required')" @on-enter="phoneSubmit">
                             <span slot="prepend">
@@ -40,7 +40,7 @@
             <!--防止自动提交表单-->
             <input type="text" style="display:none"/>
             <FormItem class="formItem  submit">
-              <div class='g-comfirm-group'>
+              <div class='g-mobile-comfirm-group'>
                 <i-button class="submitButton" type="primary" :loading='submitPhoneLoading'
                           :disabled='!validate.phoneForm' @click="phoneSubmit">
                   {{$t('public.confirm')}}
@@ -69,7 +69,7 @@
             <!--防止自动提交表单-->
             <input type="text" style="display:none"/>
             <FormItem class="formItem submit">
-              <div class='g-comfirm-group'>
+              <div class='g-mobile-comfirm-group'>
                 <i-button class="submitButton" type="primary" :loading='submitGoogleLoading'
                           :disabled='!validate.googleForm' @click="googleSubmit">
                   {{$t('public.confirm')}}
@@ -143,6 +143,11 @@
         return this.$store.state.loginInfo;
       }
     },
+    watch: {
+      $route: function (val) {
+        this.init();
+      }
+    },
     methods: {
       changeValidate(index) {
         this.validateIndex = index;
@@ -177,6 +182,8 @@
                 })).catch(err => {
                   // this.$Message.error(this.$t("user.userInfo_response_none"));
                 });
+              } else if (res.data && +res.data.error === 100036) {
+                this.$goRouter("/user/login");
               } else if (res.data && +res.data.error === 100049) {
                 this.$alert.error({
                   title: this.$t("public.error_title_default"),
@@ -236,6 +243,14 @@
                 })).catch(err => {
                   // this.$Message.error(this.$t("user.userInfo_response_none"));
                 });
+              } else if (res.data && +res.data.error === 100039) {
+                this.$alert.error({
+                  title: this.$t("public.error_title_default"),
+                  content: this.$t("request['" + +res.data.error + "']"),
+                  onClose: () => {
+                    this.$goBack();
+                  }
+                });
               } else {
                 this.$alert.error({
                   title: this.$t("public.error_title_default"),
@@ -279,21 +294,24 @@
         this.$store.dispatch("ajax_google_auth", {
           refresh: 1
         });
+      },
+      init() {
+        if (this.validate_phone) {
+        } else if (this.validate_google) {
+          this.validateIndex = 1;
+        } else {
+          if (this.$route.query.redirect) {
+            this.$goRouter("/user/login", {
+              redirect: this.$route.query.redirect
+            });
+          } else {
+            this.$goRouter("/user/login");
+          }
+        }
       }
     },
     created: function () {
-      if (this.validate_phone) {
-      } else if (this.validate_google) {
-        this.validateIndex = 1;
-      } else {
-        if (this.$route.query.redirect) {
-          this.$goRouter("/user/login", {
-            redirect: this.$route.query.redirect
-          });
-        } else {
-          this.$goRouter("/user/login");
-        }
-      }
+      this.init();
     },
     components: {
       logoDiv,
@@ -305,12 +323,12 @@
   .container-validate {
     position: relative;
     margin: 0 auto 5px auto;
-    width: 480px;
+    width: 100vw;
     background: #ffffff;
   }
 
   .content {
-    padding: 78px 92px 94px;
+    padding: 10vh 16vw;
   }
 
   .content div {
@@ -318,18 +336,17 @@
   }
 
   .title {
-    font-size: 24px;
+    font-size: 2rem;
     color: #666666;
   }
 
   .tip {
-    padding-top: 10px;
-    font-size: 14px;
+    font-size: 0.85rem;
     color: #666666;
   }
 
   .form {
-    margin-top: 20px;
+    margin-top: 2.5vh;
   }
 
   .formItem {
@@ -337,22 +354,22 @@
   }
 
   .inputPinCode {
-    width: 292px;
+    width: 68vw;
   }
 
   .inputPinCodePhone {
-    width: 192px;
+    width: 45vw;
   }
 
   .submit {
-    margin-top: 50px;
+    margin-top: 8vh;
   }
 
   .submitButton {
-    width: 172px;
+    width: 38vw;
   }
 
   .cancelButton {
-    width: 110px;
+    width: 26vw;
   }
 </style>

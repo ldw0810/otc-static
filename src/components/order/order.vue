@@ -384,7 +384,9 @@ export default {
       cancelFlag: true,
       auth_two_flag: false,
       chatFlag: false,
-      chatMessage: ""
+      chatMessage: "",
+      remain_time: 0,
+      timer: 0
     };
   },
   computed: {
@@ -423,6 +425,11 @@ export default {
         }
       }
       return tempList;
+    }
+  },
+  watch: {
+    $route: function (val) {
+      this.init();
     }
   },
   methods: {
@@ -545,7 +552,7 @@ export default {
           }).then(res => {
             if (res.data && +res.data.error === 0) {
               this.confirmFlag.pay = false;
-              this.chatMessage = this.confirmForm.remark;
+              this.$refs.chat.sendInfo(this.remarkForm.remark);
               this.$Message.success(this.$t("order.order_pay_complete_success"));
               this.getOrderInfo();
             } else {
@@ -612,6 +619,7 @@ export default {
       }
     },
     showTip() {
+      this.timer && clearTimeout(this.timer);
       if (this.order.created_at && this.order.status === "fresh") {
         let time = new Date().getTime() - this.order.created_at * 1000;
         if (time) {
@@ -631,7 +639,7 @@ export default {
         } else {
           this.stepTip = "";
         }
-        setTimeout(this.showTip, 1000);
+        this.timer = setTimeout(this.showTip, 1000);
       } else {
         this.stepTip = "";
       }

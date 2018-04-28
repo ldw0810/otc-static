@@ -329,159 +329,165 @@
   </div>
 </template>
 <script type="es6">
-import ValidateMixin from "mobile/components/mixins/validate-mixin";
-import { VALI_PAYMENT_INFO } from 'config/validator'
-import logoDiv from "../public/logo.vue";
-import chat from "../public/chat.vue";
-import auth_two from "../public/auth_two_pop.vue";
+  import ValidateMixin from "mobile/components/mixins/validate-mixin";
+  import {VALI_PAYMENT_INFO} from 'config/validator'
+  import logoDiv from "../public/logo.vue";
+  import chat from "../public/chat.vue";
+  import auth_two from "../public/auth_two_pop.vue";
 
-export default {
-  mixins: [ValidateMixin(['remarkForm', 'confirmForm'])],
-  data() {
-    return {
-      stepList: [],
-      stepTip: "",
-      order: {},
-      chat: [],
-      confirmFlag: {
-        pay: false,
-        release: false,
-        cancel: false,
-        complete: false
-      },
-      remarkForm: {
-        remark: ""
-      },
-      confirmForm: {
-        password: ""
-      },
-      remarkFormRules: {
-        remark: [
-          {
-            required: true,
-            message: this.$t("order.remark_required")
-          },
-          {
-            min: VALI_PAYMENT_INFO.min,
-            message: VALI_PAYMENT_INFO.message
-          },
-          {
-            max: VALI_PAYMENT_INFO.max,
-            message: VALI_PAYMENT_INFO.message
-          },
-        ]
-      },
-      confirmRules: {
-        password: [
-          {
-            required: true,
-            message: this.$t("user.password_required")
-          }
-        ]
-      },
-      evaluate: "0",
-      cancelFlag: true,
-      auth_two_flag: false,
-      chatFlag: false,
-      chatMessage: ""
-    };
-  },
-  computed: {
-    orderAmount() {
-      return this.$fixDecimalAuto(this.order.amount, this.order.currency)
+  export default {
+    mixins: [ValidateMixin(['remarkForm', 'confirmForm'])],
+    data() {
+      return {
+        stepList: [],
+        stepTip: "",
+        order: {},
+        chat: [],
+        confirmFlag: {
+          pay: false,
+          release: false,
+          cancel: false,
+          complete: false
+        },
+        remarkForm: {
+          remark: ""
+        },
+        confirmForm: {
+          password: ""
+        },
+        remarkFormRules: {
+          remark: [
+            {
+              required: true,
+              message: this.$t("order.remark_required")
+            },
+            {
+              min: VALI_PAYMENT_INFO.min,
+              message: VALI_PAYMENT_INFO.message
+            },
+            {
+              max: VALI_PAYMENT_INFO.max,
+              message: VALI_PAYMENT_INFO.message
+            },
+          ]
+        },
+        confirmRules: {
+          password: [
+            {
+              required: true,
+              message: this.$t("user.password_required")
+            }
+          ]
+        },
+        evaluate: "0",
+        cancelFlag: true,
+        auth_two_flag: false,
+        chatFlag: false,
+        chatMessage: "",
+        remain_time: 0
+      };
     },
-    orderPriceSum() {
-      return this.$fixDecimalAuto(this.order.price_sum, this.order.target_currency)
-    },
-    id() {
-      return this.$route.query.id;
-    },
-    userInfo() {
-      return this.$store.state.userInfo;
-    },
-    chatList() {
-      let tempList = [];
-      let tempTime = 0;
-      if (this.chat.length) {
-        for (let i = this.chat.length - 1; i >= 0; i--) {
-          let timeFlag =
-            +this.chat[i].from === 0
-              ? false
-              : +this.chat[i].created_at * 1000 - tempTime > 3 * 60 * 1000;
-          tempTime = timeFlag ? +this.chat[i].created_at * 1000 : tempTime;
-          tempList[this.chat.length - (i + 1)] = {
-            type:
+    computed: {
+      orderAmount() {
+        return this.$fixDecimalAuto(this.order.amount, this.order.currency)
+      },
+      orderPriceSum() {
+        return this.$fixDecimalAuto(this.order.price_sum, this.order.target_currency)
+      },
+      id() {
+        return this.$route.query.id;
+      },
+      userInfo() {
+        return this.$store.state.userInfo;
+      },
+      chatList() {
+        let tempList = [];
+        let tempTime = 0;
+        if (this.chat.length) {
+          for (let i = this.chat.length - 1; i >= 0; i--) {
+            let timeFlag =
               +this.chat[i].from === 0
-                ? 9
-                : this.chat[i].to === this.order.member.member_id ? 0 : 1,
-            data: this.chat[i].msg,
-            time: +this.chat[i].created_at * 1000,
-            compareTime: tempTime,
-            timeFlag: timeFlag
-          };
+                ? false
+                : +this.chat[i].created_at * 1000 - tempTime > 3 * 60 * 1000;
+            tempTime = timeFlag ? +this.chat[i].created_at * 1000 : tempTime;
+            tempList[this.chat.length - (i + 1)] = {
+              type:
+                +this.chat[i].from === 0
+                  ? 9
+                  : this.chat[i].to === this.order.member.member_id ? 0 : 1,
+              data: this.chat[i].msg,
+              time: +this.chat[i].created_at * 1000,
+              compareTime: tempTime,
+              timeFlag: timeFlag
+            };
+          }
         }
+        return tempList;
       }
-      return tempList;
-    }
-  },
-  methods: {
-    showStep() {
-      this.stepList = [
-        {
-          img: require("../../../static/images/order/Deal-IconShoppingCart.png"),
-          title: this.$t("order.order_deal_status_pay"),
-          status: 1
-        }
-      ];
-      if (["timeout", "cancel", "judge_seller"].contains(this.order.status)) {
-        this.stepList.push({
-          img: require("../../../static/images/order/Deal-IconCancel.png"),
-          title:
-            this.order.status === "timeout"
-              ? this.$t("order.order_deal_timeout")
-              : this.$t("order.order_deal_cancel"),
-          status: 0
-        });
-      } else {
-        if (this.order.status === "fresh") {
-          this.stepList.push({
-            img: require("../../../static/images/order/Deal-IconPay2.png"),
-            title: this.$t("order.order_deal_status_wait_payment"),
-            status: 0
-          });
-        } else {
-          this.stepList.push({
-            img: require("../../../static/images/order/Deal-IconPay.png"),
-            title: this.$t("order.order_deal_status_paid"),
+    },
+    watch: {
+      $route: function (val) {
+        this.init();
+      }
+    },
+    methods: {
+      showStep() {
+        this.stepList = [
+          {
+            img: require("../../../static/images/order/Deal-IconShoppingCart.png"),
+            title: this.$t("order.order_deal_status_pay"),
             status: 1
-          });
-        }
-        if (["fresh", "pay"].contains(this.order.status)) {
+          }
+        ];
+        if (["timeout", "cancel", "judge_seller"].contains(this.order.status)) {
           this.stepList.push({
-            img: require("../../../static/images/order/Deal-IconDelivery2.png"),
-            title: this.$t("order.order_deal_status_wait_release"),
-            status: 0
-          });
-        } else {
-          this.stepList.push({
-            img: require("../../../static/images/order/Deal-IconDelivery.png"),
-            title: this.$t("order.order_deal_status_released"),
-            status: 1
-          });
-        }
-        if (["fresh", "pay", "release"].contains(this.order.status)) {
-          this.stepList.push({
-            img: require("../../../static/images/order/Deal-IconEvaluate2.png"),
-            title: this.$t("order.order_deal_status_wait_eval"),
-            status: 0
-          });
-        } else {
-          this.stepList.push({
-            img: require("../../../static/images/order/Deal-IconEvaluate.png"),
+            img: require("../../../static/images/order/Deal-IconCancel.png"),
             title:
-              this.order.status === "buy_eval"
-                ? this.$t("order.order_status_buy_eval")
-                : this.order.status === "sell_eval"
+              this.order.status === "timeout"
+                ? this.$t("order.order_deal_timeout")
+                : this.$t("order.order_deal_cancel"),
+            status: 0
+          });
+        } else {
+          if (this.order.status === "fresh") {
+            this.stepList.push({
+              img: require("../../../static/images/order/Deal-IconPay2.png"),
+              title: this.$t("order.order_deal_status_wait_payment"),
+              status: 0
+            });
+          } else {
+            this.stepList.push({
+              img: require("../../../static/images/order/Deal-IconPay.png"),
+              title: this.$t("order.order_deal_status_paid"),
+              status: 1
+            });
+          }
+          if (["fresh", "pay"].contains(this.order.status)) {
+            this.stepList.push({
+              img: require("../../../static/images/order/Deal-IconDelivery2.png"),
+              title: this.$t("order.order_deal_status_wait_release"),
+              status: 0
+            });
+          } else {
+            this.stepList.push({
+              img: require("../../../static/images/order/Deal-IconDelivery.png"),
+              title: this.$t("order.order_deal_status_released"),
+              status: 1
+            });
+          }
+          if (["fresh", "pay", "release"].contains(this.order.status)) {
+            this.stepList.push({
+              img: require("../../../static/images/order/Deal-IconEvaluate2.png"),
+              title: this.$t("order.order_deal_status_wait_eval"),
+              status: 0
+            });
+          } else {
+            this.stepList.push({
+              img: require("../../../static/images/order/Deal-IconEvaluate.png"),
+              title:
+                this.order.status === "buy_eval"
+                  ? this.$t("order.order_status_buy_eval")
+                  : this.order.status === "sell_eval"
                   ? this.$t("order.order_status_sell_eval")
                   : this.$t("order.order_deal_complete"),
               status: 0
@@ -544,7 +550,7 @@ export default {
           }).then(res => {
             if (res.data && +res.data.error === 0) {
               this.confirmFlag.pay = false;
-              this.chatMessage = this.confirmForm.remark;
+              this.$refs.chat.sendInfo(this.remarkForm.remark);
               this.$Message.success(this.$t("order.order_pay_complete_success"));
               this.getOrderInfo();
             } else {
@@ -611,6 +617,7 @@ export default {
       }
     },
     showTip() {
+      this.remain_time && clearTimeout(this.remain_time);
       if (this.order.created_at && this.order.status === "fresh") {
         let time = new Date().getTime() - this.order.created_at * 1000;
         if (time) {
@@ -630,7 +637,7 @@ export default {
         } else {
           this.stepTip = "";
         }
-        setTimeout(this.showTip, 1000);
+        this.remain_time = setTimeout(this.showTip, 1000);
       } else {
         this.stepTip = "";
       }
