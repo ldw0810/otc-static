@@ -36,6 +36,18 @@
           {{$t("public.invite_omt")}}: {{inviteAmount}}
         </div>
       </div>
+      <div class="invite-top" v-if="isZh">
+        <div class="invite-top-title"></div>
+        <div class="invite-top-content">
+          <div class="invite-top-content-item" v-for="(item, index) in inviteTopArray" :key="index" v-show="item.id">
+            <div class="invite-top-content-item-icon">
+              <img :src="item.img">
+            </div>
+            <div class="invite-top-content-item-name">{{interceptEmail(item.email || "")}}</div>
+            <div class="invite-top-content-item-number">{{$t("public.invite_people")}}:{{item.count || 0}}</div>
+          </div>
+        </div>
+      </div>
       <section class="invite-rules g-shadow">
         <h3 class='invite-rules-title'>
           {{$t("public.invite_rules")}}
@@ -60,6 +72,7 @@
 <script>
   import QrcodeVue from 'qrcode.vue';
   import {CONF_INVITE_BANNER, CONF_INVITE_IMAGE, ZENDESK_DOMAIN_URL} from 'config/config';
+  import {interceptEmail} from "utils/tools";
 
   const domain = `${ZENDESK_DOMAIN_URL}/hc/${(window.localStorage.getItem("language") || "zh-TW").replace('HK', 'TW').toLowerCase()}`;
 
@@ -78,7 +91,14 @@
         qrCodeFlag: true,
         popImageFlag: false,
         imageData: "",
-        clientHeight: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+        clientHeight: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,
+        inviteTopArray: [{
+          img: require("../../static/images/invite/top1.svg")
+        }, {
+          img: require("../../static/images/invite/top2.svg")
+        }, {
+          img: require("../../static/images/invite/top3.svg")
+        }]
       }
     },
     watch: {
@@ -98,9 +118,12 @@
           value: window.location.href.replace("invite", "user/register?invitationCode=" + this.$store.state.userInfo.invite),
           imagePath: require("../../static/images/home/QC-Code-BG.png"),
           filter: "canvas",
-          size: window.localStorage.getItem("language") === "zh-CN" ? 245 : 210,
+          size: this.isZh ? 245 : 210,
         }
       },
+      isZh() {
+        return window.localStorage.getItem('language') === 'zh-CN';
+      }
     },
     methods: {
       copySuccess() {
@@ -115,6 +138,20 @@
           }
         }).catch(err => {
         });
+      },
+      getInvitedActivity(){
+        if(this.isZh) {
+          this.$store.dispatch("ajax_invited_activity").then(res => {
+            if (res.data && +res.data.error === 0) {
+              for(let i = 0; i < this.inviteTopArray.length; i++) {
+                this.$set(this.inviteTopArray, i, Object.assign(this.inviteTopArray[i], res.data.list[i]));
+              }
+              console.log(this.inviteTopArray);
+            } else {
+            }
+          }).catch(err => {
+          });
+        }
       },
       goArticle() {
         if (this.$store.state.userToken) {
@@ -156,7 +193,7 @@
             img.src = imgArr[index];
             img.onload = () => {
               if (index === 1) {
-                if(window.localStorage.getItem("language") === "zh-CN") {
+                if (this.isZh) {
                   ctx.drawImage(img, 246, 955, 245, 245);
                 } else {
                   ctx.drawImage(img, 270, 760, 210, 210);
@@ -196,9 +233,13 @@
           }
         }
       },
-      init(){
+      interceptEmail(str){
+        return interceptEmail(str);
+      },
+      init() {
         this.$store.commit("header_index_setter", "4");
         this.getInviteDetail();
+        this.getInvitedActivity();
       }
     },
     mounted() {
@@ -269,8 +310,8 @@
       .copy-btn {
         width: 156px;
         background: #FFFFFF;
-        border: 1px solid rgba(0,0,0,0.10);
-        box-shadow: 0 5px 5px 0 rgba(0,0,0,0.03);
+        border: 1px solid rgba(0, 0, 0, 0.10);
+        box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.03);
         border-radius: 2px;
         font-family: SFUIDisplay-Light sans-serif;
         font-size: 14px;
@@ -360,6 +401,57 @@
         line-height: 32px;
       }
     }
+    &-top {
+      min-width: 970px;
+      min-height: 404px;
+      margin-top: 30px;
+      background: #FFFFFF;
+      box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.10);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      &-title {
+        margin-top: 35px;
+        width: 710px;
+        height: 95px;
+        background-image: url("../../static/images/invite/toptittle.svg");
+        background-size: cover;
+      }
+      &-content {
+        width: 710px;
+        height: 95px;
+        display: flex;
+        &-item {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          &-icon {
+            margin-top: 175px;
+            width: 115px;
+            img {
+              object-fit: cover;
+              object-position: 0 0;
+              width: 100%;
+              height: 100%;
+            }
+          }
+          &-name {
+            margin-top: 25px;
+            font-family: PingFangSC-Regular sans-serif;
+            font-size: 16px;
+            color: #000000;
+          }
+          &-number {
+            margin-top: 5px;
+            font-family: PingFangSC-Regular sans-serif;
+            font-size: 16px;
+            color: #999999;
+          }
+        }
+      }
+    }
   }
 
   .pop {
@@ -378,8 +470,8 @@
     &-popDownload {
       width: 156px;
       background: #FFFFFF;
-      border: 1px solid rgba(0,0,0,0.10);
-      box-shadow: 0 5px 5px 0 rgba(0,0,0,0.03);
+      border: 1px solid rgba(0, 0, 0, 0.10);
+      box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.03);
       border-radius: 2px;
       font-family: SFUIDisplay-Light sans-serif;
       font-size: 14px;
@@ -388,9 +480,11 @@
       line-height: 21px;
     }
   }
+
   /deep/ .ivu-modal-content {
     background: transparent;
   }
+
   /deep/ .ivu-modal-footer {
     display: flex;
     justify-content: center;

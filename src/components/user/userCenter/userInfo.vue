@@ -9,7 +9,7 @@
       </div>
       <div class="name" v-text="nickname"></div>
     </div>
-    <div class="infoPage">
+    <div class="infoPage" v-show="userInfo.id">
       <div class="info">
         <span>{{$t('user.authentication_email')}}:</span>
         <span class="text_red" v-text="$t('user.authentication_wait')" v-if="!userInfo.activated"></span>
@@ -45,7 +45,7 @@
          <!--<span class="text" style="color: red;">** 注册后将实名信息和手机号发给内测群主，才可以获得积分 **</span>-->
         <!--<span v-text="userInfo.omt.amount"></span>-->
       <!--</div>-->
-    </div>
+    </div v->
     <Modal v-model="pop_email" class-name="m-ivu-modal" width='480' :mask-closable="true"
            :closable="false" @on-visible-change="popEmailTrigger">
       <auth_email_send ref="auth_email_send" @close="pop_email = false" />
