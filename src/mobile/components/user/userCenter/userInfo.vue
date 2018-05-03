@@ -10,7 +10,7 @@
       <div class="name" v-text="nickname"></div>
       <div></div>
     </div>
-    <div class="infoPage">
+    <div class="infoPage" v-show="userInfo.id">
       <div class="info">
         <span class="title">{{$t('user.authentication_email')}}:</span>
         <span class="text_red" v-text="$t('user.authentication_wait')" v-if="!userInfo.activated"></span>

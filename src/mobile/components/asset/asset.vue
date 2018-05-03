@@ -862,7 +862,7 @@
           this.initFormData();
           this.addNewAddressStatus = true;
         } else if (val) {
-          this.$refs.select && this.$refs.select.updateOptions()
+          this.$refs.select && this.$refs.select.updateOptions();
           this.addNewAddressStatus = false;
           for (let i = 0; i < this.withdraw.fund_sources.length; i++) {
             if (

@@ -1,5 +1,5 @@
 <template>
-    <div class='avator g-shadow avator-online'
+    <div class='avator g-mobile-shadow avator-online'
          :class="{'avator-online': status, 'avator-offline': !status}"
          :style="{width: size + 'px', height: size + 'px'}"
     >
