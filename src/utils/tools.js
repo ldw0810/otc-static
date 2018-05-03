@@ -75,3 +75,15 @@ export function showRange(el, value) {
   this.lastEditRange = selection.getRangeAt(0);
 }
 
+export function interceptEmail(emailStr) {
+  let newEmail = "";
+  let str = emailStr.slice(0, emailStr.indexOf("@"));
+  let suffix = emailStr.slice(emailStr.indexOf("@"));
+  if(str.length > 2) {
+    newEmail = str.slice(0, 1) + "****" + str.slice(str.length - 1) + suffix;
+  } else {
+    newEmail = emailStr;
+  }
+  return newEmail;
+}
+

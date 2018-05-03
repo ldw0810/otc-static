@@ -81,6 +81,9 @@ export default {
   ajax_invited_detail({commit}, requestData = {}) {
     return http.get("/api/v1/members/invited_detail.json", requestData);
   },
+  ajax_invited_activity({commit}, requestData = {}) {
+    return http.get("/api/v1/members/invited_activity.json", requestData);
+  },
   ajax_banks({commit}, requestData = {}) {
     return http.get("/api/v1/common/banks.json", requestData);
   },

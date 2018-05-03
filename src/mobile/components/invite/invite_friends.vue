@@ -12,6 +12,18 @@
             {{$t("public.invite_omt")}}: {{inviteAmount}}
           </div>
         </div>
+        <div class="invite-top" v-if="isZh">
+          <div class="invite-top-title"></div>
+          <div class="invite-top-content">
+            <div class="invite-top-content-item" v-for="(item, index) in inviteTopArray" :key="index" v-show="item.id">
+              <div class="invite-top-content-item-icon">
+                <img :src="item.img">
+              </div>
+              <div class="invite-top-content-item-name">{{interceptEmail(item.email || "")}}</div>
+              <div class="invite-top-content-item-number">{{$t("public.invite_people")}}:{{item.count || 0}}</div>
+            </div>
+          </div>
+        </div>
         <div class='invite-target-desc'>
           {{$t('public.invite_title')}}
           <a class='invite-target-desc-sub' @click="goArticle">{{$t('public.invite_question')}}</a>
@@ -58,9 +70,9 @@
 <script>
   import QrcodeVue from 'qrcode.vue';
   import {CONF_INVITE_BANNER, CONF_INVITE_IMAGE, ZENDESK_DOMAIN_URL} from 'config/config';
+  import {interceptEmail} from "utils/tools";
 
   const domain = `${ZENDESK_DOMAIN_URL}/hc/${(window.localStorage.getItem("language") || "zh-TW").replace('HK', 'TW').toLowerCase()}`;
-
   export default {
     name: '',
     components: {
@@ -76,7 +88,14 @@
         qrCodeFlag: true,
         popImageFlag: false,
         imageData: "",
-        clientHeight: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+        clientHeight: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,
+        inviteTopArray: [{
+          img: require("../../../static/images/invite/top1.svg")
+        }, {
+          img: require("../../../static/images/invite/top2.svg")
+        }, {
+          img: require("../../../static/images/invite/top3.svg")
+        }]
       }
     },
     computed: {
@@ -91,9 +110,12 @@
           value: window.location.href.replace("invite", "user/register?invitationCode=" + this.$store.state.userInfo.invite),
           imagePath: require("../../../static/images/home/QC-Code-BG.png"),
           filter: "canvas",
-          size: window.localStorage.getItem("language") === "zh-CN" ? 245 : 210,
+          size: this.isZh ? 245 : 210,
         }
       },
+      isZh() {
+        return window.localStorage.getItem('language') === 'zh-CN';
+      }
     },
     watch: {
       $route: function (val) {
@@ -113,6 +135,20 @@
           }
         }).catch(err => {
         });
+      },
+      getInvitedActivity(){
+        if(this.isZh) {
+          this.$store.dispatch("ajax_invited_activity").then(res => {
+            if (res.data && +res.data.error === 0) {
+              for(let i = 0; i < this.inviteTopArray.length; i++) {
+                this.$set(this.inviteTopArray, i, Object.assign(this.inviteTopArray[i], res.data.list[i]));
+              }
+              console.log(this.inviteTopArray);
+            } else {
+            }
+          }).catch(err => {
+          });
+        }
       },
       goArticle() {
         if (this.$store.state.userToken) {
@@ -154,7 +190,7 @@
             img.src = imgArr[index];
             img.onload = () => {
               if (index === 1) {
-                if(window.localStorage.getItem("language") === "zh-CN") {
+                if(this.isZh) {
                   ctx.drawImage(img, 246, 955, 245, 245);
                 } else {
                   ctx.drawImage(img, 270, 760, 210, 210);
@@ -194,9 +230,13 @@
           }
         }
       },
+      interceptEmail(str){
+        return interceptEmail(str);
+      },
       init() {
         this.$store.commit("header_index_setter", "4");
         this.getInviteDetail();
+        this.getInvitedActivity();
       }
     },
     mounted() {
@@ -325,6 +365,56 @@
         font-size: 0.85rem;
         letter-spacing: 0;
         line-height: 2rem;
+      }
+    }
+    &-top {
+      width: 90vw;
+      min-height: 40vh;
+      margin-top: 2vh;
+      background: #FFFFFF;
+      box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.10);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      &-title {
+        width: 90vw;
+        height: 25.5vw;
+        background-image: url("../../../static/images/invite/toptittle-phone.svg");
+        background-size: cover;
+      }
+      &-content {
+        width: 90vw;
+        display: flex;
+        justify-content: space-around;
+        &-item {
+          margin-top: 2.5vh;
+          padding-bottom: 2.5vh;
+          width: 25vw;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          &-icon {
+            img {
+              object-fit: cover;
+              object-position: 0 0;
+              width: 100%;
+              height: 100%;
+            }
+          }
+          &-name {
+            margin-top: 1.5vh;
+            word-break: break-all;
+            font-family: PingFangSC-Regular sans-serif;
+            font-size: 0.8rem;
+            color: #000000;
+          }
+          &-number {
+            margin-top: 0.5vh;
+            font-family: PingFangSC-Regular sans-serif;
+            font-size: 0.85rem;
+            color: #999999;
+          }
+        }
       }
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="order">
-    <div class="g-container">
+    <div class="g-mobile-container">
       <Tab
           :tabs='tabList'
           tabType='inner'
@@ -8,30 +8,30 @@
           @changeIndex='changeTab'
       >
         <div class='order-content'>
-          <div v-if='orders.list.length' class="g-list g-list-type-2">
-            <header class="g-list-header">
+          <div v-if='orders.list.length' class="g-mobile-list g-mobile-list-type-2">
+            <header class="g-mobile-list-header">
               <Row
                   type="flex"
               >
-                <i-col span="4" class='g-list-header-title'>{{$t("order.order_trader")}}</i-col>
-                <i-col span="3" class='g-list-header-title'>{{$t("order.order_id")}}</i-col>
-                <i-col span="2" class='g-list-header-title'>{{$t("order.order_type")}}</i-col>
-                <i-col span="3" class='g-list-header-title'>{{$t("order.order_money_amount")}}</i-col>
-                <i-col span="3" class='g-list-header-title'>{{$t("order.order_number")}}</i-col>
-                <i-col span="4" class='g-list-header-title'>{{$t("order.order_time")}}</i-col>
-                <i-col span="3" class='g-list-header-title'>{{$t("order.order_status")}}</i-col>
-                <i-col span="2" class='g-list-header-title'>{{$t("public.operation")}}</i-col>
+                <i-col span="4" class='g-mobile-list-header-title'>{{$t("order.order_trader")}}</i-col>
+                <i-col span="3" class='g-mobile-list-header-title'>{{$t("order.order_id")}}</i-col>
+                <i-col span="2" class='g-mobile-list-header-title'>{{$t("order.order_type")}}</i-col>
+                <i-col span="3" class='g-mobile-list-header-title'>{{$t("order.order_money_amount")}}</i-col>
+                <i-col span="3" class='g-mobile-list-header-title'>{{$t("order.order_number")}}</i-col>
+                <i-col span="4" class='g-mobile-list-header-title'>{{$t("order.order_time")}}</i-col>
+                <i-col span="3" class='g-mobile-list-header-title'>{{$t("order.order_status")}}</i-col>
+                <i-col span="2" class='g-mobile-list-header-title'>{{$t("public.operation")}}</i-col>
               </Row>
             </header>
-            <section class="g-list-content">
+            <section class="g-mobile-list-content">
               <Row
-                  class='g-list-content-item'
+                  class='g-mobile-list-content-item'
                   type="flex"
                   v-for="(order, orderIndex) in orders.list" :key="orderIndex"
-                  :class="{'g-list-content-item-unread': order.notice_order !== 0}"
+                  :class="{'g-mobile-list-content-item-unread': order.notice_order !== 0}"
               >
                 <!-- avator -->
-                <i-col span="4" class='g-list-content-item-col'>
+                <i-col span="4" class='g-mobile-list-content-item-col'>
                   <div class='avator'>
                     <Avator
                         :status='order.member.online'
@@ -39,38 +39,38 @@
                     <span class='avator-name u-ellipsis-1'>{{order.member.nickname}}</span>
                   </div>
                 </i-col>
-                <i-col span="3" class='g-list-content-item-col'>
+                <i-col span="3" class='g-mobile-list-content-item-col'>
                   {{order.id}}
                 </i-col>
-                <i-col span="2" class='g-list-content-item-col'>
+                <i-col span="2" class='g-mobile-list-content-item-col'>
                   <div>
                     {{$t("public['" + order.op_type + "']")}}
                     {{$t("public['" + order.currency + "']")}}
                   </div>
                 </i-col>
-                <i-col span="3" class='g-list-content-item-col'>
+                <i-col span="3" class='g-mobile-list-content-item-col'>
                   <div>
                     {{$fixDecimalAuto(order.price_sum, order.target_currency)}}
                                       
                     {{$t("public['" + order.target_currency + "']")}}
                   </div>
                 </i-col>
-                <i-col span="3" class='g-list-content-item-col'>
+                <i-col span="3" class='g-mobile-list-content-item-col'>
                   <div>
                     {{$fixDecimalAuto(order.amount)}}
                   </div>
                 </i-col>
-                <i-col span="4" class='g-list-content-item-col'>
+                <i-col span="4" class='g-mobile-list-content-item-col'>
                   <div>
                     {{new Date(+order.created_at * 1000).format("yyyy/MM/dd hh:mm:ss")}}
                   </div>
                 </i-col>
-                <i-col span="3" class='g-list-content-item-col'>
+                <i-col span="3" class='g-mobile-list-content-item-col'>
                   <div>
                     {{$t("order['order_status_" + order.status + "']")}}
                   </div>
                 </i-col>
-                <i-col span="2" class='g-list-content-item-col'>
+                <i-col span="2" class='g-mobile-list-content-item-col'>
                   <a href='javascript:;' class='action-link' @click="showInfo(order.id)">{{$t("public.info")}}</a>
                 </i-col>
               </Row>
