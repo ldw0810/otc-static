@@ -456,7 +456,7 @@
                 this.confirmFlag.complete = true;
               }
             } else if (res.data && +res.data.error === 100052) {
-              this.$goBack()
+              this.$goBack();
             } else {
               this.confirmFlag.placeOrder = false;
               this.$alert.error({
