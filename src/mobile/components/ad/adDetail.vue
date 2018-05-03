@@ -463,6 +463,7 @@
                 title: this.$t("public.error_title_default"),
                 content: this.$t("order.order_deal_request_fail")
               });
+              this.init();
             }
           })
           .catch(err => {

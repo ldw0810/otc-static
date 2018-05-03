@@ -456,13 +456,14 @@
                 this.confirmFlag.complete = true;
               }
             } else if (res.data && +res.data.error === 100052) {
-              this.$goBack()
+              this.$goBack();
             } else {
               this.confirmFlag.placeOrder = false;
               this.$alert.error({
                 title: this.$t("public.error_title_default"),
                 content: this.$t("order.order_deal_request_fail")
               });
+              this.init();
             }
           })
           .catch(err => {
