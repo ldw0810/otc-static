@@ -159,14 +159,12 @@
           }
         });
       },
-      sendInfo(msg) {
-        if (this.inputText.trim() || msg) {
-          const inputInfo = this.htmlEncode(this.inputText.trim() || msg);
+      sendInfo() {
+        if (this.inputText.trim()) {
+          const inputInfo = this.htmlEncode(this.inputText.trim());
           const tempTime = new Date();
           this.$refs.input.innerHTML = "";
-          if(!msg) {
-            this.inputText = "";
-          }
+          this.inputText = "";
           let compareTime = this.msgList.length
             ? this.msgList[this.msgList.length - 1].compareTime
             : 0;
@@ -188,13 +186,19 @@
             })
             .then(res => {
               if (res.data && +res.data.error === 0) {
-                this.msgList[this.msgList.length - 1].status = 1;
+                this.$nextTick(() => {
+                  this.msgList[this.msgList.length - 1].status = 1;
+                });
               } else {
-                this.msgList[this.msgList.length - 1].status = -1;
+                this.$nextTick(() => {
+                  this.msgList[this.msgList.length - 1].status = -1;
+                });
               }
             })
             .catch(err => {
-              this.msgList[this.msgList.length - 1].status = -1;
+              this.$nextTick(() => {
+                this.msgList[this.msgList.length - 1].status = -1;
+              });
             });
         } else {
           return false;
@@ -231,11 +235,14 @@
               this.getMsg();
             } else {
               let that = this;
-              this.timeout && clearTimeout(this.timeout);
-              this.timeout = setTimeout(() => {
-                that.$emit("refresh", 1);
-                that.getMsg();
-              }, 6 * 1000);
+              if(res.data && +res.data.cancel === 1) {
+              } else {
+                this.timeout && clearTimeout(this.timeout);
+                this.timeout = setTimeout(() => {
+                  that.$emit("refresh", 1);
+                  that.getMsg();
+                }, 6 * 1000);
+              }
             }
           })
           .catch(err => {

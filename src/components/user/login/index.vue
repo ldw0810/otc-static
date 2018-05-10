@@ -122,7 +122,7 @@
                           this.$alert.error({
                             title: this.$t("public.error_title_default"),
                             content: this.$t("user.userInfo_response_none")
-                          })
+                          });
                         }
                       })).catch(err => {
                         // this.$Message.error(this.$t("user.userInfo_response_none"));

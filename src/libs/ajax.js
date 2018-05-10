@@ -1,17 +1,16 @@
 import axios from 'axios'
-import env from '../config/env';
 import store from "../store/store";
 import router from "../router";
 import Alert from '@/components/public/alert';
 import languageData from '../locale';
-import {DEFAULT_LANGUAGE, AJAX_BASEURL_DEV, AJAX_BASEURL_PRO} from "config/config";
+import {DEFAULT_LANGUAGE, AJAX_BASEURL, AJAX_BASEURL_PRO} from "config/config";
 
 /**
  * Responsible for all HTTP requests.
  */
 
 axios.defaults.timeout = 20000;
-axios.defaults.baseURL = env === 'development' ? AJAX_BASEURL_DEV : AJAX_BASEURL_PRO;
+axios.defaults.baseURL = AJAX_BASEURL;
 
 function languageSelectIndex() {
   let index = 0;
@@ -36,32 +35,43 @@ axios.interceptors.request.use(
     return Promise.reject(err);
   });
 // http response 拦截器
+
+const showAjaxError = (errorCode) => {
+  const index = languageSelectIndex();
+  const errMsg = languageData[index].data.request["" + errorCode];
+  if (+errorCode) {
+    if (+errorCode === 999999) {
+      store.commit("delToken");
+      Alert.error({
+        title: languageData[index].data.public.error_title_default,
+        content: languageData[index].data.request["" + +errorCode],
+        onCancel: router.push("/user/login")
+      });
+    } else if (+errorCode === 100031) {
+      // store.commit("showAuthEmail_setter", 1);
+    } else if (+errorCode === 100039) {
+      errMsg && Alert.error({
+        title: languageData[index].data.public.error_title_default,
+        content: errMsg,
+        onCancel: router.push("/user/login")
+      });
+    } else if ([100002, 100017, 100021, 100030, 100033, 100036, 100038].contains(+errorCode)) {
+    } else {
+      errMsg && Alert.error({
+        title: languageData[index].data.public.error_title_default,
+        content: errMsg
+      });
+    }
+  }
+};
 axios.interceptors.response.use(
   response => {
+    showAjaxError(response.data.error);
     return response;
   },
   error => {
     if (error.response) {
-      const index = languageSelectIndex();
-      const errMsg = languageData[index].data.request["" + error.response.data.error];
-      if (error.response.data) {
-        if (+error.response.data.error === 999999) {
-          store.commit("delToken");
-          Alert.error({
-            title: languageData[index].data.public.error_title_default,
-            content: languageData[index].data.request["" + error.response.data.error],
-            onCancel: router.push("/user/login")
-          });
-        } else if (+error.response.data.error === 100031) {
-          // store.commit("showAuthEmail_setter", 1);
-        } else if ([100017, 100021, 100030, 100033, 100036, 100038, 100039].contains(+error.response.data.error)) {
-        } else {
-          errMsg && Alert.error({
-            title: languageData[index].data.public.error_title_default,
-            content: errMsg
-          });
-        }
-      }
+      showAjaxError(error.response.data.error);
     } else if (error.message) {
       error.response = {
         data: error.message

@@ -323,7 +323,7 @@
         });
       },
       showTerms() {
-        this.$goRouter("/user-agreement");
+        this.$open("/user-agreement");
       },
       init() {
         this.$store.commit("footer_is_login_setter", true);
