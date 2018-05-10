@@ -510,6 +510,7 @@ export default {
           if (res.data && +res.data.error === 0) {
             this.order = res.data.info;
             this.chat = res.data.chat;
+            this.remain_time = +(res.data.info.remain_time || 0);
             this.showTip();
             this.showStep();
           } else {
@@ -626,21 +627,21 @@ export default {
     },
     showTip() {
       this.timer && clearTimeout(this.timer);
-      if (this.order.created_at && this.order.status === "fresh") {
-        let time = new Date().getTime() - this.order.created_at * 1000;
-        if (time) {
-          if (time > 1000 * 60 * 60) {
+      if (this.order.status === "fresh") {
+        if (this.remain_time) {
+          if (this.remain_time < 0) {
             this.stepTip = this.$t("order.order_info_timeout");
           } else {
-            let minute = Math.floor((1000 * 60 * 60 - time) / (1000 * 60));
-            let second = Math.floor(
-              ((1000 * 60 * 60 - time) % (1000 * 60)) / 1000
-            );
+            let hour = Math.floor(this.remain_time / 3600);
+            let minute = Math.floor((this.remain_time % 3600) / 60);
+            let second = Math.floor((this.remain_time % 3600) % 60);
+            hour = hour / 10 < 1 ? "0" + hour : hour;
             minute = minute / 10 < 1 ? "0" + minute : minute;
             second = second / 10 < 1 ? "0" + second : second;
             this.stepTip = this.$t("order.order_info_timer").format(
-              `<a style="cursor: text;">${minute}:${second}</a>`
+              `<a style="cursor: text;">${+hour > 0 ? (hour + ":") : ""}${minute}:${second}</a>`
             );
+            this.remain_time--;
           }
         } else {
           this.stepTip = "";
