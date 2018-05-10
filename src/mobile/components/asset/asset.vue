@@ -220,7 +220,7 @@
                     v-for="(item, index) in deposit.deposits_history" :key="index">
                   <td class='content-history-table-body-td'>
                     <div class="time">
-                      {{new Date(+item['updated_at'] * 1000).format("yyyy/MM/dd hh:mm:ss")}}
+                      {{new Date(+item['created_at'] * 1000).format("yyyy/MM/dd hh:mm:ss")}}
                     </div>
                   </td>
                   <td class='content-history-table-body-td'>
@@ -272,8 +272,8 @@
                 <tr class='content-history-table-body-tr' v-for="(item, index) in withdraw.withdraws"
                     :key="index">
                   <td class='content-history-table-body-td'>
-                    <div class="time" v-if="item && item.updated_at">
-                      {{new Date(+item['updated_at'] * 1000).format("yyyy/MM/dd hh:mm:ss")}}
+                    <div class="time" v-if="item && item.created_at">
+                      {{new Date(item['created_at']).format("yyyy/MM/dd hh:mm:ss")}}
                     </div>
                   </td>
                   <td class='content-history-table-body-td'>
@@ -771,11 +771,18 @@
                 this.getUserInfo();
                 this.init();
               } else {
-                this.$alert.error({
-                  title: this.$t("public.error_title_default"),
-                  content: this.$t("asset.asset_withdraw_fail")
-                });
-                this.init();
+                if (res.data.sms || res.data.app) {
+                  this.$store.commit("loginInfo_setter", {
+                    mobile: res.data.mobile
+                  });
+                  this.auth_two_flag = true;
+                } else {
+                  this.$alert.error({
+                    title: this.$t("public.error_title_default"),
+                    content: this.$t("asset.asset_withdraw_fail")
+                  });
+                  this.init();
+                }
               }
             })
             .catch(err => {

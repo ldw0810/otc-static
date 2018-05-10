@@ -1,17 +1,16 @@
 import axios from 'axios'
-import env from '../config/env';
 import store from "../store/store";
 import router from "../router";
 import Alert from '@/components/public/alert';
 import languageData from '../locale';
-import {DEFAULT_LANGUAGE, AJAX_BASEURL_DEV, AJAX_BASEURL_PRO} from "config/config";
+import {DEFAULT_LANGUAGE, AJAX_BASEURL, AJAX_BASEURL_PRO} from "config/config";
 
 /**
  * Responsible for all HTTP requests.
  */
 
 axios.defaults.timeout = 20000;
-axios.defaults.baseURL = env === 'development' ? AJAX_BASEURL_DEV : AJAX_BASEURL_PRO;
+axios.defaults.baseURL = AJAX_BASEURL;
 
 function languageSelectIndex() {
   let index = 0;
