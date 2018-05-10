@@ -220,7 +220,7 @@
                     v-for="(item, index) in deposit.deposits_history" :key="index">
                   <td class='content-history-table-body-td'>
                     <div class="time">
-                      {{new Date(+item['created_at'] * 1000).format("yyyy/MM/dd hh:mm:ss")}}
+                      {{new Date(item['created_at']).format("yyyy/MM/dd hh:mm:ss")}}
                     </div>
                   </td>
                   <td class='content-history-table-body-td'>

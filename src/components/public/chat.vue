@@ -3,7 +3,7 @@
     <div class="window" id="window-view-container" ref="scroll" :style="{height: maxHeight + 'px', width: 'auto'}">
       <!-- main -->
       <ScrollLoader class="container-main"
-                    >
+      >
         <div class="message" ref="message">
           <ul>
             <li v-for="(chat, index) in msgList" :key="index" :class="{'an-move-right': +chat.type === 0,
@@ -44,8 +44,8 @@
         <div ref="input" :contenteditable="readOnly" class='g-shadow publish-action-input' v-html="toEmotion(inputText)"
              @keydown="inputKey" @onclick="getRange" @keyup="getRange"
              @focus="inputFocusFlag = true" @blur="inputFocusFlag = false"
-              @input='checkLengh'
-             ></div>
+             @input='checkLengh'
+        ></div>
         <div class="publish-action-button">
           <i-button long type="primary" @click="sendInfo" :disabled="chatFlag">{{$t("public.send")}}
           </i-button>
@@ -65,8 +65,8 @@
   </div>
 </template>
 <script type="es6">
-  import { VALI_CHAT } from 'config/validator'
-  import { setCursorPosition } from 'utils/tools'
+  import {VALI_CHAT} from 'config/validator'
+  import {setCursorPosition} from 'utils/tools'
   import ScrollLoader from "./scrollLoader.vue";
   import Avator from "./avator.vue";
 
@@ -159,14 +159,12 @@
           }
         });
       },
-      sendInfo(msg) {
-        if (this.inputText.trim() || msg) {
-          const inputInfo = this.htmlEncode(this.inputText.trim() || msg);
+      sendInfo() {
+        if (this.inputText.trim()) {
+          const inputInfo = this.htmlEncode(this.inputText.trim());
           const tempTime = new Date();
           this.$refs.input.innerHTML = "";
-          if(!msg) {
-            this.inputText = "";
-          }
+          this.inputText = "";
           let compareTime = this.msgList.length
             ? this.msgList[this.msgList.length - 1].compareTime
             : 0;
@@ -188,13 +186,19 @@
             })
             .then(res => {
               if (res.data && +res.data.error === 0) {
-                this.msgList[this.msgList.length - 1].status = 1;
+                this.$nextTick(() => {
+                  this.msgList[this.msgList.length - 1].status = 1;
+                });
               } else {
-                this.msgList[this.msgList.length - 1].status = -1;
+                this.$nextTick(() => {
+                  this.msgList[this.msgList.length - 1].status = -1;
+                });
               }
             })
             .catch(err => {
-              this.msgList[this.msgList.length - 1].status = -1;
+              this.$nextTick(() => {
+                this.msgList[this.msgList.length - 1].status = -1;
+              });
             });
         } else {
           return false;
@@ -231,7 +235,7 @@
               this.getMsg();
             } else {
               let that = this;
-              if(res.data && +res.data.cancel === 1) {
+              if (res.data && +res.data.cancel === 1) {
               } else {
                 this.timeout && clearTimeout(this.timeout);
                 this.timeout = setTimeout(() => {
@@ -243,7 +247,7 @@
           })
           .catch(err => {
             let that = this;
-            if(err && +err.cancel === 1) {
+            if (err && +err.cancel === 1) {
             } else {
               this.timeout && clearTimeout(this.timeout);
               this.timeout = setTimeout(() => {
@@ -408,7 +412,7 @@
             color: #ccc;
           }
           &:focus {
-            &:before{
+            &:before {
               display: none;
             }
           }
