@@ -554,7 +554,8 @@
           }).then(res => {
             if (res.data && +res.data.error === 0) {
               this.confirmFlag.pay = false;
-              this.$refs.chat.sendInfo(this.remarkForm.remark);
+              this.$refs.chat.inputText = this.remarkForm.remark;
+              this.$refs.chat.sendInfo();
               this.$Message.success(this.$t("order.order_pay_complete_success"));
               this.getOrderInfo();
             } else {
