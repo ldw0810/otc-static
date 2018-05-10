@@ -254,7 +254,19 @@
                 });
               }
             }).catch(err => {
-              this.submitGoogleLoading = false;
+              if(+err.error === 100039) {
+                this.$alert.error({
+                  title: this.$t("public.error_title_default"),
+                  content: this.$t("request['" + +err.error + "']"),
+                  onClose: () => {
+                    this.$goBack();
+                  }
+                });
+              } else {
+                this.submitGoogleLoading = false;
+                // this.$Message.error(this.$t("user.auth_google_fail"));
+              }
+
               // this.$Message.error(this.$t("user.auth_google_fail"));
             });
           } else {

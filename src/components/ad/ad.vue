@@ -942,7 +942,6 @@
               this.form.remark = this.ad.remark;
               if (+this.adType === 0) {
                 this.form.payment = this.ad.pay_kind;
-                console.log(this.form.payment);
                 if (this.ad.price) {
                   this.form.maxPrice = this.$fixDecimalAuto(
                     +this.ad.price,
@@ -955,7 +954,6 @@
                 );
               } else if (+this.adType === 1) {
                 this.form.collection = this.ad.pay_kind;
-                console.log();
                 if (this.ad.price) {
                   this.form.minPrice = this.$fixDecimalAuto(
                     +this.ad.price,

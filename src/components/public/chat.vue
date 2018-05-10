@@ -231,11 +231,14 @@
               this.getMsg();
             } else {
               let that = this;
-              this.timeout && clearTimeout(this.timeout);
-              this.timeout = setTimeout(() => {
-                that.$emit("refresh", 1);
-                that.getMsg();
-              }, 6 * 1000);
+              if(res.data && +res.data.cancel === 1) {
+              } else {
+                this.timeout && clearTimeout(this.timeout);
+                this.timeout = setTimeout(() => {
+                  that.$emit("refresh", 1);
+                  that.getMsg();
+                }, 6 * 1000);
+              }
             }
           })
           .catch(err => {
@@ -257,7 +260,6 @@
             //ctrl + enter
             // this.showRange(document.createElement("br"));
             this.inputText = this.setMaxLength(this.$refs.input.innerText.trim());
-            console.log(this.inputText);
           } else {
             this.inputText = this.setMaxLength(this.$refs.input.innerText.trim());
             this.sendInfo();

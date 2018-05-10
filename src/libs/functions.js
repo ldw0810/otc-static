@@ -106,6 +106,10 @@ export default {
       return fixDecimalsBase(value);
     };
     /*路由相关*/
+    Vue.prototype.$open = function (url, query, onComplete, onAbort) {
+      const {href} = this.$router.resolve({path: url, query: query});
+      window.open(href, '_blank');
+    };
     Vue.prototype.$goRouter = function (url, query, onComplete, onAbort) {
       if (url && url.length) {
         this.$router.push({path: url, query: query}, onComplete, onAbort);

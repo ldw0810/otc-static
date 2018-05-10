@@ -27,6 +27,9 @@
         <span></span>
       </div>
       <div class="info">
+        <span class="tip text_red">{{$t('user.user_phone_verify_tip')}}</span>
+      </div>
+      <div class="info">
         <span class="title">{{$t('user.default_receivables')}}:</span>
         <span class="text" v-if="Object.keys(userInfo.default_collection).length">{{ default_receiver }}</span>
         <span class="link" @click="$goRouter('/user/userCenter/payment')"
@@ -213,6 +216,10 @@
   }
   #content .info span.title {
     flex: 2;
+  }
+  #content .info span.tip {
+    margin-top: -3vh;
+    margin-left: 40vw;
   }
   #content .info .text_red {
     color: red;

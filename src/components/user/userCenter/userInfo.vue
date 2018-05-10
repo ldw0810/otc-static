@@ -22,6 +22,7 @@
         <span class="link" @click="showAuthPhone" v-text="$t('user.unAuthenticated')"
               v-if="!userInfo.mobile"></span>
         <span class="text" v-else>{{ $t('user.authenticated')}}({{userInfo.phone_number}})</span>
+        <span class="text text_red">{{$t("user.user_phone_verify_tip")}}</span>
       </div>
       <div class="info">
         <span class="text">{{$t('user.default_receivables')}}:</span>
@@ -45,7 +46,7 @@
          <!--<span class="text" style="color: red;">** 注册后将实名信息和手机号发给内测群主，才可以获得积分 **</span>-->
         <!--<span v-text="userInfo.omt.amount"></span>-->
       <!--</div>-->
-    </div v->
+    </div>
     <Modal v-model="pop_email" class-name="m-ivu-modal" width='480' :mask-closable="true"
            :closable="false" @on-visible-change="popEmailTrigger">
       <auth_email_send ref="auth_email_send" @close="pop_email = false" />

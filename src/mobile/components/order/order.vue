@@ -577,8 +577,15 @@
               this.$Message.success(this.$t("order.order_pay_release_success"));
               this.getOrderInfo();
             } else {
-              // this.$Message.error(this.$t("order.order_pay_release_fail"));
-            }
+              if (res.data.sms || res.data.app) {
+                this.confirmFlag.release = false;
+                this.$store.commit("loginInfo_setter", {
+                  mobile: res.data.mobile
+                });
+                this.auth_two_flag = true;
+              } else {
+                // this.$Message.error(this.$t("order.order_pay_release_fail"));
+              }            }
           }).catch(err => {
             if (err.sms || err.app) {
               this.confirmFlag.release = false;
