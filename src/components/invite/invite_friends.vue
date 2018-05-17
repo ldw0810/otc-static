@@ -37,16 +37,16 @@
         </div>
       </div>
       <!--<div class="invite-top" v-if="isZh">-->
-        <!--<div class="invite-top-title"></div>-->
-        <!--<div class="invite-top-content">-->
-          <!--<div class="invite-top-content-item" v-for="(item, index) in inviteTopArray" :key="index" v-show="item.id">-->
-            <!--<div class="invite-top-content-item-icon">-->
-              <!--<img :src="item.img">-->
-            <!--</div>-->
-            <!--<div class="invite-top-content-item-name">{{interceptEmail(item.email || "")}}</div>-->
-            <!--<div class="invite-top-content-item-number">{{$t("public.invite_people")}}:{{item.count || 0}}</div>-->
-          <!--</div>-->
-        <!--</div>-->
+      <!--<div class="invite-top-title"></div>-->
+      <!--<div class="invite-top-content">-->
+      <!--<div class="invite-top-content-item" v-for="(item, index) in inviteTopArray" :key="index" v-show="item.id">-->
+      <!--<div class="invite-top-content-item-icon">-->
+      <!--<img :src="item.img">-->
+      <!--</div>-->
+      <!--<div class="invite-top-content-item-name">{{interceptEmail(item.email || "")}}</div>-->
+      <!--<div class="invite-top-content-item-number">{{$t("public.invite_people")}}:{{item.count || 0}}</div>-->
+      <!--</div>-->
+      <!--</div>-->
       <!--</div>-->
       <section class="invite-rules g-shadow">
         <h3 class='invite-rules-title'>
@@ -139,19 +139,17 @@
         }).catch(err => {
         });
       },
-      getInvitedActivity(){
-        if(this.isZh) {
-          this.$store.dispatch("ajax_invited_activity").then(res => {
-            if (res.data && +res.data.error === 0) {
-              for(let i = 0; i < this.inviteTopArray.length; i++) {
-                this.$set(this.inviteTopArray, i, Object.assign(this.inviteTopArray[i], res.data.list[i]));
-              }
-              console.log(this.inviteTopArray);
-            } else {
+      getInvitedActivity() {
+        this.$store.dispatch("ajax_invited_activity").then(res => {
+          if (res.data && +res.data.error === 0) {
+            for (let i = 0; i < this.inviteTopArray.length; i++) {
+              this.$set(this.inviteTopArray, i, Object.assign(this.inviteTopArray[i], res.data.list[i]));
             }
-          }).catch(err => {
-          });
-        }
+            console.log(this.inviteTopArray);
+          } else {
+          }
+        }).catch(err => {
+        });
       },
       goArticle() {
         if (this.$store.state.userToken) {
@@ -233,13 +231,13 @@
           }
         }
       },
-      interceptEmail(str){
+      interceptEmail(str) {
         return interceptEmail(str);
       },
       init() {
         this.$store.commit("header_index_setter", "4");
         this.getInviteDetail();
-        // this.getInvitedActivity();
+        this.getInvitedActivity();
       }
     },
     mounted() {
