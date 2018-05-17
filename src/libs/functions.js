@@ -164,14 +164,20 @@ export default {
       let level = 0;
       if (!password || password.length < 6) {
       } else {
-        if (/[1-9]/.test(password)) {
+        if (password.match(/[a-z]/g)) {
           level++;
         }
-        if (/[a-z]/.test(password)) {
+        if (password.match(/[0-9]/g)) {
           level++;
         }
-        if (/[^a-z1-9]/.test(password)) {
+        if (password.match(/(.[^a-z0-9])/g)) {
           level++;
+        }
+        if (password.length < 6) {
+          level = 0;
+        }
+        if (level > 3) {
+          level = 3;
         }
       }
       return level;

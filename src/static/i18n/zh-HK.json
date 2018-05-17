@@ -288,7 +288,10 @@
     "email_not_activated": "郵箱未驗證",
     "email_not_reg": "郵箱未註冊",
     "user_frozen": "您的賬號已被凍結，如需幫助，請聯繫客服",
-    "user_phone_verify_tip": "驗證成功即送200 OMT"
+    "user_phone_verify_tip": "驗證成功即送200 OMT",
+    "password_weak": "弱",
+    "password_middle": "中",
+    "password_strong": "強"
   },
   "asset": {
     "asset_resend_email": "重發郵件",
