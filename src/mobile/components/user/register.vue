@@ -70,6 +70,10 @@
           </FormItem>
           <div class="goButton" v-text="$t('user.register_toLogin')" @click="$goRouter('/user/login')"></div>
         </Form>
+        <div class="passwordStrength" v-if="+passwordStrength > 0">
+          <div :class="'passwordStrength-text-' + passwordStrength">{{passwordStrengthText}}</div>
+          <div :class="'passwordStrength-color-' + passwordStrength"></div>
+        </div>
         <div id="captcha"></div>
       </div>
       <div class='banner' :class="{'omt-hide': !omt_show}">
@@ -175,6 +179,7 @@
       };
       const validatePassword = (rule, value, callback) => {
         let reg = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,20}$/;
+        this.passwordStrength = this.$checkPassword(value);
         if (!value || !value.length) {
           this.validFlag.password = false;
           callback(new Error(this.$t("user.password_required")));
@@ -285,6 +290,17 @@
     computed: {
       omt_show() {
         return OMT_SHOW;
+      },
+      passwordStrengthText() {
+        if (this.passwordStrength === 1) {
+          return this.$t("user.password_weak");
+        } else if (this.passwordStrength === 2) {
+          return this.$t("user.password_middle");
+        } else if (this.passwordStrength === 3) {
+          return this.$t("user.password_strong");
+        } else {
+          return "";
+        }
       }
     },
     watch: {
@@ -497,5 +513,63 @@
     letter-spacing: 0;
     cursor: pointer;
     margin-right: 14vw;
+  }
+
+  .passwordStrength {
+    position: absolute;
+    left: 90vw;
+    top: 50vh;
+    &-text {
+      &-1 {
+        float: left;
+        font-family: PingFangSC-Regular sans-serif;
+        font-size: 14px;
+        letter-spacing: -0.34px;
+        text-align: center;
+        color: #ED1C24;
+      }
+      &-2 {
+        float: left;
+        font-family: PingFangSC-Regular sans-serif;
+        font-size: 14px;
+        letter-spacing: -0.34px;
+        text-align: center;
+        color: #F5A623;
+      }
+      &-3 {
+        float: left;
+        font-family: PingFangSC-Regular sans-serif;
+        font-size: 14px;
+        letter-spacing: -0.34px;
+        text-align: center;
+        color: #1BB934;
+      }
+    }
+    &-color {
+      &-1 {
+        float: left;
+        width: 8px;
+        height: 6px;
+        margin: 7px 0 0 5px;
+        background: #ED1C24;
+        border-radius: 67px;
+      }
+      &-2 {
+        float: left;
+        width: 18px;
+        height: 6px;
+        margin: 7px 0 0 5px;
+        background: #F5A623;
+        border-radius: 88px;
+      }
+      &-3 {
+        float: left;
+        width: 28px;
+        height: 6px;
+        margin: 7px 0 0 5px;
+        background: #1BB934;
+        border-radius: 52px;
+      }
+    }
   }
 </style>

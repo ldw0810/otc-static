@@ -163,23 +163,19 @@ export default {
     Vue.prototype.$checkPassword = function (password) {
       let level = 0;
       if (!password || password.length < 6) {
+        level = 0;
       } else {
-        if (password.match(/[a-z]/g)) {
-          level++;
-        }
-        if (password.match(/[0-9]/g)) {
-          level++;
-        }
-        if (password.match(/(.[^a-z0-9])/g)) {
-          level++;
-        }
-        if (password.length < 6) {
-          level = 0;
-        }
-        if (level > 3) {
+        if (password.match(/^(?=.{6,200})([0-9A-Za-z]*[^0-9A-Za-z][0-9A-Za-z]*){2,}$/g)) {
           level = 3;
         }
+        if (password.match(/^(?=.{6,200})[0-9A-Za-z]*[^0-9A-Za-z][0-9A-Za-z]*$/g)) {
+          level = 2;
+        }
+        if (password.match(/^[0-9A-Za-z]{6,200}$/g)) {
+          level = 1;
+        }
       }
+      console.log(level);
       return level;
     };
     /*其他*/

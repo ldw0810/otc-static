@@ -180,11 +180,12 @@
         }
       };
       const validatePassword = (rule, value, callback) => {
-        let reg = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,20}$/;
+        let reg = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,200}$/;
+        this.passwordStrength = this.$checkPassword(value);
         if (!value || !value.length) {
           this.validFlag.password = false;
           callback(new Error(this.$t("user.password_required")));
-        } else if (!/^.{6,20}$/.test(value) || !reg.test(value)) {
+        } else if (!/^.{6,200}$/.test(value) || !reg.test(value)) {
           //6位以上的密码
           this.validFlag.password = false;
           callback(new Error(this.$t("user.password_minLength")));
@@ -192,7 +193,6 @@
           this.validFlag.password = false;
           callback(new Error(this.$t("user.password_different")));
         } else {
-          this.passwordStrength = this.$checkPassword(value);
           this.validFlag.password = true;
           callback();
         }
