@@ -90,7 +90,7 @@
 </template>
 
 <script type="es6">
-  import {VALI_NICKNAME} from 'config/validator'
+  import {VALI_NICKNAME} from 'config/validator';
   import validateMixin from "mobile/components/mixins/validate-mixin";
   import {gt} from "@/libs/gt";
   import {DEFAULT_LANGUAGE, OMT_SHOW} from "config/config";
