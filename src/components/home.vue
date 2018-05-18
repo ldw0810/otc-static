@@ -9,7 +9,7 @@
       <Carousel class='m-ivu-carousel' autoplay :autoplay-speed="carousel.speed" v-model="carousel.value" loop
                 :radius-dot='true'>
         <CarouselItem v-for="(item, index) in carousel.list" :key="index">
-          <div class="img" @click.stop="goCarousel(item.jump_to)" v-if="item.is_show">
+          <div class="img" @click.stop="goCarousel(item.jump_to)" v-show="item.is_show">
              <img :src="getImg(item)" :alt="item.name">
           </div>
         </CarouselItem>
@@ -91,7 +91,7 @@
         return {
           value: HOME_CAROUSEL.defaultIndex - 1,
           speed: HOME_CAROUSEL.speed,
-          list: this.$store.state.carouselList,
+          list: this.$store.state.homeCarouselList,
         }
       },
     },
@@ -143,8 +143,7 @@
           activity_type: 0
         }).then(res => {
           if (res.data && +res.data.error === 0) {
-            vm.$store.commit("carouselList_setter", res.data.list);
-            this.carousel.list = res.data.list;
+            vm.$store.commit("homeCarouselList_setter", res.data.list);
           } else {
           }
         }).catch(err => {

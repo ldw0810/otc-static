@@ -1,6 +1,9 @@
 <template>
   <div class='invite'>
-    <div class="banner" :style="{backgroundImage: 'url('+CONF_INVITE_BANNER+')'}">
+    <div class="banner">
+      <img :class="{'banner-button': bannerList[0].jump_to}" :src="getImg(bannerList[0])" :alt="bannerList[0].name"
+           @click.stop="goBanner(bannerList[0].jump_to)"
+           v-if="bannerList && bannerList.length">
     </div>
     <article class='invite-container'>
       <section class="invite-target g-shadow">
@@ -71,7 +74,7 @@
 
 <script>
   import QrcodeVue from 'qrcode.vue';
-  import {CONF_INVITE_BANNER, CONF_INVITE_IMAGE, ZENDESK_DOMAIN_URL} from 'config/config';
+  import {CONF_INVITE_IMAGE, ZENDESK_DOMAIN_URL} from 'config/config';
   import {interceptEmail} from "utils/tools";
 
   const domain = `${ZENDESK_DOMAIN_URL}/hc/${(window.localStorage.getItem("language") || "zh-TW").replace('HK', 'TW').toLowerCase()}`;
@@ -84,7 +87,6 @@
     data() {
       return {
         articlesLink: `${domain}/articles/360001929553`,
-        CONF_INVITE_BANNER,
         CONF_INVITE_IMAGE,
         inviteAmount: 0,
         inviteCount: 0,
@@ -107,6 +109,9 @@
       }
     },
     computed: {
+      bannerList() {
+        return this.$store.state.inviteBannerList;
+      },
       link() {
         return this.$t("public.invite_content") + "\n" + this.linkUrl;
       },
@@ -166,8 +171,23 @@
           window.location.href = this.articlesLink;
         }
       },
+      getImg(item) {
+        const language = window.localStorage.getItem('language');
+        if (language === 'zh-CN') {
+          return item.zh_img_src || "";
+        } else if (language === 'zh-HK' || language === "zh-TW") {
+          return item.tw_img_src || "";
+        } else {
+          return item.en_img_src || "";
+        }
+      },
       showImage() {
         this.popImageFlag = true;
+      },
+      goBanner(url) {
+        if (url && url.length) {
+          this.$goRouter(url);
+        }
       },
       convertCanvasToImage(canvas) {
         let image = new Image();
@@ -192,7 +212,7 @@
             img.onload = () => {
               if (index === 1) {
                 // if (this.isZh) {
-                  ctx.drawImage(img, 246, 955, 245, 245);
+                ctx.drawImage(img, 246, 955, 245, 245);
                 // } else {
                 //   ctx.drawImage(img, 270, 760, 210, 210);
                 // }
@@ -240,6 +260,19 @@
         this.getInvitedActivity();
       }
     },
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        vm.$store.dispatch("ajax_banner", {
+          activity_type: 1
+        }).then(res => {
+          if (res.data && +res.data.error === 0) {
+            vm.$store.commit("inviteBannerList_setter", res.data.list);
+          } else {
+          }
+        }).catch(err => {
+        });
+      });
+    },
     mounted() {
       this.init();
     }
@@ -252,6 +285,16 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    &-button {
+      cursor: pointer;
+    }
+  }
+
+  .home img {
+    object-fit: cover;
+    object-position: 0 0;
+    width: 100%;
+    height: 100%;
   }
 
   .invite {
