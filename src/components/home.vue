@@ -1,16 +1,16 @@
 <template>
   <div class="home">
     <div class="carousel" v-if="carousel.list.length === 1">
-      <div class="img" @click.stop="goCarousel(carousel.list[0].url)">
-        <img :src="carousel.list[0].img">
+      <div class="img" @click.stop="goCarousel(carousel.list[0].jump_to)">
+        <img :src="getImg(carousel.list[0])" :alt="carousel.list[0].name">
       </div>
     </div>
     <div class="carousel" v-else-if="carousel.list.length > 1">
       <Carousel class='m-ivu-carousel' autoplay :autoplay-speed="carousel.speed" v-model="carousel.value" loop
                 :radius-dot='true'>
         <CarouselItem v-for="(item, index) in carousel.list" :key="index">
-          <div class="img" :style="{backgroundImage: 'url('+item.img+')'}" @click.stop="goCarousel(item.url)">
-            <!-- <img :src="item.img"> -->
+          <div class="img" @click.stop="goCarousel(item.jump_to)" v-if="item.is_show">
+             <img :src="getImg(item)" :alt="item.name">
           </div>
         </CarouselItem>
       </Carousel>
@@ -83,20 +83,24 @@
     name: "home",
     data() {
       return {
-        carousel: {
-          value: HOME_CAROUSEL.defaultIndex - 1,
-          speed: HOME_CAROUSEL.speed,
-          list: HOME_CAROUSEL.list,
-        },
         ads: []
       };
+    },
+    computed:{
+      carousel() {
+        return {
+          value: HOME_CAROUSEL.defaultIndex - 1,
+          speed: HOME_CAROUSEL.speed,
+          list: this.$store.state.carouselList,
+        }
+      },
     },
     components: {
       Carousel,
       CarouselItem,
       Card
     },
-    watch:{
+    watch: {
       $route: function (val) {
         this.init();
       }
@@ -113,13 +117,39 @@
           // this.$Message.error(this.$t("public.ads_request_fail"));
         });
       },
-      goCarousel(url){
-        this.$goRouter(url);
+      getImg(item) {
+        const language = window.localStorage.getItem('language');
+        if (language === 'zh-CN') {
+          return item.zh_img_src || "";
+        } else if (language === 'zh-HK' || language === "zh-TW") {
+          return item.tw_img_src || "";
+        } else {
+          return item.en_img_src || "";
+        }
       },
-      init(){
+      goCarousel(url) {
+        if(url && url.length) {
+          this.$goRouter(url);
+        }
+      },
+      init() {
         this.$store.commit("header_index_setter", 0);
         this.getAds();
       }
+    },
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        vm.$store.dispatch("ajax_banner", {
+          activity_type: 0
+        }).then(res => {
+          if (res.data && +res.data.error === 0) {
+            vm.$store.commit("carouselList_setter", res.data.list);
+            this.carousel.list = res.data.list;
+          } else {
+          }
+        }).catch(err => {
+        });
+      });
     },
     mounted() {
       this.init();

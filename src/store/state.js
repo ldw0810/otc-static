@@ -54,7 +54,7 @@ export default {
   },
   collection: [],
   collection_refresh: 0,  //是否刷新收款方式
-
+  carouselList: [], //首页banner
   banks: [],
   userToken: null,  //登录后header必携带
   showAuthEmail: false,
