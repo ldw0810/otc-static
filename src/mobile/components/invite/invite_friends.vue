@@ -187,11 +187,7 @@
             img.src = imgArr[index];
             img.onload = () => {
               if (index === 1) {
-                if (this.isZh) {
-                  ctx.drawImage(img, 246, 955, 245, 245);
-                } else {
-                  ctx.drawImage(img, 270, 760, 210, 210);
-                }
+                ctx.drawImage(img, 246, 955, 245, 245);
                 drawing(++index);
               } else {
                 ctx.drawImage(img, 0, 0, c.width, c.height);
