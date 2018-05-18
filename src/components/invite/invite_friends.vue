@@ -466,7 +466,7 @@
       padding-bottom: 20px;
     }
     &-popDownload {
-      width: 156px;
+      min-width: 156px;
       background: #FFFFFF;
       border: 1px solid rgba(0, 0, 0, 0.10);
       box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.03);
