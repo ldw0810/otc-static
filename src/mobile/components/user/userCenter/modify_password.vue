@@ -38,7 +38,10 @@
         </FormItem>
       </Form>
     </div>
-
+    <div class="passwordStrength" v-if="+passwordStrength > 0">
+      <div :class="'passwordStrength-text-' + passwordStrength">{{passwordStrengthText}}</div>
+      <div :class="'passwordStrength-color-' + passwordStrength"></div>
+    </div>
   </div>
 </template>
 
@@ -61,7 +64,8 @@
         }
       };
       const validatePasswordNew = (rule, value, callback) => {
-        let reg = /^(([a-z]+[0-9]+)|([0-9]+[a-z]+))[a-z0-9]*$/i;
+        let reg = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,200}$/;
+        this.passwordStrength = this.$checkPassword(value);
         if (!value || !value.length) {
           callback(new Error(this.$t("user.password_new_required")));
         } else if (!/^.{6,200}$/.test(value) || !reg.test(value)) {
@@ -112,8 +116,22 @@
               validator: validateRePasswordNew
             }
           ]
-        }
+        },
+        passwordStrength: 0
       };
+    },
+    computed: {
+      passwordStrengthText() {
+        if (this.passwordStrength === 1) {
+          return this.$t("user.password_weak");
+        } else if (this.passwordStrength === 2) {
+          return this.$t("user.password_middle");
+        } else if (this.passwordStrength === 3) {
+          return this.$t("user.password_strong");
+        } else {
+          return "";
+        }
+      }
     },
     watch: {
       $route: function (val) {
@@ -196,7 +214,7 @@
   .passwordStrength {
     position: absolute;
     left: 88vw;
-    top: 49.5vh;
+    top: 66.5vh;
     &-text {
       &-1 {
         float: left;
