@@ -178,7 +178,7 @@
         }
       };
       const validatePassword = (rule, value, callback) => {
-        let reg = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,200}$/;
+        let reg = /[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/;
         this.passwordStrength = this.$checkPassword(value);
         if (!value || !value.length) {
           this.validFlag.password = false;
