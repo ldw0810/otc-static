@@ -27,6 +27,10 @@
         </FormItem>
       </Form>
     </div>
+    <div class="passwordStrength" v-if="+passwordStrength > 0">
+      <div :class="'passwordStrength-text-' + passwordStrength">{{passwordStrengthText}}</div>
+      <div :class="'passwordStrength-color-' + passwordStrength"></div>
+    </div>
     <div style="clear: both"></div>
   </div>
 </template>
@@ -38,11 +42,11 @@
     mixins: [validateMixin('form')],
     data() {
       const validatePassword = (rule, value, callback) => {
-        // let reg = /^(([a-z]+[0-9]+)|([0-9]+[a-z]+))[a-z0-9]*$/i;
-        let reg = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,20}$/;
+        let reg = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,200}$/;
+        this.passwordStrength = this.$checkPassword(value);
         if (!value || !value.length) {
           callback(new Error(this.$t("user.password_required")));
-        } else if (!/^.{6,20}$/.test(value) || !reg.test(value)) {
+        } else if (!/^.{6,200}$/.test(value) || !reg.test(value)) {
           //6位以上的密码
           callback(new Error(this.$t("user.password_minLength")));
         } else if (this.form.rePassword && value !== this.form.rePassword) {
@@ -54,7 +58,7 @@
       const validateRePassword = (rule, value, callback) => {
         if (!value || !value.length) {
           callback(new Error(this.$t("user.rePassword_required")));
-        } else if (!/^.{6,16}$/.test(value)) {
+        } else if (!/^.{6,200}$/.test(value)) {
           //6位以上的密码
           callback(new Error(this.$t("user.password_minLength")));
         } else if (value !== this.form.password) {
@@ -81,8 +85,22 @@
               validator: validateRePassword,
             }
           ],
-        }
+        },
+        passwordStrength: 0
       };
+    },
+    computed: {
+      passwordStrengthText() {
+        if (this.passwordStrength === 1) {
+          return this.$t("user.password_weak");
+        } else if (this.passwordStrength === 2) {
+          return this.$t("user.password_middle");
+        } else if (this.passwordStrength === 3) {
+          return this.$t("user.password_strong");
+        } else {
+          return "";
+        }
+      }
     },
     watch: {
       $route: function (val) {
@@ -184,5 +202,63 @@
 
   .submitButton {
     width: 292px;
+  }
+
+  .passwordStrength {
+    position: absolute;
+    left: 540px;
+    top: 543px;
+    &-text {
+      &-1 {
+        float: left;
+        font-family: PingFangSC-Regular sans-serif;
+        font-size: 14px;
+        letter-spacing: -0.34px;
+        text-align: center;
+        color: #ED1C24;
+      }
+      &-2 {
+        float: left;
+        font-family: PingFangSC-Regular sans-serif;
+        font-size: 14px;
+        letter-spacing: -0.34px;
+        text-align: center;
+        color: #F5A623;
+      }
+      &-3 {
+        float: left;
+        font-family: PingFangSC-Regular sans-serif;
+        font-size: 14px;
+        letter-spacing: -0.34px;
+        text-align: center;
+        color: #1BB934;
+      }
+    }
+    &-color {
+      &-1 {
+        float: left;
+        width: 8px;
+        height: 6px;
+        margin: 7px 0 0 5px;
+        background: #ED1C24;
+        border-radius: 67px;
+      }
+      &-2 {
+        float: left;
+        width: 18px;
+        height: 6px;
+        margin: 7px 0 0 5px;
+        background: #F5A623;
+        border-radius: 88px;
+      }
+      &-3 {
+        float: left;
+        width: 28px;
+        height: 6px;
+        margin: 7px 0 0 5px;
+        background: #1BB934;
+        border-radius: 52px;
+      }
+    }
   }
 </style>

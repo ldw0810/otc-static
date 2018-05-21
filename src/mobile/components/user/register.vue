@@ -196,11 +196,10 @@
         }
       };
       const validateRePassword = (rule, value, callback) => {
-        this.passwordStrength = this.$checkPassword(value);
         if (!value || !value.length) {
           this.validFlag.rePassword = false;
           callback(new Error(this.$t("user.rePassword_required")));
-        } else if (!/^.{6,}$/.test(value)) {
+        } else if (!/^.{6,200}$/.test(value)) {
           //6位以上的密码
           this.validFlag.rePassword = false;
           callback(new Error(this.$t("user.password_minLength")));
@@ -517,30 +516,27 @@
 
   .passwordStrength {
     position: absolute;
-    left: 90vw;
-    top: 50vh;
+    left: 88vw;
+    top: 28.5vh;
     &-text {
       &-1 {
         float: left;
         font-family: PingFangSC-Regular sans-serif;
-        font-size: 14px;
-        letter-spacing: -0.34px;
+        font-size: 0.85rem;
         text-align: center;
         color: #ED1C24;
       }
       &-2 {
         float: left;
         font-family: PingFangSC-Regular sans-serif;
-        font-size: 14px;
-        letter-spacing: -0.34px;
+        font-size: 0.85rem;
         text-align: center;
         color: #F5A623;
       }
       &-3 {
         float: left;
         font-family: PingFangSC-Regular sans-serif;
-        font-size: 14px;
-        letter-spacing: -0.34px;
+        font-size: 0.85rem;
         text-align: center;
         color: #1BB934;
       }
@@ -548,27 +544,27 @@
     &-color {
       &-1 {
         float: left;
-        width: 8px;
-        height: 6px;
-        margin: 7px 0 0 5px;
+        width: 3vw;
+        height: 1vh;
+        margin: 0.6vh 0 0 1vw;
         background: #ED1C24;
-        border-radius: 67px;
+        border-radius: 5vw;
       }
       &-2 {
         float: left;
-        width: 18px;
-        height: 6px;
-        margin: 7px 0 0 5px;
+        width: 4.5vw;
+        height: 1vh;
+        margin: 0.6vh 0 0 1vw;
         background: #F5A623;
-        border-radius: 88px;
+        border-radius: 5vw;
       }
       &-3 {
         float: left;
-        width: 28px;
-        height: 6px;
-        margin: 7px 0 0 5px;
+        width: 6vw;
+        height: 1vh;
+        margin: 0.6vh 0 0 1vw;
         background: #1BB934;
-        border-radius: 52px;
+        border-radius: 5vw;
       }
     }
   }

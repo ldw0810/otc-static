@@ -201,7 +201,7 @@
         if (!value || !value.length) {
           this.validFlag.rePassword = false;
           callback(new Error(this.$t("user.rePassword_required")));
-        } else if (!/^.{6,}$/.test(value)) {
+        } else if (!/^.{6,200}$/.test(value)) {
           //6位以上的密码
           this.validFlag.rePassword = false;
           callback(new Error(this.$t("user.password_minLength")));

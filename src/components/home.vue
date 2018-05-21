@@ -1,16 +1,16 @@
 <template>
   <div class="home">
     <div class="carousel" v-if="carousel.list.length === 1">
-      <div class="img" @click.stop="goCarousel(carousel.list[0].jump_to)">
-        <img :src="getImg(carousel.list[0])" :alt="carousel.list[0].name">
+      <div class="img" :style="{backgroundImage: 'url('+getImg(carousel.list[0])+')'}"
+           @click.stop="goCarousel(carousel.list[0].jump_to)">
       </div>
     </div>
     <div class="carousel" v-else-if="carousel.list.length > 1">
       <Carousel class='m-ivu-carousel' autoplay :autoplay-speed="carousel.speed" v-model="carousel.value" loop
                 :radius-dot='true'>
         <CarouselItem v-for="(item, index) in carousel.list" :key="index">
-          <div class="img" @click.stop="goCarousel(item.jump_to)" v-show="item.is_show">
-             <img :src="getImg(item)" :alt="item.name">
+          <div class="img" :style="{backgroundImage: 'url('+getImg(item)+')'}" @click.stop="goCarousel(item.jump_to)"
+               v-show="item.is_show">
           </div>
         </CarouselItem>
       </Carousel>
@@ -86,7 +86,7 @@
         ads: []
       };
     },
-    computed:{
+    computed: {
       carousel() {
         return {
           value: HOME_CAROUSEL.defaultIndex - 1,
@@ -128,7 +128,7 @@
         }
       },
       goCarousel(url) {
-        if(url && url.length) {
+        if (url && url.length) {
           this.$goRouter(url);
         }
       },

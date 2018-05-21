@@ -1,6 +1,6 @@
 <template>
   <div>
-    <logoDiv></logoDiv>
+    <!--<logoDiv></logoDiv>-->
     <div class="content">
       <div class="title" v-text="$t('user.modify_password')"></div>
       <Form class="form" ref="form" @checkValidate='checkValidate' :model="form" :rules="rules">
@@ -27,6 +27,10 @@
         </FormItem>
       </Form>
     </div>
+    <div class="passwordStrength" v-if="+passwordStrength > 0">
+      <div :class="'passwordStrength-text-' + passwordStrength">{{passwordStrengthText}}</div>
+      <div :class="'passwordStrength-color-' + passwordStrength"></div>
+    </div>
     <div style="clear: both"></div>
   </div>
 </template>
@@ -38,11 +42,11 @@
     mixins: [validateMixin('form')],
     data() {
       const validatePassword = (rule, value, callback) => {
-        // let reg = /^(([a-z]+[0-9]+)|([0-9]+[a-z]+))[a-z0-9]*$/i;
-        let reg = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,20}$/;
+        let reg = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,200}$/;
+        this.passwordStrength = this.$checkPassword(value);
         if (!value || !value.length) {
           callback(new Error(this.$t("user.password_required")));
-        } else if (!/^.{6,20}$/.test(value) || !reg.test(value)) {
+        } else if (!/^.{6,200}$/.test(value) || !reg.test(value)) {
           //6位以上的密码
           callback(new Error(this.$t("user.password_minLength")));
         } else if (this.form.rePassword && value !== this.form.rePassword) {
@@ -54,7 +58,7 @@
       const validateRePassword = (rule, value, callback) => {
         if (!value || !value.length) {
           callback(new Error(this.$t("user.rePassword_required")));
-        } else if (!/^.{6,16}$/.test(value)) {
+        } else if (!/^.{6,200}$/.test(value)) {
           //6位以上的密码
           callback(new Error(this.$t("user.password_minLength")));
         } else if (value !== this.form.password) {
@@ -81,8 +85,22 @@
               validator: validateRePassword,
             }
           ],
-        }
+        },
+        passwordStrength: 0
       };
+    },
+    computed: {
+      passwordStrengthText() {
+        if (this.passwordStrength === 1) {
+          return this.$t("user.password_weak");
+        } else if (this.passwordStrength === 2) {
+          return this.$t("user.password_middle");
+        } else if (this.passwordStrength === 3) {
+          return this.$t("user.password_strong");
+        } else {
+          return "";
+        }
+      }
     },
     watch: {
       $route: function (val) {
@@ -120,7 +138,7 @@
           }
         });
       },
-      init(){
+      init() {
         if (this.$route.query && this.$route.query.token) {
           this.token = this.$route.query.token;
           //先判断 token valid
@@ -150,8 +168,7 @@
   .content {
     position: relative;
     margin: 0 auto 5px auto;
-    width: 480px;
-    height: 372px;
+    width: 100vw;
     background: #FFFFFF;
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
@@ -163,25 +180,78 @@
   }
 
   .title {
-    margin-left: 94px;
-    padding-top: 56px;
-    font-size: 24px;
+    margin: 2vh 0 2vh 14vw;
+    font-size: 2rem;
     color: #666666;
   }
 
   .form {
-    margin-top: 20px;
   }
 
   .formItem {
-    margin-left: 94px;
+    margin-left: 14vw;
   }
 
   .input {
-    width: 292px;
+    width: 72vw;
   }
 
   .submitButton {
-    width: 292px;
+    width: 72vw;
+  }
+
+  .passwordStrength {
+    position: absolute;
+    left: 88vw;
+    top: 49.5vh;
+    &-text {
+      &-1 {
+        float: left;
+        font-family: PingFangSC-Regular sans-serif;
+        font-size: 0.85rem;
+        text-align: center;
+        color: #ED1C24;
+      }
+      &-2 {
+        float: left;
+        font-family: PingFangSC-Regular sans-serif;
+        font-size: 0.85rem;
+        text-align: center;
+        color: #F5A623;
+      }
+      &-3 {
+        float: left;
+        font-family: PingFangSC-Regular sans-serif;
+        font-size: 0.85rem;
+        text-align: center;
+        color: #1BB934;
+      }
+    }
+    &-color {
+      &-1 {
+        float: left;
+        width: 3vw;
+        height: 1vh;
+        margin: 0.6vh 0 0 1vw;
+        background: #ED1C24;
+        border-radius: 5vw;
+      }
+      &-2 {
+        float: left;
+        width: 4.5vw;
+        height: 1vh;
+        margin: 0.6vh 0 0 1vw;
+        background: #F5A623;
+        border-radius: 5vw;
+      }
+      &-3 {
+        float: left;
+        width: 6vw;
+        height: 1vh;
+        margin: 0.6vh 0 0 1vw;
+        background: #1BB934;
+        border-radius: 5vw;
+      }
+    }
   }
 </style>

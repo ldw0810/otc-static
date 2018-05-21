@@ -282,14 +282,12 @@
       cursor: pointer;
     }
   }
-
   .home img {
     object-fit: cover;
     object-position: 0 0;
     width: 100%;
     height: 100%;
   }
-
   .invite {
     &-container {
       width: 100vw;

@@ -165,14 +165,17 @@ export default {
       if (!password || password.length < 6) {
         level = 0;
       } else {
-        if (password.match(/^(?=.{6,200})([0-9A-Za-z]*[^0-9A-Za-z][0-9A-Za-z]*){2,}$/g)) {
-          level = 3;
+        let regLower = /[0-9][a-z]/;
+        let regUpper = /[A-Z]/;
+        let regStr = /[^A-Za-z0-9]/;
+        if (regLower.test(password)) {
+          level++;
         }
-        if (password.match(/^(?=.{6,200})[0-9A-Za-z]*[^0-9A-Za-z][0-9A-Za-z]*$/g)) {
-          level = 2;
+        if (regUpper.test(password)) {
+          level++;
         }
-        if (password.match(/^[0-9A-Za-z]{6,200}$/g)) {
-          level = 1;
+        if (regStr.test(password)) {
+          level++;
         }
       }
       console.log(level);
