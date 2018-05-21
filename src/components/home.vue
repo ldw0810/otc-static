@@ -1,16 +1,17 @@
 <template>
   <div class="home">
     <div class="carousel" v-if="carousel.list.length === 1">
-      <div class="img" :style="{backgroundImage: 'url('+getImg(carousel.list[0])+')'}"
-           @click.stop="goCarousel(carousel.list[0].jump_to)">
+      <div class="img" :class="{'imgCursor': carousel.list[0] && carousel.list[0].url}"
+           @click.stop="goCarousel(carousel.list[0].url)">
+        <img :src="carousel.list[0].img">
       </div>
     </div>
     <div class="carousel" v-else-if="carousel.list.length > 1">
       <Carousel class='m-ivu-carousel' autoplay :autoplay-speed="carousel.speed" v-model="carousel.value" loop
                 :radius-dot='true'>
         <CarouselItem v-for="(item, index) in carousel.list" :key="index">
-          <div class="img" :style="{backgroundImage: 'url('+getImg(item)+')'}" @click.stop="goCarousel(item.jump_to)"
-               v-show="item.is_show">
+          <div class="img" :class="{'imgCursor': item && item.url}" :style="{backgroundImage: 'url('+item.img+')'}"
+               @click.stop="goCarousel(item.url)">
           </div>
         </CarouselItem>
       </Carousel>
@@ -91,7 +92,7 @@
         return {
           value: HOME_CAROUSEL.defaultIndex - 1,
           speed: HOME_CAROUSEL.speed,
-          list: this.$store.state.homeCarouselList,
+          list: HOME_CAROUSEL.list
         }
       },
     },
@@ -137,19 +138,19 @@
         this.getAds();
       }
     },
-    beforeRouteEnter(to, from, next) {
-      next(vm => {
-        vm.$store.dispatch("ajax_banner", {
-          activity_type: 0
-        }).then(res => {
-          if (res.data && +res.data.error === 0) {
-            vm.$store.commit("homeCarouselList_setter", res.data.list);
-          } else {
-          }
-        }).catch(err => {
-        });
-      });
-    },
+    // beforeRouteEnter(to, from, next) {
+    //   next(vm => {
+    //     vm.$store.dispatch("ajax_banner", {
+    //       activity_type: 0
+    //     }).then(res => {
+    //       if (res.data && +res.data.error === 0) {
+    //         vm.$store.commit("homeCarouselList_setter", res.data.list);
+    //       } else {
+    //       }
+    //     }).catch(err => {
+    //     });
+    //   });
+    // },
     mounted() {
       this.init();
     }
@@ -245,6 +246,10 @@
     height: 440px;
     width: 100%;
     min-width: 1080px;
+  }
+
+  .imgCursor {
+    cursor: pointer;
   }
 
   .home .carousel .img {

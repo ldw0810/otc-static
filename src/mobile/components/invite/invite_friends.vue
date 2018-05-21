@@ -1,8 +1,6 @@
 <template>
   <div class='invite'>
-    <div class="banner" :class="{'banner-button': bannerList[0] && bannerList[0].jump_to}"
-         :style="{backgroundImage: 'url('+getImg(bannerList[0])+')'}"
-         @click.stop="goBanner(bannerList[0] && bannerList[0].jump_to)">
+    <div class="banner" :style="{backgroundImage: 'url('+CONF_INVITE_BANNER+')'}">
     </div>
     <article class='invite-container'>
       <section class="invite-target g-mobile-shadow">
@@ -71,7 +69,7 @@
 
 <script>
   import QrcodeVue from 'qrcode.vue';
-  import {CONF_INVITE_IMAGE, ZENDESK_DOMAIN_URL} from 'config/config';
+  import {CONF_INVITE_BANNER, CONF_INVITE_IMAGE, ZENDESK_DOMAIN_URL} from 'config/config';
   import {interceptEmail} from "utils/tools";
 
   const domain = `${ZENDESK_DOMAIN_URL}/hc/${(window.localStorage.getItem("language") || "zh-TW").replace('HK', 'TW').toLowerCase()}`;
@@ -83,6 +81,7 @@
     data() {
       return {
         articlesLink: `${domain}/articles/360001929553`,
+        CONF_INVITE_BANNER,
         CONF_INVITE_IMAGE,
         inviteAmount: 0,
         inviteCount: 0,
@@ -153,7 +152,7 @@
       },
       getImg(item) {
         const language = window.localStorage.getItem('language');
-        if(!item){
+        if (!item) {
           return "";
         } else if (language === 'zh-CN') {
           return item.zh_img_src || "";
@@ -253,19 +252,19 @@
         this.getInvitedActivity();
       }
     },
-    beforeRouteEnter(to, from, next) {
-      next(vm => {
-        vm.$store.dispatch("ajax_banner", {
-          activity_type: 1
-        }).then(res => {
-          if (res.data && +res.data.error === 0) {
-            vm.$store.commit("inviteBannerList_setter", res.data.list);
-          } else {
-          }
-        }).catch(err => {
-        });
-      });
-    },
+    // beforeRouteEnter(to, from, next) {
+    //   next(vm => {
+    //     vm.$store.dispatch("ajax_banner", {
+    //       activity_type: 1
+    //     }).then(res => {
+    //       if (res.data && +res.data.error === 0) {
+    //         vm.$store.commit("inviteBannerList_setter", res.data.list);
+    //       } else {
+    //       }
+    //     }).catch(err => {
+    //     });
+    //   });
+    // },
     mounted() {
       this.init();
     }
@@ -283,12 +282,14 @@
       cursor: pointer;
     }
   }
+
   .home img {
     object-fit: cover;
     object-position: 0 0;
     width: 100%;
     height: 100%;
   }
+
   .invite {
     &-container {
       width: 100vw;
@@ -478,6 +479,10 @@
       color: #333333;
       text-align: center;
     }
+  }
+
+  .imgCursor {
+    cursor: pointer;
   }
 
   /deep/ .ivu-modal-content {
