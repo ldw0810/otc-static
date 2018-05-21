@@ -165,7 +165,8 @@ export default {
       if (!password || password.length < 6) {
         level = 0;
       } else {
-        let regLower = /[0-9][a-z]/;
+        let regNumber = /[0-9]/;
+        let regLower = /[a-z]/;
         let regUpper = /[A-Z]/;
         let regStr = /[^A-Za-z0-9]/;
         if (regLower.test(password)) {
@@ -176,6 +177,9 @@ export default {
         }
         if (regStr.test(password)) {
           level++;
+        }
+        if (!regNumber.test(password)) {
+          level = 0;
         }
       }
       console.log(level);
