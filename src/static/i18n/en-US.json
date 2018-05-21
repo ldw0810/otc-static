@@ -147,7 +147,7 @@
     "password_login": "Password",
     "password_login_info": "Will used for login and release asset",
     "password_login_required": "Enter password",
-    "password_minLength": "Password must consists with 6-16 letters and numbers",
+    "password_minLength": "Password must consists at least 6 letters and numbers",
     "password_forget": "Forget password",
     "password_different": "Password not match",
     "password_old": "Old password",
