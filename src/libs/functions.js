@@ -182,7 +182,6 @@ export default {
           level = 0;
         }
       }
-      console.log(level);
       return level;
     };
     /*其他*/
