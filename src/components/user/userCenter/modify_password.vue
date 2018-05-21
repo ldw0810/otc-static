@@ -64,7 +64,7 @@
         }
       };
       const validatePasswordNew = (rule, value, callback) => {
-        let reg = /[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/;
+        let reg = /[^\d].*[\d]|[\d].*[^\d]/;
         this.passwordStrength = this.$checkPassword(value);
         if (!value || !value.length) {
           callback(new Error(this.$t("user.password_new_required")));
