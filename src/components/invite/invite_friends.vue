@@ -1,9 +1,8 @@
 <template>
   <div class='invite'>
-    <div class="banner">
-      <img :class="{'banner-button': bannerList[0].jump_to}" :src="getImg(bannerList[0])" :alt="bannerList[0].name"
-           @click.stop="goBanner(bannerList[0].jump_to)"
-           v-if="bannerList && bannerList.length">
+    <div class="banner" :class="{'banner-button': bannerList[0] && bannerList[0].jump_to}"
+         :style="{backgroundImage: 'url('+getImg(bannerList[0])+')'}"
+         @click.stop="goBanner(bannerList[0] && bannerList[0].jump_to)">
     </div>
     <article class='invite-container'>
       <section class="invite-target g-shadow">
@@ -173,7 +172,9 @@
       },
       getImg(item) {
         const language = window.localStorage.getItem('language');
-        if (language === 'zh-CN') {
+        if(!item){
+          return "";
+        } else if (language === 'zh-CN') {
           return item.zh_img_src || "";
         } else if (language === 'zh-HK' || language === "zh-TW") {
           return item.tw_img_src || "";
