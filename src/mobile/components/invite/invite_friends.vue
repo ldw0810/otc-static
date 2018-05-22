@@ -254,19 +254,6 @@
         this.getInvitedActivity();
       }
     },
-    // beforeRouteEnter(to, from, next) {
-    //   next(vm => {
-    //     vm.$store.dispatch("ajax_banner", {
-    //       activity_type: 1
-    //     }).then(res => {
-    //       if (res.data && +res.data.error === 0) {
-    //         vm.$store.commit("inviteBannerList_setter", res.data.list);
-    //       } else {
-    //       }
-    //     }).catch(err => {
-    //     });
-    //   });
-    // },
     mounted() {
       this.init();
     }
@@ -419,11 +406,6 @@
         height: 25.5vw;
         background-image: url("../../../static/images/invite/toptittle-phone.svg");
         background-size: cover;
-        color: white;
-        font-family: PingFangSC-Regular sans-serif;
-        font-size: 1.5rem;
-        text-align: center;
-        line-height: 25.5vw;
       }
       &-content {
         width: 90vw;
@@ -450,9 +432,6 @@
             font-family: PingFangSC-Regular sans-serif;
             font-size: 0.8rem;
             color: #000000;
-            &-second {
-              margin-top: 2.45vh;
-            }
           }
           &-number {
             margin-top: 0.5vh;

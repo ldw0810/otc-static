@@ -262,19 +262,6 @@
         this.getInvitedActivity();
       }
     },
-    // beforeRouteEnter(to, from, next) {
-    //   next(vm => {
-    //     vm.$store.dispatch("ajax_banner", {
-    //       activity_type: 1
-    //     }).then(res => {
-    //       if (res.data && +res.data.error === 0) {
-    //         vm.$store.commit("inviteBannerList_setter", res.data.list);
-    //       } else {
-    //       }
-    //     }).catch(err => {
-    //     });
-    //   });
-    // },
     mounted() {
       this.init();
     }
@@ -422,7 +409,7 @@
     }
     &-rules {
       width: 970px;
-      min-height: 424px;
+      height: 424px;
       background: #FFFFFF;
       border-radius: 2px;
       margin-top: 40px;
