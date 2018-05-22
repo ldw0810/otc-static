@@ -19,7 +19,9 @@
               <div class="invite-top-content-item-icon">
                 <img :src="item.img">
               </div>
-              <div class="invite-top-content-item-name">{{interceptEmail(item.email || "")}}</div>
+              <div class="invite-top-content-item-name" :class="{'invite-top-content-item-name-second': index===1}">
+                {{interceptEmail(item.email || "")}}
+              </div>
               <div class="invite-top-content-item-number">{{$t("public.invite_people")}}:{{item.count || 0}}</div>
             </div>
           </div>
@@ -443,6 +445,9 @@
             font-family: PingFangSC-Regular sans-serif;
             font-size: 0.8rem;
             color: #000000;
+            &-second {
+              margin-top: 2.45vh;
+            }
           }
           &-number {
             margin-top: 0.5vh;
