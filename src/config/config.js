@@ -61,7 +61,7 @@ export const HOME_CAROUSEL = {
 };
 
 // 邀请页面图片
-export const CONF_INVITE_BANNER = require(`../static/images/home/banner2-${postfixImg}.png`);
+export const CONF_INVITE_BANNER = require(`../static/images/invite/Invite-Banner-${postfixImg}.jpg`);
 export const CONF_INVITE_IMAGE = require(`../static/images/invite_${postfixImg}.jpg`);
 
 export default config;
