@@ -4,7 +4,7 @@ let config = {
   env: Env,
 };
 
-export const CONF_PAYMENT_LIST = ["alipay", "bank", "local"]; // 支付方式
+export const CONF_PAYMENT_LIST = ["alipay", "bank"]; // 支付方式
 /*
  资产小数位数相关
 */

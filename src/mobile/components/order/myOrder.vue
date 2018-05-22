@@ -70,8 +70,12 @@
                     {{$t("order['order_status_" + order.status + "']")}}
                   </div>
                 </i-col>
-                <i-col span="2" class='g-mobile-list-content-item-col'>
+                <i-col span="2" class='g-list-content-item-col'
+                       v-if="order.target_currency !== cnyCurrency">
                   <a href='javascript:;' class='action-link' @click="showInfo(order.id)">{{$t("public.info")}}</a>
+                </i-col>
+                <i-col span="2" class='g-list-content-item-col' v-else>
+                  {{$t("public.info")}}
                 </i-col>
               </Row>
             </section>
@@ -95,6 +99,7 @@
   import Avator from "mobile/components/public/avator";
   import Tab from "mobile/components/public/tab";
   import emptyList from "mobile/components/public/empty-list";
+  import {CONF_DIGITAL_CURRENCY_LIST} from "config/config";
 
   export default {
     components: {
@@ -115,7 +120,8 @@
           per_page: 20,
           total_count: 0,
           total_pages: 1
-        }
+        },
+        cnyCurrency: CONF_DIGITAL_CURRENCY_LIST[0].currency
       };
     },
     computed: {
