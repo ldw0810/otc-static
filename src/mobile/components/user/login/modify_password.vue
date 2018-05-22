@@ -27,10 +27,10 @@
         </FormItem>
       </Form>
     </div>
-    <div class="passwordStrength" v-if="+passwordStrength > 0">
-      <div :class="'passwordStrength-text-' + passwordStrength">{{passwordStrengthText}}</div>
-      <div :class="'passwordStrength-color-' + passwordStrength"></div>
-    </div>
+    <!--<div class="passwordStrength" v-if="+passwordStrength > 0">-->
+      <!--<div :class="'passwordStrength-text-' + passwordStrength">{{passwordStrengthText}}</div>-->
+      <!--<div :class="'passwordStrength-color-' + passwordStrength"></div>-->
+    <!--</div>-->
     <div style="clear: both"></div>
   </div>
 </template>
