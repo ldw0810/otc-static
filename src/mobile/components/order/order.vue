@@ -505,6 +505,7 @@
           if (res.data && +res.data.error === 0) {
             this.order = res.data.info;
             this.chat = res.data.chat;
+            this.remain_time = +(res.data.info.remain_time || 0);
             this.showTip();
             this.showStep();
           } else {
@@ -553,7 +554,8 @@
           }).then(res => {
             if (res.data && +res.data.error === 0) {
               this.confirmFlag.pay = false;
-              this.$refs.chat.sendInfo(this.remarkForm.remark);
+              this.$refs.chat.inputText = this.remarkForm.remark;
+              this.$refs.chat.sendInfo();
               this.$Message.success(this.$t("order.order_pay_complete_success"));
               this.getOrderInfo();
             } else {
@@ -576,8 +578,15 @@
               this.$Message.success(this.$t("order.order_pay_release_success"));
               this.getOrderInfo();
             } else {
-              // this.$Message.error(this.$t("order.order_pay_release_fail"));
-            }
+              if (res.data.sms || res.data.app) {
+                this.confirmFlag.release = false;
+                this.$store.commit("loginInfo_setter", {
+                  mobile: res.data.mobile
+                });
+                this.auth_two_flag = true;
+              } else {
+                // this.$Message.error(this.$t("order.order_pay_release_fail"));
+              }            }
           }).catch(err => {
             if (err.sms || err.app) {
               this.confirmFlag.release = false;
@@ -616,252 +625,251 @@
               this.cancelFlag = false;
               // this.$Message.error(this.$t("order.order_pay_cancel_fail"));
             });
-        }
-      }
-    },
-    showTip() {
-      this.remain_time && clearTimeout(this.remain_time);
-      if (this.order.created_at && this.order.status === "fresh") {
-        let time = new Date().getTime() - this.order.created_at * 1000;
-        if (time) {
-          if (time > 1000 * 60 * 60) {
-            this.stepTip = this.$t("order.order_info_timeout");
-          } else {
-            let minute = Math.floor((1000 * 60 * 60 - time) / (1000 * 60));
-            let second = Math.floor(
-              ((1000 * 60 * 60 - time) % (1000 * 60)) / 1000
-            );
-            minute = minute / 10 < 1 ? "0" + minute : minute;
-            second = second / 10 < 1 ? "0" + second : second;
-            this.stepTip = this.$t("order.order_info_timer").format(
-              `<a style="cursor: text;">${minute}:${second}</a>`
-            );
           }
+        }
+      },
+      showTip() {
+        if (this.order.status === "fresh") {
+          if (this.remain_time) {
+            if (this.remain_time < 0) {
+              this.stepTip = this.$t("order.order_info_timeout");
+            } else {
+              let hour = Math.floor(this.remain_time / 3600);
+              let minute = Math.floor((this.remain_time % 3600) / 60);
+              let second = Math.floor((this.remain_time % 3600) % 60);
+              hour = hour / 10 < 1 ? "0" + hour : hour;
+              minute = minute / 10 < 1 ? "0" + minute : minute;
+              second = second / 10 < 1 ? "0" + second : second;
+              this.stepTip = this.$t("order.order_info_timer").format(
+                `<a style="cursor: text;">${+hour > 0 ? (hour + ":") : ""}${minute}:${second}</a>`
+              );
+              this.remain_time--;
+            }
+          } else {
+            this.stepTip = "";
+          }
+          setTimeout(this.showTip, 1000);
         } else {
           this.stepTip = "";
         }
-        this.remain_time = setTimeout(this.showTip, 1000);
-      } else {
-        this.stepTip = "";
+      },
+      doAuthClose(val) {
+        if (val) {
+          this.doOper("release", val);
+        }
+        this.auth_two_flag = false;
+      },
+      init() {
+        this.$store.commit("header_index_setter", "-1");
+        this.getOrderInfo();
       }
     },
-    doAuthClose(val) {
-      if (val) {
-        this.doOper("release", val);
-      }
-      this.auth_two_flag = false;
+    mounted() {
+      this.init();
     },
-    init() {
-      this.$store.commit("header_index_setter", "-1");
-      this.getOrderInfo();
+    components: {
+      logoDiv,
+      chat,
+      auth_two
     }
-  },
-  mounted() {
-    this.init();
-  },
-  components: {
-    logoDiv,
-    chat,
-    auth_two
-  }
-};
+  };
 </script>
 <style lang='scss' scoped>
-.order {
-  padding-top: 30px;
-  padding-bottom: 30px;
-  &-header {
-    background-color: #fff;
-    padding: 30px 100px 18px;
-    margin-bottom: 30px;
-    &-tip {
-      line-height: 16px;
-      font-size: 14px;
-      margin-top: 18px;
-      margin-left: 174px - 100px;
-    }
-    &-steps {
-      width: 100%;
-      display: flex;
-      padding-bottom: 22px;
-      border-bottom: 1px solid #eee;
-      &-item {
-        padding-left: 85px;
+  .order {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    &-header {
+      background-color: #fff;
+      padding: 30px 100px 18px;
+      margin-bottom: 30px;
+      &-tip {
+        line-height: 16px;
+        font-size: 14px;
+        margin-top: 18px;
+        margin-left: 174px - 100px;
+      }
+      &-steps {
+        width: 100%;
         display: flex;
-        &:first-child {
-          padding-left: 175px - 120px;
-        }
-        &-left {
-          width: 84px;
+        padding-bottom: 22px;
+        border-bottom: 1px solid #eee;
+        &-item {
+          padding-left: 85px;
           display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          margin-right: 83px;
-          .img {
-            width: 70px;
-            height: 70px;
-            display: inline-block;
-            margin-bottom: 12px;
+          &:first-child {
+            padding-left: 175px - 120px;
           }
-          .text {
-            font-size: 14px;
-            line-height: 16px;
-            white-space: nowrap;
+          &-left {
+            width: 84px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-right: 83px;
+            .img {
+              width: 70px;
+              height: 70px;
+              display: inline-block;
+              margin-bottom: 12px;
+            }
+            .text {
+              font-size: 14px;
+              line-height: 16px;
+              white-space: nowrap;
+            }
+          }
+          &-right {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: -10px;
+            .right-arrow {
+              display: inline-block;
+              width: 9px;
+              height: 14px;
+            }
           }
         }
-        &-right {
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-top: -10px;
-          .right-arrow {
-            display: inline-block;
-            width: 9px;
-            height: 14px;
-          }
-        }
+      }
+      &-content {
+        display: flex;
+      }
+      &-chat {
+        flex: 1;
       }
     }
     &-content {
       display: flex;
+      align-items: flex-start;
     }
     &-chat {
-      flex:1;
+      flex: 1;
+      margin-right: 30px;
+      padding: 30px;
+      background-color: #fff;
+    }
+    &-rules {
+      width: 646px;
+      margin-top: 40px;
+      font-size: 16px;
+      line-height: 19px;
+      &-title {
+        margin-bottom: 20px;
+        font-weight: normal;
+      }
+      &-content {
+        line-height: 20px;
+      }
     }
   }
-  &-content {
-    display: flex;
-    align-items: flex-start;
-  }
-  &-chat {
-    flex:1;
-    margin-right: 30px;
-    padding: 30px;
-    background-color: #fff;
-  }
-  &-rules {
-    width: 646px;
-    margin-top: 40px;
-    font-size: 16px;
-    line-height: 19px;
-    &-title {
-      margin-bottom: 20px;
-      font-weight: normal;
-    }
-    &-content {
-      line-height: 20px;
-    }
-  }
-}
 
-.info {
-  padding: 30px;
-  padding-bottom: 0;
-  width: 270px;
-  background-color: #fff;
-  &-title {
-    line-height: 24px;
-    font-size: 20px;
-    font-weight: normal;
-    margin-bottom: 10px;
-  }
-  &-section {
-    line-height: 30px;
-    font-size: 14px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-top: 1px solid #eee;
-    word-break: break-all;
+  .info {
+    padding: 30px;
+    padding-bottom: 0;
+    width: 270px;
+    background-color: #fff;
     &-title {
+      line-height: 24px;
+      font-size: 20px;
       font-weight: normal;
+      margin-bottom: 10px;
     }
-    &-desc {
+    &-section {
+      line-height: 30px;
+      font-size: 14px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      border-top: 1px solid #eee;
+      word-break: break-all;
+      &-title {
+        font-weight: normal;
+      }
+      &-desc {
         max-height: 200px;
         overflow-y: auto;
         @extend %scrollbar;
+      }
     }
-  }
-  &-action {
-    height: 152px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    .flex {
-      height: 100%;
+    &-action {
+      height: 152px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-    }
-    .radio-wrapper {
-      margin-bottom: 20px;
-    }
-    .order-buttons {
-      width: 100%;
-      margin-bottom: 20px;
-      &:last-child {
-        margin-bottom: 0;
+      .flex {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .radio-wrapper {
+        margin-bottom: 20px;
+      }
+      .order-buttons {
+        width: 100%;
+        margin-bottom: 20px;
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+      .pay-status-icon {
+        width: 36px;
+        height: 36px;
+        margin-bottom: 10px;
       }
     }
-    .pay-status-icon {
-      width: 36px;
-      height: 36px;
-      margin-bottom: 10px;
-    }
   }
-}
 
-.asset {
-  &-model {
-    padding: 51px 94px 54px;
-    &-title {
-      font-size: 24px;
-      color: #666666;
-      line-height: 33px;
-      font-weight: normal;
-      margin-bottom: 16px;
-    }
-    &-content {
-      font-size: 16px;
-      color: #666666;
-      line-height: 28px;
-      margin-bottom: 28px;
-      &-desc {
+  .asset {
+    &-model {
+      padding: 51px 94px 54px;
+      &-title {
+        font-size: 24px;
+        color: #666666;
+        line-height: 33px;
+        font-weight: normal;
+        margin-bottom: 16px;
+      }
+      &-content {
         font-size: 16px;
         color: #666666;
+        line-height: 28px;
+        margin-bottom: 28px;
+        &-desc {
+          font-size: 16px;
+          color: #666666;
+          line-height: 22px;
+          margin-bottom: 17px;
+        }
+      }
+      .input {
+        margin-bottom: 20px;
+      }
+      .warn {
+        margin-bottom: 30px;
         line-height: 22px;
-        margin-bottom: 17px;
+        font-size: 16px;
+        color: #ed1c24;
+      }
+      .buttons-group {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+      }
+      .submit-button {
+        width: 182px;
+      }
+      .cancel-button {
+        width: 100px;
+      }
+      &-warn {
+        font-size: 16px;
+        color: #ed1c24;
+        line-height: 20px;
+        margin-bottom: 37px;
       }
     }
-    .input {
-      margin-bottom: 20px;
-    }
-    .warn {
-      margin-bottom: 30px;
-      line-height: 22px;
-      font-size: 16px;
-      color: #ed1c24;
-    }
-    .buttons-group {
-      display: flex;
-      width: 100%;
-      justify-content: space-between;
-    }
-    .submit-button {
-      width: 182px;
-    }
-    .cancel-button {
-      width: 100px;
-    }
-    &-warn {
-      font-size: 16px;
-      color: #ed1c24;
-      line-height: 20px;
-      margin-bottom: 37px;
-    }
   }
-}
 </style>

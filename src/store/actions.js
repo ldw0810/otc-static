@@ -145,6 +145,9 @@ export default {
   ajax_language({commit}, requestData = {}) {
     return http.get("/api/v1/common/ln.json", requestData);
   },
+  ajax_banner({commit}, requestData = {}) {
+    return http.get("/api/v1/common/banner.json", requestData);
+  },
   //post
   ajax_register({commit}, requestData) {
     return http.post("/api/v1/members/reg.json", requestData);

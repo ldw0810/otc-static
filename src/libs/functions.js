@@ -106,6 +106,10 @@ export default {
       return fixDecimalsBase(value);
     };
     /*路由相关*/
+    Vue.prototype.$open = function (url, query, onComplete, onAbort) {
+      const {href} = this.$router.resolve({path: url, query: query});
+      window.open(href, '_blank');
+    };
     Vue.prototype.$goRouter = function (url, query, onComplete, onAbort) {
       if (url && url.length) {
         this.$router.push({path: url, query: query}, onComplete, onAbort);
@@ -159,15 +163,23 @@ export default {
     Vue.prototype.$checkPassword = function (password) {
       let level = 0;
       if (!password || password.length < 6) {
+        level = 0;
       } else {
-        if (/[1-9]/.test(password)) {
+        let regNumber = /[0-9]/;
+        let regLower = /[a-z]/;
+        let regUpper = /[A-Z]/;
+        let regStr = /[^A-Za-z0-9]/;
+        if (regLower.test(password)) {
           level++;
         }
-        if (/[a-z]/.test(password)) {
+        if (regUpper.test(password)) {
           level++;
         }
-        if (/[^a-z1-9]/.test(password)) {
+        if (regStr.test(password)) {
           level++;
+        }
+        if (!regNumber.test(password)) {
+          level = 0;
         }
       }
       return level;

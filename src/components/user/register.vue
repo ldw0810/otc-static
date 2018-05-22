@@ -70,6 +70,10 @@
           </FormItem>
           <div class="goButton" v-text="$t('user.register_toLogin')" @click="$goRouter('/user/login')"></div>
         </Form>
+        <div class="passwordStrength" v-if="+passwordStrength > 0">
+          <div :class="'passwordStrength-text-' + passwordStrength">{{passwordStrengthText}}</div>
+          <div :class="'passwordStrength-color-' + passwordStrength"></div>
+        </div>
         <div id="captcha"></div>
       </div>
       <div class='banner' :class="{'omt-hide': !omt_show}">
@@ -176,11 +180,12 @@
         }
       };
       const validatePassword = (rule, value, callback) => {
-        let reg = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,20}$/;
+        let reg = /[^\d].*[\d]|[\d].*[^\d]/;
+        this.passwordStrength = this.$checkPassword(value);
         if (!value || !value.length) {
           this.validFlag.password = false;
           callback(new Error(this.$t("user.password_required")));
-        } else if (!/^.{6,20}$/.test(value) || !reg.test(value)) {
+        } else if (!/^.{6,200}$/.test(value) || !reg.test(value)) {
           //6位以上的密码
           this.validFlag.password = false;
           callback(new Error(this.$t("user.password_minLength")));
@@ -193,11 +198,10 @@
         }
       };
       const validateRePassword = (rule, value, callback) => {
-        this.passwordStrength = this.$checkPassword(value);
         if (!value || !value.length) {
           this.validFlag.rePassword = false;
           callback(new Error(this.$t("user.rePassword_required")));
-        } else if (!/^.{6,16}$/.test(value)) {
+        } else if (!/^.{6,200}$/.test(value)) {
           //6位以上的密码
           this.validFlag.rePassword = false;
           callback(new Error(this.$t("user.password_minLength")));
@@ -281,7 +285,7 @@
           invitationCode: true
         },
         captchaObj: "",
-        passwordStrength: 0
+        passwordStrength: 0,
       };
     },
     computed: {
@@ -290,6 +294,17 @@
       },
       device() {
         return this.$store.state.device;
+      },
+      passwordStrengthText() {
+        if (this.passwordStrength === 1) {
+          return this.$t("user.password_weak");
+        } else if (this.passwordStrength === 2) {
+          return this.$t("user.password_middle");
+        } else if (this.passwordStrength === 3) {
+          return this.$t("user.password_strong");
+        } else {
+          return "";
+        }
       }
     },
     watch: {
@@ -323,7 +338,7 @@
         });
       },
       showTerms() {
-        this.$goRouter("/user-agreement");
+        this.$open("/user-agreement");
       },
       init() {
         this.$store.commit("footer_is_login_setter", true);
@@ -535,5 +550,63 @@
     letter-spacing: 0;
     cursor: pointer;
     margin-right: 94px;
+  }
+
+  .passwordStrength {
+    position: absolute;
+    left: 400px;
+    top: 345px;
+    &-text {
+      &-1 {
+        float: left;
+        font-family: PingFangSC-Regular sans-serif;
+        font-size: 14px;
+        letter-spacing: -0.34px;
+        text-align: center;
+        color: #ED1C24;
+      }
+      &-2 {
+        float: left;
+        font-family: PingFangSC-Regular sans-serif;
+        font-size: 14px;
+        letter-spacing: -0.34px;
+        text-align: center;
+        color: #F5A623;
+      }
+      &-3 {
+        float: left;
+        font-family: PingFangSC-Regular sans-serif;
+        font-size: 14px;
+        letter-spacing: -0.34px;
+        text-align: center;
+        color: #1BB934;
+      }
+    }
+    &-color {
+      &-1 {
+        float: left;
+        width: 8px;
+        height: 6px;
+        margin: 7px 0 0 5px;
+        background: #ED1C24;
+        border-radius: 67px;
+      }
+      &-2 {
+        float: left;
+        width: 18px;
+        height: 6px;
+        margin: 7px 0 0 5px;
+        background: #F5A623;
+        border-radius: 88px;
+      }
+      &-3 {
+        float: left;
+        width: 28px;
+        height: 6px;
+        margin: 7px 0 0 5px;
+        background: #1BB934;
+        border-radius: 52px;
+      }
+    }
   }
 </style>

@@ -36,14 +36,16 @@
           {{$t("public.invite_omt")}}: {{inviteAmount}}
         </div>
       </div>
-      <div class="invite-top" v-if="isZh">
+      <div class="invite-top">
         <div class="invite-top-title"></div>
         <div class="invite-top-content">
           <div class="invite-top-content-item" v-for="(item, index) in inviteTopArray" :key="index" v-show="item.id">
             <div class="invite-top-content-item-icon">
               <img :src="item.img">
             </div>
-            <div class="invite-top-content-item-name">{{interceptEmail(item.email || "")}}</div>
+            <div class="invite-top-content-item-name" :class="{'invite-top-content-item-name-second': index===1}">
+              {{interceptEmail(item.email || "")}}
+            </div>
             <div class="invite-top-content-item-number">{{$t("public.invite_people")}}:{{item.count || 0}}</div>
           </div>
         </div>
@@ -107,6 +109,9 @@
       }
     },
     computed: {
+      bannerList() {
+        return this.$store.state.inviteBannerList;
+      },
       link() {
         return this.$t("public.invite_content") + "\n" + this.linkUrl;
       },
@@ -118,7 +123,7 @@
           value: window.location.href.replace("invite", "user/register?invitationCode=" + this.$store.state.userInfo.invite),
           imagePath: require("../../static/images/home/QC-Code-BG.png"),
           filter: "canvas",
-          size: this.isZh ? 245 : 210,
+          size: 245,
         }
       },
       isZh() {
@@ -139,19 +144,17 @@
         }).catch(err => {
         });
       },
-      getInvitedActivity(){
-        if(this.isZh) {
-          this.$store.dispatch("ajax_invited_activity").then(res => {
-            if (res.data && +res.data.error === 0) {
-              for(let i = 0; i < this.inviteTopArray.length; i++) {
-                this.$set(this.inviteTopArray, i, Object.assign(this.inviteTopArray[i], res.data.list[i]));
-              }
-              console.log(this.inviteTopArray);
-            } else {
+      getInvitedActivity() {
+        this.$store.dispatch("ajax_invited_activity").then(res => {
+          if (res.data && +res.data.error === 0) {
+            for (let i = 0; i < this.inviteTopArray.length; i++) {
+              this.$set(this.inviteTopArray, i, Object.assign(this.inviteTopArray[i], res.data.list[i]));
             }
-          }).catch(err => {
-          });
-        }
+            console.log(this.inviteTopArray);
+          } else {
+          }
+        }).catch(err => {
+        });
       },
       goArticle() {
         if (this.$store.state.userToken) {
@@ -168,8 +171,25 @@
           window.location.href = this.articlesLink;
         }
       },
+      getImg(item) {
+        const language = window.localStorage.getItem('language');
+        if (!item) {
+          return "";
+        } else if (language === 'zh-CN') {
+          return item.zh_img_src || "";
+        } else if (language === 'zh-HK' || language === "zh-TW") {
+          return item.tw_img_src || "";
+        } else {
+          return item.en_img_src || "";
+        }
+      },
       showImage() {
         this.popImageFlag = true;
+      },
+      goBanner(url) {
+        if (url && url.length) {
+          this.$goRouter(url);
+        }
       },
       convertCanvasToImage(canvas) {
         let image = new Image();
@@ -193,11 +213,11 @@
             img.src = imgArr[index];
             img.onload = () => {
               if (index === 1) {
-                if (this.isZh) {
-                  ctx.drawImage(img, 246, 955, 245, 245);
-                } else {
-                  ctx.drawImage(img, 270, 760, 210, 210);
-                }
+                // if (this.isZh) {
+                ctx.drawImage(img, 246, 955, 245, 245);
+                // } else {
+                //   ctx.drawImage(img, 270, 760, 210, 210);
+                // }
                 drawing(++index);
               } else {
                 ctx.drawImage(img, 0, 0, c.width, c.height);
@@ -233,7 +253,7 @@
           }
         }
       },
-      interceptEmail(str){
+      interceptEmail(str) {
         return interceptEmail(str);
       },
       init() {
@@ -242,6 +262,19 @@
         this.getInvitedActivity();
       }
     },
+    // beforeRouteEnter(to, from, next) {
+    //   next(vm => {
+    //     vm.$store.dispatch("ajax_banner", {
+    //       activity_type: 1
+    //     }).then(res => {
+    //       if (res.data && +res.data.error === 0) {
+    //         vm.$store.commit("inviteBannerList_setter", res.data.list);
+    //       } else {
+    //       }
+    //     }).catch(err => {
+    //     });
+    //   });
+    // },
     mounted() {
       this.init();
     }
@@ -254,6 +287,16 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    &-button {
+      cursor: pointer;
+    }
+  }
+
+  .home img {
+    object-fit: cover;
+    object-position: 0 0;
+    width: 100%;
+    height: 100%;
   }
 
   .invite {
@@ -379,7 +422,7 @@
     }
     &-rules {
       width: 970px;
-      height: 424px;
+      min-height: 424px;
       background: #FFFFFF;
       border-radius: 2px;
       margin-top: 40px;
@@ -442,6 +485,9 @@
             font-family: PingFangSC-Regular sans-serif;
             font-size: 16px;
             color: #000000;
+            &-second {
+              margin-top: 34px;
+            }
           }
           &-number {
             margin-top: 5px;
@@ -468,7 +514,7 @@
       padding-bottom: 20px;
     }
     &-popDownload {
-      width: 156px;
+      min-width: 156px;
       background: #FFFFFF;
       border: 1px solid rgba(0, 0, 0, 0.10);
       box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.03);
@@ -479,6 +525,10 @@
       text-align: center;
       line-height: 21px;
     }
+  }
+
+  .imgCursor {
+    cursor: pointer;
   }
 
   /deep/ .ivu-modal-content {

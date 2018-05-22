@@ -49,6 +49,12 @@ export default {
   collection_close_poptip(state, value) {
     state.collection[value].visible = false;
   },
+  homeCarouselList_setter(state, value) {
+    state.homeCarouselList = value;
+  },
+  inviteBannerList_setter(state, value) {
+    state.inviteBannerList = value;
+  },
   banks_setter(state, value) {
     state.banks = value;
   },
