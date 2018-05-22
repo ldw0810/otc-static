@@ -70,6 +70,10 @@
           </FormItem>
           <div class="goButton" v-text="$t('user.register_toLogin')" @click="$goRouter('/user/login')"></div>
         </Form>
+        <div class="passwordStrength" v-if="+passwordStrength > 0">
+          <div :class="'passwordStrength-text-' + passwordStrength">{{passwordStrengthText}}</div>
+          <div :class="'passwordStrength-color-' + passwordStrength"></div>
+        </div>
         <div id="captcha"></div>
       </div>
       <div class='banner' :class="{'omt-hide': !omt_show}">
@@ -86,7 +90,7 @@
 </template>
 
 <script type="es6">
-  import {VALI_NICKNAME} from 'config/validator'
+  import {VALI_NICKNAME} from 'config/validator';
   import validateMixin from "mobile/components/mixins/validate-mixin";
   import {gt} from "@/libs/gt";
   import {DEFAULT_LANGUAGE, OMT_SHOW} from "config/config";
@@ -174,11 +178,12 @@
         }
       };
       const validatePassword = (rule, value, callback) => {
-        let reg = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,20}$/;
+        let reg = /[^\d].*[\d]|[\d].*[^\d]/;
+        this.passwordStrength = this.$checkPassword(value);
         if (!value || !value.length) {
           this.validFlag.password = false;
           callback(new Error(this.$t("user.password_required")));
-        } else if (!/^.{6,20}$/.test(value) || !reg.test(value)) {
+        } else if (!/^.{6,200}$/.test(value) || !reg.test(value)) {
           //6位以上的密码
           this.validFlag.password = false;
           callback(new Error(this.$t("user.password_minLength")));
@@ -191,11 +196,10 @@
         }
       };
       const validateRePassword = (rule, value, callback) => {
-        this.passwordStrength = this.$checkPassword(value);
         if (!value || !value.length) {
           this.validFlag.rePassword = false;
           callback(new Error(this.$t("user.rePassword_required")));
-        } else if (!/^.{6,16}$/.test(value)) {
+        } else if (!/^.{6,200}$/.test(value)) {
           //6位以上的密码
           this.validFlag.rePassword = false;
           callback(new Error(this.$t("user.password_minLength")));
@@ -285,6 +289,17 @@
     computed: {
       omt_show() {
         return OMT_SHOW;
+      },
+      passwordStrengthText() {
+        if (this.passwordStrength === 1) {
+          return this.$t("user.password_weak");
+        } else if (this.passwordStrength === 2) {
+          return this.$t("user.password_middle");
+        } else if (this.passwordStrength === 3) {
+          return this.$t("user.password_strong");
+        } else {
+          return "";
+        }
       }
     },
     watch: {
@@ -318,7 +333,7 @@
         });
       },
       showTerms() {
-        this.$goRouter("/user-agreement");
+        this.$open("/user-agreement");
       },
       init() {
         this.$store.commit("footer_is_login_setter", true);
@@ -497,5 +512,60 @@
     letter-spacing: 0;
     cursor: pointer;
     margin-right: 14vw;
+  }
+
+  .passwordStrength {
+    position: absolute;
+    left: 88vw;
+    top: 28.5vh;
+    &-text {
+      &-1 {
+        float: left;
+        font-family: PingFangSC-Regular sans-serif;
+        font-size: 0.85rem;
+        text-align: center;
+        color: #ED1C24;
+      }
+      &-2 {
+        float: left;
+        font-family: PingFangSC-Regular sans-serif;
+        font-size: 0.85rem;
+        text-align: center;
+        color: #F5A623;
+      }
+      &-3 {
+        float: left;
+        font-family: PingFangSC-Regular sans-serif;
+        font-size: 0.85rem;
+        text-align: center;
+        color: #1BB934;
+      }
+    }
+    &-color {
+      &-1 {
+        float: left;
+        width: 3vw;
+        height: 1vh;
+        margin: 0.6vh 0 0 1vw;
+        background: #ED1C24;
+        border-radius: 5vw;
+      }
+      &-2 {
+        float: left;
+        width: 4.5vw;
+        height: 1vh;
+        margin: 0.6vh 0 0 1vw;
+        background: #F5A623;
+        border-radius: 5vw;
+      }
+      &-3 {
+        float: left;
+        width: 6vw;
+        height: 1vh;
+        margin: 0.6vh 0 0 1vw;
+        background: #1BB934;
+        border-radius: 5vw;
+      }
+    }
   }
 </style>

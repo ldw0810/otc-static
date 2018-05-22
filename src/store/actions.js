@@ -81,6 +81,9 @@ export default {
   ajax_invited_detail({commit}, requestData = {}) {
     return http.get("/api/v1/members/invited_detail.json", requestData);
   },
+  ajax_invited_activity({commit}, requestData = {}) {
+    return http.get("/api/v1/members/invited_activity.json", requestData);
+  },
   ajax_banks({commit}, requestData = {}) {
     return http.get("/api/v1/common/banks.json", requestData);
   },
@@ -141,6 +144,9 @@ export default {
   },
   ajax_language({commit}, requestData = {}) {
     return http.get("/api/v1/common/ln.json", requestData);
+  },
+  ajax_banner({commit}, requestData = {}) {
+    return http.get("/api/v1/common/banner.json", requestData);
   },
   //post
   ajax_register({commit}, requestData) {

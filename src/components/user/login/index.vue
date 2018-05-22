@@ -122,7 +122,7 @@
                           this.$alert.error({
                             title: this.$t("public.error_title_default"),
                             content: this.$t("user.userInfo_response_none")
-                          })
+                          });
                         }
                       })).catch(err => {
                         // this.$Message.error(this.$t("user.userInfo_response_none"));
@@ -158,6 +158,24 @@
                       });
                     }
                   }).catch(err => {
+                    this.submitLoading = false;
+                    if (err.sms || err.app) {
+                      this.$store.commit("loginInfo_setter", {
+                        mobile: err.mobile,
+                        login_token: err.login_token
+                      });
+                      this.$store.commit("userInfo_mobile_setter", err.sms);
+                      this.$store.commit("userInfo_app_two_factor_setter", err.app);
+                      if (this.$route.query.redirect) {
+                        this.$goRouter("/user/login/validate", {
+                          redirect: this.$route.query.redirect
+                        });
+                      } else {
+                        this.$goRouter("/user/login/validate");
+                      }
+                    } else {
+                      // this.$Message.error(this.$t("user.login_error"));
+                    }
                     // this.$Message.error(this.$t("user.login_error"));
                   });
                 });

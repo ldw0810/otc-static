@@ -12,6 +12,20 @@
             {{$t("public.invite_omt")}}: {{inviteAmount}}
           </div>
         </div>
+        <div class="invite-top">
+          <div class="invite-top-title">{{$t("public.invite_rankingList")}}</div>
+          <div class="invite-top-content">
+            <div class="invite-top-content-item" v-for="(item, index) in inviteTopArray" :key="index" v-show="item.id">
+              <div class="invite-top-content-item-icon">
+                <img :src="item.img">
+              </div>
+              <div class="invite-top-content-item-name" :class="{'invite-top-content-item-name-second': index===1}">
+                {{interceptEmail(item.email || "")}}
+              </div>
+              <div class="invite-top-content-item-number">{{$t("public.invite_people")}}:{{item.count || 0}}</div>
+            </div>
+          </div>
+        </div>
         <div class='invite-target-desc'>
           {{$t('public.invite_title')}}
           <a class='invite-target-desc-sub' @click="goArticle">{{$t('public.invite_question')}}</a>
@@ -58,9 +72,9 @@
 <script>
   import QrcodeVue from 'qrcode.vue';
   import {CONF_INVITE_BANNER, CONF_INVITE_IMAGE, ZENDESK_DOMAIN_URL} from 'config/config';
+  import {interceptEmail} from "utils/tools";
 
   const domain = `${ZENDESK_DOMAIN_URL}/hc/${(window.localStorage.getItem("language") || "zh-TW").replace('HK', 'TW').toLowerCase()}`;
-
   export default {
     name: '',
     components: {
@@ -76,10 +90,20 @@
         qrCodeFlag: true,
         popImageFlag: false,
         imageData: "",
-        clientHeight: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+        clientHeight: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,
+        inviteTopArray: [{
+          img: require("../../../static/images/invite/top1.svg")
+        }, {
+          img: require("../../../static/images/invite/top2.svg")
+        }, {
+          img: require("../../../static/images/invite/top3.svg")
+        }]
       }
     },
     computed: {
+      bannerList() {
+        return this.$store.state.inviteBannerList;
+      },
       link() {
         return this.$t("public.invite_content") + "\n" + this.linkUrl;
       },
@@ -91,9 +115,12 @@
           value: window.location.href.replace("invite", "user/register?invitationCode=" + this.$store.state.userInfo.invite),
           imagePath: require("../../../static/images/home/QC-Code-BG.png"),
           filter: "canvas",
-          size: window.localStorage.getItem("language") === "zh-CN" ? 245 : 210,
+          size: 245,
         }
       },
+      isZh() {
+        return window.localStorage.getItem('language') === 'zh-CN';
+      }
     },
     watch: {
       $route: function (val) {
@@ -114,6 +141,29 @@
         }).catch(err => {
         });
       },
+      getInvitedActivity() {
+        this.$store.dispatch("ajax_invited_activity").then(res => {
+          if (res.data && +res.data.error === 0) {
+            for (let i = 0; i < this.inviteTopArray.length; i++) {
+              this.$set(this.inviteTopArray, i, Object.assign(this.inviteTopArray[i], res.data.list[i]));
+            }
+          } else {
+          }
+        }).catch(err => {
+        });
+      },
+      getImg(item) {
+        const language = window.localStorage.getItem('language');
+        if (!item) {
+          return "";
+        } else if (language === 'zh-CN') {
+          return item.zh_img_src || "";
+        } else if (language === 'zh-HK' || language === "zh-TW") {
+          return item.tw_img_src || "";
+        } else {
+          return item.en_img_src || "";
+        }
+      },
       goArticle() {
         if (this.$store.state.userToken) {
           this.$store.dispatch("ajax_zendesk").then(res => {
@@ -131,6 +181,11 @@
       },
       showImage() {
         this.popImageFlag = true;
+      },
+      goBanner(url) {
+        if (url && url.length) {
+          this.$goRouter(url);
+        }
       },
       convertCanvasToImage(canvas) {
         let image = new Image();
@@ -154,11 +209,7 @@
             img.src = imgArr[index];
             img.onload = () => {
               if (index === 1) {
-                if(window.localStorage.getItem("language") === "zh-CN") {
-                  ctx.drawImage(img, 246, 955, 245, 245);
-                } else {
-                  ctx.drawImage(img, 270, 760, 210, 210);
-                }
+                ctx.drawImage(img, 246, 955, 245, 245);
                 drawing(++index);
               } else {
                 ctx.drawImage(img, 0, 0, c.width, c.height);
@@ -194,11 +245,28 @@
           }
         }
       },
+      interceptEmail(str) {
+        return interceptEmail(str);
+      },
       init() {
         this.$store.commit("header_index_setter", "4");
         this.getInviteDetail();
+        this.getInvitedActivity();
       }
     },
+    // beforeRouteEnter(to, from, next) {
+    //   next(vm => {
+    //     vm.$store.dispatch("ajax_banner", {
+    //       activity_type: 1
+    //     }).then(res => {
+    //       if (res.data && +res.data.error === 0) {
+    //         vm.$store.commit("inviteBannerList_setter", res.data.list);
+    //       } else {
+    //       }
+    //     }).catch(err => {
+    //     });
+    //   });
+    // },
     mounted() {
       this.init();
     }
@@ -212,6 +280,16 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    &-button {
+      cursor: pointer;
+    }
+  }
+
+  .home img {
+    object-fit: cover;
+    object-position: 0 0;
+    width: 100%;
+    height: 100%;
   }
 
   .invite {
@@ -327,6 +405,64 @@
         line-height: 2rem;
       }
     }
+    &-top {
+      width: 90vw;
+      min-height: 40vh;
+      margin-top: 2vh;
+      background: #FFFFFF;
+      box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.10);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      &-title {
+        width: 90vw;
+        height: 25.5vw;
+        background-image: url("../../../static/images/invite/toptittle-phone.svg");
+        background-size: cover;
+        color: white;
+        font-family: PingFangSC-Regular sans-serif;
+        font-size: 1.5rem;
+        text-align: center;
+        line-height: 25.5vw;
+      }
+      &-content {
+        width: 90vw;
+        display: flex;
+        justify-content: space-around;
+        &-item {
+          margin-top: 2.5vh;
+          padding-bottom: 2.5vh;
+          width: 25vw;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          &-icon {
+            img {
+              object-fit: cover;
+              object-position: 0 0;
+              width: 100%;
+              height: 100%;
+            }
+          }
+          &-name {
+            margin-top: 1.5vh;
+            word-break: break-all;
+            font-family: PingFangSC-Regular sans-serif;
+            font-size: 0.8rem;
+            color: #000000;
+            &-second {
+              margin-top: 2.45vh;
+            }
+          }
+          &-number {
+            margin-top: 0.5vh;
+            font-family: PingFangSC-Regular sans-serif;
+            font-size: 0.85rem;
+            color: #999999;
+          }
+        }
+      }
+    }
   }
 
   .pop {
@@ -343,7 +479,7 @@
       padding-bottom: 2.5vh;
     }
     &-popDownload {
-      width: 36vw;
+      min-width: 36vw;
       background: #FFFFFF;
       border: 1px solid rgba(0, 0, 0, 0.10);
       box-shadow: 0 1vw 1vw 0 rgba(0, 0, 0, 0.03);
@@ -354,9 +490,15 @@
       text-align: center;
     }
   }
+
+  .imgCursor {
+    cursor: pointer;
+  }
+
   /deep/ .ivu-modal-content {
     background: transparent;
   }
+
   /deep/ .ivu-modal-footer {
     display: flex;
     justify-content: center;

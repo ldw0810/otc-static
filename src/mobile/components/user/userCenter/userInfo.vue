@@ -10,7 +10,7 @@
       <div class="name" v-text="nickname"></div>
       <div></div>
     </div>
-    <div class="infoPage">
+    <div class="infoPage" v-show="userInfo.id">
       <div class="info">
         <span class="title">{{$t('user.authentication_email')}}:</span>
         <span class="text_red" v-text="$t('user.authentication_wait')" v-if="!userInfo.activated"></span>
@@ -25,6 +25,9 @@
               v-if="!userInfo.mobile"></span>
         <span class="text" v-else>{{ $t('user.authenticated')}}({{userInfo.phone_number}})</span>
         <span></span>
+      </div>
+      <div class="info">
+        <span class="tip text_red">{{$t('user.user_phone_verify_tip')}}</span>
       </div>
       <div class="info">
         <span class="title">{{$t('user.default_receivables')}}:</span>
@@ -213,6 +216,10 @@
   }
   #content .info span.title {
     flex: 2;
+  }
+  #content .info span.tip {
+    margin-top: -3vh;
+    margin-left: 40vw;
   }
   #content .info .text_red {
     color: red;

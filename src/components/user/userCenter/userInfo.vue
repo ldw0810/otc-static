@@ -9,7 +9,7 @@
       </div>
       <div class="name" v-text="nickname"></div>
     </div>
-    <div class="infoPage">
+    <div class="infoPage" v-show="userInfo.id">
       <div class="info">
         <span>{{$t('user.authentication_email')}}:</span>
         <span class="text_red" v-text="$t('user.authentication_wait')" v-if="!userInfo.activated"></span>
@@ -22,6 +22,7 @@
         <span class="link" @click="showAuthPhone" v-text="$t('user.unAuthenticated')"
               v-if="!userInfo.mobile"></span>
         <span class="text" v-else>{{ $t('user.authenticated')}}({{userInfo.phone_number}})</span>
+        <span class="text text_red">{{$t("user.user_phone_verify_tip")}}</span>
       </div>
       <div class="info">
         <span class="text">{{$t('user.default_receivables')}}:</span>

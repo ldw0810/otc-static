@@ -417,6 +417,13 @@
           callback();
         }
       };
+      const validateRemark = (rule, value, callback) => {
+        if (this.form.payment === "local" && !value) {
+          callback(new Error(this.$t("ad.ad_local_trading_tip")));
+        } else {
+          callback();
+        }
+      };
       return {
         submitLoading: false,
         opList: ["buy", "sell"],
@@ -550,6 +557,9 @@
             }
           ],
           remark: [
+            {
+              validator: validateRemark
+            },
             {
               min: VALI_AD_REMARK.min,
               message: VALI_AD_REMARK.message
@@ -985,6 +995,13 @@
           } else {
           }
         }).catch(err => {
+          if (+err.error === 100036) {
+            if (+this.adType === 0) {
+              this.examineAdBuyFlag = false;
+            } else {
+              this.examineAdSellFlag = false;
+            }
+          }
         });
       },
       init() {

@@ -113,6 +113,11 @@
             // this.$Message.error(this.$t("user.auth_google_request_fail"));
           }
         }).catch(err => {
+          if (err.error === "100011") {
+            this.$goRouter("/user/userCenter/securitySetting");
+          } else {
+            // this.$Message.error(this.$t("user.auth_google_request_fail"));
+          }
           // this.$Message.error(this.$t("user.auth_google_request_fail"));
         });
       }
