@@ -409,7 +409,7 @@
     }
     &-rules {
       width: 970px;
-      height: 424px;
+      min-height: 424px;
       background: #FFFFFF;
       border-radius: 2px;
       margin-top: 40px;
