@@ -109,6 +109,7 @@
     "invite_rules_content": "1. Click \"QR code invite\" or \"Copy link\" on this page to share with your friends.<br/>2. A friend who registers and completes a mobile phone verification through your invitation link is a successful invitation. The same user can only be invited once.<br/>3. You can get 200 OMT every time you successfully invite a friend (registration and verification). Invite eight friends to get another 10 DAI (1DAI=1 US dollar) for a total of 600 DAI. We will award prizes based on the number of invited people, 1ETH for 1st place, 0.5ETH for 2nd place, 0.2ETH for 3rd place.<br/>4. Activity time:2018/5/22,16:00-2018/5/31,16:00 GMT8+.<br/>5. Rewards will be distributed within 3 business days. You can check the rewards on the Assets page.<br/>6.OTCMAKER reserves the right to investigate any suspicious or inappropriate activity related to the Referral Program.",
     "invite_copy_success": "Copy success",
     "invite_people": "Invitation number",
+    "invite_rankingList": "Ranking List",
     "no_buy_dai_ad": "Currently no ad",
     "no_sell_dai_ad": "Currently no ad",
     "no_buy_eth_ad": "Currently no ad",

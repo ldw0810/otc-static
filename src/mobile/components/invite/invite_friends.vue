@@ -13,7 +13,7 @@
           </div>
         </div>
         <div class="invite-top">
-          <div class="invite-top-title"></div>
+          <div class="invite-top-title">{{$t("public.invite_rankingList")}}</div>
           <div class="invite-top-content">
             <div class="invite-top-content-item" v-for="(item, index) in inviteTopArray" :key="index" v-show="item.id">
               <div class="invite-top-content-item-icon">
@@ -419,6 +419,11 @@
         height: 25.5vw;
         background-image: url("../../../static/images/invite/toptittle-phone.svg");
         background-size: cover;
+        color: white;
+        font-family: PingFangSC-Regular sans-serif;
+        font-size: 1.5rem;
+        text-align: center;
+        line-height: 25.5vw;
       }
       &-content {
         width: 90vw;
