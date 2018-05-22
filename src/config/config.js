@@ -36,7 +36,7 @@ export const DEFAULT_LANGUAGE = "zh-HK";  //默认语言
 export const CURRENT_lANGUAGE = window.localStorage.getItem('language') || DEFAULT_LANGUAGE; // 当前语言
 export const CHAT_URL = "https://notice.otcmaker.com/chat"; //聊天接口URL
 export const AJAX_TIMEOUT = 20000;  //ajax请求的超时时间
-export const AJAX_BASEURL = Env === "development" ? "https://alpha.otcmaker.com": "https://alpha.otcmaker.com";  //ajax请求的地址
+export const AJAX_BASEURL = Env === "development" ? "https://alpha.otcmaker.com": "https://www.otcmaker.com";  //ajax请求的地址
 export const ZENDESK_DOMAIN_URL = "https://otcmaker.zendesk.com";  //zendesk地址
 
 export const OMT_SHOW = false;  //是否展示注册送omt
