@@ -418,6 +418,9 @@ const routers = [
   },
   {
     path: "*",
+    meta: {
+      pathExist: false
+    },
     component: resolve => require(["./pages/not-found.vue"], resolve)
   }
 ];
@@ -481,7 +484,7 @@ router.beforeEach((to, from, next) => {
       goNext();
     }
   } else {
-    if (to.matched.some(r => r.meta.noLogin)) {
+    if (to.matched.some(r => r.meta.noLogin) || !to.matched.some(r => r.meta.pathExist)) {
       goNext();
     } else {
       goNext({
