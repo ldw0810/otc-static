@@ -406,6 +406,11 @@
         height: 25.5vw;
         background-image: url("../../../static/images/invite/toptittle-phone.svg");
         background-size: cover;
+        color: white;
+        font-family: PingFangSC-Regular sans-serif;
+        font-size: 1.5rem;
+        text-align: center;
+        line-height: 25.5vw;
       }
       &-content {
         width: 90vw;
