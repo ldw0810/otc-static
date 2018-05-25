@@ -2,11 +2,6 @@
   <div class='register-wrapper'>
     <div class="bg"></div>
     <div class="content">
-      <!--<div class="logoBg">-->
-      <!--<div class="logo">-->
-      <!--<img src="../../../static/images/LOGO.png">-->
-      <!--</div>-->
-      <!--</div>-->
       <div class="title" v-text="$t('public.register')"></div>
       <div class="form">
         <Form ref="form" @checkValidate='checkValidate' :model="form" :rules="rules">
