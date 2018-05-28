@@ -10,7 +10,7 @@
                 <img :src="imageType[index]" class='img'>
               </div>
               <div class='sider-item-content'>
-                <h3 class='sider-item-title'>{{$t("public['" + item + "']")}}</h3>
+                <h3 class='sider-item-title'>{{$t('public[\'' + item + '\']')}}</h3>
                 <div v-for="(account, index2) in userInfo.valid_account" :key='index2'>
                   <p class='sider-item-desc' v-if="account.currency === currencyList[index]">
                     <!-- {{$t("public.asset")}}:  -->
@@ -27,23 +27,23 @@
           <header class="g-shadow content-header">
             <div class="content-header-item">
               <div class="content-header-item-warpper">
-                <h3 class='content-header-item-title'>{{$t("asset.asset_amount")}}</h3>
-                <div class='content-header-item-content'>{{(account["amount"] || 0) | fix_decimals_assets }}</div>
+                <h3 class='content-header-item-title'>{{$t('asset.asset_amount')}}</h3>
+                <div class='content-header-item-content'>{{(account['amount'] || 0) | fix_decimals_assets }}</div>
               </div>
 
             </div>
             <div class="border"></div>
             <div class="content-header-item">
               <div class="content-header-item-warpper">
-                <h3 class='content-header-item-title'>{{$t("asset.asset_balance")}}</h3>
-                <div class='content-header-item-content'>{{(account["balance"] || 0) | fix_decimals_assets}}</div>
+                <h3 class='content-header-item-title'>{{$t('asset.asset_balance')}}</h3>
+                <div class='content-header-item-content'>{{(account['balance'] || 0) | fix_decimals_assets}}</div>
               </div>
             </div>
             <div class="border"></div>
             <div class="content-header-item">
               <div class="content-header-item-warpper">
-                <h3 class='content-header-item-title'>{{$t("asset.asset_locked")}}</h3>
-                <div class='content-header-item-content'>{{(account["locked"] || 0) | fix_decimals_assets}}</div>
+                <h3 class='content-header-item-title'>{{$t('asset.asset_locked')}}</h3>
+                <div class='content-header-item-content'>{{(account['locked'] || 0) | fix_decimals_assets}}</div>
               </div>
             </div>
           </header>
@@ -67,32 +67,34 @@
                   @changeIndex='changeOperation'
               >
                 <div class='g-loading-wrapper' v-show="changTabLoading">
-                  <c-loading/>
+                  <c-loading />
                 </div>
-                <div class='content-withdraw-no-verify' v-if="!changTabLoading && +assetIndex === 0 && currency === 'omt'">
-                  {{$t("asset.asset_withdraw_await")}}
+                <div class='content-withdraw-no-verify'
+                     v-if="!changTabLoading && +assetIndex === 0 && currency === 'omt'">
+                  {{$t('asset.asset_withdraw_await')}}
                 </div>
                 <div class='content-recharge' v-show="!changTabLoading && +assetIndex === 0" v-else>
                   <div class='content-recharge-left'>
                     <div class="address">
-                      <span class='address-desc'>{{$t("asset.asset_recharge_address")}}:</span>
+                      <span class='address-desc'>{{$t('asset.asset_recharge_address')}}:</span>
                       <a v-if="deposit.account.length && deposit.account[0].deposit_address"
                          v-clipboard:copy="deposit.account[0].deposit_address"
                          v-clipboard:success="copySuccess" class='address-link'>
                         {{deposit.account[0].deposit_address}}
                       </a>
                       <i-button v-else type="primary" :loading='addressLoading' @click="getAddress">
-                        {{$t("asset.asset_recharge_address_get")}}
+                        {{$t('asset.asset_recharge_address_get')}}
                       </i-button>
                     </div>
-                    <div class="tip" v-if="currency === 'dai'" v-html="$t('asset.asset_recharge_address_tip_DAI').format(
+                    <div class="tip" v-if="currency === 'eth'" v-html="$t('asset.asset_recharge_address_tip_ETH').format(
                       deposit.deposit_channels ? +deposit.deposit_channels.max_confirm: 0,
                       deposit.deposit_channels ? +deposit.deposit_channels.min_value: 0
                       )">
                     </div>
-                    <div class="tip" v-else v-html="$t('asset.asset_recharge_address_tip_ETH').format(
+                    <div class="tip" v-else v-html="$t('asset.asset_recharge_address_tip').format(
                       deposit.deposit_channels ? +deposit.deposit_channels.max_confirm: 0,
-                      deposit.deposit_channels ? +deposit.deposit_channels.min_value: 0
+                      deposit.deposit_channels ? +deposit.deposit_channels.min_value: 0,
+                      $t('public[\'' + this.currency + '\']')
                       )">
                     </div>
                   </div>
@@ -105,34 +107,36 @@
                   </div>
                 </div>
                 <!-- widthdraw -->
-                <div class='content-withdraw-no-verify' v-if="!changTabLoading && +assetIndex === 1 && currency === 'omt'">
-                  {{$t("asset.asset_withdraw_await")}}
+                <div class='content-withdraw-no-verify'
+                     v-if="!changTabLoading && +assetIndex === 1 && currency === 'omt'">
+                  {{$t('asset.asset_withdraw_await')}}
                 </div>
                 <div class='withdraw content-withdraw' v-show="!changTabLoading && +assetIndex === 1" v-else>
                   <!-- 您尚未设置二次验证，无法提取ETH -->
                   <div class='content-withdraw-no-verify'
                        v-if="!userInfo.mobile && !userInfo.app_two_factor">
                     <div class='text'>
-                      {{$t("asset.asset_withdraw_no_auth").format($t("public['" + this.currency +
-                      "']"))}}
+                      {{$t('asset.asset_withdraw_no_auth').format($t('public[\'' + this.currency +
+                      '\']'))}}
                     </div>
                     <i-button class='g-shadow button'
                               type='primary'
                               @click="$goRouter('/user/userCenter/securitySetting')">
-                      {{$t("asset.asset_go_set_auth")}}
+                      {{$t('asset.asset_go_set_auth')}}
                     </i-button>
                   </div>
 
                   <!-- 正常提取 -->
                   <div class='content-withdraw-verify'
                        v-else>
-                    <div class="tip" v-if="currency === 'dai'">
-                      {{$t("asset.asset_withdraw_address_tip_DAI").format(currencyWithdrawLimit,
+                    <div class="tip" v-if="currency === 'eth'">
+                      {{$t('asset.asset_withdraw_address_tip_ETH').format(currencyWithdrawLimit,
                       withdraw.withdraw_channels ? withdraw.withdraw_channels.fee : 0)}}
                     </div>
                     <div class="tip" v-else>
-                      {{$t("asset.asset_withdraw_address_tip_ETH").format(currencyWithdrawLimit,
-                      withdraw.withdraw_channels ? withdraw.withdraw_channels.fee : 0)}}
+                      {{$t('asset.asset_withdraw_address_tip').format(currencyWithdrawLimit,
+                      withdraw.withdraw_channels ? withdraw.withdraw_channels.fee : 0,
+                      $t('public[\'' + this.currency + '\']'))}}
                     </div>
                     <Form class="form" ref="form" @checkValidate='checkValidate_form' :model="form"
                           :rules="rules"
@@ -180,7 +184,7 @@
                             <span slot="append">{{currency.toUpperCase()}}</span>
                           </i-input>
                           <i-button class='withdraw-number-btn' @click='handleAllWithdrawal'>
-                            {{$t("asset.asset_withdraw_all")}}
+                            {{$t('asset.asset_withdraw_all')}}
                           </i-button>
                         </div>
                       </FormItem>
@@ -203,14 +207,14 @@
                 <thead class='content-history-table-head'>
                 <tr class='content-history-table-head-tr'>
                   <th class='content-history-table-head-th' width='20%'>
-                    {{$t("asset.asset_recharge_time")}}
+                    {{$t('asset.asset_recharge_time')}}
                   </th>
-                  <th class='content-history-table-head-th' width='20%'>{{$t("asset.asset_number")}}
+                  <th class='content-history-table-head-th' width='20%'>{{$t('asset.asset_number')}}
                   </th>
                   <th class='content-history-table-head-th' width='38%'>
-                    {{$t("asset.asset_hashcode")}}
+                    {{$t('asset.asset_hashcode')}}
                   </th>
-                  <th class='content-history-table-head-th' width='22%'>{{$t("asset.asset_status")}}
+                  <th class='content-history-table-head-th' width='22%'>{{$t('asset.asset_status')}}
                   </th>
                 </tr>
                 </thead>
@@ -220,7 +224,7 @@
                     v-for="(item, index) in deposit.deposits_history" :key="index">
                   <td class='content-history-table-body-td'>
                     <div class="time">
-                      {{new Date(item['created_at']).format("yyyy/MM/dd hh:mm:ss")}}
+                      {{new Date(item['created_at']).format('yyyy/MM/dd hh:mm:ss')}}
                     </div>
                   </td>
                   <td class='content-history-table-body-td'>
@@ -229,15 +233,16 @@
                   <td class='content-history-table-body-td'>
                     <div class="hash">
                       <a class='u-break-all' @click="onOpenUrl(item['blockchain_url'])">
-                        {{item["txid"]}}
+                        {{item['txid']}}
                       </a>
                     </div>
                   </td>
                   <td class='content-history-table-body-td'>
                     <div class="status">
-                      {{$t("asset['asset_recharge_status_" + item["aasm_state"] + "']")}}
+                      {{$t('asset[\'asset_recharge_status_' + item['aasm_state'] + '\']')}}
                       {{item.confirmations < (deposit.deposit_channels ? +deposit.deposit_channels.max_confirm : 0)
-                      ? '&nbsp;&nbsp;' + item.confirmations + '/' + (deposit.deposit_channels ? +deposit.deposit_channels.max_confirm : 0)
+                      ? '&nbsp;&nbsp;' + item.confirmations + '/' + (deposit.deposit_channels ?
+                      +deposit.deposit_channels.max_confirm : 0)
                       : '' }}
                     </div>
                   </td>
@@ -257,14 +262,14 @@
                 <thead class='content-history-table-head'>
                 <tr class='content-history-table-head-tr'>
                   <th class='content-history-table-head-th' width='20%'>
-                    {{$t("asset.asset_withdraw_time")}}
+                    {{$t('asset.asset_withdraw_time')}}
                   </th>
-                  <th class='content-history-table-head-th' width='20%'>{{$t("asset.asset_number")}}
+                  <th class='content-history-table-head-th' width='20%'>{{$t('asset.asset_number')}}
                   </th>
                   <th class='content-history-table-head-th' width='38%'>
-                    {{$t("asset.asset_hashcode")}}
+                    {{$t('asset.asset_hashcode')}}
                   </th>
-                  <th class='content-history-table-head-th' width='22%'>{{$t("asset.asset_status")}}
+                  <th class='content-history-table-head-th' width='22%'>{{$t('asset.asset_status')}}
                   </th>
                 </tr>
                 </thead>
@@ -273,16 +278,16 @@
                     :key="index">
                   <td class='content-history-table-body-td'>
                     <div class="time" v-if="item && item.created_at">
-                      {{new Date(item['created_at']).format("yyyy/MM/dd hh:mm:ss")}}
+                      {{new Date(item['created_at']).format('yyyy/MM/dd hh:mm:ss')}}
                     </div>
                   </td>
                   <td class='content-history-table-body-td'>
-                    <div class="number">{{$fixDecimalsBase(item["amount"] || 0)}}</div>
+                    <div class="number">{{$fixDecimalsBase(item['amount'] || 0)}}</div>
                   </td>
                   <td class='content-history-table-body-td'>
                     <div class="hash">
                       <a class='u-break-all' @click="onOpenUrl(item['blockchain_url'])">
-                        {{item["txid"]}}
+                        {{item['txid']}}
                       </a>
                     </div>
                   </td>
@@ -310,7 +315,7 @@
                         系统驳回
                       </template> -->
                       <template v-else>
-                        {{$t("asset['asset_withdraw_status_" + item["aasm_state"] + "']")}}
+                        {{$t('asset[\'asset_withdraw_status_' + item['aasm_state'] + '\']')}}
                       </template>
                     </div>
                   </td>
@@ -330,23 +335,23 @@
           <!-- <Spin size="large" fix ></Spin> -->
           <Modal v-model="withdraw_confirm" width='580' class-name="m-ivu-modal" :mask-closable="true"
                  :closable="false">
-            <logoDiv/>
-            <withdraw_confirm_pop :form="form" :withdraw="withdraw" @close="doWithdrawPop"/>
+            <logoDiv />
+            <withdraw_confirm_pop :form="form" :withdraw="withdraw" @close="doWithdrawPop" />
             <div slot="footer"></div>
           </Modal>
           <Modal v-model="withdraw_email" width='480' class-name="m-ivu-modal" :mask-closable="false"
                  :closable="false">
-            <logoDiv/>
+            <logoDiv />
             <div class="asset-model-mail">
               <div class='asset-model-mail-title'>
-                <p>{{$t("user.authentication_email_beenSend")}}</p>
+                <p>{{$t('user.authentication_email_beenSend')}}</p>
                 <p>{{userInfo.email}}</p>
               </div>
               <p class='asset-model-mail-desc'>{{$t('asset.asset_withdraw_email')}}</p>
               <sendCodeButton class='asset-model-mail-btn' ref="sendCodeButton"
                               :text="$t('user.authentication_email_reSend_link')"
                               :reText="$t('user.authentication_email_reSend_link')" :time="remainTime"
-                              :maxTime="maxTime" :once="!+remainTime" @sendCode="sendEmail"/>
+                              :maxTime="maxTime" :once="!+remainTime" @sendCode="sendEmail" />
               <i-button long type="primary" @click="withdraw_email = false">
                 {{$t('public.confirm')}}
               </i-button>
@@ -355,7 +360,7 @@
           </Modal>
           <Modal v-model="auth_two_flag" width='480' class-name="m-ivu-modal" :mask-closable="true"
                  :closable="false">
-            <auth_two @close="doAuthClose" :need_auth="false"/>
+            <auth_two @close="doAuthClose" :need_auth="false" />
             <div slot="footer"></div>
           </Modal>
         </div>
@@ -365,21 +370,21 @@
 </template>
 
 <script type="es6">
-  import validateMixin from "mobile/components/mixins/validate-mixin";
-  import emptyList from "mobile/components/public/empty-list";
-  import QrcodeVue from "qrcode.vue";
-  import Tab from "mobile/components/public/tab";
-  import {VALI_ADDRESS_LABEL} from "config/validator";
-  import logoDiv from "../public/logo.vue";
-  import auth_two from "../public/auth_two_pop.vue";
-  import withdraw_confirm_pop from "./withdraw_confirm_pop.vue";
-  import sendCodeButton from "../public/sendCode";
-  import ethereumAddress from "ethereum-address";
-  import {CONF_DIGITAL_CURRENCY_LIST} from "config/config";
+  import validateMixin from 'mobile/components/mixins/validate-mixin';
+  import emptyList from 'mobile/components/public/empty-list';
+  import QrcodeVue from 'qrcode.vue';
+  import Tab from 'mobile/components/public/tab';
+  import {VALI_ADDRESS_LABEL} from 'config/validator';
+  import logoDiv from '../public/logo.vue';
+  import auth_two from '../public/auth_two_pop.vue';
+  import withdraw_confirm_pop from './withdraw_confirm_pop.vue';
+  import sendCodeButton from '../public/sendCode';
+  import ethereumAddress from 'ethereum-address';
+  import {CONF_DIGITAL_CURRENCY_LIST} from 'config/config';
 
   export default {
-    name: "",
-    mixins: [validateMixin(["form", "addForm"])],
+    name: '',
+    mixins: [validateMixin(['form', 'addForm'])],
     components: {
       QrcodeVue,
       logoDiv,
@@ -387,16 +392,16 @@
       withdraw_confirm_pop,
       emptyList,
       sendCodeButton,
-      Tab
+      Tab,
     },
-    data() {
+    data () {
       const validateNumberCheck = (rule, value, callback) => {
         if (!+value || +value <= 0) {
-          callback(new Error(this.$t("public.input_number_required")));
-        } else if (+value > +this.$fixDecimalsAsset(this.account["balance"] || 0)) {
-          callback(new Error(this.$t("public.balance_insufficient")));
+          callback(new Error(this.$t('public.input_number_required')));
+        } else if (+value > +this.$fixDecimalsAsset(this.account['balance'] || 0)) {
+          callback(new Error(this.$t('public.balance_insufficient')));
         } else if (+value < this.currencyWithdrawLimit) {
-          callback(new Error(this.$t("asset.asset_withdraw_" + this.currency + "_number_required").format(this.currencyWithdrawLimit)));
+          callback(new Error(this.$t('asset.asset_withdraw_number_required').format(this.currencyWithdrawLimit, this.$t('public[\'' + this.currency + '\']'))));
         } else {
           callback();
         }
@@ -404,7 +409,7 @@
       const validateEthAddress = (rule, value, callback) => {
         let reg = /^(0x)?[0-9a-f]{40}$/i;
         if (!ethereumAddress.isAddress(value)) {
-          callback(new Error(this.$t("asset.asset_withdraw_address_invalid")));
+          callback(new Error(this.$t('asset.asset_withdraw_address_invalid')));
         } else {
           callback();
         }
@@ -416,69 +421,69 @@
         addressPop: false,
         loading: true,
         imageType: [
-          require("../../../static/images/CoinLogo-DAI.png"),
-          require("../../../static/images/CoinLogo-ETH .png"),
-          require("../../../static/images/OMT.svg")
+          require('../../../static/images/CoinLogo-DAI.png'),
+          require('../../../static/images/CoinLogo-ETH .png'),
+          require('../../../static/images/OMT.svg'),
         ],
-        setAddress: "",
+        setAddress: '',
         tabs: [],
         form: {
-          label: "",
-          labelPlus: "",
-          address: "",
-          addressPlus: "",
-          number: "",
-          id: ""
+          label: '',
+          labelPlus: '',
+          address: '',
+          addressPlus: '',
+          number: '',
+          id: '',
         },
         addForm: {
-          label: "",
-          address: ""
+          label: '',
+          address: '',
         },
         rules: {
           label: [
             {
               required: true,
-              message: this.$t("asset.asset_withdraw_label_required")
-            }
+              message: this.$t('asset.asset_withdraw_label_required'),
+            },
           ],
           labelPlus: [
             {
               required: true,
-              message: this.$t("asset.asset_withdraw_label_required")
+              message: this.$t('asset.asset_withdraw_label_required'),
             },
             {
               min: VALI_ADDRESS_LABEL.min,
-              message: VALI_ADDRESS_LABEL.message
+              message: VALI_ADDRESS_LABEL.message,
             },
             {
               max: VALI_ADDRESS_LABEL.max,
-              message: VALI_ADDRESS_LABEL.message
-            }
+              message: VALI_ADDRESS_LABEL.message,
+            },
           ],
           address: [
             {
               required: true,
-              message: this.$t("asset.asset_withdraw_address_info")
-            }
+              message: this.$t('asset.asset_withdraw_address_info'),
+            },
           ],
           addressPlus: [
             {
               required: true,
-              message: this.$t("asset.asset_withdraw_address_required")
+              message: this.$t('asset.asset_withdraw_address_required'),
             },
             {
-              validator: validateEthAddress
-            }
+              validator: validateEthAddress,
+            },
           ],
           number: [
             {
               required: true,
-              message: this.$t("asset.asset_withdraw_number_info")
+              message: this.$t('asset.asset_withdraw_number_info'),
             },
             {
-              validator: validateNumberCheck
-            }
-          ]
+              validator: validateNumberCheck,
+            },
+          ],
         },
         deposit: {
           account: [],
@@ -487,52 +492,52 @@
           page: 1,
           per_page: 20,
           total_count: 0,
-          total_pages: 1
+          total_pages: 1,
         },
         withdraw: {
-          default_source_id: "",
+          default_source_id: '',
           fund_sources: [],
           withdraw_channels: {},
           withdraws: [],
           page: 1,
           per_page: 20,
           total_count: 0,
-          total_pages: 1
+          total_pages: 1,
         },
         remainTime: 120,
         maxTime: 120,
         withdraw_confirm: false,
         withdraw_email: false,
-        withdraw_id: "",
+        withdraw_id: '',
         auth_two_flag: false,
         addressLoading: false,
         addressAddLoading: false,
-        assetLoading: false
+        assetLoading: false,
       };
     },
     computed: {
-      addressEditStatus() {
+      addressEditStatus () {
         return this.withdraw.fund_sources && this.withdraw.fund_sources.length
-          ? this.$t("asset.asset_withdraw_address")
-          : this.$t("asset.asset_add_new_withdraw_address");
+          ? this.$t('asset.asset_withdraw_address')
+          : this.$t('asset.asset_add_new_withdraw_address');
       },
-      assetIndex() {
+      assetIndex () {
         return +(this.$route.query.type || 0);
       },
-      currencyList() {
+      currencyList () {
         return this.userInfo.valid_account.map((item => {
           return item.currency;
         }));
       },
-      currency() {
+      currency () {
         return (
           this.$route.query.currency || CONF_DIGITAL_CURRENCY_LIST[0].currency
         );
       },
-      currencyWithdrawLimit() {
+      currencyWithdrawLimit () {
         return this.withdraw.withdraw_channels ? this.withdraw.withdraw_channels.min : 0;
       },
-      account() {
+      account () {
         let index = 0;
         for (let i = 0; i < this.userInfo.valid_account.length; i++) {
           if (this.userInfo.valid_account[i] &&
@@ -543,45 +548,45 @@
         }
         return this.userInfo.valid_account[index] || {};
       },
-      amount() {
+      amount () {
         return this.account ? this.$fixDecimalsAsset(this.account.balance) : 0;
       },
-      userInfo() {
+      userInfo () {
         return this.$store.state.userInfo;
       },
-      qrCodeConfig() {
+      qrCodeConfig () {
         return {
           value: this.deposit.account.length
             ? this.deposit.account[0].deposit_address
-            : "",
-          imagePath: require("../../../static/images/home/QC-Code-BG.png"),
-          filter: "canvas",
-          size: 150
+            : '',
+          imagePath: require('../../../static/images/home/QC-Code-BG.png'),
+          filter: 'canvas',
+          size: 150,
         };
       },
-      default_source_id() {
+      default_source_id () {
         return this.withdraw.default_source_id;
       },
-      pageIndex() {
+      pageIndex () {
         return this.$route.query.pageIndex || 1;
-      }
+      },
     },
     watch: {
-      "form.labelPlus"(newVal) {
+      'form.labelPlus' (newVal) {
         this.form.label = newVal;
       },
-      "form.addressPlus"(newVal) {
+      'form.addressPlus' (newVal) {
         this.form.address = newVal;
       },
       $route: function (val) {
         this.init();
-      }
+      },
     },
     methods: {
-      getUserInfo() {
-        this.$store.dispatch("ajax_me");
+      getUserInfo () {
+        this.$store.dispatch('ajax_me');
       },
-      resendOrder(item) {
+      resendOrder (item) {
         this.remainTime = 120;
         this.withdraw_email = true;
         this.withdraw_id = item.id;
@@ -589,10 +594,10 @@
           this.$refs.sendCodeButton.refresh();
         }
       },
-      cancelOrder(item) {
+      cancelOrder (item) {
         this.$store
-          .dispatch("ajax_withdraw_cancel", {
-            id: item.id
+          .dispatch('ajax_withdraw_cancel', {
+            id: item.id,
           })
           .then(res => {
             if (res.data && +res.data.error === 0) {
@@ -604,26 +609,26 @@
             }
           });
       },
-      initFormData() {
+      initFormData () {
         Object.keys(this.form).map(item => {
-          this.form[item] = "";
+          this.form[item] = '';
         });
-        this.$refs["form"] && this.$refs["form"].resetFields();
+        this.$refs['form'] && this.$refs['form'].resetFields();
       },
-      initSelectedValue() {
-        this.setAddress = "";
+      initSelectedValue () {
+        this.setAddress = '';
       },
-      handleAllWithdrawal() {
+      handleAllWithdrawal () {
         this.form.number = this.amount;
       },
-      onOpenUrl(url) {
+      onOpenUrl (url) {
         window.open(url);
       },
-      getAddress() {
+      getAddress () {
         this.addressLoading = true;
         this.$store
-          .dispatch("ajax_gen_address", {
-            currency: this.currency
+          .dispatch('ajax_gen_address', {
+            currency: this.currency,
           })
           .then(res => {
             this.addressLoading = false;
@@ -638,29 +643,29 @@
             // this.$Message.error(this.$t("asset.asset_address_request_fail"));
           });
       },
-      changePage(pageIndex) {
+      changePage (pageIndex) {
         this.$goRouter(this.$route.fullPath, {
-          pageIndex: pageIndex
+          pageIndex: pageIndex,
         });
       },
-      initTabs() {
+      initTabs () {
         this.tabs = [
-          this.$t("public.recharge") +
-          "  " +
-          this.$t("public['" + this.currency + "']"),
-          this.$t("public.withdraw") +
-          "  " +
-          this.$t("public['" + this.currency + "']")
+          this.$t('public.recharge') +
+          '  ' +
+          this.$t('public[\'' + this.currency + '\']'),
+          this.$t('public.withdraw') +
+          '  ' +
+          this.$t('public[\'' + this.currency + '\']'),
         ];
       },
-      showInfo() {
+      showInfo () {
         this.changTabLoading = true;
         if (this.assetIndex === 0) {
           this.$store
-            .dispatch("ajax_get_deposit", {
+            .dispatch('ajax_get_deposit', {
               currency: this.currency,
               limit: this.deposit.per_page,
-              page: +this.pageIndex || this.deposit.page
+              page: +this.pageIndex || this.deposit.page,
             })
             .then(res => {
               this.initTabs();
@@ -675,10 +680,10 @@
             });
         } else if (+this.assetIndex === 1) {
           this.$store
-            .dispatch("ajax_get_withdraw", {
+            .dispatch('ajax_get_withdraw', {
               currency: this.currency,
               limit: this.withdraw.per_page,
-              page: +this.pageIndex || this.withdraw.page
+              page: +this.pageIndex || this.withdraw.page,
             })
             .then(res => {
               this.initTabs();
@@ -708,22 +713,22 @@
             });
         }
       },
-      changeSider(index) {
+      changeSider (index) {
         this.$goRouter(this.$route.path, {
           currency: this.currencyList[+index],
-          type: this.assetIndex
+          type: this.assetIndex,
         });
         this.get_address_id();
       },
-      changeOperation(index) {
+      changeOperation (index) {
         this.changTabLoading = true;
         this.$goRouter(this.$route.path, {
           currency: this.currency,
-          type: index
+          type: index,
         });
       },
-      submit() {
-        this.$refs["form"].validate(valid => {
+      submit () {
+        this.$refs['form'].validate(valid => {
           if (valid) {
             this.withdraw_confirm = true;
           } else {
@@ -731,7 +736,7 @@
           }
         });
       },
-      doWithdraw(authJson) {
+      doWithdraw (authJson) {
         this.checkAddress().then(response => {
           let fund_index = 0;
           for (let i = 0; i < this.withdraw.fund_sources.length; i++) {
@@ -743,7 +748,7 @@
           let requestData = {
             // member_id: this.userInfo.id,
             currency: this.currency,
-            sum: +number
+            sum: +number,
           };
           if (this.form.id) {
             requestData.fund_source_id = id;
@@ -758,7 +763,7 @@
             requestData = Object.assign(authJson, requestData);
           }
           this.$store
-            .dispatch("ajax_withdraw", requestData)
+            .dispatch('ajax_withdraw', requestData)
             .then(res => {
               if (res.data && (res.data.uid || res.data.error === 0)) {
                 this.withdraw_id = res.data.id;
@@ -772,14 +777,14 @@
                 this.init();
               } else {
                 if (res.data.sms || res.data.app) {
-                  this.$store.commit("loginInfo_setter", {
-                    mobile: res.data.mobile
+                  this.$store.commit('loginInfo_setter', {
+                    mobile: res.data.mobile,
                   });
                   this.auth_two_flag = true;
                 } else {
                   this.$alert.error({
-                    title: this.$t("public.error_title_default"),
-                    content: this.$t("asset.asset_withdraw_fail")
+                    title: this.$t('public.error_title_default'),
+                    content: this.$t('asset.asset_withdraw_fail'),
                   });
                   this.init();
                 }
@@ -787,8 +792,8 @@
             })
             .catch(err => {
               if (err.sms || err.app) {
-                this.$store.commit("loginInfo_setter", {
-                  mobile: err.mobile
+                this.$store.commit('loginInfo_setter', {
+                  mobile: err.mobile,
                 });
                 this.auth_two_flag = true;
               } else {
@@ -798,9 +803,9 @@
             });
         });
       },
-      checkAddress() {
+      checkAddress () {
         return new Promise((resolve, reject) => {
-          this.$refs["form"].validate(valid => {
+          this.$refs['form'].validate(valid => {
             if (valid) {
               resolve();
             } else {
@@ -810,21 +815,21 @@
           });
         });
       },
-      setDefaultAddress(id) {
+      setDefaultAddress (id) {
         this.$store
-          .dispatch("ajax_set_default_fund_sources", {
-            id: id
+          .dispatch('ajax_set_default_fund_sources', {
+            id: id,
           })
           .then(res => {
             if (res.data && +res.data.error === 0) {
               this.showInfo();
               this.$Message.success(
-                this.$t("asset.asset_withdraw_address_set_default_success")
+                this.$t('asset.asset_withdraw_address_set_default_success'),
               );
             } else {
               this.$alert.error({
-                title: this.$t("public.error_title_default"),
-                content: this.$t("asset.asset_withdraw_address_set_default_fail")
+                title: this.$t('public.error_title_default'),
+                content: this.$t('asset.asset_withdraw_address_set_default_fail'),
               });
             }
           })
@@ -834,16 +839,16 @@
             // );
           });
       },
-      address_del(id) {
+      address_del (id) {
         this.$store
-          .dispatch("ajax_del_fund_sources", {
-            id: id
+          .dispatch('ajax_del_fund_sources', {
+            id: id,
           })
           .then(res => {
             if (res.data && +res.data.error === 0) {
               this.showInfo();
               this.$Message.success(
-                this.$t("asset.asset_withdraw_address_del_success")
+                this.$t('asset.asset_withdraw_address_del_success'),
               );
             }
           })
@@ -851,19 +856,19 @@
             // this.$Message.error(this.$t("asset.asset_withdraw_address_del_fail"));
           });
       },
-      doWithdrawPop(val) {
+      doWithdrawPop (val) {
         if (val) {
           this.auth_two_flag = true;
         }
         this.withdraw_confirm = false;
       },
-      doAuthClose(val) {
+      doAuthClose (val) {
         if (val) {
           this.doWithdraw(val);
         }
         this.auth_two_flag = false;
       },
-      get_address_id(val) {
+      get_address_id (val) {
         this.setAddress = val ? val : '';
         if (val === 1000) {
           this.initFormData();
@@ -875,7 +880,7 @@
             if (
               val ===
               this.withdraw.fund_sources[i].id +
-              "-" +
+              '-' +
               this.withdraw.fund_sources[i].uid
             ) {
               this.form.id = this.withdraw.fund_sources[i].id;
@@ -891,7 +896,7 @@
           this.addNewAddressStatus = false;
         }
       },
-      sendListEmail(item) {
+      sendListEmail (item) {
         // if (this.$refs.sendCodeButton.subTime >= this.remainTime) {
         // this.$store
         // .dispatch("ajax_resend_confirm", {
@@ -904,10 +909,10 @@
         // });
         // }
       },
-      sendEmail() {
+      sendEmail () {
         this.$store
-          .dispatch("ajax_resend_confirm", {
-            id: this.withdraw_id
+          .dispatch('ajax_resend_confirm', {
+            id: this.withdraw_id,
           })
           .then(res => {
             this.$refs.sendCodeButton.init();
@@ -916,22 +921,22 @@
             // this.$Message.error(this.$t("public.fail"));
           });
       },
-      showAuthEmail() {
-        this.$store.commit("showAuthEmail_setter", 1);
+      showAuthEmail () {
+        this.$store.commit('showAuthEmail_setter', 1);
       },
-      copySuccess() {
-        this.$Message.success(this.$t("public.invite_copy_success"));
+      copySuccess () {
+        this.$Message.success(this.$t('public.invite_copy_success'));
       },
-      init() {
-        this.$store.commit("header_index_setter", "8");
+      init () {
+        this.$store.commit('header_index_setter', '8');
         this.initFormData();
         this.initSelectedValue();
         this.showInfo();
-      }
+      },
     },
-    mounted() {
+    mounted () {
       this.init();
-    }
+    },
   };
 </script>
 <style lang='scss' scoped>

@@ -74,14 +74,15 @@
                         {{$t("asset.asset_recharge_address_get")}}
                       </i-button>
                     </div>
-                    <div class="tip" v-if="currency === 'dai'" v-html="$t('asset.asset_recharge_address_tip_DAI').format(
+                    <div class="tip" v-if="currency === 'eth'" v-html="$t('asset.asset_recharge_address_tip_ETH').format(
                       deposit.deposit_channels ? +deposit.deposit_channels.max_confirm: 0,
                       deposit.deposit_channels ? +deposit.deposit_channels.min_value: 0
                       )">
                     </div>
-                    <div class="tip" v-else v-html="$t('asset.asset_recharge_address_tip_ETH').format(
+                    <div class="tip" v-else v-html="$t('asset.asset_recharge_address_tip').format(
                       deposit.deposit_channels ? +deposit.deposit_channels.max_confirm: 0,
-                      deposit.deposit_channels ? +deposit.deposit_channels.min_value: 0
+                      deposit.deposit_channels ? +deposit.deposit_channels.min_value: 0,
+                      $t('public[\'' + this.currency + '\']')
                       )">
                     </div>
                   </div>
@@ -115,13 +116,14 @@
                   <!-- 正常提取 -->
                   <div class='content-withdraw-verify'
                        v-else>
-                    <div class="tip" v-if="currency === 'dai'">
-                      {{$t("asset.asset_withdraw_address_tip_DAI").format(currencyWithdrawLimit,
+                    <div class="tip" v-if="currency === 'eth'">
+                      {{$t("asset.asset_withdraw_address_tip_ETH").format(currencyWithdrawLimit,
                       withdraw.withdraw_channels ? withdraw.withdraw_channels.fee : 0)}}
                     </div>
                     <div class="tip" v-else>
-                      {{$t("asset.asset_withdraw_address_tip_ETH").format(currencyWithdrawLimit,
-                      withdraw.withdraw_channels ? withdraw.withdraw_channels.fee : 0)}}
+                      {{$t("asset.asset_withdraw_address_tip").format(currencyWithdrawLimit,
+                      withdraw.withdraw_channels ? withdraw.withdraw_channels.fee : 0,
+                      $t('public[\'' + this.currency + '\']'))}}
                     </div>
                     <Form class="form" ref="form" @checkValidate='checkValidate_form' :model="form"
                           :rules="rules"
@@ -385,7 +387,7 @@
         } else if (+value > +this.$fixDecimalsAsset(this.account["balance"] || 0)) {
           callback(new Error(this.$t("public.balance_insufficient")));
         } else if (+value < this.currencyWithdrawLimit) {
-          callback(new Error(this.$t("asset.asset_withdraw_" + this.currency + "_number_required").format(this.currencyWithdrawLimit)));
+          callback(new Error(this.$t("asset.asset_withdraw_number_required").format(this.currencyWithdrawLimit, this.$t("public['" + this.currency + "']"))));
         } else {
           callback();
         }
