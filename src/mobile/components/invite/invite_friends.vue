@@ -15,7 +15,7 @@
         <div class="invite-top">
           <div class="invite-top-title">{{$t("public.invite_rankingList")}}</div>
           <div class="invite-top-content">
-            <div class="invite-top-content-item" v-for="(item, index) in inviteTopArray" :key="index" v-show="item.id">
+            <div class="invite-top-content-item" v-for="(item, index) in inviteTopArray" :key="index">
               <div class="invite-top-content-item-icon">
                 <img :src="item.img">
               </div>

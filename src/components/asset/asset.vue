@@ -47,17 +47,6 @@
               </div>
             </div>
           </header>
-          <!--验证邮箱-->
-          <!-- <div class='content-withdraw-no-verify' v-if="!userInfo.activated">
-            <div class='text'>
-              {{+assetIndex === 0 ?
-              $t("asset.asset_recharge_email_no_Auth").format($t("public['" + this.currency + "']")) :
-              $t("asset.asset_withdraw_email_no_Auth").format($t("public['" + this.currency + "']"))}}
-            </div>
-            <i-button class='g-shadow button' type='primary' @click="showAuthEmail">
-              {{$t("asset.asset_go_email_auth")}}
-            </i-button>
-          </div> -->
           <div v-if="+deposit.error === 0 || +withdraw.error === 0">
             <div class="g-shadow content-main">
               <Tab
@@ -69,10 +58,10 @@
                 <div class='g-loading-wrapper' v-show="changTabLoading">
                   <c-loading/>
                 </div>
-                <div class='content-withdraw-no-verify' v-if="!changTabLoading && +assetIndex === 0 && currency === 'omt'">
-                  {{$t("asset.asset_withdraw_await")}}
-                </div>
-                <div class='content-recharge' v-show="!changTabLoading && +assetIndex === 0" v-else>
+                <!--<div class='content-withdraw-no-verify' v-if="!changTabLoading && +assetIndex === 0 && currency === 'omt'">-->
+                  <!--{{$t("asset.asset_withdraw_await")}}-->
+                <!--</div>-->
+                <div class='content-recharge' v-show="!changTabLoading && +assetIndex === 0">
                   <div class='content-recharge-left'>
                     <div class="address">
                       <span class='address-desc'>{{$t("asset.asset_recharge_address")}}:</span>
@@ -105,10 +94,10 @@
                   </div>
                 </div>
                 <!-- widthdraw -->
-                <div class='content-withdraw-no-verify' v-if="!changTabLoading && +assetIndex === 1 && currency === 'omt'">
-                  {{$t("asset.asset_withdraw_await")}}
-                </div>
-                <div class='withdraw content-withdraw' v-show="!changTabLoading && +assetIndex === 1" v-else>
+                <!--<div class='content-withdraw-no-verify' v-if="!changTabLoading && +assetIndex === 1 && currency === 'omt'">-->
+                  <!--{{$t("asset.asset_withdraw_await")}}-->
+                <!--</div>-->
+                <div class='withdraw content-withdraw' v-show="!changTabLoading && +assetIndex === 1">
                   <!-- 您尚未设置二次验证，无法提取ETH -->
                   <div class='content-withdraw-no-verify'
                        v-if="!userInfo.mobile && !userInfo.app_two_factor">
