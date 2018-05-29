@@ -44,8 +44,7 @@ module.exports = merge(webpackBaseConfig, {
   devServer: {
     proxy: {
       '/hc/api': {
-        target: 'https://alpha.otcmaker.com',
-        // target: "http://192.168.31.40:3000",
+        target: 'https://otcmaker.zendesk.com',
         secure: false,
         changeOrigin: true,
       },
