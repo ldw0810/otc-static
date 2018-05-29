@@ -16,6 +16,7 @@
         </CarouselItem>
       </Carousel>
     </div>
+    <div class="activity" v-if="activities.length" @click="goActivity(activities[0].url)">{{activities[0].title}}</div>
     <section class="content">
       <div class="content-hots">
         <section class="content-hots-wrapper g-container">
@@ -76,67 +77,87 @@
 </template>
 
 <script>
-  import {Carousel, CarouselItem} from "iview";
-  import {HOME_CAROUSEL} from "config/config";
-  import Card from "@/components/public/deal-cards";
+  import {Carousel, CarouselItem} from 'iview';
+  import {HOME_CAROUSEL, ZENDESK_DOMAIN_URL} from 'config/config';
+  import Card from '@/components/public/deal-cards';
 
   export default {
-    name: "home",
-    data() {
+    name: 'home',
+    data () {
       return {
-        ads: []
+        ads: [],
+        activities: []
       };
     },
     computed: {
-      carousel() {
+      carousel () {
         return {
           value: HOME_CAROUSEL.defaultIndex - 1,
           speed: HOME_CAROUSEL.speed,
-          list: HOME_CAROUSEL.list
-        }
+          list: HOME_CAROUSEL.list,
+        };
       },
     },
     components: {
       Carousel,
       CarouselItem,
-      Card
+      Card,
     },
     watch: {
       $route: function (val) {
         this.init();
-      }
+      },
     },
     methods: {
-      getAds() {
-        this.$store.dispatch("ajax_ads_main").then(res => {
+      getAds () {
+        this.$store.dispatch('ajax_ads_main').then(res => {
           if (res.data && +res.data.error === 0) {
             this.ads = res.data.sell_ads.concat(res.data.buy_ads);
           } else {
-            // this.$Message.error(this.$t("public.ads_request_fail"));
           }
         }).catch(err => {
-          // this.$Message.error(this.$t("public.ads_request_fail"));
         });
       },
-      getImg(item) {
+      getActivities () {
+        this.$store.dispatch('ajax_activities', {
+          locale: window.localStorage.getItem('language'),
+          page: 1,
+          per_page: 1,
+        }).then(res => {
+          if (res.count && +res.count > 0) {
+            this.activities = res.activities;
+          } else {
+          }
+        }).catch(err => {
+        });
+      },
+      getImg (item) {
         const language = window.localStorage.getItem('language');
         if (language === 'zh-CN') {
-          return item.zh_img_src || "";
-        } else if (language === 'zh-HK' || language === "zh-TW") {
-          return item.tw_img_src || "";
+          return item.zh_img_src || '';
+        } else if (language === 'zh-HK' || language === 'zh-TW') {
+          return item.tw_img_src || '';
         } else {
-          return item.en_img_src || "";
+          return item.en_img_src || '';
         }
       },
-      goCarousel(url) {
+      goCarousel (url) {
         if (url && url.length) {
           this.$goRouter(url);
         }
       },
-      init() {
-        this.$store.commit("header_index_setter", 0);
+      goActivity (url) {
+        if(url && url.indexOf("http") === -1) {
+          window.location.href= ZENDESK_DOMAIN_URL + url;
+        } else {
+          window.location.href= url;
+        }
+      },
+      init () {
+        this.$store.commit('header_index_setter', 0);
         this.getAds();
-      }
+        this.getActivities();
+      },
     },
     // beforeRouteEnter(to, from, next) {
     //   next(vm => {
@@ -151,9 +172,9 @@
     //     });
     //   });
     // },
-    mounted() {
+    mounted () {
       this.init();
-    }
+    },
   };
 </script>
 <style lang="scss" scoped>
