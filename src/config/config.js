@@ -37,7 +37,8 @@ export const CURRENT_lANGUAGE = window.localStorage.getItem('language') || DEFAU
 export const CHAT_URL = 'https://notice.otcmaker.com/chat'; //聊天接口URL
 export const ACTIVITIES_URL = '/hc/api/internal/recent_activities'; //聊天接口URL
 export const AJAX_TIMEOUT = 20000;  //ajax请求的超时时间
-export const AJAX_BASEURL = Env === 'development' ? '/': 'https://alpha.otcmaker.com';  //ajax请求的地址
+// export const AJAX_BASEURL = Env === 'development' ? '/': 'https://alpha.otcmaker.com';  //ajax请求的地址
+export const AJAX_BASEURL = '/';  //ajax请求的地址
 export const ZENDESK_DOMAIN_URL = 'https://otcmaker.zendesk.com';  //zendesk地址
 
 export const OMT_SHOW = false;  //是否展示注册送omt
