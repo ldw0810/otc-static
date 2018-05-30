@@ -112,7 +112,7 @@
       },
       getAnnouncements () {
         this.$store.dispatch('ajax_announcements', {
-          ln: window.localStorage.getItem('language').toLowerCase(),
+          ln: (window.localStorage.getItem("language") || "zh-TW").replace('HK', 'TW').toLowerCase()
         }).then(res => {
           if (res.data && +res.data.error === 0) {
             this.announcements = res.data.data;
