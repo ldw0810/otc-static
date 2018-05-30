@@ -16,7 +16,15 @@
         </CarouselItem>
       </Carousel>
     </div>
-    <div class="activity" v-if="activities.length" @click="goActivity(activities[0].url)">{{activities[0].title}}</div>
+    <div class="announcements" v-if="announcements.title">
+      <span @click="goAnnouncements(announcements.url)">
+        {{announcements.title}}
+      </span>
+      <span v-if="announcements.breadcrumbs && announcements.breadcrumbs.length"
+            @click="goAnnouncements(announcements.breadcrumbs[0].url)">
+        ({{$t('public.public_see_more')}})
+      </span>
+    </div>
     <section class="content">
       <div class="content-hots">
         <section class="content-hots-wrapper g-container">
@@ -86,7 +94,7 @@
     data () {
       return {
         ads: [],
-        activities: []
+        announcements: {},
       };
     },
     computed: {
@@ -118,14 +126,12 @@
         }).catch(err => {
         });
       },
-      getActivities () {
-        this.$store.dispatch('ajax_activities', {
-          locale: window.localStorage.getItem('language'),
-          page: 1,
-          per_page: 1,
+      getAnnouncements () {
+        this.$store.dispatch('ajax_announcements', {
+          ln: window.localStorage.getItem('language').toLowerCase(),
         }).then(res => {
-          if (res.count && +res.count > 0) {
-            this.activities = res.activities;
+          if (res.data && +res.data.error === 0) {
+            this.announcements = res.data.data;
           } else {
           }
         }).catch(err => {
@@ -146,17 +152,17 @@
           this.$goRouter(url);
         }
       },
-      goActivity (url) {
-        if(url && url.indexOf("http") === -1) {
-          window.location.href= ZENDESK_DOMAIN_URL + url;
+      goAnnouncements (url) {
+        if (url && url.indexOf('http') === -1) {
+          window.location.href = ZENDESK_DOMAIN_URL + url;
         } else {
-          window.location.href= url;
+          window.location.href = url;
         }
       },
       init () {
         this.$store.commit('header_index_setter', 0);
         this.getAds();
-        this.getActivities();
+        this.getAnnouncements();
       },
     },
     // beforeRouteEnter(to, from, next) {
@@ -281,5 +287,25 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+  }
+
+  .announcements {
+    background: #000000;
+    height: 34px;
+    width: 100%;
+    min-width: 1080px;
+    text-align: center;
+  }
+
+  .announcements span {
+    font-family: PingFangSC-Semibold sans-serif;
+    font-size: 14px;
+    color: #FFFFFF;
+    line-height: 34px;
+    letter-spacing: 0;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 </style>

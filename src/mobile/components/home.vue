@@ -1,5 +1,14 @@
 <template>
   <div class="home">
+    <div class="announcements" v-if="announcements.title">
+        <span @click="goAnnouncements(announcements.url)">
+          {{announcements.title}}
+        </span>
+      <span v-if="announcements.breadcrumbs && announcements.breadcrumbs.length"
+            @click="goAnnouncements(announcements.breadcrumbs[0].url)">
+          ({{$t('public.public_see_more')}})
+        </span>
+    </div>
     <section class="content">
       <div class="content-hots">
         <section class="content-hots-wrapper g-mobile-container">
@@ -62,35 +71,36 @@
 </template>
 
 <script>
-  import {Carousel, CarouselItem} from "iview";
-  import {HOME_CAROUSEL} from "config/config";
-  import Card from "mobile/components/public/deal-cards";
+  import {Carousel, CarouselItem} from 'iview';
+  import {HOME_CAROUSEL, ZENDESK_DOMAIN_URL} from 'config/config';
+  import Card from 'mobile/components/public/deal-cards';
 
   export default {
-    name: "home",
-    data() {
+    name: 'home',
+    data () {
       return {
         carousel: {
           value: HOME_CAROUSEL.defaultIndex - 1,
           speed: HOME_CAROUSEL.speed,
           list: HOME_CAROUSEL.list,
         },
-        ads: []
+        ads: [],
+        announcements: {},
       };
     },
     components: {
       Carousel,
       CarouselItem,
-      Card
+      Card,
     },
     watch: {
       $route: function (val) {
         this.init();
-      }
+      },
     },
     methods: {
-      getAds() {
-        this.$store.dispatch("ajax_ads_main").then(res => {
+      getAds () {
+        this.$store.dispatch('ajax_ads_main').then(res => {
           if (res.data && +res.data.error === 0) {
             this.ads = res.data.sell_ads.concat(res.data.buy_ads);
           } else {
@@ -100,17 +110,36 @@
           // this.$Message.error(this.$t("public.ads_request_fail"));
         });
       },
-      goCarousel(url){
+      getAnnouncements () {
+        this.$store.dispatch('ajax_announcements', {
+          ln: window.localStorage.getItem('language').toLowerCase(),
+        }).then(res => {
+          if (res.data && +res.data.error === 0) {
+            this.announcements = res.data.data;
+          } else {
+          }
+        }).catch(err => {
+        });
+      },
+      goCarousel (url) {
         this.$goRouter(url);
       },
-      init(){
-        this.$store.commit("header_index_setter", 0);
+      goAnnouncements (url) {
+        if (url && url.indexOf('http') === -1) {
+          window.location.href = ZENDESK_DOMAIN_URL + url;
+        } else {
+          window.location.href = url;
+        }
+      },
+      init () {
+        this.$store.commit('header_index_setter', 0);
         this.getAds();
-      }
+        this.getAnnouncements();
+      },
     },
-    mounted() {
+    mounted () {
       this.init();
-    }
+    },
   };
 </script>
 <style lang="scss" scoped>
@@ -204,6 +233,25 @@
           padding-bottom: 5vh;
         }
       }
+    }
+  }
+
+  .announcements {
+    background: #000000;
+    height: 2rem;
+    width: 100vw;
+    text-align: center;
+  }
+
+  .announcements span {
+    font-family: PingFangSC-Semibold sans-serif;
+    font-size: 0.85rem;
+    color: #FFFFFF;
+    line-height: 2rem;
+    letter-spacing: 0;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
     }
   }
 </style>
