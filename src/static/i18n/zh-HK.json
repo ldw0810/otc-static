@@ -2,7 +2,7 @@
   "public": {
     "not_found": "奇怪，頁面好像消失了    ",
     "return_home": "返回首頁",
-    "server maintenance": "服務器正在維護中，請您稍後訪問",
+    "server_maintenance": "服務器正在維護中，請您稍後訪問",
     "refresh": "刷新試試",
     "homePage": "首頁",
     "buy": "購買",
@@ -392,6 +392,9 @@
     "ad_payment_select": "選擇支付方式",
     "ad_payment_select_tip": "您希望交易收款的支付方式",
     "ad_payment_select_required": "請選擇支付方式",
+    "ad_address_select": "選擇地址",
+    "ad_address_select_tip": "您希望當面交易的具體地址",
+    "ad_address_select_required": "請選擇當面交易的地址",
     "ad_money_request_fail": "貨幣數據獲取失敗",
     "ad_money_select": "選擇貨幣",
     "ad_money_select_tip": "您希望交易付款的貨幣類型",

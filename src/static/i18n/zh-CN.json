@@ -2,7 +2,7 @@
   "public": {
     "not_found": "奇怪，页面好像消失了",
     "return_home": "返回首页",
-    "server maintenance": "服务器正在维护中，请您稍后访问",
+    "server_maintenance": "服务器正在维护中，请您稍后访问",
     "refresh": "刷新试试",
     "homePage": "首页",
     "buy": "购买",
@@ -392,6 +392,9 @@
     "ad_payment_select": "选择支付方式",
     "ad_payment_select_tip": "您希望交易收款的支付方式",
     "ad_payment_select_required": "请选择支付方式",
+    "ad_address_select": "选择地址",
+    "ad_address_select_tip": "您希望当面交易的具体地址",
+    "ad_address_select_required": "请选择当面交易的地址",
     "ad_money_request_fail": "货币数据获取失败",
     "ad_money_select": "选择货币",
     "ad_money_select_tip": "您希望交易付款的货币类型",

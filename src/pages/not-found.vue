@@ -42,7 +42,6 @@
       text-align: center;
     }
     &-btn {
-      appearance: none;
       padding-left: 30px;
       padding-right: 30px;
       height: 44px;
