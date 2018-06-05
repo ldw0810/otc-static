@@ -1,20 +1,28 @@
 <template>
   <div class="home">
     <div class="carousel" v-if="carousel.list.length === 1">
-      <div class="img" :class="{'imgCursor': carousel.list[0] && carousel.list[0].url}"
-           @click.stop="goCarousel(carousel.list[0].url)">
-        <img :src="carousel.list[0].img">
+      <div class="img" :style="{backgroundImage: 'url('+getImg(carousel.list[0])+')'}"
+           @click.stop="goCarousel(carousel.list[0].jump_to)">
       </div>
     </div>
     <div class="carousel" v-else-if="carousel.list.length > 1">
       <Carousel class='m-ivu-carousel' autoplay :autoplay-speed="carousel.speed" v-model="carousel.value" loop
                 :radius-dot='true'>
         <CarouselItem v-for="(item, index) in carousel.list" :key="index">
-          <div class="img" :class="{'imgCursor': item && item.url}" :style="{backgroundImage: 'url('+item.img+')'}"
-               @click.stop="goCarousel(item.url)">
+          <div class="img" :style="{backgroundImage: 'url('+getImg(item)+')'}" @click.stop="goCarousel(item.jump_to)"
+               v-show="item.is_show">
           </div>
         </CarouselItem>
       </Carousel>
+    </div>
+    <div class="announcements" v-if="announcements.title">
+      <span @click="goAnnouncements(announcements.url)">
+        {{announcements.title}}
+      </span>
+      <span v-if="announcements.breadcrumbs && announcements.breadcrumbs.length"
+            @click="goAnnouncements(announcements.breadcrumbs[0].url)">
+        ({{$t('public.public_see_more')}})
+      </span>
     </div>
     <section class="content">
       <div class="content-hots">
@@ -76,84 +84,103 @@
 </template>
 
 <script>
-  import {Carousel, CarouselItem} from "iview";
-  import {HOME_CAROUSEL} from "config/config";
-  import Card from "@/components/public/deal-cards";
+  import {Carousel, CarouselItem} from 'iview';
+  import {HOME_CAROUSEL, ZENDESK_DOMAIN_URL} from 'config/config';
+  import Card from '@/components/public/deal-cards';
 
   export default {
-    name: "home",
-    data() {
+    name: 'home',
+    data () {
       return {
-        ads: []
+        ads: [],
+        announcements: {},
       };
     },
     computed: {
-      carousel() {
+      carousel () {
         return {
           value: HOME_CAROUSEL.defaultIndex - 1,
           speed: HOME_CAROUSEL.speed,
-          list: HOME_CAROUSEL.list
+          list: this.$store.state.homeCarouselList,
         }
       },
     },
     components: {
       Carousel,
       CarouselItem,
-      Card
+      Card,
     },
     watch: {
       $route: function (val) {
         this.init();
-      }
+      },
     },
     methods: {
-      getAds() {
-        this.$store.dispatch("ajax_ads_main").then(res => {
+      getAds () {
+        this.$store.dispatch('ajax_ads_main').then(res => {
           if (res.data && +res.data.error === 0) {
             this.ads = res.data.sell_ads.concat(res.data.buy_ads);
           } else {
-            // this.$Message.error(this.$t("public.ads_request_fail"));
           }
         }).catch(err => {
-          // this.$Message.error(this.$t("public.ads_request_fail"));
         });
       },
-      getImg(item) {
+      getAnnouncements () {
+        this.$store.dispatch('ajax_announcements', {
+          ln: (window.localStorage.getItem("language") || "zh-TW").replace('HK', 'TW').toLowerCase()
+        }).then(res => {
+          if (res.data && +res.data.error === 0) {
+            this.announcements = res.data.data;
+          } else {
+          }
+        }).catch(err => {
+        });
+      },
+      getImg (item) {
         const language = window.localStorage.getItem('language');
         if (language === 'zh-CN') {
-          return item.zh_img_src || "";
-        } else if (language === 'zh-HK' || language === "zh-TW") {
-          return item.tw_img_src || "";
+          return item.zh_img_src || '';
+        } else if (language === 'zh-HK' || language === 'zh-TW') {
+          return item.tw_img_src || '';
         } else {
-          return item.en_img_src || "";
+          return item.en_img_src || '';
         }
       },
-      goCarousel(url) {
+      goCarousel (url) {
         if (url && url.length) {
-          this.$goRouter(url);
+          window.location.href = url;
         }
       },
-      init() {
-        this.$store.commit("header_index_setter", 0);
+      goAnnouncements (url) {
+        if (url && url.indexOf('http') === -1) {
+          window.location.href = ZENDESK_DOMAIN_URL + url;
+        } else {
+          window.location.href = url;
+        }
+      },
+      init () {
+        this.$store.commit('header_index_setter', 0);
         this.getAds();
+        this.getAnnouncements();
       }
     },
-    // beforeRouteEnter(to, from, next) {
-    //   next(vm => {
-    //     vm.$store.dispatch("ajax_banner", {
-    //       activity_type: 0
-    //     }).then(res => {
-    //       if (res.data && +res.data.error === 0) {
-    //         vm.$store.commit("homeCarouselList_setter", res.data.list);
-    //       } else {
-    //       }
-    //     }).catch(err => {
-    //     });
-    //   });
-    // },
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        vm.$store.dispatch("ajax_banner", {
+          activity_type: 0,
+          device_type: "pc"
+        }).then(res => {
+          if (res.data && +res.data.error === 0) {
+            vm.$store.commit("homeCarouselList_setter", res.data.list);
+          } else {
+          }
+        }).catch(err => {
+        });
+      });
+    },
     mounted() {
       this.init();
-    }
+    },
   };
 </script>
 <style lang="scss" scoped>
@@ -260,5 +287,25 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+  }
+
+  .announcements {
+    background: #000000;
+    height: 34px;
+    width: 100%;
+    min-width: 1080px;
+    text-align: center;
+  }
+
+  .announcements span {
+    font-family: PingFangSC-Semibold sans-serif;
+    font-size: 14px;
+    color: #FFFFFF;
+    line-height: 34px;
+    letter-spacing: 0;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 </style>
