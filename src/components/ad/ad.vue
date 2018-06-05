@@ -56,20 +56,20 @@
             </i-col>
           </Row>
         </FormItem>
-        <!--当面交易的地址-->
-        <FormItem prop="address" class="form-item" v-if="'' + form_buy.payment === 'local'">
-          <header class='form-item-header'>
-            <div class="form-item-header-title">{{$t("ad.ad_address_select")}}:</div>
-            <div class="form-item-header-title-tip">{{$t("ad.ad_address_select_tip")}}</div>
-          </header>
-          <Row>
-            <i-col span='10'>
-              <i-input class="input" v-model="form_buy.address" type="text"
-                       :placeholder="$t('ad.ad_address_select_required')">
-              </i-input>
-            </i-col>
-          </Row>
-        </FormItem>
+        <!--&lt;!&ndash;当面交易的地址&ndash;&gt;-->
+        <!--<FormItem prop="address" class="form-item" v-if="'' + form_buy.payment === 'local'">-->
+          <!--<header class='form-item-header'>-->
+            <!--<div class="form-item-header-title">{{$t("ad.ad_address_select")}}:</div>-->
+            <!--<div class="form-item-header-title-tip">{{$t("ad.ad_address_select_tip")}}</div>-->
+          <!--</header>-->
+          <!--<Row>-->
+            <!--<i-col span='10'>-->
+              <!--<i-input class="input" v-model="form_buy.address" type="text"-->
+                       <!--:placeholder="$t('ad.ad_address_select_required')">-->
+              <!--</i-input>-->
+            <!--</i-col>-->
+          <!--</Row>-->
+        <!--</FormItem>-->
         <!--货币-->
         <FormItem prop="targetCurrency" class="form-item" v-if="currency === 'dai'">
           <header class='form-item-header'>
