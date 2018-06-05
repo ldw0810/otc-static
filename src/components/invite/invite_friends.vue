@@ -39,7 +39,7 @@
       <div class="invite-top">
         <div class="invite-top-title">{{$t("public.invite_rankingList")}}</div>
         <div class="invite-top-content">
-          <div class="invite-top-content-item" v-for="(item, index) in inviteTopArray" :key="index" v-show="item.id">
+          <div class="invite-top-content-item" v-for="(item, index) in inviteTopArray" :key="index">
             <div class="invite-top-content-item-icon">
               <img :src="item.img">
             </div>
@@ -262,19 +262,6 @@
         this.getInvitedActivity();
       }
     },
-    // beforeRouteEnter(to, from, next) {
-    //   next(vm => {
-    //     vm.$store.dispatch("ajax_banner", {
-    //       activity_type: 1
-    //     }).then(res => {
-    //       if (res.data && +res.data.error === 0) {
-    //         vm.$store.commit("inviteBannerList_setter", res.data.list);
-    //       } else {
-    //       }
-    //     }).catch(err => {
-    //     });
-    //   });
-    // },
     mounted() {
       this.init();
     }

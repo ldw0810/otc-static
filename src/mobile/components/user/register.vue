@@ -2,11 +2,6 @@
   <div class='register-wrapper'>
     <div class="bg"></div>
     <div class="content">
-      <!--<div class="logoBg">-->
-      <!--<div class="logo">-->
-      <!--<img src="../../../static/images/LOGO.png">-->
-      <!--</div>-->
-      <!--</div>-->
       <div class="title" v-text="$t('public.register')"></div>
       <div class="form">
         <Form ref="form" @checkValidate='checkValidate' :model="form" :rules="rules">
@@ -70,11 +65,11 @@
           </FormItem>
           <div class="goButton" v-text="$t('user.register_toLogin')" @click="$goRouter('/user/login')"></div>
         </Form>
-        <div class="passwordStrength" v-if="+passwordStrength > 0">
-          <div :class="'passwordStrength-text-' + passwordStrength">{{passwordStrengthText}}</div>
-          <div :class="'passwordStrength-color-' + passwordStrength"></div>
-        </div>
-        <div id="captcha"></div>
+        <!--<div class="passwordStrength" v-if="+passwordStrength > 0">-->
+          <!--<div :class="'passwordStrength-text-' + passwordStrength">{{passwordStrengthText}}</div>-->
+          <!--<div :class="'passwordStrength-color-' + passwordStrength"></div>-->
+        <!--</div>-->
+        <!--<div id="captcha"></div>-->
       </div>
       <div class='banner' :class="{'omt-hide': !omt_show}">
         <span class='banner-text'>{{$t('user.register_ad_info')}}</span>

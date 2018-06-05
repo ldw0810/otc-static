@@ -2,7 +2,7 @@
   <div class="header" ref="header">
     <div class="header-inner">
       <div class='header-logo'>
-        <router-link to='/'>
+        <router-link to='/mobile/'>
           <img class='header-logo-asset' src="../../../static/images/LOGO.png">
         </router-link>
       </div>
