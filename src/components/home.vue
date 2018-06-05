@@ -161,6 +161,7 @@
       init () {
         this.$store.commit('header_index_setter', 0);
         this.getAds();
+        this.getAnnouncements();
       }
     },
     beforeRouteEnter(to, from, next) {
