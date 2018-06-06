@@ -478,8 +478,8 @@ router.beforeEach((to, from, next) => {
     } else if (to.matched.some(r => r.meta.freeze) && store.state.userInfo.soft_disabled) { //账户软冻结
       goNext({path: '/'});
     } else if (to.matched.some(r => r.meta.needEmail) && !store.state.userInfo.activated) { //邮箱未验证
-      //地址栏输入的from.name为空
-      goNext({path: '/user/userCenter'});
+      LoadingBar.finish();
+      store.commit("showAuthEmail_setter", 1);
     } else {
       goNext();
     }
