@@ -452,6 +452,9 @@
             font-family: PingFangSC-Regular sans-serif;
             font-size: 0.8rem;
             color: #000000;
+            &-second {
+              margin-top: 2.45vh;
+            }
           }
           &-number {
             margin-top: 0.5vh;
