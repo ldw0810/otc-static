@@ -56,6 +56,28 @@
             </i-col>
           </Row>
         </FormItem>
+        <!--当面交易的地址-->
+        <FormItem prop="address" class="form-item" v-if="'' + form_buy.payment === 'local'">
+          <header class='form-item-header'>
+            <span class="form-item-header-title">{{$t('ad.ad_address_input')}}:</span>
+            <span class="form-item-header-title-tip">{{$t('ad.ad_address_input_tip')}}</span>
+          </header>
+          <Row>
+            <div class="selectDiv">
+              <Select
+                  v-model="form_buy.address"
+                  filterable remote clearable
+                  :remote-method="addressRemoteBuy"
+                  :loading="form_buy.addressLoading"
+                  :loading-text="$t('ad.ad_address_input_loading')"
+                  :not-found-text="$t('ad.ad_address_input_notFound')"
+                  :placeholder="$t('ad.ad_address_input_required')">
+                <Option v-for="(item, index) in form_buy.addressList" :key="index" :value="'(' +
+                  item.country_name + ')' + item.name">{{'(' + item.country_name + ')' + item.name}}</Option>
+              </Select>
+            </div>
+          </Row>
+        </FormItem>
         <!--货币-->
         <FormItem prop="targetCurrency" class="form-item" v-if="currency === 'dai'">
           <header class='form-item-header'>
@@ -220,6 +242,28 @@
                 </div>
               </div>
             </i-col>
+          </Row>
+        </FormItem>
+        <!--当面交易的地址-->
+        <FormItem prop="address" class="form-item" v-if="'' + form_sell.collection === 'local'">
+          <header class='form-item-header'>
+            <span class="form-item-header-title">{{$t('ad.ad_address_input')}}:</span>
+            <span class="form-item-header-title-tip">{{$t('ad.ad_address_input_tip')}}</span>
+          </header>
+          <Row>
+            <div class="selectDiv">
+              <Select
+                  v-model="form_sell.address"
+                  filterable remote clearable
+                  :remote-method="addressRemoteSell"
+                  :loading="form_sell.addressLoading"
+                  :loading-text="$t('ad.ad_address_input_loading')"
+                  :not-found-text="$t('ad.ad_address_input_notFound')"
+                  :placeholder="$t('ad.ad_address_input_required')">
+                <Option v-for="(item, index) in form_sell.addressList" :key="index" :value="'(' +
+                  item.country_name + ')' + item.name">{{'(' + item.country_name + ')' + item.name}}</Option>
+              </Select>
+            </div>
           </Row>
         </FormItem>
         <!--货币-->
@@ -430,30 +474,36 @@
         formFlag: true,
         adType: this.$route.query.adType || 0,
         form_buy: {
-          payment: "",
-          collection: "",
-          targetCurrency: "",
-          premium: "",
-          buyPrice: "",
-          sellPrice: "",
-          maxPrice: "",
-          minPrice: "",
-          floor: "",
-          ceiling: "",
-          remark: ""
+          address: '',
+          payment: '',
+          collection: '',
+          targetCurrency: '',
+          premium: '',
+          buyPrice: '',
+          sellPrice: '',
+          maxPrice: '',
+          minPrice: '',
+          floor: '',
+          ceiling: '',
+          remark: '',
+          addressList: [],
+          addressLoading: false,
         },
         form_sell: {
-          payment: "",
-          collection: "",
-          targetCurrency: "",
-          premium: "",
-          buyPrice: "",
-          sellPrice: "",
-          maxPrice: "",
-          minPrice: "",
-          floor: "",
-          ceiling: "",
-          remark: ""
+          address: '',
+          payment: '',
+          collection: '',
+          targetCurrency: '',
+          premium: '',
+          buyPrice: '',
+          sellPrice: '',
+          maxPrice: '',
+          minPrice: '',
+          floor: '',
+          ceiling: '',
+          remark: '',
+          addressList: [],
+          addressLoading: false,
         },
         rules: {
           adType: [
@@ -818,6 +868,36 @@
       //     );
       //   });
       // },
+      addressRemoteBuy (query) {
+        this.addressRemote(query, 0);
+      },
+      addressRemoteSell (query) {
+        this.addressRemote(query, 1);
+      },
+      addressRemote (query, type) {
+        query = query + '';
+        if (query && query.trim()) {
+          type === 0 ? this.form_buy.addressLoading = true : this.form_sell.addressLoading = true;
+          this.$store.dispatch('ajax_search', {
+            keyword: query.trim().replace(/\(.*\)/g, ''),
+          }).then(res => {
+            type === 0 ? this.form_buy.addressLoading = false : this.form_sell.addressLoading = false;
+            if (res.data && res.data.error === 0) {
+              if (res.data.data && res.data.data.length) {
+                type === 0 ? this.form_buy.addressList = res.data.data : this.form_sell.addressList = res.data.data;
+              } else {
+                type === 0 ? this.form_buy.addressList = [] : this.form_sell.addressList = [];
+              }
+            } else {
+              type === 0 ? this.form_buy.addressList = [] : this.form_sell.addressList = [];
+            }
+          }).catch(() => {
+            type === 0 ? this.form_buy.addressList = [] : this.form_sell.addressList = [];
+          });
+        } else {
+          type === 0 ? this.form_buy.addressList = [] : this.form_sell.addressList = [];
+        }
+      },
       submit() {
         let tempFlag = false;
         if (!this.userInfo.activated) {
@@ -1116,5 +1196,21 @@
 
   /deep/ .ivu-col-span-10 {
     width: 66vw;
+  }
+  .selectDiv {
+    display: block;
+    width: 66vw;
+  }
+
+  /deep/ .ivu-select-not-found {
+    color: #999999;
+    text-align: left;
+    padding-left: 10px;
+  }
+
+  /deep/ .ivu-select-loading {
+    color: #999999;
+    text-align: left;
+    padding-left: 10px;
   }
 </style>
