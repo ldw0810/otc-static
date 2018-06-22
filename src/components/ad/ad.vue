@@ -67,13 +67,14 @@
               <Select
                   v-model="form_buy.address"
                   filterable remote clearable
+                  @on-change="changeRemote"
                   :remote-method="addressRemoteBuy"
                   :loading="form_buy.addressLoading"
                   :loading-text="$t('ad.ad_address_input_loading')"
                   :not-found-text="$t('ad.ad_address_input_notFound')"
                   :placeholder="$t('ad.ad_address_input_required')">
-                <Option v-for="(item, index) in form_buy.addressList" :key="index" :value="'(' +
-                  item.country_name + ')' + item.name">{{'(' + item.country_name + ')' + item.name}}</Option>
+                <Option v-for="(item, index) in form_buy.addressList" :key="index"
+                        :value="JSON.stringify(item)">{{'(' + item.country_name + ')' + item.name}}</Option>
               </Select>
             </div>
           </Row>
@@ -81,7 +82,7 @@
         <!--货币-->
         <FormItem prop="targetCurrency" class="form-item" v-if="currency === 'dai'">
           <header class='form-item-header'>
-            <div class="form-item-headinputer-title">{{$t('ad.ad_money_select')}}:</div>
+            <div class="form-item-header-title">{{$t('ad.ad_money_select')}}:</div>
             <div class="form-item-header-title-tip">{{$t('ad.ad_money_select_tip')}}</div>
           </header>
           <Row>
@@ -255,13 +256,14 @@
               <Select
                   v-model="form_sell.address"
                   filterable remote clearable
+                  @on-change="changeRemote"
                   :remote-method="addressRemoteSell"
                   :loading="form_sell.addressLoading"
                   :loading-text="$t('ad.ad_address_input_loading')"
                   :not-found-text="$t('ad.ad_address_input_notFound')"
                   :placeholder="$t('ad.ad_address_input_required')">
-                <Option v-for="(item, index) in form_sell.addressList" :key="index" :value="'(' +
-                  item.country_name + ')' + item.name">{{'(' + item.country_name + ')' + item.name}}</Option>
+                <Option v-for="(item, index) in form_sell.addressList" :key="index"
+                        :value="JSON.stringify(item)">{{'(' + item.country_name + ')' + item.name}}</Option>
               </Select>
             </div>
           </Row>
@@ -664,16 +666,14 @@
       },
       currencyBuyLimit () {
         for (let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
-          if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.currency &&
-            CONF_DIGITAL_CURRENCY_LIST[i].targetCurrency === this.targetCurrency) {
+          if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.currency) {
             return CONF_DIGITAL_CURRENCY_LIST[i].buyLimit;
           }
         }
       },
       currencySellLimit () {
         for (let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
-          if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.currency &&
-            CONF_DIGITAL_CURRENCY_LIST[i].targetCurrency === this.targetCurrency) {
+          if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.currency) {
             return CONF_DIGITAL_CURRENCY_LIST[i].sellLimit;
           }
         }
@@ -865,6 +865,18 @@
       //     );
       //   });
       // },
+      changeRemote (item) {
+        if (item) {
+          item = JSON.parse(item);
+          if(item.currency) {
+            if (this.adType === 0 ) {
+              this.form_buy.targetCurrency = item.currency;
+            } else if(this.adType === 1) {
+              this.form_sell.targetCurrency = item.currency;
+            }
+          }
+        }
+      },
       addressRemoteBuy (query) {
         this.addressRemote(query, 0);
       },
