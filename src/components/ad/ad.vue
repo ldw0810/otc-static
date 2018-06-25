@@ -487,6 +487,7 @@
           remark: '',
           addressList: [],
           addressLoading: false,
+          cityId: 0,
         },
         form_sell: {
           address: '',
@@ -503,6 +504,7 @@
           remark: '',
           addressList: [],
           addressLoading: false,
+          cityId: 0,
         },
         rules: {
           adType: [
@@ -868,11 +870,19 @@
       changeRemote (item) {
         if (item) {
           item = JSON.parse(item);
-          if(item.currency) {
-            if (this.adType === 0 ) {
+          if (item.currency) {
+            if (this.adType === 0) {
               this.form_buy.targetCurrency = item.currency;
-            } else if(this.adType === 1) {
+              this.form_buy.cityId = item.id;
+            } else if (this.adType === 1) {
               this.form_sell.targetCurrency = item.currency;
+              this.form_sell.cityId = item.id;
+            }
+          } else {
+            if (this.adType === 0) {
+              this.form_buy.cityId = 0;
+            } else if (this.adType === 1) {
+              this.form_sell.cityId = 0;
             }
           }
         }
@@ -950,6 +960,7 @@
                     +this.adType === 1 && this.collection_default &&
                     this.collection_default.id === this.form.collection ? 1 : 0,
                   remark: this.form.remark,
+                  city: this.form.cityId,
                 };
                 this.$store.dispatch('ajax_update_ad', requestData).then(res => {
                   this.submitLoading = false;
@@ -985,6 +996,7 @@
                     this.collection_default &&
                     this.collection_default.id === this.form.collection ? 1 : 0,
                   remark: this.form.remark,
+                  city: this.form.cityId,
                 };
                 this.$store.dispatch('ajax_add_ad', requestData).then(res => {
                   this.submitLoading = false;
@@ -997,10 +1009,9 @@
                       content: this.$t('ad.ad_advertise_fail'),
                     });
                   }
-                })
-                  .catch(err => {
-                    this.submitLoading = false;
-                  });
+                }).catch(err => {
+                  this.submitLoading = false;
+                });
               }
             } else {
               this.$alert.error({
