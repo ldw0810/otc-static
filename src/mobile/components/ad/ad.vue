@@ -68,11 +68,12 @@
                   v-model="form_buy.address"
                   filterable remote clearable
                   @on-change="changeRemote"
+                  :disabled="isUpdate"
                   :remote-method="addressRemoteBuy"
                   :loading="form_buy.addressLoading"
                   :loading-text="$t('ad.ad_address_input_loading')"
                   :not-found-text="$t('ad.ad_address_input_notFound')"
-                  :placeholder="$t('ad.ad_address_input_required')">
+                  :placeholder="isUpdate ? '(' + form.city.country_name + ')' + form.city.name : $t('ad.ad_address_input_required')">
                 <Option v-for="(item, index) in form_sell.addressList" :key="index"
                         :value="JSON.stringify(item)">{{'(' + item.country_name + ')' + item.name}}</Option>
               </Select>
@@ -257,11 +258,12 @@
                   v-model="form_sell.address"
                   filterable remote clearable
                   @on-change="changeRemote"
+                  :disabled="isUpdate"
                   :remote-method="addressRemoteSell"
                   :loading="form_sell.addressLoading"
                   :loading-text="$t('ad.ad_address_input_loading')"
                   :not-found-text="$t('ad.ad_address_input_notFound')"
-                  :placeholder="$t('ad.ad_address_input_required')">
+                  :placeholder="isUpdate ? '(' + form.city.country_name + ')' + form.city.name : $t('ad.ad_address_input_required')">
                 <Option v-for="(item, index) in form_sell.addressList" :key="index"
                         :value="JSON.stringify(item)">{{'(' + item.country_name + ')' + item.name}}</Option>
               </Select>
@@ -490,6 +492,11 @@
           remark: '',
           addressList: [],
           addressLoading: false,
+          city: {
+            id: 0,
+            name: "",
+            country_name: ""
+          },
         },
         form_sell: {
           address: '',
@@ -506,6 +513,11 @@
           remark: '',
           addressList: [],
           addressLoading: false,
+          city: {
+            id: 0,
+            name: "",
+            country_name: ""
+          },
         },
         rules: {
           adType: [
@@ -871,11 +883,39 @@
       changeRemote (item) {
         if (item) {
           item = JSON.parse(item);
-          if(item.currency) {
-            if (this.adType === 0 ) {
+          if (item.currency) {
+            if (this.adType === 0) {
               this.form_buy.targetCurrency = item.currency;
-            } else if(this.adType === 1) {
+              this.form_buy.city = {
+                id: item.id,
+                name: item.name,
+                country_name: item.country_name,
+              };
+            } else if (this.adType === 1) {
               this.form_sell.targetCurrency = item.currency;
+              this.form_sell.city = {
+                id: item.id,
+                name: item.name,
+                country_name: item.country_name,
+              };
+            }
+          } else {
+            if (this.adType === 0) {
+              this.form_buy.city = {
+                city: {
+                  id: 0,
+                  name: '',
+                  country_name: '',
+                },
+              };
+            } else if (this.adType === 1) {
+              this.form_sell.city = {
+                city: {
+                  id: 0,
+                  name: '',
+                  country_name: '',
+                },
+              };
             }
           }
         }
@@ -952,7 +992,8 @@
                   pay_default:
                     this.collection_default &&
                     this.collection_default.id === this.form.collection ? 1 : 0,
-                  remark: this.form.remark
+                  remark: this.form.remark,
+                  city: this.form.city.id,
                 };
                 this.$store.dispatch("ajax_update_ad", requestData).then(res => {
                   this.submitLoading = false;
@@ -987,7 +1028,8 @@
                   pay_default:
                     this.collection_default &&
                     this.collection_default.id === this.form.collection ? 1 : 0,
-                  remark: this.form.remark
+                  remark: this.form.remark,
+                  city: this.form.city.id,
                 };
                 this.$store.dispatch("ajax_add_ad", requestData).then(res => {
                   this.submitLoading = false;
@@ -1032,6 +1074,7 @@
               this.form.floor = +(this.ad.min_limit || 0);
               this.form.ceiling = +(this.ad.max_limit || 0);
               this.form.remark = this.ad.remark;
+              this.form.city = this.ad.city;
               if (+this.adType === 0) {
                 this.form.payment = this.ad.pay_kind;
                 if (this.ad.price) {
