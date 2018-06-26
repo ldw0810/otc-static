@@ -57,25 +57,25 @@
           </Row>
         </FormItem>
         <!--当面交易的地址-->
-        <FormItem prop="address" class="form-item" v-if="'' + form_buy.payment === 'local'">
+        <FormItem prop="address" class="form-item" v-if="isShowLocal">
           <header class='form-item-header'>
             <div class="form-item-header-title">{{$t('ad.ad_address_input')}}:</div>
             <div class="form-item-header-title-tip">{{$t('ad.ad_address_input_tip')}}</div>
           </header>
           <Row>
             <div class="selectDiv">
-              <Select
-                  v-model="form_buy.address"
-                  filterable remote clearable
-                  @on-change="changeRemote"
-                  :disabled="isUpdate"
-                  :remote-method="addressRemoteBuy"
-                  :loading="form_buy.addressLoading"
-                  :loading-text="$t('ad.ad_address_input_loading')"
-                  :not-found-text="$t('ad.ad_address_input_notFound')"
-                  :placeholder="isUpdate ? '(' + form.city.country_name + ')' + form.city.name : $t('ad.ad_address_input_required')">
+              <Select ref="addressBuy"
+                      v-model="form_buy.address"
+                      filterable remote clearable
+                      @on-change="changeRemote"
+                      :remote-method="addressRemoteBuy"
+                      :loading="form_buy.addressLoading"
+                      :loading-text="$t('ad.ad_address_input_loading')"
+                      :not-found-text="$t('ad.ad_address_input_notFound')"
+                      :placeholder="$t('ad.ad_address_input_required')">
                 <Option v-for="(item, index) in form_buy.addressList" :key="index"
-                        :value="JSON.stringify(item)">{{'(' + item.country_name + ')' + item.name}}</Option>
+                        :value="item.id" :label="'(' + item.country_name + ')' + item.name">
+                </Option>
               </Select>
             </div>
           </Row>
@@ -247,25 +247,25 @@
           </Row>
         </FormItem>
         <!--当面交易的地址-->
-        <FormItem prop="address" class="form-item" v-if="'' + form_sell.collection === 'local'">
+        <FormItem prop="address" class="form-item" v-if="isShowLocal">
           <header class='form-item-header'>
             <div class="form-item-header-title">{{$t('ad.ad_address_input')}}:</div>
             <div class="form-item-header-title-tip">{{$t('ad.ad_address_input_tip')}}</div>
           </header>
           <Row>
             <div class="selectDiv">
-              <Select
-                  v-model="form_sell.address"
-                  filterable remote clearable
-                  @on-change="changeRemote"
-                  :disabled="isUpdate"
-                  :remote-method="addressRemoteSell"
-                  :loading="form_sell.addressLoading"
-                  :loading-text="$t('ad.ad_address_input_loading')"
-                  :not-found-text="$t('ad.ad_address_input_notFound')"
-                  :placeholder="isUpdate ? '(' + form.city.country_name + ')' + form.city.name : $t('ad.ad_address_input_required')">
+              <Select ref="addressSell"
+                      v-model="form_sell.address"
+                      filterable remote clearable
+                      @on-change="changeRemote"
+                      :remote-method="addressRemoteSell"
+                      :loading="form_sell.addressLoading"
+                      :loading-text="$t('ad.ad_address_input_loading')"
+                      :not-found-text="$t('ad.ad_address_input_notFound')"
+                      :placeholder="$t('ad.ad_address_input_required')">
                 <Option v-for="(item, index) in form_sell.addressList" :key="index"
-                        :value="JSON.stringify(item)">{{'(' + item.country_name + ')' + item.name}}</Option>
+                        :value="item.id" :label="'(' + item.country_name + ')' + item.name">
+                </Option>
               </Select>
             </div>
           </Row>
@@ -642,6 +642,13 @@
       };
     },
     computed: {
+      isShowLocal () {
+        if (+this.adType === 0) {
+          return ('' + this.form_buy.payment === 'local') && (this.currency === 'dai');
+        } else if (+this.adType === 1) {
+          return ('' + this.form_sell.collection === 'local') && (this.currency === 'dai');
+        }
+      },
       disabledStatus () {
         if (!this.isUpdate) {
           return !this.validate || (+this.adType === 0 ? !this.examineAdBuyFlag : !this.examineAdSellFlag) || !this.balanceFlag;
@@ -877,43 +884,32 @@
       //     );
       //   });
       // },
-      changeRemote (item) {
-        if (item) {
-          item = JSON.parse(item);
-          if (item.currency) {
-            if (this.adType === 0) {
-              this.form_buy.targetCurrency = item.currency;
-              this.form_buy.city = {
-                id: item.id,
-                name: item.name,
-                country_name: item.country_name,
-              };
-            } else if (this.adType === 1) {
-              this.form_sell.targetCurrency = item.currency;
-              this.form_sell.city = {
-                id: item.id,
-                name: item.name,
-                country_name: item.country_name,
-              };
-            }
-          } else {
-            if (this.adType === 0) {
-              this.form_buy.city = {
-                city: {
-                  id: 0,
-                  name: '',
-                  country_name: '',
-                },
-              };
-            } else if (this.adType === 1) {
-              this.form_sell.city = {
-                city: {
-                  id: 0,
-                  name: '',
-                  country_name: '',
-                },
-              };
-            }
+      changeRemote (remoteId) {
+        if (remoteId) {
+          if (+this.adType === 0 && this.form_buy.addressList.length) {
+            let item = this.form_buy.addressList.forEach((address) => {
+              if (address.id === remoteId) {
+                return address;
+              }
+            });
+            this.form_buy.targetCurrency = item.currency;
+            this.form_buy.city = {
+              id: item.id,
+              name: item.name,
+              country_name: item.country_name,
+            };
+          } else if (+this.adType === 1 && this.form_sell.addressList.length) {
+            let item = this.form_sell.addressList.forEach((address) => {
+              if (address.id === remoteId) {
+                return address;
+              }
+            });
+            this.form_sell.targetCurrency = item.currency;
+            this.form_sell.city = {
+              id: item.id,
+              name: item.name,
+              country_name: item.country_name,
+            };
           }
         }
       },
@@ -933,7 +929,11 @@
             type === 0 ? this.form_buy.addressLoading = false : this.form_sell.addressLoading = false;
             if (res.data && res.data.error === 0) {
               if (res.data.data && res.data.data.length) {
-                type === 0 ? this.form_buy.addressList = res.data.data : this.form_sell.addressList = res.data.data;
+                if (+type === 0) {
+                  this.form_buy.addressList = res.data.data;
+                } else if (+type === 1) {
+                  this.form_sell.addressList = res.data.data;
+                }
               } else {
                 type === 0 ? this.form_buy.addressList = [] : this.form_sell.addressList = [];
               }
@@ -1145,6 +1145,15 @@
           if (this.adId) {
             this.getAdById(this.adId).then(res => {
               this.getTradePrice();
+              if (+this.adType === 0 && this.form_buy.payment === 'local') {
+                this.$refs.addressBuy.setQuery(this.form_buy.city.name);
+                this.$refs.addressBuy.label = '(' + this.form_buy.city.country_name + ')' + this.form_buy.city.name;
+                this.$refs.addressBuy.value = this.form_buy.city.id;
+              } else if (+this.adType === 0 && this.form_buy.collection === 'local') {
+                this.$refs.addressSell.setQuery(this.form_sell.city.name);
+                this.$refs.addressSell.label = '(' + this.form_sell.city.country_name + ')' + this.form_sell.city.name;
+                this.$refs.addressSell.value = this.form_sell.city.id;
+              }
             });
           }
         } else {
