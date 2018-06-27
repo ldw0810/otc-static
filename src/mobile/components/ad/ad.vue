@@ -74,7 +74,9 @@
                       :not-found-text="$t('ad.ad_address_input_notFound')"
                       :placeholder="$t('ad.ad_address_input_required')">
                 <Option v-for="(item, index) in form_buy.addressList" :key="index"
-                        :value="item.id" :label="'(' + item.country_name + ')' + item.name">
+                        :value="item.id" :label="item.name">
+                  <span>{{item.name}}</span>
+                  <span style="float:right;color:#ccc">{{item.country_name}}</span>
                 </Option>
               </Select>
             </div>
@@ -264,7 +266,9 @@
                       :not-found-text="$t('ad.ad_address_input_notFound')"
                       :placeholder="$t('ad.ad_address_input_required')">
                 <Option v-for="(item, index) in form_sell.addressList" :key="index"
-                        :value="item.id" :label="'(' + item.country_name + ')' + item.name">
+                        :value="item.id" :label="item.name">
+                  <span>{{item.name}}</span>
+                  <span style="float:right;color:#ccc">{{item.country_name}}</span>
                 </Option>
               </Select>
             </div>
@@ -478,7 +482,7 @@
         formFlag: true,
         adType: this.$route.query.adType || 0,
         form_buy: {
-          address: '',
+          address: undefined,
           payment: '',
           collection: '',
           targetCurrency: '',
@@ -499,7 +503,7 @@
           },
         },
         form_sell: {
-          address: '',
+          address: undefined,
           payment: '',
           collection: '',
           targetCurrency: '',
@@ -890,11 +894,13 @@
       changeRemote (remoteId) {
         if (remoteId) {
           if (+this.adType === 0 && this.form_buy.addressList.length) {
-            let item = this.form_buy.addressList.forEach((address) => {
-              if (address.id === remoteId) {
-                return address;
+            let item = {};
+            for(let i = 0; i < this.form_buy.addressList.length; i++) {
+              if (this.form_buy.addressList[i].id === remoteId) {
+                item = this.form_buy.addressList[i];
+                return;
               }
-            });
+            }
             this.form_buy.targetCurrency = item.currency;
             this.form_buy.city = {
               id: item.id,
@@ -902,11 +908,13 @@
               country_name: item.country_name,
             };
           } else if (+this.adType === 1 && this.form_sell.addressList.length) {
-            let item = this.form_sell.addressList.forEach((address) => {
-              if (address.id === remoteId) {
-                return address;
+            let item = {};
+            for(let i = 0; i < this.form_sell.addressList.length; i++) {
+              if (this.form_sell.addressList[i].id === remoteId) {
+                item = this.form_sell.addressList[i];
+                return;
               }
-            });
+            }
             this.form_sell.targetCurrency = item.currency;
             this.form_sell.city = {
               id: item.id,
@@ -1158,12 +1166,10 @@
               this.getTradePrice();
               if (+this.adType === 0 && this.form_buy.payment === 'local') {
                 this.$refs.addressBuy.setQuery(this.form_buy.city.name);
-                this.$refs.addressBuy.label = '(' + this.form_buy.city.country_name + ')' + this.form_buy.city.name;
-                this.$refs.addressBuy.value = this.form_buy.city.id;
+                this.form_buy.address = this.form_buy.city.id;
               } else if (+this.adType === 0 && this.form_buy.collection === 'local') {
                 this.$refs.addressSell.setQuery(this.form_sell.city.name);
-                this.$refs.addressSell.label = '(' + this.form_sell.city.country_name + ')' + this.form_sell.city.name;
-                this.$refs.addressSell.value = this.form_sell.city.id;
+                this.form_sell.address = this.form_sell.city.id;
               }
             });
           }
