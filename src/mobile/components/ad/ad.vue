@@ -68,6 +68,7 @@
                       v-model="form_buy.address"
                       filterable remote clearable
                       @on-change="changeRemote"
+                      :label="form_buy.city.name"
                       :remote-method="addressRemoteBuy"
                       :loading="form_buy.addressLoading"
                       :loading-text="$t('ad.ad_address_input_loading')"
@@ -260,6 +261,7 @@
                       v-model="form_sell.address"
                       filterable remote clearable
                       @on-change="changeRemote"
+                      :label="form_sell.city.name"
                       :remote-method="addressRemoteSell"
                       :loading="form_sell.addressLoading"
                       :loading-text="$t('ad.ad_address_input_loading')"
@@ -898,7 +900,7 @@
             for(let i = 0; i < this.form_buy.addressList.length; i++) {
               if (this.form_buy.addressList[i].id === remoteId) {
                 item = this.form_buy.addressList[i];
-                return;
+                break;
               }
             }
             this.form_buy.targetCurrency = item.currency;
@@ -912,7 +914,7 @@
             for(let i = 0; i < this.form_sell.addressList.length; i++) {
               if (this.form_sell.addressList[i].id === remoteId) {
                 item = this.form_sell.addressList[i];
-                return;
+                break;
               }
             }
             this.form_sell.targetCurrency = item.currency;
