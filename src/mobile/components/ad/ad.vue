@@ -482,7 +482,7 @@
         formFlag: true,
         adType: this.$route.query.adType || 0,
         form_buy: {
-          address: 0,
+          address: undefined,
           payment: '',
           collection: '',
           targetCurrency: '',
@@ -503,7 +503,7 @@
           },
         },
         form_sell: {
-          address: 0,
+          address: undefined,
           payment: '',
           collection: '',
           targetCurrency: '',
