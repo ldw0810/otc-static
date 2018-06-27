@@ -166,7 +166,7 @@
           <Row>
             <i-col span='10'>
               <i-input class="input" v-model="form_buy.floor" type="text" @on-change="changeFloor"
-                       :placeholder="$t('ad.ad_floor_required')">
+                       :placeholder="$t('ad.ad_floor_required').format('' + currentPrice)">
                 <span slot="append">{{targetCurrencyText}}</span>
               </i-input>
             </i-col>
@@ -359,7 +359,7 @@
           <Row>
             <i-col span='10'>
               <i-input class="input" v-model="form_sell.floor" type="text" @on-change="changeFloor"
-                       :placeholder="$t('ad.ad_floor_required')">
+                       :placeholder="$t('ad.ad_floor_required').format('' + currentPrice)">
                 <span slot="append">{{targetCurrencyText}}</span>
               </i-input>
             </i-col>
@@ -432,8 +432,8 @@
         }
       };
       const validateNumberLimitCheck = (rule, value, callback) => {
-        if (+value < 50) {
-          callback(new Error(this.$t("ad.ad_min_number_required")));
+        if (+value < this.currentPrice) {
+          callback(new Error(this.$t("ad.ad_min_number_required").format('' + this.currentPrice)));
         } else {
           callback();
         }
@@ -601,10 +601,6 @@
           ],
           floor: [
             {
-              required: true,
-              message: this.$t("ad.ad_floor_required")
-            },
-            {
               validator: validateNumberCheck
             },
             {
@@ -686,8 +682,8 @@
           return this.form.targetCurrency;
         }
       },
-      targetCurrencyText() {
-        return this.$t("public['" + this.targetCurrency + "']");
+      targetCurrencyText () {
+        return this.targetCurrency ? this.$t('public[\'' + this.targetCurrency + '\']') : "";
       },
       tradePrice() {
         return this.targetCurrency ? +(this.tradePriceObj[this.targetCurrency] || 0) : 0;
@@ -741,6 +737,11 @@
       },
       form() {
         return +this.adType === 0 ? this.form_buy : this.form_sell;
+      },
+      currentPrice(){
+        return this.$multipliedBy(
+          +CONF_DIGITAL_CURRENCY_LIST[0].sellLimit,
+          this.adType === 0 ? (this.form_buy.buyPrice || 0) : (this.form_sell.sellPrice || 0));
       }
     },
     watch: {
