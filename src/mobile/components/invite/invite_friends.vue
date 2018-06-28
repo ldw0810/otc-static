@@ -14,20 +14,20 @@
             {{$t("public.invite_omt")}}: {{inviteAmount}}
           </div>
         </div>
-        <div class="invite-top">
-          <div class="invite-top-title">{{$t("public.invite_rankingList")}}</div>
-          <div class="invite-top-content">
-            <div class="invite-top-content-item" v-for="(item, index) in inviteTopArray" :key="index">
-              <div class="invite-top-content-item-icon">
-                <img :src="item.img">
-              </div>
-              <div class="invite-top-content-item-name" :class="{'invite-top-content-item-name-second': index===1}">
-                {{interceptEmail(item.email || "")}}
-              </div>
-              <div class="invite-top-content-item-number">{{$t("public.invite_people")}}:{{item.count || 0}}</div>
-            </div>
-          </div>
-        </div>
+        <!--<div class="invite-top">-->
+          <!--<div class="invite-top-title">{{$t("public.invite_rankingList")}}</div>-->
+          <!--<div class="invite-top-content">-->
+            <!--<div class="invite-top-content-item" v-for="(item, index) in inviteTopArray" :key="index">-->
+              <!--<div class="invite-top-content-item-icon">-->
+                <!--<img :src="item.img">-->
+              <!--</div>-->
+              <!--<div class="invite-top-content-item-name" :class="{'invite-top-content-item-name-second': index===1}">-->
+                <!--{{interceptEmail(item.email || "")}}-->
+              <!--</div>-->
+              <!--<div class="invite-top-content-item-number">{{$t("public.invite_people")}}:{{item.count || 0}}</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
         <div class='invite-target-desc'>
           {{$t('public.invite_title')}}
           <a class='invite-target-desc-sub' @click="goArticle">{{$t('public.invite_question')}}</a>
@@ -252,7 +252,7 @@
       init() {
         this.$store.commit("header_index_setter", "4");
         this.getInviteDetail();
-        this.getInvitedActivity();
+        // this.getInvitedActivity();
       }
     },
     beforeRouteEnter(to, from, next) {
