@@ -56,6 +56,33 @@
             </i-col>
           </Row>
         </FormItem>
+        <!--当面交易的地址-->
+        <FormItem prop="address" class="form-item" v-if="isShowLocal">
+          <header class='form-item-header'>
+            <span class="form-item-header-title">{{$t('ad.ad_address_input')}}:</span>
+            <span class="form-item-header-title-tip">{{$t('ad.ad_address_input_tip')}}</span>
+          </header>
+          <Row>
+            <div class="selectDiv">
+              <Select ref="addressBuy"
+                      v-model="form_buy.address"
+                      filterable remote clearable
+                      @on-change="changeRemote"
+                      :label="form_buy.city.name"
+                      :remote-method="addressRemoteBuy"
+                      :loading="form_buy.addressLoading"
+                      :loading-text="$t('ad.ad_address_input_loading')"
+                      :not-found-text="$t('ad.ad_address_input_notFound')"
+                      :placeholder="$t('ad.ad_address_input_required')">
+                <Option v-for="(item, index) in form_buy.addressList" :key="index"
+                        :value="item.id" :label="item.name">
+                  <span>{{item.name}}</span>
+                  <span style="float:right;color:#ccc">{{item.country_name}}</span>
+                </Option>
+              </Select>
+            </div>
+          </Row>
+        </FormItem>
         <!--货币-->
         <FormItem prop="targetCurrency" class="form-item" v-if="currency === 'dai'">
           <header class='form-item-header'>
@@ -139,7 +166,7 @@
           <Row>
             <i-col span='10'>
               <i-input class="input" v-model="form_buy.floor" type="text" @on-change="changeFloor"
-                       :placeholder="$t('ad.ad_floor_required')">
+                       :placeholder="$t('ad.ad_floor_required').format('' + currentPrice)">
                 <span slot="append">{{targetCurrencyText}}</span>
               </i-input>
             </i-col>
@@ -220,6 +247,33 @@
                 </div>
               </div>
             </i-col>
+          </Row>
+        </FormItem>
+        <!--当面交易的地址-->
+        <FormItem prop="address" class="form-item" v-if="isShowLocal">
+          <header class='form-item-header'>
+            <span class="form-item-header-title">{{$t('ad.ad_address_input')}}:</span>
+            <span class="form-item-header-title-tip">{{$t('ad.ad_address_input_tip')}}</span>
+          </header>
+          <Row>
+            <div class="selectDiv">
+              <Select ref="addressSell"
+                      v-model="form_sell.address"
+                      filterable remote clearable
+                      @on-change="changeRemote"
+                      :label="form_sell.city.name"
+                      :remote-method="addressRemoteSell"
+                      :loading="form_sell.addressLoading"
+                      :loading-text="$t('ad.ad_address_input_loading')"
+                      :not-found-text="$t('ad.ad_address_input_notFound')"
+                      :placeholder="$t('ad.ad_address_input_required')">
+                <Option v-for="(item, index) in form_sell.addressList" :key="index"
+                        :value="item.id" :label="item.name">
+                  <span>{{item.name}}</span>
+                  <span style="float:right;color:#ccc">{{item.country_name}}</span>
+                </Option>
+              </Select>
+            </div>
           </Row>
         </FormItem>
         <!--货币-->
@@ -305,7 +359,7 @@
           <Row>
             <i-col span='10'>
               <i-input class="input" v-model="form_sell.floor" type="text" @on-change="changeFloor"
-                       :placeholder="$t('ad.ad_floor_required')">
+                       :placeholder="$t('ad.ad_floor_required').format('' + currentPrice)">
                 <span slot="append">{{targetCurrencyText}}</span>
               </i-input>
             </i-col>
@@ -378,8 +432,8 @@
         }
       };
       const validateNumberLimitCheck = (rule, value, callback) => {
-        if (+value < 50) {
-          callback(new Error(this.$t("ad.ad_min_number_required")));
+        if (+value < this.currentPrice) {
+          callback(new Error(this.$t("ad.ad_min_number_required").format('' + this.currentPrice)));
         } else {
           callback();
         }
@@ -430,30 +484,46 @@
         formFlag: true,
         adType: this.$route.query.adType || 0,
         form_buy: {
-          payment: "",
-          collection: "",
-          targetCurrency: "",
-          premium: "",
-          buyPrice: "",
-          sellPrice: "",
-          maxPrice: "",
-          minPrice: "",
-          floor: "",
-          ceiling: "",
-          remark: ""
+          address: undefined,
+          payment: '',
+          collection: '',
+          targetCurrency: '',
+          premium: '',
+          buyPrice: '',
+          sellPrice: '',
+          maxPrice: '',
+          minPrice: '',
+          floor: '',
+          ceiling: '',
+          remark: '',
+          addressList: [],
+          addressLoading: false,
+          city: {
+            id: 0,
+            name: '',
+            country_name: '',
+          },
         },
         form_sell: {
-          payment: "",
-          collection: "",
-          targetCurrency: "",
-          premium: "",
-          buyPrice: "",
-          sellPrice: "",
-          maxPrice: "",
-          minPrice: "",
-          floor: "",
-          ceiling: "",
-          remark: ""
+          address: undefined,
+          payment: '',
+          collection: '',
+          targetCurrency: '',
+          premium: '',
+          buyPrice: '',
+          sellPrice: '',
+          maxPrice: '',
+          minPrice: '',
+          floor: '',
+          ceiling: '',
+          remark: '',
+          addressList: [],
+          addressLoading: false,
+          city: {
+            id: 0,
+            name: '',
+            country_name: '',
+          },
         },
         rules: {
           adType: [
@@ -531,13 +601,6 @@
           ],
           floor: [
             {
-              required: true,
-              message: this.$t("ad.ad_floor_required")
-            },
-            {
-              validator: validateNumberCheck
-            },
-            {
               validator: validateNumberLimitCheck
             },
           ],
@@ -581,7 +644,14 @@
       };
     },
     computed: {
-      disabledStatus() {
+      isShowLocal () {
+        if (+this.adType === 0) {
+          return ('' + this.form_buy.payment === 'local') && (this.currency === 'dai');
+        } else if (+this.adType === 1) {
+          return ('' + this.form_sell.collection === 'local') && (this.currency === 'dai');
+        }
+      },
+      disabledStatus () {
         if (!this.isUpdate) {
           return !this.validate || (+this.adType === 0 ? !this.examineAdBuyFlag : !this.examineAdSellFlag) || !this.balanceFlag
         } else {
@@ -609,24 +679,22 @@
           return this.form.targetCurrency;
         }
       },
-      targetCurrencyText() {
-        return this.$t("public['" + this.targetCurrency + "']");
+      targetCurrencyText () {
+        return this.targetCurrency ? this.$t('public[\'' + this.targetCurrency + '\']') : "";
       },
       tradePrice() {
         return this.targetCurrency ? +(this.tradePriceObj[this.targetCurrency] || 0) : 0;
       },
-      currencyBuyLimit() {
+      currencyBuyLimit () {
         for (let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
-          if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.currency &&
-            CONF_DIGITAL_CURRENCY_LIST[i].targetCurrency === this.targetCurrency) {
+          if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.currency) {
             return CONF_DIGITAL_CURRENCY_LIST[i].buyLimit;
           }
         }
       },
-      currencySellLimit() {
+      currencySellLimit () {
         for (let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
-          if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.currency &&
-            CONF_DIGITAL_CURRENCY_LIST[i].targetCurrency === this.targetCurrency) {
+          if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.currency) {
             return CONF_DIGITAL_CURRENCY_LIST[i].sellLimit;
           }
         }
@@ -666,6 +734,11 @@
       },
       form() {
         return +this.adType === 0 ? this.form_buy : this.form_sell;
+      },
+      currentPrice(){
+        return this.$multipliedBy(
+          +CONF_DIGITAL_CURRENCY_LIST[0].sellLimit,
+          this.adType === 0 ? (this.form_buy.buyPrice || 0) : (this.form_sell.sellPrice || 0));
       }
     },
     watch: {
@@ -818,6 +891,73 @@
       //     );
       //   });
       // },
+      changeRemote (remoteId) {
+        if (remoteId) {
+          if (+this.adType === 0 && this.form_buy.addressList.length) {
+            let item = {};
+            for(let i = 0; i < this.form_buy.addressList.length; i++) {
+              if (this.form_buy.addressList[i].id === remoteId) {
+                item = this.form_buy.addressList[i];
+                break;
+              }
+            }
+            this.form_buy.targetCurrency = item.currency;
+            this.form_buy.city = {
+              id: item.id,
+              name: item.name,
+              country_name: item.country_name,
+            };
+          } else if (+this.adType === 1 && this.form_sell.addressList.length) {
+            let item = {};
+            for(let i = 0; i < this.form_sell.addressList.length; i++) {
+              if (this.form_sell.addressList[i].id === remoteId) {
+                item = this.form_sell.addressList[i];
+                break;
+              }
+            }
+            this.form_sell.targetCurrency = item.currency;
+            this.form_sell.city = {
+              id: item.id,
+              name: item.name,
+              country_name: item.country_name,
+            };
+          }
+        }
+      },
+      addressRemoteBuy (query) {
+        this.addressRemote(query, 0);
+      },
+      addressRemoteSell (query) {
+        this.addressRemote(query, 1);
+      },
+      addressRemote (query, type) {
+        query = query + '';
+        if (query && query.trim()) {
+          type === 0 ? this.form_buy.addressLoading = true : this.form_sell.addressLoading = true;
+          this.$store.dispatch('ajax_search', {
+            keyword: query.trim().replace(/\(.*\)/g, ''),
+          }).then(res => {
+            type === 0 ? this.form_buy.addressLoading = false : this.form_sell.addressLoading = false;
+            if (res.data && res.data.error === 0) {
+              if (res.data.data && res.data.data.length) {
+                if (+type === 0) {
+                  this.form_buy.addressList = res.data.data;
+                } else if (+type === 1) {
+                  this.form_sell.addressList = res.data.data;
+                }
+              } else {
+                type === 0 ? this.form_buy.addressList = [] : this.form_sell.addressList = [];
+              }
+            } else {
+              type === 0 ? this.form_buy.addressList = [] : this.form_sell.addressList = [];
+            }
+          }).catch(() => {
+            type === 0 ? this.form_buy.addressList = [] : this.form_sell.addressList = [];
+          });
+        } else {
+          type === 0 ? this.form_buy.addressList = [] : this.form_sell.addressList = [];
+        }
+      },
       submit() {
         let tempFlag = false;
         if (!this.userInfo.activated) {
@@ -858,9 +998,10 @@
                   margin: this.form.premium,
                   pay_kind: +this.adType === 0 ? this.form.payment : this.form.collection,
                   pay_default:
-                    this.collection_default &&
+                    +this.adType === 1 && this.collection_default &&
                     this.collection_default.id === this.form.collection ? 1 : 0,
-                  remark: this.form.remark
+                  remark: this.form.remark,
+                  city: this.form.city.id,
                 };
                 this.$store.dispatch("ajax_update_ad", requestData).then(res => {
                   this.submitLoading = false;
@@ -895,7 +1036,8 @@
                   pay_default:
                     this.collection_default &&
                     this.collection_default.id === this.form.collection ? 1 : 0,
-                  remark: this.form.remark
+                  remark: this.form.remark,
+                  city: this.form.city.id,
                 };
                 this.$store.dispatch("ajax_add_ad", requestData).then(res => {
                   this.submitLoading = false;
@@ -940,6 +1082,7 @@
               this.form.floor = +(this.ad.min_limit || 0);
               this.form.ceiling = +(this.ad.max_limit || 0);
               this.form.remark = this.ad.remark;
+              this.form.city = this.ad.city;
               if (+this.adType === 0) {
                 this.form.payment = this.ad.pay_kind;
                 if (this.ad.price) {
@@ -1021,6 +1164,13 @@
           if (this.adId) {
             this.getAdById(this.adId).then(res => {
               this.getTradePrice();
+              if (+this.adType === 0 && this.form_buy.payment === 'local') {
+                this.$refs.addressBuy.setQuery(this.form_buy.city.name);
+                this.form_buy.address = this.form_buy.city.id;
+              } else if (+this.adType === 0 && this.form_buy.collection === 'local') {
+                this.$refs.addressSell.setQuery(this.form_sell.city.name);
+                this.form_sell.address = this.form_sell.city.id;
+              }
             });
           }
         } else {
@@ -1116,5 +1266,21 @@
 
   /deep/ .ivu-col-span-10 {
     width: 66vw;
+  }
+  .selectDiv {
+    display: block;
+    width: 66vw;
+  }
+
+  /deep/ .ivu-select-not-found {
+    color: #999999;
+    text-align: left;
+    padding-left: 10px;
+  }
+
+  /deep/ .ivu-select-loading {
+    color: #999999;
+    text-align: left;
+    padding-left: 10px;
   }
 </style>
