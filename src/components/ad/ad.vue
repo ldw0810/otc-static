@@ -598,9 +598,6 @@
           ],
           floor: [
             {
-              validator: validateNumberCheck,
-            },
-            {
               validator: validateNumberLimitCheck,
             },
           ],
