@@ -10,9 +10,9 @@
         </div>
         <!-- 余额判断 -->
         <div class="credit-low-tip" v-if="form_buy.targetCurrency && !balanceFlag && +adType !== 1">
-                    <span class='red'>{{$t("ad.ad_credit_low_tip").format(
-                        $t("public['" + form_buy.targetCurrency + "']"),
-                        currencyBuyLimit)}}
+                    <span class='red'>{{$t('ad.ad_credit_low_tip').format(
+                        $t('public[\'' + form_buy.targetCurrency + '\']'),
+                        $fixDecimalAuto($multipliedBy(currencyBuyLimit, $fixDecimalAuto(tradePrice,targetCurrency))), targetCurrency)}}
                     </span>
           <a class='link' @click="goRecharge">{{$t("public.recharge")}}</a>
         </div>
@@ -735,11 +735,13 @@
       form() {
         return +this.adType === 0 ? this.form_buy : this.form_sell;
       },
-      currentPrice(){
-        return this.$multipliedBy(
-          +CONF_DIGITAL_CURRENCY_LIST[0].sellLimit,
-          this.adType === 0 ? (this.form_buy.buyPrice || 0) : (this.form_sell.sellPrice || 0));
-      }
+      currentPrice () {
+        return this.$fixDecimalAuto(this.$multipliedBy(
+          this.adType === 0 ? this.currencyBuyLimit : this.currencySellLimit,
+          this.adType === 0 ? (this.form_buy.buyPrice || 0) : (this.form_sell.sellPrice || 0)),
+          this.targetCurrency,
+        );
+      },
     },
     watch: {
       $route: function (val) {
@@ -1050,10 +1052,9 @@
                       content: this.$t("ad.ad_advertise_fail")
                     })
                   }
-                })
-                  .catch(err => {
-                    this.submitLoading = false;
-                  });
+                }).catch(err => {
+                  this.submitLoading = false;
+                });
               }
             } else {
               this.$alert.error({
