@@ -62,7 +62,7 @@
           </FormItem>
           <FormItem class="formItem submit">
             <i-button class="submitButton" type='primary'
-                      :disabled='!validate || !this.validFlag.userName || !this.validFlag.email'
+                      :disabled='!validate || !validFlag.userName || !validFlag.email || !captchaFlag'
                       :loading='submitLoading'
                       @click="submit('form')">
               {{$t('public.register')}}
@@ -91,30 +91,29 @@
 </template>
 
 <script type="es6">
-  import {VALI_NICKNAME} from 'config/validator'
-  import validateMixin from "@/components/mixins/validate-mixin";
-  import {gt} from "../../libs/gt";
-  import languageData from "../../locale";
-  import {DEFAULT_LANGUAGE, OMT_SHOW} from "config/config";
+  import {VALI_NICKNAME} from 'config/validator';
+  import validateMixin from '@/components/mixins/validate-mixin';
+  import {gt} from '../../libs/gt';
+  import {DEFAULT_LANGUAGE, OMT_SHOW} from 'config/config';
 
   let isValidNickName = false;
   let isValidEmail = false;
 
   export default {
-    mixins: [validateMixin("form")],
-    data() {
+    mixins: [validateMixin('form')],
+    data () {
       const validateUserName = (rule, value, callback) => {
         if (!value || !value.length) {
           this.validFlag.userName = false;
-          callback(new Error(this.$t("user.userName_required")));
+          callback(new Error(this.$t('user.userName_required')));
         } else if (!new RegExp(`^[a-zA-Z0-9_-]{${VALI_NICKNAME.min},${VALI_NICKNAME.max}}$`).test(value)) {
           //4到16位（字母，数字，下划线，减号）
           this.validFlag.userName = false;
           callback(new Error(VALI_NICKNAME.message));
         } else {
           if (!isValidNickName) {
-            this.$store.dispatch("ajax_verified_nickname", {
-              nickname: value
+            this.$store.dispatch('ajax_verified_nickname', {
+              nickname: value,
             }).then(res => {
               isValidNickName = true;
               if (res.data && +res.data.error === 0) {
@@ -123,37 +122,37 @@
                   callback();
                 } else {
                   this.validFlag.userName = false;
-                  callback(new Error(this.$t("user.userName_repeat")));
+                  callback(new Error(this.$t('user.userName_repeat')));
                 }
               } else {
                 this.validFlag.userName = false;
-                callback(new Error(this.$t("user.url_request_fail")));
+                callback(new Error(this.$t('user.url_request_fail')));
               }
             }).catch(err => {
               this.validFlag.userName = false;
-              callback(new Error(this.$t("public.url_request_fail")));
+              callback(new Error(this.$t('public.url_request_fail')));
             });
           } else {
-            callback()
+            callback();
           }
         }
       };
       const validateEmail = (rule, value, callback) => {
         if (!value || !value.length) {
           this.validFlag.email = false;
-          callback(new Error(this.$t("user.email_required")));
+          callback(new Error(this.$t('user.email_required')));
         } else if (
           !/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(
-            value
+            value,
           )
         ) {
           this.validFlag.email = false;
-          callback(new Error(this.$t("user.email_notValid")));
+          callback(new Error(this.$t('user.email_notValid')));
         } else {
           if (!isValidEmail) {
             this.$store
-              .dispatch("ajax_verified_email", {
-                email: value
+              .dispatch('ajax_verified_email', {
+                email: value,
               })
               .then(res => {
                 isValidEmail = true;
@@ -163,19 +162,19 @@
                     callback();
                   } else {
                     this.validFlag.email = false;
-                    callback(new Error(this.$t("user.email_repeat")));
+                    callback(new Error(this.$t('user.email_repeat')));
                   }
                 } else {
                   this.validFlag.email = false;
-                  callback(new Error(this.$t("user.email_repeat")));
+                  callback(new Error(this.$t('user.email_repeat')));
                 }
               })
               .catch(err => {
                 this.validFlag.email = false;
-                callback(new Error(this.$t("public.url_request_fail")));
+                callback(new Error(this.$t('public.url_request_fail')));
               });
           } else {
-            callback()
+            callback();
           }
         }
       };
@@ -184,14 +183,14 @@
         this.passwordStrength = this.$checkPassword(value);
         if (!value || !value.length) {
           this.validFlag.password = false;
-          callback(new Error(this.$t("user.password_required")));
+          callback(new Error(this.$t('user.password_required')));
         } else if (!/^.{6,200}$/.test(value) || !reg.test(value)) {
           //6位以上的密码
           this.validFlag.password = false;
-          callback(new Error(this.$t("user.password_minLength")));
+          callback(new Error(this.$t('user.password_minLength')));
         } else if (this.form.rePassword && value !== this.form.rePassword) {
           this.validFlag.password = false;
-          callback(new Error(this.$t("user.password_different")));
+          callback(new Error(this.$t('user.password_different')));
         } else {
           this.validFlag.password = true;
           callback();
@@ -200,14 +199,14 @@
       const validateRePassword = (rule, value, callback) => {
         if (!value || !value.length) {
           this.validFlag.rePassword = false;
-          callback(new Error(this.$t("user.rePassword_required")));
+          callback(new Error(this.$t('user.rePassword_required')));
         } else if (!/^.{6,200}$/.test(value)) {
           //6位以上的密码
           this.validFlag.rePassword = false;
-          callback(new Error(this.$t("user.password_minLength")));
+          callback(new Error(this.$t('user.password_minLength')));
         } else if (value !== this.form.password) {
           this.validFlag.rePassword = false;
-          callback(new Error(this.$t("user.password_different")));
+          callback(new Error(this.$t('user.password_different')));
         } else {
           this.validFlag.rePassword = true;
           callback();
@@ -216,11 +215,11 @@
       const validateInvitationCode = (rule, value, callback) => {
         if (!value || !value.length) {
           this.validFlag.invitationCode = false;
-          callback(new Error(this.$t("user.invitationCode_required")));
+          callback(new Error(this.$t('user.invitationCode_required')));
           callback();
         } else if (!/^.{1,}$/.test(value)) {
           this.validFlag.invitationCode = false;
-          callback(new Error(this.$t("user.invitationCode_notValid")));
+          callback(new Error(this.$t('user.invitationCode_notValid')));
         } else {
           this.validFlag.invitationCode = true;
           callback();
@@ -231,183 +230,181 @@
         submitLoading: false,
         emailDataList: [],
         form: {
-          userName: "",
-          email: "",
-          password: "",
-          rePassword: "",
+          userName: '',
+          email: '',
+          password: '',
+          rePassword: '',
           invitationCode: this.$route.query.invitationCode || this.$route.query.inviteCode,
           //                    invitationCode: this.$route.query.invitationCode || window.localStorage.getItem("invitationCode"),
-          checkbox: []
+          checkbox: [],
         },
         rules: {
           userName: [
             {
               validator: validateUserName,
-              trigger: "blur"
-            }
+              trigger: 'blur',
+            },
           ],
           email: [
             {
               validator: validateEmail,
-              trigger: "blur"
-            }
+              trigger: 'blur',
+            },
           ],
           password: [
             {
-              validator: validatePassword
-            }
+              validator: validatePassword,
+            },
           ],
           rePassword: [
             {
-              validator: validateRePassword
-            }
+              validator: validateRePassword,
+            },
           ],
           invitationCode: [
             {
               // validator: validateInvitationCode
-            }
+            },
           ],
           checkbox: [
             {
               required: true,
-              type: "array",
+              type: 'array',
               min: 1,
-              message: this.$t("user.register_checkbox_required"),
-              trigger: "change"
-            }
-          ]
+              message: this.$t('user.register_checkbox_required'),
+              trigger: 'change',
+            },
+          ],
         },
         validFlag: {
           userName: false,
           email: false,
           password: false,
           rePassword: false,
-          invitationCode: true
+          invitationCode: true,
         },
-        captchaObj: "",
+        captchaObj: '',
         passwordStrength: 0,
+        captchaFlag: false,
       };
     },
     computed: {
-      omt_show() {
+      omt_show () {
         return OMT_SHOW;
       },
-      device() {
+      device () {
         return this.$store.state.device;
       },
-      passwordStrengthText() {
+      passwordStrengthText () {
         if (this.passwordStrength === 1) {
-          return this.$t("user.password_weak");
+          return this.$t('user.password_weak');
         } else if (this.passwordStrength === 2) {
-          return this.$t("user.password_middle");
+          return this.$t('user.password_middle');
         } else if (this.passwordStrength === 3) {
-          return this.$t("user.password_strong");
+          return this.$t('user.password_strong');
         } else {
-          return "";
+          return '';
         }
-      }
+      },
     },
     watch: {
       $route: function (val) {
         this.init();
-      }
+      },
     },
-    mounted() {
+    mounted () {
       this.init();
     },
-    destroyed() {
-      this.$store.commit("footer_is_login_setter", false);
+    destroyed () {
+      this.$store.commit('footer_is_login_setter', false);
     },
     methods: {
-      onFocusUserName() {
+      onFocusUserName () {
         isValidNickName = false;
       },
-      onFocusEmail() {
+      onFocusEmail () {
         isValidEmail = false;
       },
-      submit(name) {
+      submit (name) {
         this.$refs[name].validate(valid => {
           if (valid) {
             this.captchaObj.verify();
           } else {
             this.$alert.error({
-              title: this.$t("public.error_title_default"),
-              content: this.$t("user.register_error")
-            })
+              title: this.$t('public.error_title_default'),
+              content: this.$t('user.register_error'),
+            });
           }
         });
       },
-      showTerms() {
-        this.$open("/user-agreement");
+      showTerms () {
+        this.$open('/user-agreement');
       },
-      init() {
-        this.$store.commit("footer_is_login_setter", true);
-        this.$store.commit("header_index_setter", "5");
-        this.$store
-          .dispatch("ajax_captcha_server")
-          .then(res => {
-            if (res.data && +res.data.error === 0) {
-              initGeetest(
-                {
-                  gt: res.data.gt,
-                  challenge: res.data.challenge,
-                  offline: false,
-                  new_captcha: res.data.new_captcha,
+      init () {
+        this.$store.commit('footer_is_login_setter', true);
+        this.$store.commit('header_index_setter', '5');
+        this.$store.dispatch('ajax_captcha_server').then(res => {
+          if (res.data && +res.data.error === 0) {
+            initGeetest({
+                gt: res.data.gt,
+                challenge: res.data.challenge,
+                offline: false,
+                new_captcha: res.data.new_captcha,
 
-                  product: "bind", // 产品形式，包括：float，popup, custom
-                  width: "292px",
-                  lang: window.localStorage.getItem("language") === "zh-CN" ? "zh-cn" : "en"
-                },
-                captchaObj => {
-                  captchaObj.appendTo(document.getElementById("captcha"));
-                  this.captchaObj = captchaObj;
-                  captchaObj.onSuccess(() => {
-                    let result = this.captchaObj.getValidate();
-                    this.submitLoading = true;
-                    this.$store.dispatch("ajax_register", {
-                      email: this.form.email,
-                      password: this.form.password,
-                      password_confirmation: this.form.rePassword,
-                      invite_code: this.form.invitationCode,
-                      nickname: this.form.userName,
-                      ln: this.$getLanguage(),
-                      geetest_challenge: result.geetest_challenge,
-                      geetest_validate: result.geetest_validate,
-                      geetest_seccode: result.geetest_seccode,
-                      check_captcha: 1
-                    }).then(result => {
-                      this.submitLoading = false;
-                      if (result.data && +result.data.error === 0) {
-                        this.$Message.success(this.$t("user.register_success"));
-                        this.$goRouter("/user/login");
-                      } else {
-                        this.$alert.error({
-                          title: this.$t("public.error_title_default"),
-                          content: this.$t("user.register_error")
-                        })
-                      }
-                    }).catch(err => {
-                      this.submitLoading = false;
-                      // this.$Message.error(this.$t("public.url_request_fail"));
-                    });
+                product: 'bind', // 产品形式，包括：float，popup, custom
+                width: '292px',
+                lang: window.localStorage.getItem('language') === 'zh-CN' ? 'zh-cn' : 'en',
+              }, captchaObj => {
+                captchaObj.appendTo(document.getElementById('captcha'));
+                this.captchaObj = captchaObj;
+                this.captchaFlag = true;
+                captchaObj.onSuccess(() => {
+                  let result = this.captchaObj.getValidate();
+                  this.submitLoading = true;
+                  this.$store.dispatch('ajax_register', {
+                    email: this.form.email,
+                    password: this.form.password,
+                    password_confirmation: this.form.rePassword,
+                    invite_code: this.form.invitationCode,
+                    nickname: this.form.userName,
+                    ln: this.$getLanguage(),
+                    geetest_challenge: result.geetest_challenge,
+                    geetest_validate: result.geetest_validate,
+                    geetest_seccode: result.geetest_seccode,
+                    check_captcha: 1,
+                  }).then(result => {
+                    this.submitLoading = false;
+                    if (result.data && +result.data.error === 0) {
+                      this.$Message.success(this.$t('user.register_success'));
+                      this.$goRouter('/user/login');
+                    } else {
+                      this.$alert.error({
+                        title: this.$t('public.error_title_default'),
+                        content: this.$t('user.register_error'),
+                      });
+                    }
+                  }).catch(err => {
+                    this.submitLoading = false;
+                    // this.$Message.error(this.$t("public.url_request_fail"));
                   });
-                }
-              );
-            } else {
-              this.$alert.error({
-                title: this.$t("public.error_title_default"),
-                content: this.$t("user.captcha_request_fail")
-              })
-            }
-          })
+                });
+              },
+            );
+          } else {
+            this.$alert.error({
+              title: this.$t('public.error_title_default'),
+              content: this.$t('user.captcha_request_fail'),
+            });
+          }
+        })
           .catch(err => {
             // this.$Message.error(this.$t("user.captcha_request_fail"));
           });
-      }
+      },
     },
     components: {
       //            pinCodeDiv
-    }
+    },
   };
 </script>
 <style lang='scss' scoped>
