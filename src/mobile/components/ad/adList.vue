@@ -164,7 +164,7 @@
           limit: +this.ads.per_page,
           page: +this.pageIndex || +this.ads.page,
           op_type: +this.adType === 0 ? "sell" : "buy",
-          currency: this.currencyList[+this.tabIndex]
+          currency: this.currency
         }).then(res => {
           this.loading = false;
           if (res.data && +res.data.error === 0) {
