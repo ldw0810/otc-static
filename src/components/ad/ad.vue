@@ -12,7 +12,7 @@
         <div class="credit-low-tip" v-if="form_buy.targetCurrency && !balanceFlag && +adType !== 1">
                     <span class='red'>{{$t('ad.ad_credit_low_tip').format(
                         $t('public[\'' + form_buy.targetCurrency + '\']'),
-                        currencyBuyLimit)}}
+                        $fixDecimalAuto($multipliedBy(currencyBuyLimit, $fixDecimalAuto(tradePrice,targetCurrency))), targetCurrency)}}
                     </span>
           <a class='link' @click="goRecharge">{{$t('public.recharge')}}</a>
         </div>
@@ -430,7 +430,7 @@
       };
       const validateNumberLimitCheck = (rule, value, callback) => {
         if (+value < this.currentPrice) {
-          callback(new Error(this.$t("ad.ad_min_number_required").format('' + this.currentPrice)));
+          callback(new Error(this.$t('ad.ad_min_number_required').format('' + this.currentPrice)));
         } else {
           callback();
         }
@@ -677,7 +677,7 @@
         },
       },
       targetCurrencyText () {
-        return this.targetCurrency ? this.$t('public[\'' + this.targetCurrency + '\']') : "";
+        return this.targetCurrency ? this.$t('public[\'' + this.targetCurrency + '\']') : '';
       },
       tradePrice () {
         return this.targetCurrency ? +(this.tradePriceObj[this.targetCurrency] || 0) : 0;
@@ -732,11 +732,13 @@
       form () {
         return +this.adType === 0 ? this.form_buy : this.form_sell;
       },
-      currentPrice(){
-        return this.$multipliedBy(
-          +CONF_DIGITAL_CURRENCY_LIST[0].sellLimit,
-          this.adType === 0 ? (this.form_buy.buyPrice || 0) : (this.form_sell.sellPrice || 0));
-      }
+      currentPrice () {
+        return this.$fixDecimalAuto(this.$multipliedBy(
+          this.adType === 0 ? this.currencyBuyLimit : this.currencySellLimit,
+          this.adType === 0 ? (this.form_buy.buyPrice || 0) : (this.form_sell.sellPrice || 0)),
+          this.targetCurrency,
+        );
+      },
     },
     watch: {
       $route: function (val) {
@@ -892,7 +894,7 @@
         if (remoteId) {
           if (+this.adType === 0 && this.form_buy.addressList.length) {
             let item = {};
-            for(let i = 0; i < this.form_buy.addressList.length; i++) {
+            for (let i = 0; i < this.form_buy.addressList.length; i++) {
               if (this.form_buy.addressList[i].id === remoteId) {
                 item = this.form_buy.addressList[i];
                 break;
@@ -906,7 +908,7 @@
             };
           } else if (+this.adType === 1 && this.form_sell.addressList.length) {
             let item = {};
-            for(let i = 0; i < this.form_sell.addressList.length; i++) {
+            for (let i = 0; i < this.form_sell.addressList.length; i++) {
               if (this.form_sell.addressList[i].id === remoteId) {
                 item = this.form_sell.addressList[i];
                 break;

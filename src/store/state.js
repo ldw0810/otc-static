@@ -50,7 +50,7 @@ export default {
   code: {
     exable: ["cny", "usd", "dai", "ck"],
     payable: ["cny", "usd"],
-    sellable: ["dai", "eth"]
+    sellable: []
   },
   collection: [],
   collection_refresh: 0,  //是否刷新收款方式

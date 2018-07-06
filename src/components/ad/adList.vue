@@ -115,17 +115,11 @@
     },
     computed: {
       emptyMessage() {
-        let text = "";
-        if (+this.adType === 0 && this.currency.toUpperCase() === "DAI") {
-          text = this.$t("public.no_buy_dai_ad");
-        } else if (+this.adType === 1 && this.currency.toUpperCase() === "DAI") {
-          text = this.$t("public.no_sell_dai_ad");
-        } else if (+this.adType === 0 && this.currency.toUpperCase() === "ETH") {
-          text = this.$t("public.no_buy_eth_ad");
-        } else if (+this.adType === 1 && this.currency.toUpperCase() === "ETH") {
-          text = this.$t("public.no_sell_eth_ad");
+        if (+this.adType === 0) {
+          return this.$t("public.no_buy_ad").format(this.currency.toUpperCase());
+        } else if (+this.adType === 1) {
+          return this.$t("public.no_sell_ad").format(this.currency.toUpperCase());
         }
-        return text;
       },
       currency() {
         return this.$route.query.currency || CONF_DIGITAL_CURRENCY_LIST[0].currency;
@@ -137,7 +131,7 @@
         return this.$route.query.pageIndex || 1;
       },
       tabIndex() {
-        let index = 0;
+        let index = -1;
         for (let i = 0; i < this.currencyList.length; i++) {
           if (this.currencyList[i] === this.currency) {
             index = i;
@@ -170,7 +164,7 @@
           limit: +this.ads.per_page,
           page: +this.pageIndex || +this.ads.page,
           op_type: +this.adType === 0 ? "sell" : "buy",
-          currency: this.currencyList[+this.tabIndex]
+          currency: this.currency
         }).then(res => {
           this.loading = false;
           if (res.data && +res.data.error === 0) {
