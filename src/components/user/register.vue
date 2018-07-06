@@ -168,11 +168,10 @@
                   this.validFlag.email = false;
                   callback(new Error(this.$t('user.email_repeat')));
                 }
-              })
-              .catch(err => {
-                this.validFlag.email = false;
-                callback(new Error(this.$t('public.url_request_fail')));
-              });
+              }).catch(err => {
+              this.validFlag.email = false;
+              callback(new Error(this.$t('public.url_request_fail')));
+            });
           } else {
             callback();
           }
