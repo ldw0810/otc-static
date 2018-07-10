@@ -222,9 +222,9 @@
         if (+this.ad.min_limit > +this.ad.order_limit) {
           callback(new Error(this.$t("ad.ad_ceiling_number_notValid")));
         } else if (+value < this.ad.min_limit) {
-          callback(new Error(this.$t("ad.ad_floor_limit")));
+          callback(new Error(this.$t("ad.ad_min_number_required").format('' + this.ad.min_limit)));
         } else if (+value > this.ad.order_limit) {
-          callback(new Error(this.$t("ad.ad_ceiling_limit")));
+          callback(new Error(this.$t("ad.ad_ceiling_limit").format('' + this.ad.order_limit)));
         } else {
           callback();
         }
@@ -309,6 +309,9 @@
       }
     },
     computed: {
+      isLegalTrade () {
+        return this.$store.state.code.payable.indexOf(this.targetCurrency) > -1;
+      },
       formMoneyAmount() {
         return this.$fixDecimalAuto(this.form.moneyAmount || 0, this.ad.target_currency)
       },
@@ -334,19 +337,57 @@
           }
         }
       },
-      currencyBuyLimit() {
+      currencyLimit () {
         for (let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
-          if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.ad.currency &&
-            CONF_DIGITAL_CURRENCY_LIST[i].targetCurrency === this.ad.target_currency) {
-            return CONF_DIGITAL_CURRENCY_LIST[i].buyLimit;
+          if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.currency) {
+            if (this.isLegalTrade) {
+              return +CONF_DIGITAL_CURRENCY_LIST[i].limit;
+            } else if (CONF_DIGITAL_CURRENCY_LIST[i].targetCurrency === this.targetCurrency) {
+              return +CONF_DIGITAL_CURRENCY_LIST[i].limit;
+            }
+          }
+        }
+        return 0;
+      },
+      limitPrice () {
+        if (!this.currencyLimit || !this.tradePrice) {
+          return 0;
+        } else {
+          if (this.isLegalTrade) {
+            return +this.$fixDecimalAuto(
+              this.$multipliedBy(
+                this.currencyLimit,
+                this.tradePrice,
+              ),
+              this.targetCurrency,
+            );
+          } else {
+            return this.currencyLimit;
           }
         }
       },
-      currencySellLimit() {
-        for (let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
-          if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.ad.currency &&
-            CONF_DIGITAL_CURRENCY_LIST[i].targetCurrency === this.ad.target_currency) {
-            return CONF_DIGITAL_CURRENCY_LIST[i].sellLimit;
+      limitPremiumPrice () {
+        return +this.$fixDecimalAuto(
+          this.$multipliedBy(
+            this.$plus(
+              this.$dividedBy(+this.form.premium || 0, 100), 1),
+            this.limitPrice),
+          this.targetCurrency,
+        );
+      },
+      limitCurrencyPrice () {
+        if(!this.limitPrice) {
+          return 0;
+        } else {
+          if(this.isLegalTrade || +this.adType === 0) {
+            return this.limitPrice;
+          } else {
+            return +this.$fixDecimalAuto(
+              this.$dividedBy(
+                this.limitPrice,
+                this.tradePrice),
+              this.targetCurrency,
+            );
           }
         }
       },
@@ -359,17 +400,25 @@
         }
         return obj;
       },
-      balanceFlag() {
-        if (this.adType !== 1) {
-          if (!this.balanceObj[this.ad.target_currency]) {
+      balanceFlag () {
+        if (this.isLegalTrade) {
+          if (this.adType !== 1) {
             return true;
           } else {
-            return +this.balanceObj[this.ad.target_currency] >= this.currencyBuyLimit;
+            return this.balanceObj[this.currency] >= this.currencyLimit;
           }
         } else {
-          return this.balanceObj[this.ad.currency] >= this.currencySellLimit;
+          if (this.adType !== 1) {
+            if (this.balanceObj[this.targetCurrency] || this.balanceObj[this.targetCurrency] === 0) {
+              return +this.balanceObj[this.targetCurrency] >= this.currencyLimit;
+            } else {
+              return true;
+            }
+          } else {
+            return this.balanceObj[this.currency] >= this.limitCurrencyPrice;
+          }
         }
-      }
+      },
     },
     methods: {
       resetActionState() {
