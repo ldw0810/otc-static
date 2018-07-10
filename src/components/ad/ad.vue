@@ -1065,7 +1065,7 @@
                     +this.adType === 1 && this.collection_default &&
                     this.collection_default.id === this.form.collection ? 1 : 0,
                   remark: this.form.remark,
-                  city: this.form.city.id,
+                  city: this.form.city ? this.form.city.id : 0,
                 };
                 this.$store.dispatch('ajax_update_ad', requestData).then(res => {
                   this.submitLoading = false;
