@@ -70,13 +70,12 @@
                     {{$t("order['order_status_" + order.status + "']")}}
                   </div>
                 </i-col>
-                <i-col span="2" class='g-list-content-item-col'
-                       v-if="order.target_currency !== cnyCurrency">
+                <i-col span="2" class='g-list-content-item-col'>
                   <a href='javascript:;' class='action-link' @click="showInfo(order.id)">{{$t("public.info")}}</a>
                 </i-col>
-                <i-col span="2" class='g-list-content-item-col' v-else>
-                  {{$t("public.info")}}
-                </i-col>
+                <!--<i-col span="2" class='g-list-content-item-col' v-else>-->
+                  <!--{{$t("public.info")}}-->
+                <!--</i-col>-->
               </Row>
             </section>
           </div>
@@ -121,7 +120,7 @@
           total_count: 0,
           total_pages: 1
         },
-        cnyCurrency: CONF_DIGITAL_CURRENCY_LIST[0].currency
+        // cnyCurrency: CONF_DIGITAL_CURRENCY_LIST[0].currency
       };
     },
     computed: {
