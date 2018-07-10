@@ -116,12 +116,12 @@ export default {
     Vue.prototype.$fixDecimalAuto = function (value, currency) {
       if(currency) {
         if(store.state.code.payable.indexOf(currency) > -1) {
-          return fixDecimalsLegal(value);
+          return fixDecimalsLegal(+value);
         } else {
-          return fixDecimalsBase(value);
+          return fixDecimalsBase(+value);
         }
       } else {
-        return fixDecimal(value, 0);
+        return fixDecimal(+value, 1);
       }
     };
     /*路由相关*/
