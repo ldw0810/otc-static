@@ -3,24 +3,17 @@
     <div class='g-shadow ad'>
       <div class='ad-header'>
         <div class="g-title ad-title">{{$t('ad.ad_title').format($t('public[\'' + currency + '\']'))}}</div>
-        <div class="title-tip" v-html='$t("ad.ad_title_tip")'></div>
+        <div class="title-tip" v-html='$t("ad.ad_title_tip").format(tradeFee * 100 + "%")'></div>
         <!--相同类型广告判断-->
         <div class="credit-low-tip" v-if="!isUpdate && (+adType === 0 ? !examineAdBuyFlag : !examineAdSellFlag)">
           <span class='red'>{{$t('ad.ad_publish_repeat_tip').format( +adType === 0 ? $t('ad.ad_buying') : $t('ad.ad_selling'), $t('public[\'' + currency + '\']'))}}</span>
         </div>
         <!-- 余额判断 -->
-        <div class="credit-low-tip" v-if="form_buy.targetCurrency && !balanceFlag && +adType !== 1">
+        <div class="credit-low-tip" v-if="form_buy.targetCurrency && !balanceFlag">
                     <span class='red'>{{$t('ad.ad_credit_low_tip').format(
-                        $t('public[\'' + form_buy.targetCurrency + '\']'),
-                        $fixDecimalAuto($multipliedBy(currencyBuyLimit, $fixDecimalAuto(tradePrice,targetCurrency))), targetCurrency)}}
+                        $t('public[\'' + (adType === 1 ? currency : form_buy.targetCurrency) + '\']'), limitCurrencyPrice)}}
                     </span>
-          <a class='link' @click="goRecharge">{{$t('public.recharge')}}</a>
-        </div>
-        <div class="credit-low-tip" v-if="form_sell.targetCurrency && !balanceFlag && +adType === 1">
-          <span class='red'>{{$t('ad.ad_credit_low_tip').format(
-                        $t('public[\'' + currency + '\']'), currencySellLimit)}}
-          </span>
-          <a class='link' @click="goRecharge">{{$t('public.recharge')}}</a>
+          <a class='link' @click="goRecharge">{{$t("public.recharge")}}</a>
         </div>
       </div>
       <div class="form-item" v-if="currency !== 'ck'">
@@ -41,7 +34,7 @@
       </div>
       <Form v-show="+adType === 0 && form_buy.targetCurrency" class="form" ref="form_buy" :model="form_buy"
             @checkValidate='checkValidate' :rules="rules">
-        <FormItem prop="payment" class="form-item" v-if="currency === 'dai'">
+        <FormItem prop="payment" class="form-item" v-if="isLegalTrade">
           <header class='form-item-header'>
             <div class="form-item-header-title">{{$t('ad.ad_payment_select')}}:</div>
             <div class="form-item-header-title-tip">{{$t('ad.ad_payment_select_tip')}}</div>
@@ -84,7 +77,7 @@
           </Row>
         </FormItem>
         <!--货币-->
-        <FormItem prop="targetCurrency" class="form-item" v-if="currency === 'dai'">
+        <FormItem prop="targetCurrency" class="form-item" v-if="isLegalTrade">
           <header class='form-item-header'>
             <div class="form-item-header-title">{{$t('ad.ad_money_select')}}:</div>
             <div class="form-item-header-title-tip">{{$t('ad.ad_money_select_tip')}}</div>
@@ -166,7 +159,7 @@
           <Row>
             <i-col span='10'>
               <i-input class="input" v-model="form_buy.floor" type="text" @on-change="changeFloor"
-                       :placeholder="$t('ad.ad_floor_required').format('' + currentPrice)">
+                       :placeholder="$t('ad.ad_floor_required').format('' + limitPremiumPrice)">
                 <span slot="append">{{targetCurrencyText}}</span>
               </i-input>
             </i-col>
@@ -215,7 +208,7 @@
             @checkValidate='checkValidate'
             :rules="rules">
         <!--广告类型-->
-        <FormItem prop="collection" class="form-item" v-if="currency === 'dai'">
+        <FormItem prop="collection" class="form-item" v-if="isLegalTrade">
           <header class='form-item-header'>
             <div class="form-item-header-title">{{$t('ad.ad_collection_select')}}:</div>
             <div class="form-item-header-title-tip">{{$t('ad.ad_collection_select_tip')}}</div>
@@ -277,7 +270,7 @@
           </Row>
         </FormItem>
         <!--货币-->
-        <FormItem prop="targetCurrency" class="form-item" v-if="currency === 'dai'">
+        <FormItem prop="targetCurrency" class="form-item" v-if="isLegalTrade">
           <header class='form-item-header'>
             <div class="form-item-header-title">{{$t('ad.ad_money_select')}}:</div>
             <div class="form-item-header-title-tip">{{$t('ad.ad_money_select_tip')}}</div>
@@ -359,7 +352,7 @@
           <Row>
             <i-col span='10'>
               <i-input class="input" v-model="form_sell.floor" type="text" @on-change="changeFloor"
-                       :placeholder="$t('ad.ad_floor_required').format('' + currentPrice)">
+                       :placeholder="$t('ad.ad_floor_required').format('' + limitPremiumPrice)">
                 <span slot="append">{{targetCurrencyText}}</span>
               </i-input>
             </i-col>
@@ -429,8 +422,8 @@
         }
       };
       const validateNumberLimitCheck = (rule, value, callback) => {
-        if (+value < this.currentPrice) {
-          callback(new Error(this.$t('ad.ad_min_number_required').format('' + this.currentPrice)));
+        if (+value < this.limitPremiumPrice) {
+          callback(new Error(this.$t('ad.ad_min_number_required').format('' + this.limitPremiumPrice)));
         } else {
           callback();
         }
@@ -598,6 +591,9 @@
           ],
           floor: [
             {
+              validator: VALI_NUMBER_CALLBACK,
+            },
+            {
               validator: validateNumberLimitCheck,
             },
           ],
@@ -634,6 +630,7 @@
           id: '',
         },
         tradePriceObj: {},
+        tradeFeeObj: {},
         ad: {},
         examineAdBuyFlag: true,
         examineAdSellFlag: true,
@@ -641,11 +638,14 @@
       };
     },
     computed: {
+      isLegalTrade () {
+        return this.$store.state.code.payable.indexOf(this.targetCurrency) > -1;
+      },
       isShowLocal () {
         if (+this.adType === 0) {
-          return ('' + this.form_buy.payment === 'local') && (this.currency === 'dai');
+          return ('' + this.form_buy.payment === 'local') && this.isLegalTrade;
         } else if (+this.adType === 1) {
-          return ('' + this.form_sell.collection === 'local') && (this.currency === 'dai');
+          return ('' + this.form_sell.collection === 'local') && this.isLegalTrade;
         }
       },
       disabledStatus () {
@@ -682,19 +682,29 @@
       tradePrice () {
         return this.targetCurrency ? +(this.tradePriceObj[this.targetCurrency] || 0) : 0;
       },
-      currencyBuyLimit () {
-        for (let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
-          if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.currency) {
-            return CONF_DIGITAL_CURRENCY_LIST[i].buyLimit;
-          }
-        }
+      tradePremiumPrice () {
+        return +this.$fixDecimalAuto(
+          this.$multipliedBy(
+            this.$plus(
+              this.$dividedBy(+this.form.premium || 0, 100), 1),
+            this.tradePrice),
+          this.targetCurrency,
+        );
       },
-      currencySellLimit () {
+      tradeFee () {
+        return this.targetCurrency ? +(this.tradeFeeObj[this.targetCurrency] || 0) : 0;
+      },
+      currencyLimit () {
         for (let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
           if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.currency) {
-            return CONF_DIGITAL_CURRENCY_LIST[i].sellLimit;
+            if (this.isLegalTrade) {
+              return +CONF_DIGITAL_CURRENCY_LIST[i].limit;
+            } else if (CONF_DIGITAL_CURRENCY_LIST[i].targetCurrency === this.targetCurrency) {
+              return +CONF_DIGITAL_CURRENCY_LIST[i].limit;
+            }
           }
         }
+        return 0;
       },
       collection () {
         return this.$store.state.collection;
@@ -713,14 +723,22 @@
         return obj;
       },
       balanceFlag () {
-        if (this.adType !== 1) {
-          if (this.balanceObj[this.targetCurrency] || this.balanceObj[this.targetCurrency] === 0) {
-            return +this.balanceObj[this.targetCurrency] >= this.currencyBuyLimit;
-          } else {
+        if (this.isLegalTrade) {
+          if (this.adType !== 1) {
             return true;
+          } else {
+            return this.balanceObj[this.currency] >= this.currencyLimit;
           }
         } else {
-          return this.balanceObj[this.currency] >= this.currencySellLimit;
+          if (this.adType !== 1) {
+            if (this.balanceObj[this.targetCurrency] || this.balanceObj[this.targetCurrency] === 0) {
+              return +this.balanceObj[this.targetCurrency] >= this.currencyLimit;
+            } else {
+              return true;
+            }
+          } else {
+            return this.balanceObj[this.currency] >= this.limitCurrencyPrice;
+          }
         }
       },
       isUpdate () {
@@ -732,12 +750,58 @@
       form () {
         return +this.adType === 0 ? this.form_buy : this.form_sell;
       },
-      currentPrice () {
-        return this.$fixDecimalAuto(this.$multipliedBy(
-          this.adType === 0 ? this.currencyBuyLimit : this.currencySellLimit,
-          this.adType === 0 ? (this.form_buy.buyPrice || 0) : (this.form_sell.sellPrice || 0)),
+      limitPrice () {
+        if (!this.currencyLimit || !this.tradePrice) {
+          return 0;
+        } else {
+          if (this.isLegalTrade) {
+            return +this.$fixDecimalAuto(
+              this.$multipliedBy(
+                this.currencyLimit,
+                this.tradePrice,
+              ),
+              this.targetCurrency,
+            );
+          } else {
+            return this.currencyLimit;
+          }
+        }
+      },
+      limitPremiumPrice () {
+        return +this.$fixDecimalAuto(
+          this.$multipliedBy(
+            this.$plus(
+              this.$dividedBy(+this.form.premium || 0, 100), 1),
+            this.limitPrice),
           this.targetCurrency,
         );
+      },
+      limitCurrencyPrice () {
+        if(!this.limitPrice) {
+          return 0;
+        } else {
+          if(this.isLegalTrade || +this.adType === 0) {
+            return this.limitPrice;
+          } else {
+            return +this.$fixDecimalAuto(
+              this.$dividedBy(
+                this.limitPrice,
+                this.tradePrice),
+              this.targetCurrency,
+            );
+          }
+        }
+      },
+      currentPrice () {
+        if (this.isLegalTrade) {
+          return +this.$fixDecimalAuto(this.$multipliedBy(
+            this.currencyLimit,
+            this.adType === 0 ? (this.form_buy.buyPrice || 0) : (this.form_sell.sellPrice || 0)),
+            this.targetCurrency,
+          );
+        } else {
+          return this.adType === 0 ? (this.form_buy.buyPrice || 0) : (this.form_sell.sellPrice || 0);
+        }
       },
     },
     watch: {
@@ -779,7 +843,8 @@
           target: this.targetCurrency,
         }).then(res => {
           if (res.data && +res.data.error === 0) {
-            this.$set(this.tradePriceObj, this.targetCurrency, res.data.price);
+            this.$set(this.tradePriceObj, this.targetCurrency, res.data.price || 0);
+            this.$set(this.tradeFeeObj, this.targetCurrency, res.data.otc_fee || 0);
             if (!this.isUpdate) {
               this.form_buy.buyPrice = this.$fixDecimalAuto(
                 this.$multipliedBy(
@@ -859,7 +924,7 @@
       },
       changeFloor () {
         // let tempBalance = this.$multipliedBy(+this.balanceObj[this.currency], this.tradePrice);
-        // if (this.currency === `dai` && +this.adType !== 1) {
+        // if (isLegalTrade && +this.adType !== 1) {
         // } else if (+this.form.floor > tempBalance) {
         //   this.$nextTick(() => {
         //     this.form.floor = this.$fixDecimalAuto(tempBalance, this.targetCurrency);
@@ -868,7 +933,7 @@
       },
       changeCeiling () {
         // let tempBalance = this.$multipliedBy(+this.balanceObj[this.currency], this.tradePrice);
-        // if (this.currency === `dai` && +this.adType !== 1) {
+        // if (isLegalTrade && +this.adType !== 1) {
         // } else if (+this.form.ceiling > tempBalance) {
         //   this.$nextTick(() => {
         //     this.form.ceiling = this.$fixDecimalAuto(tempBalance, this.targetCurrency);

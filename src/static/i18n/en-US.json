@@ -434,7 +434,7 @@
   },
   "ad": {
     "ad_title": "Create a trading advertisement for {0}",
-    "ad_title_tip": "1.It is free to post an ad. <br>2.There will be a 0.8% transaction fee applied on every successful trade. <br>3.All communication must be carried out on OTCMAKER, please pay attention to the fraud risk payment method.",
+    "ad_title_tip": "1.It is free to post an ad. <br>2.There will be a {0} transaction fee applied on every successful trade. <br>3.All communication must be carried out on OTCMAKER, please pay attention to the fraud risk payment method.",
     "ad_credit_low_tip": "* A minimum balance of {1} {0} is required to create an ad",
     "ad_credit_low": "Insufficient balance",
     "ad_type": "Type",
@@ -486,7 +486,7 @@
     "ad_floor_tip": "Min amount per trade",
     "ad_ceiling": "Max limit",
     "ad_ceiling_required": "Enter max limit ",
-    "ad_ceiling_limit": "Should not greater than max limit",
+    "ad_ceiling_limit": "Should not greater than max limit of {0}",
     "ad_ceiling_tip": "Amount's max limit.",
     "ad_ceiling_number_notValid": "Maximum Limit can not be less than Minimum Limit",
     "ad_ceiling_sell_all": "Sell all",
