@@ -114,10 +114,15 @@ export default {
      * 根据参数定义显示资产位数
      */
     Vue.prototype.$fixDecimalAuto = function (value, currency) {
-      if (currency && store.state.code.payable.indexOf(currency) > -1) {
-        return fixDecimalsLegal(value);
+      if(currency) {
+        if(store.state.code.payable.indexOf(currency) > -1) {
+          return fixDecimalsLegal(value);
+        } else {
+          return fixDecimalsBase(value);
+        }
+      } else {
+        return fixDecimal(value, 0);
       }
-      return fixDecimalsBase(value);
     };
     /*路由相关*/
     Vue.prototype.$open = function (url, query, onComplete, onAbort) {
