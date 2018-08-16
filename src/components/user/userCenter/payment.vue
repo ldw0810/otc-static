@@ -33,7 +33,7 @@
                   <Poptip v-model="item.visible" trigger='click' class='del'>
                     <i class='icon-trash del-icon'></i>
                     <div slot='content'>
-                      <div class='del-content'>
+                      <div class='del-contcollection_close_poptipent'>
                         <h3 class='del-content-title'>{{$t('public.confirm_delete')}}</h3>
                         <div class='del-btn-group'>
                           <i-button type='primary' @click="delReceiving(index)">{{$t('public.confirm')}}</i-button>
