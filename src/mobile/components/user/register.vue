@@ -222,7 +222,6 @@
       return {
         //   validate: false,
         submitLoading: false,
-        emailDataList: [],
         form: {
           userName: '',
           email: '',

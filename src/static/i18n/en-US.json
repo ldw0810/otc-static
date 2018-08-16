@@ -180,7 +180,8 @@
     "no_asset_recharge": "No recharge information",
     "no_asset_withdraw": "No withdraw information",
     "success_title_default": "Success",
-    "error_title_default": "Error"
+    "error_title_default": "Error",
+    "share": "Share"
   },
   "user": {
     "register_error": "Enter valid email address",

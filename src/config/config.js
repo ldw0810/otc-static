@@ -62,5 +62,14 @@ export const HOME_CAROUSEL = {
 // 邀请页面图片
 export const CONF_INVITE_BANNER = require(`../static/images/invite/Invite-Banner-${postfixImg}.jpg`);
 export const CONF_INVITE_IMAGE = require(`../static/images/invite/invite_${postfixImg}.jpg`);
-
+export const qrCode_invite = {
+  'left': 260,
+  'top': 751,
+  'size': 230,
+};
+export const qrCode_adShare = {
+  'left': 162,
+  'top': 640,
+  'size': 165,
+};
 export default config;

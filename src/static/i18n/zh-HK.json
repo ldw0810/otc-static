@@ -180,7 +180,8 @@
     "no_asset_recharge": "沒有充值的信息",
     "no_asset_withdraw": "沒有提現的信息",
     "success_title_default": "成功",
-    "error_title_default": "錯誤"
+    "error_title_default": "錯誤",
+    "share": "分享"
   },
   "user": {
     "register_error": "請輸入正確的註冊信息",

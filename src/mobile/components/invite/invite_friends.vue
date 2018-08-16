@@ -176,7 +176,7 @@
           }).catch(err => {
             window.location.href = `${domain}/categories/360001929553`;
           });
-        } else if (this.footerList[index].url) {
+        } else {
           window.location.href = this.articlesLink;
         }
       },
@@ -225,8 +225,7 @@
           }
         };
         drawing();
-      }
-      ,
+      },
       downloadImage() {
         if (this.imageData) {
           let a = document.createElement('a');

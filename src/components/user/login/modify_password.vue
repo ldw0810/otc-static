@@ -156,7 +156,6 @@
             // this.$Message.error(this.$t("user.email_token_invalid"));
             this.$goRouter("/user/login");
           });
-
         }
       }
     },

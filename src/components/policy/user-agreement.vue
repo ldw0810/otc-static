@@ -560,7 +560,9 @@ export default {
   padding-top: 30px;
   padding-bottom: 30px;
 	line-height: 1.5;
-	/deep/ .title {
+  overflow-y: scroll;
+ -webkit-overflow-scrolling : touch;
+ /deep/ .title {
 		text-align: center;
 		margin-bottom: 20px;
 	}

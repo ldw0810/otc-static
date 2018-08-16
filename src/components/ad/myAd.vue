@@ -75,8 +75,8 @@
                 <i-col span="3" class='g-list-content-item-col'>
                   <div>
                     <div v-if="+tabIndex === 0">
-                      <a href='javascript:' class='action-link' @click="closeAd(item.id)"
-                         v-if="+tabIndex === 0">{{$t("ad.ad_close")}}</a>
+                      <a href='javascript:' class='action-link' @click="shareAd(item.id)">{{$t("public.share")}}</a>
+                      <a href='javascript:' class='action-link' @click="closeAd(item.id)">{{$t("ad.ad_close")}}</a>
                     </div>
                     <div v-else>
                       <p class="text" v-if="+item.locked > 0">
@@ -180,6 +180,11 @@
           update: 1,
           adId: id,
           currency: currency
+        });
+      },
+      shareAd (id) {
+        this.$goRouter("/adShare", {
+          id: id
         });
       },
       closeAd(id) {

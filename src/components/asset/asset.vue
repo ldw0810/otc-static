@@ -281,7 +281,7 @@
                     <div class="status">
                       <template v-if="['submitting'].indexOf(item.aasm_state) > -1">
                         <a href="javascript:;" @click='resendOrder(item, index)'>{{$t('asset.asset_resend_email')}}</a>
-                        &nbsp;&nbsp;
+                        &nbsp;&nbsp
                         <a href="javascript:;" @click='cancelOrder(item, index)'>{{$t('public.cancel')}}</a>
                       </template>
                       <template v-else-if="['submitted', 'accepted'].indexOf(item.aasm_state) > -1">

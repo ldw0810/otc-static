@@ -116,7 +116,7 @@ export default {
     Vue.prototype.$fixDecimalAuto = function (value, currency) {
       if(currency) {
         if(store.state.code.payable.indexOf(currency) > -1) {
-          return fixDecimalsLegal(+value);
+          return fixDecimalsLegal(+value)
         } else {
           return fixDecimalsBase(+value);
         }

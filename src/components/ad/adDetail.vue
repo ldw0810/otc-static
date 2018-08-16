@@ -349,32 +349,6 @@
         }
         return 0;
       },
-      limitPrice () {
-        if (!this.currencyLimit || !this.tradePrice) {
-          return 0;
-        } else {
-          if (this.isLegalTrade) {
-            return +this.$fixDecimalAuto(
-              this.$multipliedBy(
-                this.currencyLimit,
-                this.tradePrice,
-              ),
-              this.targetCurrency,
-            );
-          } else {
-            return this.currencyLimit;
-          }
-        }
-      },
-      limitPremiumPrice () {
-        return +this.$fixDecimalAuto(
-          this.$multipliedBy(
-            this.$plus(
-              this.$dividedBy(+this.form.premium || 0, 100), 1),
-            this.limitPrice),
-          this.targetCurrency,
-        );
-      },
       limitCurrencyPrice () {
         if(!this.limitPrice) {
           return 0;
