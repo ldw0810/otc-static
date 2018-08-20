@@ -181,7 +181,8 @@
     "no_asset_withdraw": "No withdraw information",
     "success_title_default": "Success",
     "error_title_default": "Error",
-    "share": "Share"
+    "share": "Share",
+    "share_text": "Please use Wechat to scan the QR code and follow the steps"
   },
   "user": {
     "register_error": "Enter valid email address",

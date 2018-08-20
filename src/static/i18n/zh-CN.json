@@ -181,7 +181,8 @@
     "no_asset_withdraw": "没有提现的信息",
     "success_title_default": "成功",
     "error_title_default": "错误",
-    "share": "分享"
+    "share": "分享",
+    "share_text": "请用微信扫描二维码后按步骤操作，即可免交易费"
   },
   "user": {
     "register_error": "请输入正确的注册信息",

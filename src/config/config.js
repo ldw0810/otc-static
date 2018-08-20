@@ -70,6 +70,6 @@ export const qrCode_invite = {
 export const qrCode_adShare = {
   'left': 162,
   'top': 640,
-  'size': 165,
+  'size': 110,
 };
 export default config;
