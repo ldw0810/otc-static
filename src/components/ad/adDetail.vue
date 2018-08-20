@@ -330,6 +330,9 @@
       id() {
         return this.$route.query.id;
       },
+      shareId () {
+        return this.$store.state.shareId
+      },
       targetCurrency() {
         for (let i = 0; i < CONF_DIGITAL_CURRENCY_LIST.length; i++) {
           if (CONF_DIGITAL_CURRENCY_LIST[i].currency === this.ad.currency) {
@@ -468,7 +471,8 @@
           .dispatch("ajax_order_buy", {
             id: this.ad.id,
             price: +this.ad.current_price,
-            price_sum: +this.formData.moneyAmount
+            price_sum: +this.formData.moneyAmount,
+            share_id: this.shareId
           })
           .then(res => {
             // this.submitPlaceOrderLoading = false;

@@ -9,6 +9,7 @@ export default {
 
   googleKey: "", //谷歌验证码
   googleCode: "",     //谷歌二维码的值
+  shareId: "",
   loginInfo: {
     email: "",
     password: ""
@@ -61,5 +62,5 @@ export default {
   showAuthEmail: false,
   ajax_source: {},  //axios的CancelToken
   timeout: {},  //定时器
-  device: 0   //设备 0--PC端 1--手机端
+  device: 0   //设备 0--PC端 1--手机端,
 }

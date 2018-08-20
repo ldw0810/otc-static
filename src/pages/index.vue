@@ -32,6 +32,9 @@
         duration: 3
       });
       if (this.$route.query) {
+        if (this.$route.query.shareId) {
+          this.$store.commit('shareId_setter', this.$route.query.shareId)
+        }
         if (this.$route.query.withdraw_token) {
           this.$store.dispatch("ajax_withdraw_confirm", {
             code: this.$route.query.withdraw_token

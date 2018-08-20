@@ -24,6 +24,9 @@ export default {
   googleCode_setter(state, value) {
     state.googleCode = value;
   },
+  shareId_setter(state, value) {
+    state.shareId = value;
+  },
   loginInfo_setter(state, value) {
     state.loginInfo = value;
   },
