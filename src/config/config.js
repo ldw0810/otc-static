@@ -72,4 +72,5 @@ export const qrCode_adShare = {
   'top': 640,
   'size': 110,
 };
+export const registerPauseFlag = true;
 export default config;

@@ -185,6 +185,7 @@
     "share_text": "Please use Wechat to scan the QR code and follow the steps"
   },
   "user": {
+    "registerConfirm": "Register pause",
     "register_error": "Enter valid email address",
     "register_success": "Register success",
     "register_toLogin": "Login",

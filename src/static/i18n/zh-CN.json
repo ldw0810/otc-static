@@ -185,6 +185,7 @@
     "share_text": "请用微信扫描二维码后按步骤操作，即可免交易费"
   },
   "user": {
+    "registerConfirm": "暂停注册",
     "register_error": "请输入正确的注册信息",
     "register_success": "注册成功",
     "register_toLogin": "前往登录",

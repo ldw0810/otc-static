@@ -185,6 +185,7 @@
     "share_text": "請用微信掃描二維碼後按步驟操作，即可免交易費"
   },
   "user": {
+    "registerConfirm": "暫停註冊",
     "register_error": "請輸入正確的註冊信息",
     "register_success": "註冊成功",
     "register_toLogin": "前往登錄",

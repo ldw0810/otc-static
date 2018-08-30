@@ -7,6 +7,7 @@
           <img src="../../static/images/LOGO.png">
         </div>
       </div>
+      <div class="confirm" v-text="$t('user.registerConfirm')"></div>
       <div class="title" v-text="$t('public.register')"></div>
       <div class="form">
         <Form ref="form" @checkValidate='checkValidate' :model="form" :rules="rules">
@@ -62,7 +63,7 @@
           </FormItem>
           <FormItem class="formItem submit">
             <i-button class="submitButton" type='primary'
-                      :disabled='!validate || !validFlag.userName || !validFlag.email || !captchaFlag'
+                      :disabled='pauseFlag || !validate || !validFlag.userName || !validFlag.email || !captchaFlag'
                       :loading='submitLoading'
                       @click="submit('form')">
               {{$t('public.register')}}
@@ -70,7 +71,7 @@
           </FormItem>
           <div class="goButton" v-text="$t('user.register_toLogin')" @click="$goRouter('/user/login')"></div>
         </Form>
-        <div class="passwordStrength" v-if="+passwordStrength > 0">
+        <div class="passwordStrength" :class="{'passwordStrengthPause': pauseFlag}" v-if="+passwordStrength > 0">
           <div :class="'passwordStrength-text-' + passwordStrength">{{passwordStrengthText}}</div>
           <div :class="'passwordStrength-color-' + passwordStrength"></div>
         </div>
@@ -94,7 +95,7 @@
   import {VALI_NICKNAME} from 'config/validator';
   import validateMixin from '@/components/mixins/validate-mixin';
   import {gt} from '../../libs/gt';
-  import {DEFAULT_LANGUAGE, OMT_SHOW} from 'config/config';
+  import {DEFAULT_LANGUAGE, OMT_SHOW, registerPauseFlag} from 'config/config';
 
   let isValidNickName = false;
   let isValidEmail = false;
@@ -284,6 +285,7 @@
         captchaObj: '',
         passwordStrength: 0,
         captchaFlag: false,
+        pauseFlag: registerPauseFlag
       };
     },
     computed: {
@@ -499,6 +501,13 @@
     height: 100%;
   }
 
+  .confirm {
+    margin-top: 10px;
+    font-size: 24px;
+    color: #ED1C24;
+    text-align: center;
+  }
+
   .title {
     margin: 45px 0 0 94px;
     font-size: 24px;
@@ -546,7 +555,9 @@
     cursor: pointer;
     margin-right: 94px;
   }
-
+  .passwordStrengthPause {
+    top: 390px !important;
+  }
   .passwordStrength {
     position: absolute;
     left: 400px;
