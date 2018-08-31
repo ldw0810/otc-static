@@ -180,9 +180,12 @@
     "no_asset_recharge": "No recharge information",
     "no_asset_withdraw": "No withdraw information",
     "success_title_default": "Success",
-    "error_title_default": "Error"
+    "error_title_default": "Error",
+    "share": "Share",
+    "share_text": "Please use Wechat to scan the QR code and follow the steps"
   },
   "user": {
+    "registerConfirm": "Suspension of registration",
     "register_error": "Enter valid email address",
     "register_success": "Register success",
     "register_toLogin": "Login",
@@ -345,6 +348,7 @@
     "securitySetting": "Security setting",
     "passwordSetting": "Password setting",
     "authSetting": "Two-factor Authentication",
+    "authSetting_pause": "Two-factor Authentication paused",
     "email_not_activated": "Email not verified",
     "email_not_reg": "Email not registered",
     "user_frozen": "Your account has been frozen. If you need help, please contact customer service",

@@ -7,7 +7,10 @@
           <img src="../../static/images/LOGO.png">
         </div>
       </div>
-      <div class="title" v-text="$t('public.register')"></div>
+      <div class="title">
+        <span>{{$t('public.register')}}</span>
+        <span class="redText">({{$t('user.registerConfirm')}})</span>
+      </div>
       <div class="form">
         <Form ref="form" @checkValidate='checkValidate' :model="form" :rules="rules">
           <FormItem prop="userName" class="formItem">
@@ -62,7 +65,7 @@
           </FormItem>
           <FormItem class="formItem submit">
             <i-button class="submitButton" type='primary'
-                      :disabled='!validate || !validFlag.userName || !validFlag.email || !captchaFlag'
+                      :disabled='pauseFlag || !validate || !validFlag.userName || !validFlag.email || !captchaFlag'
                       :loading='submitLoading'
                       @click="submit('form')">
               {{$t('public.register')}}
@@ -94,7 +97,7 @@
   import {VALI_NICKNAME} from 'config/validator';
   import validateMixin from '@/components/mixins/validate-mixin';
   import {gt} from '../../libs/gt';
-  import {DEFAULT_LANGUAGE, OMT_SHOW} from 'config/config';
+  import {DEFAULT_LANGUAGE, OMT_SHOW, registerPauseFlag} from 'config/config';
 
   let isValidNickName = false;
   let isValidEmail = false;
@@ -227,7 +230,6 @@
       return {
         //   validate: false,
         submitLoading: false,
-        emailDataList: [],
         form: {
           userName: '',
           email: '',
@@ -285,6 +287,7 @@
         captchaObj: '',
         passwordStrength: 0,
         captchaFlag: false,
+        pauseFlag: registerPauseFlag
       };
     },
     computed: {
@@ -500,6 +503,11 @@
     height: 100%;
   }
 
+  .redText {
+    color: #ED1C24;
+    margin-left: 1vw;
+  }
+
   .title {
     margin: 45px 0 0 94px;
     font-size: 24px;
@@ -547,7 +555,6 @@
     cursor: pointer;
     margin-right: 94px;
   }
-
   .passwordStrength {
     position: absolute;
     left: 400px;

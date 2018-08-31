@@ -202,15 +202,15 @@ const routers = [
         },
         component: resolve => require(['./components/ad/myAd.vue'], resolve),
       },
-      {
-        path: 'invite',
-        name: 'invite',
-        meta: {
-          freeze: true,
-        },
-        component: resolve =>
-          require(['./components/invite/invite_friends.vue'], resolve),
-      },
+      // {
+      //   path: 'invite',
+      //   name: 'invite',
+      //   meta: {
+      //     freeze: true,
+      //   },
+      //   component: resolve =>
+      //     require(['./components/invite/invite_friends.vue'], resolve),
+      // },
     ],
   },
   {

@@ -33,9 +33,10 @@
           <div class="text_2" v-text="$t('user.auth_phone_info')"></div>
         </div>
         <span class="operation">
-                    <i-button class="submitButton" type="primary" @click="submit(2, 1)"
-                              v-text="$t('public.enable')" v-if="!auth_flag_phone"></i-button>
-                    <i-button class="submitButton" @click="submit(2, 1)"
+                    <i-button class="submitButton" type="primary" @click="submit(2, 1)" :disabled="pauseFlag"
+                              v-text="$t('public.enable')" v-if="!auth_flag_phone">
+                    </i-button>
+                    <i-button class="submitButton" @click="submit(2, 1)" :disabled="pauseFlag"
                               v-text="$t('public.disable')" v-else></i-button>
                 </span>
       </div>
@@ -69,9 +70,10 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import auth_google_pop from "./auth_google_pop.vue";
-  import auth_phone_pop from "./auth_phone_pop.vue";
-  import BreadCrumb from "./breadcrumb";
+  import auth_google_pop from './auth_google_pop.vue';
+  import auth_phone_pop from './auth_phone_pop.vue';
+  import BreadCrumb from './breadcrumb';
+  import {registerPauseFlag} from 'config/config';
 
   export default {
     data() {
@@ -80,7 +82,8 @@
         popIndex: 0,
         pop_phone: false,
         pop_google: false,
-        pop_phone_show:false
+        pop_phone_show: false,
+        pauseFlag: registerPauseFlag,
       };
     },
     computed: {
