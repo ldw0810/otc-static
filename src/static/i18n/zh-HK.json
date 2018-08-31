@@ -348,6 +348,7 @@
     "securitySetting": "安全設置",
     "passwordSetting": "密碼相關",
     "authSetting": "二次驗證",
+    "authSetting_pause": "二次驗證已停用",
     "email_not_activated": "郵箱未驗證",
     "email_not_reg": "郵箱未註冊",
     "user_frozen": "您的賬號已被凍結，如需幫助，請聯繫客服",

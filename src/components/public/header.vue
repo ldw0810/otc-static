@@ -419,13 +419,13 @@
             visible: false,
             children: makeArray("ad")
           },
-          {
-            title: this.$t("public.invite"),
-            url: "/invite",
-            index: [4],
-            visible: false,
-            children: []
-          }
+          // {
+          //   title: this.$t("public.invite"),
+          //   url: "/invite",
+          //   index: [4],
+          //   visible: false,
+          //   children: []
+          // }
         ];
       }
     },

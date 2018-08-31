@@ -22,7 +22,6 @@
         <span class="link" @click="showAuthPhone" v-text="$t('user.unAuthenticated')"
               v-if="!userInfo.mobile"></span>
         <span class="text" v-else>{{ $t('user.authenticated')}}({{userInfo.phone_number}})</span>
-        <span class="text text_red">{{$t("user.user_phone_verify_tip")}}</span>
       </div>
       <div class="info">
         <span class="text">{{$t('user.default_receivables')}}:</span>
@@ -66,6 +65,7 @@
   import auth_phone_pop from "./auth_phone_pop.vue";
   import BreadCrumb from "./breadcrumb";
   import {OMT_SHOW} from "config/config";
+  import {registerPauseFlag} from 'config/config';
 
   export default {
     data() {
@@ -74,7 +74,8 @@
         user: {},
         pop_email: false,
         pop_phone: false,
-        pop_phone_show: false
+        pop_phone_show: false,
+        pauseFlag: registerPauseFlag
       };
     },
     computed: {
@@ -113,7 +114,11 @@
     methods: {
       showAuthPhone() {
         if (this.userInfo.activated) {
-          this.pop_phone = true;
+          if (this.pauseFlag) {
+            this.$Message.error(this.$t('user.authSetting_pause'));
+          } else {
+            this.pop_phone = true;
+          }
         } else {
           this.$store.commit("showAuthEmail_setter", 1);
         }

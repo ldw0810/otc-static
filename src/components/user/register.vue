@@ -7,8 +7,10 @@
           <img src="../../static/images/LOGO.png">
         </div>
       </div>
-      <div class="confirm" v-text="$t('user.registerConfirm')"></div>
-      <div class="title" v-text="$t('public.register')"></div>
+      <div class="title">
+        <span>{{$t('public.register')}}</span>
+        <span class="redText">({{$t('user.registerConfirm')}})</span>
+      </div>
       <div class="form">
         <Form ref="form" @checkValidate='checkValidate' :model="form" :rules="rules">
           <FormItem prop="userName" class="formItem">
@@ -71,7 +73,7 @@
           </FormItem>
           <div class="goButton" v-text="$t('user.register_toLogin')" @click="$goRouter('/user/login')"></div>
         </Form>
-        <div class="passwordStrength" :class="{'passwordStrengthPause': pauseFlag}" v-if="+passwordStrength > 0">
+        <div class="passwordStrength" v-if="+passwordStrength > 0">
           <div :class="'passwordStrength-text-' + passwordStrength">{{passwordStrengthText}}</div>
           <div :class="'passwordStrength-color-' + passwordStrength"></div>
         </div>
@@ -501,11 +503,9 @@
     height: 100%;
   }
 
-  .confirm {
-    margin-top: 10px;
-    font-size: 24px;
+  .redText {
     color: #ED1C24;
-    text-align: center;
+    margin-left: 1vw;
   }
 
   .title {
@@ -554,9 +554,6 @@
     letter-spacing: 0;
     cursor: pointer;
     margin-right: 94px;
-  }
-  .passwordStrengthPause {
-    top: 390px !important;
   }
   .passwordStrength {
     position: absolute;
