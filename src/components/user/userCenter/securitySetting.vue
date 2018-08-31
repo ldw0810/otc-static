@@ -58,11 +58,11 @@
     </div>
     <Modal v-model="pop_phone" class-name="m-ivu-modal" width='480' :mask-closable="true"
            :closable="false" @on-visible-change="popPhoneTrigger">
-      <auth_phone_pop ref='autoPhonePop' :pop_phone_show="pop_phone_show" @cancel='closePopPhone'/>
+      <auth_phone_pop ref='autoPhonePop' :pop_phone_show="pop_phone_show" @cancel='closePopPhone' />
       <div slot="footer"></div>
     </Modal>
     <Modal v-model="pop_google" class-name="m-ivu-modal" width='480' :mask-closable="true" :closable="false">
-      <auth_google_pop @close='closePopGoogle'/>
+      <auth_google_pop @close='closePopGoogle' />
       <div slot="footer"></div>
     </Modal>
     <div style="clear: both"></div>
@@ -76,9 +76,9 @@
   import {registerPauseFlag} from 'config/config';
 
   export default {
-    data() {
+    data () {
       return {
-        breadcrumbText: this.$t("user.securitySetting"),
+        breadcrumbText: this.$t('user.securitySetting'),
         popIndex: 0,
         pop_phone: false,
         pop_google: false,
@@ -87,67 +87,67 @@
       };
     },
     computed: {
-      layer_index() {
+      layer_index () {
         return this.$store.state.layer_index;
       },
-      auth_flag_phone() {
+      auth_flag_phone () {
         return this.$store.state.userInfo.mobile;
       },
-      auth_flag_google() {
+      auth_flag_google () {
         return this.$store.state.userInfo.app_two_factor;
-      }
+      },
     },
-    watch:{
+    watch: {
       $route: function (val) {
         this.init();
-      }
+      },
     },
     methods: {
-      submit(contentIndex, settingIndex) {
+      submit (contentIndex, settingIndex) {
         if (+contentIndex === 1) {
           if (+settingIndex === 1) {
-            this.$goRouter("/user/userCenter/modify_password");
+            this.$goRouter('/user/userCenter/modify_password');
           }
         } else if (+contentIndex === 2) {
           if (+settingIndex === 1) {
             if (this.$store.state.userInfo.activated) {
               this.pop_phone = true;
             } else {
-              this.$store.commit("showAuthEmail_setter", 1);
+              this.$store.commit('showAuthEmail_setter', 1);
             }
           } else if (+settingIndex === 2) {
             if (this.auth_flag_google) {
               this.pop_google = true;
             } else {
-              this.$goRouter("/user/userCenter/auth_google");
+              this.$goRouter('/user/userCenter/auth_google');
             }
           }
         }
       },
-      popPhoneTrigger(val) {
+      popPhoneTrigger (val) {
         this.pop_phone_show = val;
-        this.$refs.autoPhonePop.resetForm()
+        this.$refs.autoPhonePop.resetForm();
       },
-      closePopGoogle(val) {
-        val && this.$store.dispatch("ajax_me");
+      closePopGoogle (val) {
+        val && this.$store.dispatch('ajax_me');
         this.pop_google = false;
       },
-      closePopPhone(val) {
-        val && this.$store.dispatch("ajax_me");
+      closePopPhone (val) {
+        val && this.$store.dispatch('ajax_me');
         this.pop_phone = false;
       },
-      init(){
-        this.$store.commit("user_sider_index_setter", 1);
-      }
+      init () {
+        this.$store.commit('user_sider_index_setter', 1);
+      },
     },
     components: {
       auth_phone_pop,
       auth_google_pop,
-      BreadCrumb
+      BreadCrumb,
     },
-    mounted() {
+    mounted () {
       this.init();
-    }
+    },
   };
 </script>
 <style lang='scss' scoped>
