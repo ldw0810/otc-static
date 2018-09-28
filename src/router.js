@@ -202,6 +202,14 @@ const routers = [
         },
         component: resolve => require(['./components/ad/myAd.vue'], resolve),
       },
+      {
+        path: 'adShare',
+        name: 'adShare',
+        meta: {
+          freeze: true,
+        },
+        component: resolve => require(['./components/ad/adShare.vue'], resolve),
+      },
       // {
       //   path: 'invite',
       //   name: 'invite',
